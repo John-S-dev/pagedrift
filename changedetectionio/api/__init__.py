@@ -62,3 +62,19 @@ def build_merged_spec_dict():
     return spec_dict
 
 
+@functools.cache
+def get_openapi_spec():
+    """Lazy load OpenAPI spec and dependencies only when validation is needed."""
+    from openapi_core import OpenAPI  # Lazy import - saves ~10.7 MB on startup
+    return OpenAPI.from_dict(build_merged_spec_dict())
+
+@functools.cache
+def get_openapi_schema_dict():
+    """
+    Get the raw OpenAPI spec dictionary for schema access.
+
+    Used by Import endpoint to validate and convert query parameters.
+    Returns the merged YAML dict (not the OpenAPI object).
+    """
+    return build_merged_spec_dict()
+
