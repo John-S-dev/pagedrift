@@ -78,3 +78,15 @@ def get_openapi_schema_dict():
     """
     return build_merged_spec_dict()
 
+# Import readonly field utilities from shared module (avoids circular dependencies with model layer)
+from changedetectionio.model.schema_utils import get_readonly_watch_fields, get_readonly_tag_fields
+
+@functools.cache
+def get_tag_schema_properties():
+    """
+    Extract Tag schema properties from OpenAPI spec.
+
+    Returns WatchBase properties + Tag-specific properties (overrides_watch).
+    """
+    return _resolve_schema_properties('Tag')
+
