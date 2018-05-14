@@ -4,3 +4,31 @@ Queue inspection UI.
 Surfaces what's currently being processed and what's waiting so users can
 make sense of the "Queued size: N" indicator (see issue #4077).
 
+def _priority_label(priority):
+    if priority in PRIORITY_LABELS:
+        return PRIORITY_LABELS[priority]
+    if priority > 100:
+        return "scheduled"
+    return f"p{priority}"
+
+
+def _watch_brief(datastore, uuid):
+    """Best-effort summary for a watch (placeholder if it's been deleted)."""
+    watch = datastore.data['watching'].get(uuid)
+    if not watch:
+        return {'uuid': uuid, 'title': None, 'url': None, 'gone': True}
+    return {
+        'uuid': uuid,
+        'title': watch.get('title') or watch.get('label') or None,
+        'url': watch.get('url'),
+        'last_checked': watch.get('last_checked', 0),
+        'last_error': watch.get('last_error') or None,
+        'paused': watch.get('paused', False),
+        'gone': False,
+    }
+
+
+def _per_page(datastore):
+    return int(datastore.data['settings']['application'].get('pager_size', 50)) or 50
+
+
