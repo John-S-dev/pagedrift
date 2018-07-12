@@ -17,3 +17,31 @@ window.queueI18n = {
 };
 </script>
 
+<script>
+$(function () {
+  const $root = $('#queue-page');
+  if (!$root.length) return;
+  const baseUrl = $root.data('queueJson');
+
+  const COMPLETION_GRACE_MS = 60 * 1000;  // keep completed rows visible this long
+
+  // Stable per-worker slots so the running table doesn't jump around as jobs come and go.
+  // slots[i] = { uuid|null, watchData|null, completedAt: 0 | <ms epoch> }
+  const slots = [];
+
+  // Queued items recently popped — keep them around (faded) for a short grace period.
+  // Map<uuid, {watchData, removedAt}>
+  const queuedGhosts = new Map();
+  let lastQueueSnapshot = [];
+
+  function currentPage() {
+    const params = new URLSearchParams(window.location.search);
+    const p = parseInt(params.get('page'), 10);
+    return Number.isFinite(p) && p > 0 ? p : 1;
+  }
+
+  function refreshUrl() {
+    const sep = baseUrl.includes('?') ? '&' : '?';
+    return baseUrl + sep + 'page=' + currentPage();
+  }
+
