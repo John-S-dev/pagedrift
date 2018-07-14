@@ -8,3 +8,11 @@ import os
 import re
 import threading
 
+def lxml_html_parser():
+    """A fresh parser for each call, freed immediately afterwards. Never lxml's process-global
+    default parser, which is shared across every thread."""
+    from lxml import etree
+    return etree.HTMLParser()
+
+# ---------------------------------------------------------------------------------------
+
