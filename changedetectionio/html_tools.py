@@ -16,3 +16,9 @@ def lxml_html_parser():
 
 # ---------------------------------------------------------------------------------------
 
+META_CT  = re.compile(r'<meta[^>]+http-equiv=["\']?content-type["\']?[^>]*content=["\'][^>]*charset=([a-z0-9_\-:+.]+)', re.I)
+
+# 'price' , 'lowPrice', 'highPrice' are usually under here
+# All of those may or may not appear on different websites - I didnt find a way todo case-insensitive searching here
+LD_JSON_PRODUCT_OFFER_SELECTORS = ["json:$..offers", "json:$..Offers"]
+
