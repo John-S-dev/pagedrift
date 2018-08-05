@@ -4,6 +4,25 @@ from blinker import signal
 from loguru import logger
 
 
+class NotificationQueue(queue.Queue):
+    """
+    Extended Queue that sends a 'notification_event' signal when notifications are added.
+    
+    This class extends the standard Queue and adds a signal emission after a notification
+    is put into the queue. The signal includes the watch UUID if available.
+    """
+    
+    def __init__(self, maxsize=0):
+        super().__init__(maxsize)
+        try:
+            self.notification_event_signal = signal('notification_event')
+        except Exception as e:
+            logger.critical(f"Exception creating notification_event signal: {e}")
+
+    def put(self, item, block=True, timeout=None):
+        # Call the parent's put method first
+        super().put(item, block, timeout)
+        
         # After putting the notification in the queue, emit signal with watch UUID
         try:
             if self.notification_event_signal and isinstance(item, dict):
