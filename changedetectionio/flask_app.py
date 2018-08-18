@@ -40,3 +40,28 @@ from flask_babel import Babel, get_locale, gettext
 from flask_wtf import CSRFProtect
 from loguru import logger
 
+from changedetectionio import __version__, queuedWatchMetaData
+from changedetectionio.api import (
+    CreateWatch,
+    Import,
+    Notifications,
+    Spec,
+    SystemInfo,
+    Tag,
+    Tags,
+    Watch,
+    WatchFavicon,
+    WatchHistory,
+    WatchHistoryDiff,
+    WatchSingleHistory,
+)
+from changedetectionio.api.Search import Search
+from changedetectionio.blueprint.menu_modes import MENU_SIDEBAR_ACTIONMODES, MENU_SIDEBAR_ACTIONMODES_DEFAULT
+from changedetectionio.favicon_utils import get_favicon_mime_type
+from changedetectionio.languages import (
+    get_available_languages,
+    get_flag_for_locale,
+    get_language_codes,
+    get_timeago_locale,
+)
+
