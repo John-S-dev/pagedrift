@@ -70,6 +70,10 @@ app = Flask(__name__, static_url_path="", static_folder="static", template_folde
 # Will be initialized in changedetection_app
 socketio_server = None
 
+# Enable CORS, especially useful for the Chrome extension to operate from anywhere
+CORS(app)
+from uuid import UUID
+
 # app setup (once)
 app.url_map.converters["uuid_str"] = StrictUUIDConverter
 
