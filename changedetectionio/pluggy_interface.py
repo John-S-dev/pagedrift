@@ -4,6 +4,13 @@ import importlib
 import sys
 from loguru import logger
 
+# Global plugin namespace for changedetection.io
+PLUGIN_NAMESPACE = "changedetectionio"
+
+hookspec = pluggy.HookspecMarker(PLUGIN_NAMESPACE)
+hookimpl = pluggy.HookimplMarker(PLUGIN_NAMESPACE)
+
+
 class ChangeDetectionSpec:
     """Hook specifications for extending changedetection.io functionality."""
 
