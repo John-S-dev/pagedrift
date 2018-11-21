@@ -39,3 +39,26 @@
  * @see https://github.com/dgtlmoon/changedetection.io/issues/XXXX
  */
 
+(() => {
+    // Store original styles in a global WeakMap for later restoration
+    window.__elementSizingRestore = new WeakMap();
+
+    const start = performance.now();
+
+    // Get current viewport height (visible portion of page)
+    const viewportHeight = window.innerHeight;
+
+    // Get all elements and filter to FIRST VIEWPORT ONLY
+    // This dramatically reduces elements to process (100-300 vs 10,000+)
+    const allElements = Array.from(document.querySelectorAll('*'));
+
+    // BATCH READ PHASE: Get bounding rects and filter to viewport
+    const measurements = allElements.map(el => {
+        const rect = el.getBoundingClientRect();
+        const computed = window.getComputedStyle(el);
+
+        // Only lock elements in the first viewport (visible on initial page load)
+        // rect.top < viewportHeight means element starts within visible area
+        const inViewport = rect.top < viewportHeight && rect.top >= 0;
+        const hasSize = rect.height > 0 && rect.width > 0;
+
