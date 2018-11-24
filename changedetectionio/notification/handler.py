@@ -11,3 +11,5 @@ import re
 
 from ..notification_service import NotificationContextData, add_rendered_diff_to_notification_vars
 
+newline_re = re.compile(r'\r\n|\r|\n')
+
