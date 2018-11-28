@@ -17,6 +17,20 @@ window.queueI18n = {
 };
 </script>
 
+    {% if pagination and pagination.total > pagination.per_page %}
+      <div class="queue-pagination" data-current-page="{{ pagination.page }}">
+        {{ pagination.info }}
+        {{ pagination.links }}
+      </div>
+    {% endif %}
+
+    <div class="queue-waiting" data-show="{{ 'true' if not snapshot.running and not snapshot.queued else 'false' }}">
+      <span class="spinner"></span>
+      <span>{{ _('Waiting for new pages to check…') }}</span>
+    </div>
+  </div>
+
+
 <script>
 $(function () {
   const $root = $('#queue-page');
