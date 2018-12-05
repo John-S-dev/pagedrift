@@ -20,6 +20,51 @@ class checksumFromPreviousCheckWasTheSame(Exception):
         return
 
 
+class JSActionExceptions(Exception):
+    def __init__(self, status_code, url, screenshot, message=''):
+        self.status_code = status_code
+        self.url = url
+        self.screenshot = screenshot
+        self.message = message
+        return
+
+class BrowserConnectError(Exception):
+    msg = ''
+    def __init__(self, msg):
+        self.msg = msg
+        logger.error(f"Browser connection error {msg}")
+        return
+
+class BrowserFetchTimedOut(Exception):
+    msg = ''
+    def __init__(self, msg):
+        self.msg = msg
+        logger.error(f"Browser processing took too long - {msg}")
+        return
+
+class BrowserStepsStepException(Exception):
+    def __init__(self, step_n, original_e):
+        self.step_n = step_n
+        self.original_e = original_e
+        logger.debug(f"Browser Steps exception at step {self.step_n} {str(original_e)}")
+        return
+
+
+# @todo - make base Exception class that announces via logger()
+class PageUnloadable(Exception):
+    def __init__(self, status_code=None, url='', message='', screenshot=False):
+        # Set this so we can use it in other parts of the app
+        self.status_code = status_code
+        self.url = url
+        self.screenshot = screenshot
+        self.message = message
+        return
+
+class BrowserStepsInUnsupportedFetcher(Exception):
+    def __init__(self, url):
+        self.url = url
+        return
+
 class EmptyReply(Exception):
     def __init__(self, status_code, url, screenshot=None):
         # Set this so we can use it in other parts of the app
