@@ -40,6 +40,12 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields import FieldList
 from wtforms.utils import unset_value
 
+# default
+# each select <option data-enabled="enabled-0-0"
+from changedetectionio.browser_steps.browser_steps import browser_step_ui_config
+
+from changedetectionio import html_tools, content_fetchers
+
 valid_method = {
     'GET',
     'POST',
