@@ -88,3 +88,67 @@ class SignalPriorityQueue(queue.PriorityQueue):
             logger.critical(f"Exception: {e}")
         return item
     
+    def get_uuid_position(self, target_uuid):
+        """
+        Find the position of a watch UUID in the priority queue.
+        Optimized for large queues - O(n) complexity instead of O(n log n).
+        
+        Args:
+            target_uuid: The UUID to search for
+            
+        Returns:
+            dict: Contains position info or None if not found
+                - position: 0-based position in queue (0 = next to be processed)
+                - total_items: total number of items in queue
+                - priority: the priority value of the found item
+        """
+        with self.mutex:
+            queue_list = list(self.queue)
+            total_items = len(queue_list)
+            
+            if total_items == 0:
+                return {
+                    'position': None,
+                    'total_items': 0,
+                    'priority': None,
+                    'found': False
+                }
+            
+            # Find the target item and its priority first - O(n)
+            target_item = None
+            target_priority = None
+            
+            for item in queue_list:
+                if (hasattr(item, 'item') and 
+                    isinstance(item.item, dict) and 
+                    item.item.get('uuid') == target_uuid):
+                    target_item = item
+                    target_priority = item.priority
+                    break
+            
+            if target_item is None:
+                return {
+                    'position': None,
+                    'total_items': total_items,
+                    'priority': None,
+                    'found': False
+                }
+            
+            # Count how many items have higher priority (lower numbers) - O(n)
+            position = 0
+            for item in queue_list:
+                # Items with lower priority numbers are processed first
+                if item.priority < target_priority:
+                    position += 1
+                elif item.priority == target_priority and item != target_item:
+                    # For same priority, count items that come before this one
+                    # (Note: this is approximate since heap order isn't guaranteed for equal priorities)
+                    position += 1
+            
+            return {
+                'position': position,
+                'total_items': total_items,
+                'priority': target_priority,
+                'found': True
+            }
+    
