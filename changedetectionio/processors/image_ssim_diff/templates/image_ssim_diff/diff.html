@@ -51,3 +51,36 @@
     </form>
 </div>
 
+/**
+ * Synchronize comparison slider width with diff image width
+ * This ensures both panels display images at the same max-width
+ */
+function syncComparisonWidth() {
+    const diffImage = document.getElementById('diff-image');
+    const comparisonContainer = document.getElementById('comparison-container');
+
+    if (!diffImage || !comparisonContainer) return;
+
+    // Wait for diff image to load to get its actual rendered width
+    if (diffImage.complete) {
+        applyWidth();
+    } else {
+        diffImage.addEventListener('load', applyWidth);
+    }
+
+    function applyWidth() {
+        const diffImageWidth = diffImage.offsetWidth;
+        if (diffImageWidth > 0) {
+            comparisonContainer.style.maxWidth = diffImageWidth + 'px';
+            comparisonContainer.style.margin = '0 auto';
+        }
+    }
+}
+
+// Run on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncComparisonWidth);
+} else {
+    syncComparisonWidth();
+}
+
