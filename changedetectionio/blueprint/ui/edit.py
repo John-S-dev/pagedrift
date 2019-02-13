@@ -6,6 +6,30 @@ from flask_babel import gettext
 from loguru import logger
 from jinja2 import Environment, FileSystemLoader
 
+def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMetaData):
+    edit_blueprint = Blueprint('ui_edit', __name__, template_folder="../ui/templates")
+
+    def _watch_tags(watch):
+        """(uuid, tag) for this watch's tags, in its own tag order, skipping UUIDs we don't know."""
+        tags = datastore.data['settings']['application'].get('tags', {})
+        return [(tag_uuid, tags[tag_uuid]) for tag_uuid in watch.get('tags', []) if tag_uuid in tags]
+
+    def _resolve_llm_group_overrides(watch, datastore) -> dict:
+        """
+        For each LLM field (llm_intent, llm_change_summary): if the watch has no own
+        value but a linked group does, return {'value': ..., 'group_name': ..., 'group_uuid': ...}
+        so the edit template can show the inherited value as the textarea placeholder and link
+        back to the group that supplied it.
+        Returns None for each field when the watch has its own value (nothing inherited).
+
+        Only groups whose AI setting is "On" lend their prompts — the same gate the evaluator
+        applies via resolve_llm_field(), so the placeholder always reflects what will actually
+        run. See llm/evaluator.py:tag_llm_decision().
+        """
+        from changedetectionio.llm.evaluator import tag_llm_applies_to_watches, tag_llm_decision
+
+        result = {'llm_intent': None, 'llm_change_summary': None, 'llm_backend_profile': None}
+
         # AI on/off is not a "fill in the blank" field: a group that has taken the decision
         # (On or Off, i.e. not "leave it to each watch") decides for every watch in it (#4204),
         # so report it and let the template show the watch's own checkbox as overridden.
