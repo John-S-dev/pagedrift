@@ -17,6 +17,12 @@ del _  # Remove marker function
 processor_weight = 1
 list_badge_text = "Restock"  # _()
 
+class UnableToExtractRestockData(Exception):
+    def __init__(self, status_code):
+        # Set this so we can use it in other parts of the app
+        self.status_code = status_code
+        return
+
 def _search_prop_by_value(matches, value):
     for properties in matches:
         for prop in properties:
