@@ -152,3 +152,67 @@ class SignalPriorityQueue(queue.PriorityQueue):
                 'found': True
             }
     
+    def get_all_queued_uuids(self, limit=None, offset=0):
+        """
+        Get UUIDs currently in the queue with their positions.
+        For large queues, use limit/offset for pagination.
+        
+        Args:
+            limit: Maximum number of items to return (None = all)
+            offset: Number of items to skip (for pagination)
+        
+        Returns:
+            dict: Contains items and metadata
+                - items: List of dicts with uuid, position, and priority
+                - total_items: Total number of items in queue
+                - returned_items: Number of items returned
+                - has_more: Whether there are more items after this page
+        """
+        with self.mutex:
+            queue_list = list(self.queue)
+            total_items = len(queue_list)
+            
+            if total_items == 0:
+                return {
+                    'items': [],
+                    'total_items': 0,
+                    'returned_items': 0,
+                    'has_more': False
+                }
+            
+            # For very large queues, warn about performance
+            if total_items > 1000 and limit is None:
+                logger.warning(f"Getting all {total_items} queued items without limit - this may be slow")
+            
+            # Sort only if we need exact positions (expensive for large queues)
+            if limit is not None and limit <= 100:
+                # For small requests, we can afford to sort
+                queue_items = sorted(queue_list)
+                end_idx = min(offset + limit, len(queue_items)) if limit else len(queue_items)
+                items_to_process = queue_items[offset:end_idx]
+                
+                result = []
+                for position, item in enumerate(items_to_process, start=offset):
+                    if (hasattr(item, 'item') and 
+                        isinstance(item.item, dict) and 
+                        'uuid' in item.item):
+                        
+                        result.append({
+                            'uuid': item.item['uuid'],
+                            'position': position,
+                            'priority': item.priority
+                        })
+                
+                return {
+                    'items': result,
+                    'total_items': total_items,
+                    'returned_items': len(result),
+                    'has_more': (offset + len(result)) < total_items
+                }
+            else:
+                # For large requests, return items with approximate positions
+                # This is much faster O(n) instead of O(n log n)
+                result = []
+                processed = 0
+                skipped = 0
+                
