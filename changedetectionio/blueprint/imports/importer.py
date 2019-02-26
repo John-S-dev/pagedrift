@@ -42,3 +42,61 @@ class Importer():
         return True
 
 
+class import_url_list(Importer):
+    """
+    Imports a list, can be in <code>https://example.com tag1, tag2, last tag</code> format
+    """
+    def run(self,
+            data,
+            flash,
+            datastore,
+            processor=None
+            ):
+
+        urls = data.split("\n")
+        good = 0
+        now = time.time()
+
+        if (len(urls) > 5000):
+            flash(gettext("Importing 5,000 of the first URLs from your list, the rest can be imported again."))
+
+        for idx, url in enumerate(urls):
+            url = url.strip()
+            if not len(url):
+                continue
+
+            tags = ""
+
+            # 'tags' should be a csv list after the URL
+            if ' ' in url:
+                url, tags = url.split(" ", 1)
+
+            # Flask wtform validators wont work with basic auth, use validators package
+            # Up to 5000 per batch so we dont flood the server
+            # @todo validators.url will fail when you add your own IP etc
+            if len(url) and 'http' in url.lower() and good < 5000:
+                if self.watch_limit_hit(datastore, flash):
+                    # Hand back every line we didn't get to (originals, tags included) so they
+                    # land in the textarea to retry once there's room
+                    self.remaining_data.extend(u.strip() for u in urls[idx:] if u.strip())
+                    break
+
+                extras = None
+                if processor:
+                    extras = {'processor': processor}
+                new_uuid = datastore.add_watch(url=url.strip(), tag=tags, save_immediately=False, extras=extras)
+
+                if new_uuid:
+                    # Straight into the queue.
+                    self.new_uuids.append(new_uuid)
+                    good += 1
+                    continue
+
+            # Worked past the 'continue' above, append it to the bad list
+            if self.remaining_data is None:
+                self.remaining_data = []
+            self.remaining_data.append(url)
+
+        flash(gettext("{count} Imported from list in {duration}s, {skipped_count} Skipped.").format(count=good, duration=f"{time.time() - now:.2f}", skipped_count=len(self.remaining_data)))
+
+
