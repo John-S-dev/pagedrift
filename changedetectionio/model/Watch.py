@@ -10,3 +10,7 @@ Watch domain model for change detection monitoring.
    - Current: Dict access with no compile-time checks
    - Future: Type hints, IDE autocomplete, validation at boundaries
 
+See class model docstring for detailed explanation and examples.
+See: processors/restock_diff/processor.py:184-192 for manual resolution example
+"""
+
