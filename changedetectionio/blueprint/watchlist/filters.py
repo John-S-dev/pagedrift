@@ -30,3 +30,61 @@ def list_filters_from_args(datastore, args):
     }
 
 
+def watch_is_deal(watch):
+    """A restock/price watch whose latest check reported a price DROP."""
+    if not watch.has_restock_info:
+        return False
+    restock = watch['restock']
+    # Defensive: restock should be a Restock, but some sources (e.g. the LLM restock fallback
+    # plugin) can leave a plain dict. Normalise so .get_price_change_percent() always exists
+    # and a rendering of the watchlist can't 500 over it. Lazy import avoids an import cycle.
+    if not hasattr(restock, 'get_price_change_percent'):
+        from changedetectionio.processors.restock_diff import Restock
+        restock = Restock(restock)
+    pct = restock.get_price_change_percent()
+    return pct is not None and pct < 0
+
+
+def watch_matches_tag(datastore, watch, f):
+    # Membership includes tags auto-applied via a Tag's url_match_pattern, not just
+    # watch['tags'] (manually-assigned) — otherwise a regex-matched watch shows its
+    # tag badge on the row but silently drops out of that tag's filtered/tab view.
+    return not f['tag_uuid'] or f['tag_uuid'] in datastore.get_all_tags_for_watch(watch['uuid'])
+
+
+def watch_in_context(datastore, watch, f):
+    """Tag + processor — the working set the operator is looking at."""
+    if not watch_matches_tag(datastore, watch, f):
+        return False
+    if f['processor'] and watch.get('processor') != f['processor']:
+        return False
+    return True
+
+
+def watch_passes_status(watch, f):
+    """The mutually-presented status toggle (All / Unread / Deals / With errors)."""
+    if f['with_errors'] and not watch.get('last_error'):
+        return False
+    if f['unread_only'] and (watch.viewed or watch.last_changed == 0):
+        return False
+    if f['deals'] and not watch_is_deal(watch):
+        return False
+    return True
+
+
+def watch_passes_search(watch, f):
+    search_q = f['search_q']
+    if not search_q:
+        return True
+    if (watch.get('title') and search_q in watch.get('title').lower()) or search_q in watch.get('url', '').lower():
+        return True
+    if watch.get('last_error') and search_q in watch.get('last_error').lower():
+        return True
+    return False
+
+
+def watch_matches_filters(datastore, watch, f):
+    """The full filter the watch list applies: context + status + search."""
+    return watch_in_context(datastore, watch, f) and watch_passes_status(watch, f) and watch_passes_search(watch, f)
+
+
