@@ -9,3 +9,9 @@
 <script src="{{url_for('static_content', group='js', filename='tabs.js')}}" defer></script>
 <script>
 
+/*{% if emailprefix %}*/
+    /*const email_notification_prefix=JSON.parse('{{ emailprefix|tojson }}');*/
+/*{% endif %}*/
+
+{% set has_tag_filters_extra='' %}
+
