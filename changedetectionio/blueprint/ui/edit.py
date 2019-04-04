@@ -102,3 +102,83 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
                 # Dictionary changed
                 continue
 
+        # Defaults for proxy choice
+        if datastore.proxy_list is not None:  # When enabled
+            # @todo
+            # Radio needs '' not None, or incase that the chosen one no longer exists
+            if default['proxy'] is None or not any(default['proxy'] in tup for tup in datastore.proxy_list):
+                default['proxy'] = ''
+        # proxy_override set to the json/text list of the items
+
+        # Does it use some custom form? does one exist?
+        processor_name = datastore.data['watching'][uuid].get('processor', '')
+        processor_classes = next((tpl for tpl in processors.find_processors() if tpl[1] == processor_name), None)
+        if not processor_classes:
+            flash(gettext("Could not load '{}' processor, processor plugin might be missing. Please select a different processor.").format(processor_name), 'error')
+            # Fall back to default processor so user can still edit and change processor
+            processor_classes = next((tpl for tpl in processors.find_processors() if tpl[1] == 'text_json_diff'), None)
+            if not processor_classes:
+                # If even text_json_diff is missing, something is very wrong
+                flash(gettext("Could not load '{}' processor, processor plugin might be missing.").format(processor_name), 'error')
+                return redirect(url_for('watchlist.index'))
+
+        parent_module = processors.get_parent_module(processor_classes[0])
+
+        try:
+            # Get the parent of the "processor.py" go up one, get the form (kinda spaghetti but its reusing existing code)
+            forms_module = importlib.import_module(f"{parent_module.__name__}.forms")
+            # Access the 'processor_settings_form' class from the 'forms' module
+            form_class = getattr(forms_module, 'processor_settings_form')
+        except ModuleNotFoundError as e:
+            # .forms didnt exist
+            form_class = forms.processor_text_json_diff_form
+        except AttributeError as e:
+            # .forms exists but no useful form
+            form_class = forms.processor_text_json_diff_form
+
+        form = form_class(formdata=request.form if request.method == 'POST' else None,
+                          data=default,
+                          extra_notification_tokens=default.extra_notification_token_values(),
+                          default_system_settings=datastore.data['settings']
+                          )
+
+        # For the form widget tag UUID back to "string name" for the field
+        form.tags.datastore = datastore
+
+        # Used by some forms that need to dig deeper
+        form.datastore = datastore
+        form.watch = default
+
+        # Load processor-specific config from JSON file for GET requests
+        if request.method == 'GET' and processor_name:
+            try:
+                from changedetectionio.processors.base import difference_detection_processor
+                # Create a processor instance to access config methods
+                processor_instance = difference_detection_processor(datastore, uuid)
+                # Use processor name as filename so each processor keeps its own config
+                config_filename = f'{processor_name}.json'
+                processor_config = processor_instance.get_extra_watch_config(config_filename)
+
+                if processor_config:
+                    from wtforms.fields.form import FormField
+                    # Populate processor-config-* fields from JSON
+                    for config_key, config_value in processor_config.items():
+                        if not isinstance(config_value, dict):
+                            continue
+                        # Try exact API-named field first (e.g., processor_config_restock_diff)
+                        target_field = getattr(form, f'processor_config_{config_key}', None)
+                        # Fallback: find any FormField sub-form whose fields cover config_value keys
+                        if target_field is None:
+                            for form_field in form:
+                                if isinstance(form_field, FormField) and all(k in form_field.form._fields for k in config_value):
+                                    target_field = form_field
+                                    break
+                        if target_field is not None:
+                            for sub_key, sub_value in config_value.items():
+                                sub_field = target_field.form._fields.get(sub_key)
+                                if sub_field is not None:
+                                    sub_field.data = sub_value
+                                    logger.debug(f"Loaded processor config from {config_filename}: {sub_key} = {sub_value}")
+            except Exception as e:
+                logger.warning(f"Failed to load processor config: {e}")
+
