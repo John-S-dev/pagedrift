@@ -121,3 +121,34 @@ async () => {
 
         const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
+        function getElementBaseText(element) {
+            // .textContent can include text from children which may give the wrong results
+            // scan only immediate TEXT_NODEs, which will be a child of the element
+            var text = "";
+            for (var i = 0; i < element.childNodes.length; ++i)
+                if (element.childNodes[i].nodeType === Node.TEXT_NODE)
+                    text += element.childNodes[i].textContent;
+            return text.toLowerCase().trim();
+        }
+
+        const negateOutOfStockRegex = new RegExp('^([0-9] in stock|add to cart|in stock|arrives approximately)', 'ig');
+        // The out-of-stock or in-stock-text is generally always above-the-fold
+        // and often below-the-fold is a list of related products that may or may not contain trigger text
+        // so it's good to filter to just the 'above the fold' elements
+        // and it should be atleast 100px from the top to ignore items in the toolbar, sometimes menu items like "Coming soon" exist
+
+        function elementIsInEyeBallRange(element) {
+            // outside the 'fold' or some weird text in the heading area
+            // .getBoundingClientRect() was causing a crash in chrome 119, can only be run on contentVisibility != hidden
+            // Note: theres also an automated test that places the 'out of stock' text fairly low down
+            // Skip text that could be in the header area
+            if (element.getBoundingClientRect().bottom + window.scrollY <= 300 ) {
+                return false;
+            }
+            // Skip text that could be much further down (like a list of "you may like" products that have 'sold out' in there
+            if (element.getBoundingClientRect().bottom + window.scrollY >= 1300 ) {
+                return false;
+            }
+            return true;
+        }
+
