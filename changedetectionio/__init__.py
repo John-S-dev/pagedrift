@@ -60,6 +60,10 @@ import time
 # See: https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods
 # ==============================================================================
 
+import multiprocessing
+import os
+import sys
+
 # Limit glibc malloc arena count to prevent RSS growth from concurrent requests.
 # Default: glibc creates up to 8×CPU_cores arenas. Each concurrent thread/connection
 # can trigger a new arena, and freed memory stays mapped in those arenas as RSS forever.
