@@ -1,6 +1,9 @@
 """
 Watch domain model for change detection monitoring.
 
+ARCHITECTURE NOTE: Configuration Override Hierarchy
+===================================================
+
 1. CHAIN RESOLUTION (Watch → Tag → Global Settings)
    - Current: Manual resolution scattered across codebase
    - Future: @computed_field properties with automatic resolution
