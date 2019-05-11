@@ -21,3 +21,14 @@ from changedetectionio.diff import (
 from changedetectionio.notification.handler import apply_html_color_to_body
 
 
+# Diff display preferences configuration - single source of truth
+DIFF_PREFERENCES_CONFIG = {
+    'changesOnly': {'default': True, 'type': 'bool'},
+    'ignoreWhitespace': {'default': False, 'type': 'bool'},
+    'removed': {'default': True, 'type': 'bool'},
+    'added': {'default': True, 'type': 'bool'},
+    'replaced': {'default': True, 'type': 'bool'},
+    'type': {'default': 'diffLines', 'type': 'value'},
+    'llm_all_changes': {'default': False, 'type': 'bool'},
+}
+
