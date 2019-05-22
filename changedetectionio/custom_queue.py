@@ -216,3 +216,25 @@ class SignalPriorityQueue(queue.PriorityQueue):
                 processed = 0
                 skipped = 0
                 
+            for item in queue_list:
+                priority = item.priority
+                priority_counts[priority] = priority_counts.get(priority, 0) + 1
+                
+                if priority == 1:
+                    immediate_items += 1
+                elif priority == 5:
+                    clone_items += 1
+                elif priority > 100:
+                    scheduled_items += 1
+            
+            return {
+                'total_items': total_items,
+                'priority_breakdown': priority_counts,
+                'immediate_items': immediate_items,
+                'clone_items': clone_items,
+                'scheduled_items': scheduled_items,
+                'min_priority': min(priority_counts.keys()) if priority_counts else None,
+                'max_priority': max(priority_counts.keys()) if priority_counts else None
+            }
+
+
