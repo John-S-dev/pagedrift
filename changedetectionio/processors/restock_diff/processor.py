@@ -57,3 +57,18 @@ def _deduplicate_prices(data):
     return list(unique_data)
 
 
+    finally:
+        # Final cleanup before subprocess exits
+        # Variables may already be deleted in try block, so use try/except
+        try:
+            del html_content
+        except (NameError, UnboundLocalError):
+            pass
+        try:
+            del result_data
+        except (NameError, UnboundLocalError):
+            pass
+        gc.collect()
+        pipe_conn.close()
+
+
