@@ -69,3 +69,31 @@ def find_processors():
     return processors
 
 
+def get_parent_module(module):
+    module_name = module.__name__
+    if '.' not in module_name:
+        return None  # Top-level module has no parent
+    parent_module_name = module_name.rsplit('.', 1)[0]
+    try:
+        return importlib.import_module(parent_module_name)
+    except Exception as e:
+        pass
+
+    return False
+
+
+
+def get_custom_watch_obj_for_processor(processor_name):
+    from changedetectionio.model import Watch
+    watch_class = Watch.model
+    processor_classes = find_processors()
+    custom_watch_obj = next((tpl for tpl in processor_classes if tpl[1] == processor_name), None)
+    if custom_watch_obj:
+        # Parent of .processor.py COULD have its own Watch implementation
+        parent_module = get_parent_module(custom_watch_obj[0])
+        if hasattr(parent_module, 'Watch'):
+            watch_class = parent_module.Watch
+
+    return watch_class
+
+
