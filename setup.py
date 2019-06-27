@@ -37,3 +37,52 @@ class BuildPyCommand(build_py):
         )
 
 
+install_requires = open('requirements.txt').readlines()
+
+setup(
+    name='changedetection.io',
+    version=find_version("changedetectionio", "__init__.py"),
+    description='Website change detection and monitoring service, detect changes to web pages and send alerts/notifications.',
+    long_description=open('README-pip.md').read(),
+    long_description_content_type='text/markdown',
+    keywords='website change monitor for changes notification change detection '
+             'alerts tracking website tracker change alert website and monitoring',
+    entry_points={"console_scripts": ["changedetection.io=changedetectionio:main"]},
+    zip_safe=True,
+    scripts=["changedetection.py"],
+    author='dgtlmoon',
+    url='https://changedetection.io',
+    packages=find_packages(include=['changedetectionio', 'changedetectionio.*']),
+    include_package_data=True,
+    install_requires=install_requires,
+    cmdclass={'build_py': BuildPyCommand},
+    license="Apache License 2.0",
+    python_requires=">= 3.11",
+    classifiers=['Intended Audience :: Customer Service',
+                 'Intended Audience :: Developers',
+                 'Intended Audience :: Education',
+                 'Intended Audience :: End Users/Desktop',
+                 'Intended Audience :: Financial and Insurance Industry',
+                 'Intended Audience :: Healthcare Industry',
+                 'Intended Audience :: Information Technology',
+                 'Intended Audience :: Legal Industry',
+                 'Intended Audience :: Manufacturing',
+                 'Intended Audience :: Other Audience',
+                 'Intended Audience :: Religion',
+                 'Intended Audience :: Science/Research',
+                 'Intended Audience :: System Administrators',
+                 'Intended Audience :: Telecommunications Industry',
+                 'Topic :: Education',
+                 'Topic :: Internet',
+                 'Topic :: Internet :: WWW/HTTP :: Indexing/Search',
+                 'Topic :: Internet :: WWW/HTTP :: Site Management',
+                 'Topic :: Internet :: WWW/HTTP :: Site Management :: Link Checking',
+                 'Topic :: Internet :: WWW/HTTP :: Browsers',
+                 'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+                 'Topic :: Office/Business',
+                 'Topic :: Other/Nonlisted Topic',
+                 'Topic :: Scientific/Engineering :: Information Analysis',
+                 'Topic :: Text Processing :: Markup :: HTML',
+                 'Topic :: Utilities'
+                 ],
+)
