@@ -316,3 +316,38 @@ def register_builtin_restock_plugins():
     except Exception as e:
         logger.error(f"Failed to register llm_restock plugin: {e}")
 
+def get_itemprop_availability_from_plugin(content, fetcher_name, fetcher_instance, url, llm_intent=None):
+    """Get itemprop availability data from plugins as a fallback.
+
+    This is called when the built-in get_itemprop_availability doesn't find good data.
+
+    Args:
+        content: The HTML/text content to parse
+        fetcher_name: The name of the fetcher being used (e.g., 'html_js_zyte')
+        fetcher_instance: The fetcher instance that generated the content
+        url: The URL being watched (watch.link - includes Jinja2 evaluation)
+        llm_intent: Optional user-supplied intent string passed through to plugins
+
+    Returns:
+        dict or None: Availability data dictionary from first matching plugin, or None
+    """
+    # Get availability data from plugins
+    results = plugin_manager.hook.get_itemprop_availability_override(
+        content=content,
+        fetcher_name=fetcher_name,
+        fetcher_instance=fetcher_instance,
+        url=url,
+        llm_intent=llm_intent,
+    )
+
+    # Return first non-None result with actual data
+    if results:
+        for result in results:
+            if result and isinstance(result, dict):
+                # Check if the result has any meaningful data
+                if result.get('price') is not None or result.get('availability'):
+                    return result
+
+    return None
+
+
