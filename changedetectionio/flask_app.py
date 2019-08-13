@@ -196,3 +196,10 @@ def _filter_url(**overrides):
     return _filtered_action_url('watchlist.index', **overrides)
 
 
+@app.template_global('is_safe_valid_url')
+def _is_safe_valid_url(test_url):
+    from .validate_url import is_safe_valid_url
+
+    return is_safe_valid_url(test_url)
+
+
