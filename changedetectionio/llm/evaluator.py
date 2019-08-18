@@ -207,6 +207,47 @@ def _is_local_llm_endpoint(llm_cfg: dict) -> bool:
         return False
 
 
+def resolve_llm_timeout(llm_cfg: dict) -> int:
+    """
+    Per-request timeout (seconds) for an LLM call.
+
+    Cloud providers get client.DEFAULT_TIMEOUT (300s, tunable via LLM_TIMEOUT).
+    Local / self-hosted endpoints run on modest hardware and can spend many minutes
+    on prompt prefill before the first token, so a 300s cap trips prematurely
+    (issue #4225). When the api_base host is IANA-restricted (see
+    _is_local_llm_endpoint) we grant client.DEFAULT_LOCAL_TIMEOUT (1800s, tunable
+    via LLM_LOCAL_TIMEOUT) — mirroring how Hermes relaxes its timeouts for local
+    endpoints. An explicit LLM_TIMEOUT always wins, even for local endpoints, for
+    operators who want a single hard ceiling regardless.
+    """
+    if os.getenv('LLM_TIMEOUT', '').strip():
+        return llm_client.DEFAULT_TIMEOUT
+    if _is_local_llm_endpoint(llm_cfg):
+        return llm_client.DEFAULT_LOCAL_TIMEOUT
+    return llm_client.DEFAULT_TIMEOUT
+
+
+# ---------------------------------------------------------------------------
+# Intent resolution
+# ---------------------------------------------------------------------------
+
+# A group/tag has exactly one AI control (`llm_backend_profile`), and it is ternary:
+#
+#   True  — AI on for every watch in the group, using the group's AI settings
+#           (llm_intent / llm_change_summary cascade down to the watches)
+#   False — AI off for every watch in the group; its prompts are stored but never used
+#   None  — the group has no opinion: each watch's own AI switch and prompts apply
+#
+# On a *watch* the same key is a plain bool (on/off, default on). One control per level, so
+# there is nothing to reconcile between an "override?" flag and an "enabled?" flag.
+def tag_llm_decision(tag):
+    """This group's AI decision: True (on, use its settings), False (off), or None (no opinion)."""
+    if not tag:
+        return None
+    value = tag.get('llm_backend_profile')
+    return None if value is None else bool(value)
+
+
 def _tags_applying_llm(watch, datastore):
     """Yield this watch's groups, in order, that hand their AI settings to their watches."""
     for tag in _watch_tags(watch, datastore):
