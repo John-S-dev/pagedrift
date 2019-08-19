@@ -4,6 +4,26 @@ Queue inspection UI.
 Surfaces what's currently being processed and what's waiting so users can
 make sense of the "Queued size: N" indicator (see issue #4077).
 
+Priority conventions (see uses of PrioritizedItem across the codebase):
+  1     - immediate / manual recheck
+  5     - clone follow-up
+  >100  - scheduler-enqueued (timestamp-based)
+"""
+
+from flask import Blueprint, jsonify, redirect, render_template, request, url_for, flash
+from flask_babel import gettext
+from flask_paginate import Pagination, get_page_parameter
+
+from changedetectionio.auth_decorator import login_optionally_required
+from changedetectionio.store import ChangeDetectionStore
+
+
+PRIORITY_LABELS = {
+    1: "immediate",
+    5: "clone",
+}
+
+
 def _priority_label(priority):
     if priority in PRIORITY_LABELS:
         return PRIORITY_LABELS[priority]
