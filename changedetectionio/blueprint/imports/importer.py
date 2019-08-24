@@ -156,3 +156,11 @@ class import_distill_io_json(Importer):
                                                extras=extras,
                                                save_immediately=False)
 
+                if new_uuid:
+                    # Straight into the queue.
+                    self.new_uuids.append(new_uuid)
+                    good += 1
+
+        flash(gettext("{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped.").format(count=len(self.new_uuids), duration=f"{time.time() - now:.2f}", skipped_count=len(self.remaining_data)))
+
+
