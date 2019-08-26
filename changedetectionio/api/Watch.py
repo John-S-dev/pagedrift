@@ -242,3 +242,61 @@ class Watch(Resource):
         return "OK", 200
 
 
+class WatchHistoryDiff(Resource):
+    """
+    Generate diff between two historical snapshots.
+
+    Note: This API endpoint currently returns text-based diffs and works best
+    with the text_json_diff processor. Future processor types (like image_diff,
+    restock_diff) may want to implement their own specialized API endpoints
+    for returning processor-specific data (e.g., price charts, image comparisons).
+
+    The web UI diff page (/diff/<uuid>) is processor-aware and delegates rendering
+    to processors/{type}/difference.py::render() for processor-specific visualizations.
+    """
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+
+    @auth.check_token
+    @validate_openapi_request('getWatchHistoryDiff')
+    def get(self, uuid, from_timestamp, to_timestamp):
+        """Generate diff between two historical snapshots."""
+        from changedetectionio import diff
+        from changedetectionio.notification.handler import apply_service_tweaks
+
+        watch = self.datastore.data['watching'].get(uuid)
+        if not watch:
+            abort(404, message=f"No watch exists with the UUID of {uuid}")
+
+        if not len(watch.history):
+            abort(404, message=f"Watch found but no history exists for the UUID {uuid}")
+
+        history_keys = list(watch.history.keys())
+
+        # Handle 'latest' keyword for to_timestamp
+        if to_timestamp == 'latest':
+            to_timestamp = history_keys[-1]
+
+        # Handle 'previous' keyword for from_timestamp (second-most-recent)
+        if from_timestamp == 'previous':
+            if len(history_keys) < 2:
+                abort(404, message=f"Not enough history entries. Need at least 2 snapshots for 'previous'")
+            from_timestamp = history_keys[-2]
+
+        # Validate timestamps exist
+        if from_timestamp not in watch.history:
+            abort(404, message=f"From timestamp {from_timestamp} not found in watch history")
+        if to_timestamp not in watch.history:
+            abort(404, message=f"To timestamp {to_timestamp} not found in watch history")
+
+        # Get the format parameter (default to 'text')
+        output_format = request.args.get('format', 'text').lower()
+
+        # Validate format
+        if output_format not in valid_notification_formats.keys():
+            abort(400, message=f"Invalid format. Must be one of: {', '.join(valid_notification_formats.keys())}")
+
+        # Get the word_diff parameter (default to False - line-level mode)
+        word_diff = strtobool(request.args.get('word_diff', 'false'))
+
