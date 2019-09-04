@@ -72,3 +72,33 @@ async def capture_full_page_async(page, screenshot_format='JPEG', watch_uuid=Non
         if y > 0:
             await page.evaluate(f"window.scrollTo(0, {y})")
 
+class fetcher(Fetcher):
+    fetcher_description = "Playwright {}/Javascript".format(
+        os.getenv("PLAYWRIGHT_BROWSER_TYPE", 'chromium').capitalize()
+    )
+    if os.getenv("PLAYWRIGHT_DRIVER_URL"):
+        fetcher_description += " via '{}'".format(os.getenv("PLAYWRIGHT_DRIVER_URL"))
+
+    browser_type = ''
+    command_executor = ''
+
+    # Configs for Proxy setup
+    # In the ENV vars, is prefixed with "playwright_proxy_", so it is for example "playwright_proxy_server"
+    playwright_proxy_settings_mappings = ['bypass', 'server', 'username', 'password']
+
+    proxy = None
+
+    # Capability flags
+    supports_browser_steps = True
+    supports_screenshots = True
+    supports_xpath_element_data = True
+
+    @classmethod
+    def get_status_icon_data(cls):
+        """Return Chrome browser icon data for Playwright fetcher."""
+        return {
+            'filename': 'google-chrome-icon.png',
+            'alt': 'Using a Chrome browser',
+            'title': 'Using a Chrome browser'
+        }
+
