@@ -72,6 +72,84 @@ async def capture_full_page_async(page, screenshot_format='JPEG', watch_uuid=Non
         if y > 0:
             await page.evaluate(f"window.scrollTo(0, {y})")
 
+        # Request GC only before screenshot (not 3x per chunk)
+        await page.request_gc()
+
+        screenshot_kwargs = {
+            'type': screenshot_type,
+            'full_page': False
+        }
+        # Only pass quality parameter for jpeg (PNG doesn't support it in Playwright)
+        if screenshot_type == 'jpeg':
+            screenshot_kwargs['quality'] = screenshot_quality
+
+        chunk_start = time.time()
+        screenshot_chunks.append(await page.screenshot(**screenshot_kwargs))
+        chunk_time = time.time() - chunk_start
+        chunk_times.append(chunk_time)
+        logger.debug(f"{watch_info}Chunk {len(screenshot_chunks)} captured in {chunk_time:.2f}s")
+        y += step_size
+
+    # Restore original viewport size
+    await page.set_viewport_size({'width': original_viewport['width'], 'height': original_viewport['height']})
+
+    # Unlock element dimensions if they were locked
+    if elements_locked:
+        unlock_elements_js_path = os.path.join(os.path.dirname(__file__), 'res', 'unlock-elements-sizing.js')
+        with open(unlock_elements_js_path, 'r') as f:
+            unlock_elements_js = f.read()
+        await page.evaluate(unlock_elements_js)
+        logger.debug(f"{watch_info}Element dimensions unlocked after screenshot capture")
+
+    capture_time = time.time() - capture_start
+    total_capture_time = sum(chunk_times)
+    logger.debug(f"{watch_info}All {len(screenshot_chunks)} chunks captured in {capture_time:.2f}s (total chunk time: {total_capture_time:.2f}s)")
+
+    # If we have multiple chunks, stitch them together
+    if len(screenshot_chunks) > 1:
+        stitch_start = time.time()
+        logger.debug(f"{watch_info}Starting stitching of {len(screenshot_chunks)} chunks")
+
+        # Always use spawn subprocess for ANY stitching (2+ chunks)
+        # PIL allocates at C level and Python GC never releases it - subprocess exit forces OS to reclaim
+        # Trade-off: 35MB resource_tracker vs 500MB+ PIL leak in main process
+        from changedetectionio.content_fetchers.screenshot_handler import stitch_images_worker_raw_bytes
+        import multiprocessing
+        import struct
+
+        ctx = multiprocessing.get_context('spawn')
+        parent_conn, child_conn = ctx.Pipe()
+        p = ctx.Process(target=stitch_images_worker_raw_bytes, args=(child_conn, page_height, SCREENSHOT_MAX_TOTAL_HEIGHT))
+        p.start()
+
+        # Send via raw bytes (no pickle)
+        parent_conn.send_bytes(struct.pack('I', len(screenshot_chunks)))
+        for chunk in screenshot_chunks:
+            parent_conn.send_bytes(chunk)
+
+        screenshot = parent_conn.recv_bytes()
+        p.join()
+
+        parent_conn.close()
+        child_conn.close()
+        del p, parent_conn, child_conn
+
+        stitch_time = time.time() - stitch_start
+        total_time = time.time() - start
+        setup_time = total_time - capture_time - stitch_time
+        logger.debug(
+            f"{watch_info}Screenshot complete - Page height: {page_height}px, Capture height: {SCREENSHOT_MAX_TOTAL_HEIGHT}px | "
+            f"Setup: {setup_time:.2f}s, Capture: {capture_time:.2f}s, Stitching: {stitch_time:.2f}s, Total: {total_time:.2f}s")
+        return screenshot
+
+    total_time = time.time() - start
+    setup_time = total_time - capture_time
+    logger.debug(
+        f"{watch_info}Screenshot complete - Page height: {page_height}px, Capture height: {SCREENSHOT_MAX_TOTAL_HEIGHT}px | "
+        f"Setup: {setup_time:.2f}s, Single chunk: {capture_time:.2f}s, Total: {total_time:.2f}s")
+
+    return screenshot_chunks[0]
+
 class fetcher(Fetcher):
     fetcher_description = "Playwright {}/Javascript".format(
         os.getenv("PLAYWRIGHT_BROWSER_TYPE", 'chromium').capitalize()
