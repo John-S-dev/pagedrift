@@ -45,3 +45,12 @@ def _handle_operations(op, uuids, datastore, worker_pool, update_q, queuedWatchM
                 datastore.data['watching'][uuid].commit()
         result_message = gettext("{} watches unpaused").format(len(uuids))
 
+    # Classic form-POST path flashes (shown after the redirect); the socket path uses the returned value
+    if result_message and emit_flash:
+        if result_type == 'error':
+            flash(result_message, 'error')
+        else:
+            flash(result_message)
+
+    return {'message': result_message, 'type': result_type} if result_message else None
+
