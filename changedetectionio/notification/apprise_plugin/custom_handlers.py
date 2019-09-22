@@ -60,3 +60,16 @@ from apprise.utils.logic import dict_full_update
 from loguru import logger
 from requests.structures import CaseInsensitiveDict
 
+from changedetectionio.validate_url import is_private_hostname, is_url_private_or_parser_confused
+
+SUPPORTED_HTTP_METHODS = {"get", "post", "put", "delete", "patch", "head"}
+
+
+def notify_supported_methods(func):
+    """Register custom HTTP method handlers that properly support format= parameter."""
+    for method in SUPPORTED_HTTP_METHODS:
+        _register_http_handler(method, func)
+        _register_http_handler(f"{method}s", func)
+    return func
+
+
