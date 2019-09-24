@@ -418,3 +418,43 @@ class ValidateContentFetcherIsReady(object):
     def __call__(self, form, field):
         return
 
+class ValidateJinja2Template(object):
+    """
+    Validates that a {token} is from a valid set
+    """
+    def __call__(self, form, field):
+        from changedetectionio.jinja2_custom import create_jinja_env
+        from jinja2 import BaseLoader, TemplateSyntaxError, UndefinedError
+        from jinja2.meta import find_undeclared_variables
+        import jinja2.exceptions
+
+        # Might be a list of text, or might be just text (like from the apprise url list)
+        joined_data = ' '.join(map(str, field.data)) if isinstance(field.data, list) else f"{field.data}"
+
+        try:
+            # Use the shared helper to create a properly configured environment
+            jinja2_env = create_jinja_env(loader=BaseLoader)
+
+            # Add notification tokens for validation
+            static_token_placeholders = NotificationContextData()
+            static_token_placeholders.set_random_for_validation()
+            jinja2_env.globals.update(static_token_placeholders)
+            if hasattr(field, 'extra_notification_tokens'):
+                jinja2_env.globals.update(field.extra_notification_tokens)
+
+            jinja2_env.from_string(joined_data).render()
+        except TemplateSyntaxError as e:
+            raise ValidationError(f"This is not a valid Jinja2 template: {e}") from e
+        except UndefinedError as e:
+            raise ValidationError(f"A variable or function is not defined: {e}") from e
+        except jinja2.exceptions.SecurityError as e:
+            raise ValidationError(f"This is not a valid Jinja2 template: {e}") from e
+
+        # Check for undeclared variables
+        ast = jinja2_env.parse(joined_data)
+        undefined = ", ".join(find_undeclared_variables(ast))
+        if undefined:
+            raise ValidationError(
+                f"The following tokens used in the notification are not valid: {undefined}"
+            )
+
