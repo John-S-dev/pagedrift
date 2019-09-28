@@ -108,6 +108,70 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         - restock_diff: Could show price charts and stock history
         - image_diff: Could show image comparison slider/overlay
 
+        Each processor implements processors/{type}/difference.py::render()
+        If a processor doesn't have a difference module, falls back to text_json_diff.
+        """
+
+        if uuid == 'first':
+            uuid = list(datastore.data['watching'].keys()).pop()
+
+        try:
+            watch = datastore.data['watching'][uuid]
+        except KeyError:
+            flash(gettext("No history found for the specified link, bad link?"), "error")
+            return redirect(url_for('watchlist.index'))
+
+        dates = list(watch.history.keys())
+        if not dates or len(dates) < 2:
+            flash(gettext("Not enough history (2 snapshots required) to show difference page for this watch."), "error")
+            return redirect(url_for('watchlist.index'))
+
+        # Get the processor type for this watch
+        processor_name = watch.get('processor', 'text_json_diff')
+
+        # Try to get the processor's difference module (works for both built-in and plugin processors)
+        from changedetectionio.processors import get_processor_submodule
+        processor_module = get_processor_submodule(processor_name, 'difference')
+
+        # Call the processor's render() function
+        if processor_module and hasattr(processor_module, 'render'):
+            return processor_module.render(
+                watch=watch,
+                datastore=datastore,
+                request=request,
+                url_for=url_for,
+                render_template=render_template,
+                flash=flash,
+                redirect=redirect
+            )
+
+        # Fallback: if processor doesn't have difference module, use text_json_diff as default
+        from changedetectionio.processors.text_json_diff.difference import render as default_render
+        return default_render(
+            watch=watch,
+            datastore=datastore,
+            request=request,
+            url_for=url_for,
+            render_template=render_template,
+            flash=flash,
+            redirect=redirect
+        )
+
+    @diff_blueprint.route("/diff/<uuid_str:uuid>/llm-summary/prompt", methods=['GET'])
+    @login_optionally_required
+    def diff_llm_summary_prompt(uuid):
+        """Return the effective LLM summary prompt for a watch immediately (no LLM call)."""
+        from flask import jsonify
+        watch = datastore.data['watching'].get(uuid)
+        if not watch:
+            return jsonify({'prompt': ''}), 404
+        try:
+            from changedetectionio.llm.evaluator import get_effective_summary_prompt
+            prompt = get_effective_summary_prompt(watch, datastore)
+        except Exception:
+            prompt = ''
+        return jsonify({'prompt': prompt})
+
     @diff_blueprint.route("/diff/<uuid_str:uuid>/llm-summary", methods=['GET'])
     @login_optionally_required
     def diff_llm_summary(uuid):
