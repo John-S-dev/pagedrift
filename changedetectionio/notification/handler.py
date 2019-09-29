@@ -53,3 +53,31 @@ def markup_text_links_to_html(body):
     # Join all parts
     return str(Markup(''.join(str(part) for part in result)))
 
+def notification_format_align_with_apprise(n_format : str):
+    """
+    Correctly align changedetection's formats with apprise's formats
+    Probably these are the same - but good to be sure.
+    These set the expected OUTPUT format type
+    :param n_format:
+    :return:
+    """
+    from apprise import NotifyFormat
+
+    if not n_format:
+        return NotifyFormat.TEXT.value
+
+    if n_format.startswith('html'):
+        # Apprise only knows 'html' not 'htmlcolor' etc, which shouldnt matter here
+        n_format = NotifyFormat.HTML.value
+    elif n_format.startswith('markdown'):
+        # probably the same but just to be safe
+        n_format = NotifyFormat.MARKDOWN.value
+    elif n_format.startswith('text'):
+        # probably the same but just to be safe
+        n_format = NotifyFormat.TEXT.value
+    else:
+        n_format = NotifyFormat.TEXT.value
+
+    return n_format
+
+
