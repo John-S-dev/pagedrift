@@ -67,3 +67,58 @@ pip install pybind11-pixelmatch>=0.1.3
 
 **Note**: Pixelmatch uses a C++17 implementation via pybind11 and may have build issues on some platforms (particularly Alpine/musl systems with symbolic link security restrictions). The application will automatically fall back to OpenCV if pixelmatch is not available.
 
+To use pixelmatch instead of OpenCV, set the environment variable:
+```bash
+COMPARISON_METHOD=pixelmatch
+```
+
+#### When to use pixelmatch:
+- Screenshots with lots of text and anti-aliasing
+- Need to ignore minor font rendering differences between browser versions
+- 10-20x faster than SSIM (but slower than OpenCV)
+
+#### When to stick with OpenCV (default):
+- General webpage monitoring
+- Maximum performance (50-100x faster than SSIM)
+- Simple pixel-level change detection
+- Avoid build dependencies (Alpine/musl systems)
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# Comparison method (opencv or pixelmatch)
+COMPARISON_METHOD=opencv  # Default
+
+# OpenCV threshold (0-255, lower = more sensitive)
+COMPARISON_THRESHOLD_OPENCV=30  # Default
+
+# Pixelmatch threshold (0-100, mapped to 0-1 scale)
+COMPARISON_THRESHOLD_PIXELMATCH=10  # Default
+
+# Gaussian blur sigma for OpenCV (0 = no blur, higher = more blur)
+OPENCV_BLUR_SIGMA=0.8  # Default
+
+# Minimum change percentage to trigger detection
+OPENCV_MIN_CHANGE_PERCENT=0.1  # Default (0.1%)
+PIXELMATCH_MIN_CHANGE_PERCENT=0.1  # Default
+
+# Diff visualization image size limits (pixels)
+MAX_DIFF_HEIGHT=8000  # Default
+MAX_DIFF_WIDTH=900  # Default
+```
+
+### Per-Watch Configuration
+
+- **Comparison Threshold**: Can be configured per-watch in the edit form
+  - Very low sensitivity (10) - Only major changes
+  - Low sensitivity (20) - Significant changes
+  - Medium sensitivity (30) - Moderate changes (default)
+  - High sensitivity (50) - Small changes
+  - Very high sensitivity (75) - Any visible change
+
+### Visual Selector (Region Comparison)
+
+Use the "Include filters" field with CSS selectors or XPath to compare only specific page regions:
+
