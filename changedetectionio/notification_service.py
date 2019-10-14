@@ -70,3 +70,66 @@ def watch_will_send_content_changed_notification(datastore, watch):
     return bool(_check_cascading_vars(datastore, 'notification_urls', watch))
 
 
+class FormattableTimestamp(str):
+    """
+    A str subclass representing a formatted datetime. As a plain string it renders
+    with the default format, but can also be called with a custom format argument
+    in Jinja2 templates:
+
+        {{ change_datetime }}                        → '2024-01-15 10:30:00 UTC'
+        {{ change_datetime(format='%Y') }}           → '2024'
+        {{ change_datetime(format='%A') }}           → 'Monday'
+        {{ change_datetime(format='%Y-%m-%d') }}     → '2024-01-15'
+
+    Being a str subclass means it is natively JSON serializable.
+    """
+    _DEFAULT_FORMAT = '%Y-%m-%d %H:%M:%S %Z'
+
+    def __new__(cls, timestamp):
+        dt = datetime.datetime.fromtimestamp(int(timestamp), tz=pytz.UTC)
+        local_tz = datetime.datetime.now().astimezone().tzinfo
+        dt_local = dt.astimezone(local_tz)
+        try:
+            formatted = dt_local.strftime(cls._DEFAULT_FORMAT)
+        except Exception:
+            formatted = dt_local.isoformat()
+        instance = super().__new__(cls, formatted)
+        instance._dt = dt_local
+        return instance
+
+    def __call__(self, format=_DEFAULT_FORMAT):
+        try:
+            return self._dt.strftime(format)
+        except Exception:
+            return self._dt.isoformat()
+
+
+class FormattableExtract(str):
+    """
+    A str subclass that holds only the extracted changed fragments from a diff.
+    Used for {{diff_changed_from}} and {{diff_changed_to}} tokens.
+
+        {{ diff_changed_from }}   → old value(s) only, e.g. "$99.99"
+        {{ diff_changed_to }}     → new value(s) only, e.g. "$109.99"
+
+    Multiple changed fragments are joined with newlines.
+    Being a str subclass means it is natively JSON serializable.
+    """
+    def __new__(cls, prev_snapshot, current_snapshot, extract_fn, escape_output=False):
+        if prev_snapshot or current_snapshot:
+            from changedetectionio import diff as diff_module
+            # word_diff=True is required — placemarker extraction regexes only exist in word-diff output
+            raw = diff_module.render_diff(prev_snapshot or '', current_snapshot or '', word_diff=True)
+            extracted = extract_fn(raw)
+        else:
+            extracted = ''
+        if escape_output and extracted:
+            # Placemarkers (@removed_PLACEMARKER_OPEN etc) contain no HTML chars,
+            # so html_escape leaves them intact — they still get swapped to <span>
+            # tags later by apply_service_tweaks. See GHSA-q8xq-qg4x-wphg.
+            from markupsafe import escape as html_escape
+            extracted = str(html_escape(extracted))
+        instance = super().__new__(cls, extracted)
+        return instance
+
+
