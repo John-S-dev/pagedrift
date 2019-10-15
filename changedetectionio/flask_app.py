@@ -227,6 +227,27 @@ def _filter_url(**overrides):
     return _filtered_action_url('watchlist.index', **overrides)
 
 
+@app.template_global()
+def get_blueprint_class():
+    """Body class for the currently-executing blueprint, e.g. 'blueprint-watchlist'
+    or 'blueprint-ui-ui_queue' (dots → dashes), so CSS can target a section. Empty
+    when there's no blueprint (e.g. an error page)."""
+    bp = request.blueprint or ''
+    return ('blueprint-' + bp.replace('.', '-')) if bp else ''
+
+
+@app.template_global()
+def get_socketio_path():
+    """Generate the correct Socket.IO path prefix for the client"""
+    # If behind a proxy with a sub-path, we need to respect that path
+    prefix = ""
+    if os.getenv('USE_X_SETTINGS') and 'X-Forwarded-Prefix' in request.headers:
+        prefix = request.headers['X-Forwarded-Prefix']
+
+    # Socket.IO will be available at {prefix}/socket.io/
+    return prefix
+
+
 @app.template_global('is_safe_valid_url')
 def _is_safe_valid_url(test_url):
     from .validate_url import is_safe_valid_url
