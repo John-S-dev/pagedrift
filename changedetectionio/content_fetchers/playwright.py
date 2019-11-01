@@ -180,3 +180,118 @@ class fetcher(Fetcher):
             'title': 'Using a Chrome browser'
         }
 
+            # Listen for all console events and handle errors
+            self.page.on("console", lambda msg: logger.debug(f"Playwright console: Watch URL: {url} {msg.type}: {msg.text} {msg.args}"))
+
+            # Re-use as much code from browser steps as possible so its the same
+            from changedetectionio.browser_steps.browser_steps import steppable_browser_interface
+            browsersteps_interface = steppable_browser_interface(start_url=url)
+            browsersteps_interface.page = self.page
+
+            response = await browsersteps_interface.action_goto_url(value=url)
+
+            if response is None:
+                await context.close()
+                await browser.close()
+                logger.debug("Content Fetcher > Response object from the browser communication was none")
+                raise EmptyReply(url=url, status_code=None)
+
+            # In async_playwright, all_headers() returns a coroutine
+            try:
+                self.headers = await response.all_headers()
+            except TypeError:
+                # Fallback for sync version
+                self.headers = response.all_headers()
+
+            try:
+                if self.webdriver_js_execute_code is not None and len(self.webdriver_js_execute_code):
+                    await browsersteps_interface.action_execute_js(value=self.webdriver_js_execute_code, selector=None)
+            except playwright._impl._errors.TimeoutError as e:
+                await context.close()
+                await browser.close()
+                # This can be ok, we will try to grab what we could retrieve
+                pass
+            except Exception as e:
+                logger.debug(f"Content Fetcher > Other exception when executing custom JS code {str(e)}")
+                await context.close()
+                await browser.close()
+                raise PageUnloadable(url=url, status_code=None, message=str(e))
+
+            extra_wait = int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 5)) + self.render_extract_delay
+            await self.page.wait_for_timeout(extra_wait * 1000)
+
+            try:
+                self.status_code = response.status
+            except Exception as e:
+                # https://github.com/dgtlmoon/changedetection.io/discussions/2122#discussioncomment-8241962
+                logger.critical(f"Response from the browser/Playwright did not have a status_code! Response follows.")
+                logger.critical(response)
+                await context.close()
+                await browser.close()
+                raise PageUnloadable(url=url, status_code=None, message=str(e))
+
+            if fetch_favicon:
+                try:
+                    self.favicon_blob = await self.page.evaluate(FAVICON_FETCHER_JS)
+                    await self.page.request_gc()
+                except Exception as e:
+                    logger.error(f"Error fetching FavIcon info {str(e)}, continuing.")
+
+            if self.status_code != 200 and not ignore_status_codes:
+                screenshot = await capture_full_page_async(self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
+                # Finally block will handle cleanup
+                raise Non200ErrorCodeReceived(url=url, status_code=self.status_code, screenshot=screenshot)
+
+            if not empty_pages_are_a_change and len((await self.page.content()).strip()) == 0:
+                logger.debug("Content Fetcher > Content was empty, empty_pages_are_a_change = False")
+                await context.close()
+                await browser.close()
+                raise EmptyReply(url=url, status_code=response.status)
+
+            # Wrap remaining operations in try/finally to ensure cleanup
+            try:
+                # Run Browser Steps here
+                if self.browser_steps:
+                    try:
+                        await self.iterate_browser_steps(start_url=url)
+                    except BrowserStepsStepException:
+                        # Finally block will handle cleanup
+                        raise
+
+                    await self.page.wait_for_timeout(extra_wait * 1000)
+
+                now = time.time()
+                # So we can find an element on the page where its selector was entered manually (maybe not xPath etc)
+                if current_include_filters is not None:
+                    await self.page.evaluate("var include_filters={}".format(json.dumps(current_include_filters)))
+                else:
+                    await self.page.evaluate("var include_filters=''")
+                await self.page.request_gc()
+
+                # request_gc before and after evaluate to free up memory
+                # @todo browsersteps etc
+                MAX_TOTAL_HEIGHT = int(os.getenv("SCREENSHOT_MAX_HEIGHT", SCREENSHOT_MAX_HEIGHT_DEFAULT))
+                self.xpath_data = await self.page.evaluate(XPATH_ELEMENT_JS, {
+                    "visualselector_xpath_selectors": visualselector_xpath_selectors,
+                    "max_height": MAX_TOTAL_HEIGHT
+                })
+                await self.page.request_gc()
+
+                self.instock_data = await self.page.evaluate(INSTOCK_DATA_JS)
+                await self.page.request_gc()
+
+                self.content = await self.page.content()
+                await self.page.request_gc()
+                logger.debug(f"Scrape xPath element data in browser done in {time.time() - now:.2f}s")
+
+
+                # Bug 3 in Playwright screenshot handling
+                # Some bug where it gives the wrong screenshot size, but making a request with the clip set first seems to solve it
+                # JPEG is better here because the screenshots can be very very large
+
+                # Screenshots also travel via the ws:// (websocket) meaning that the binary data is base64 encoded
+                # which will significantly increase the IO size between the server and client, it's recommended to use the lowest
+                # acceptable screenshot quality here
+                # The actual screenshot - this always base64 and needs decoding! horrible! huge CPU usage
+                self.screenshot = await capture_full_page_async(page=self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
+
