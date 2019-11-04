@@ -252,6 +252,78 @@ def construct_blueprint(datastore: ChangeDetectionStore):
             except ValueError:
                 start_idx, end_idx = 0, len(sorted_dates) - 1
 
+            steps = sorted_dates[start_idx:end_idx + 1]
+            segments = []
+            for i in range(len(steps) - 1):
+                a_ts, b_ts = steps[i], steps[i + 1]
+                try:
+                    a_text = watch.get_history_snapshot(timestamp=a_ts) or ''
+                    b_text = watch.get_history_snapshot(timestamp=b_ts) or ''
+                except Exception:
+                    continue
+                seg = _apply_filters(_make_unified_diff(a_text, b_text))
+                if seg.strip():
+                    segments.append(f'=== {a_ts} → {b_ts} ===\n{seg}')
+
+            diff_text = '\n\n'.join(segments) if segments else ''
+        else:
+            diff_text = _apply_filters(_make_unified_diff(from_text, to_text))
+
+        if not diff_text.strip():
+            return jsonify({'summary': None, 'error': 'No differences found'})
+
+        from changedetectionio.llm.evaluator import (
+            summarise_change, get_effective_summary_prompt, build_summary_cache_prompt,
+            is_global_token_budget_exceeded, get_global_token_budget_month,
+            LLMInputTooLargeError,
+        )
+
+        # Diff-pref flags + system prompt + active model are part of the cache key
+        # so prompt or model changes bust the cache.
+        from changedetectionio.llm.evaluator import get_llm_settings
+        _ls = get_llm_settings(datastore)
+        _max_summary_tokens = _ls.max_summary_tokens
+        _llm_model = _ls.model
+        cache_prompt = build_summary_cache_prompt(
+            effective_prompt=get_effective_summary_prompt(watch, datastore),
+            max_summary_tokens=_max_summary_tokens,
+            prefs=prefs,
+            model=_llm_model,
+        )
+
+        # Check cache — keyed by version pair + prompt hash (invalidates if prompt changes)
+        cached = watch.get_llm_diff_summary(from_version, to_version, prompt=cache_prompt)
+        if cached:
+            import time
+            datastore.set_last_viewed(uuid, int(time.time()))
+            return jsonify({'summary': cached, 'error': None, 'cached': True})
+
+        # Check global monthly token budget before making an LLM call
+        if is_global_token_budget_exceeded(datastore):
+            budget = get_global_token_budget_month(datastore)
+            llm_cfg = datastore.data.get('settings', {}).get('application', {}).get('llm', {})
+            used = llm_cfg.get('tokens_this_month', 0)
+            return jsonify({
+                'summary': None,
+                'error': gettext(
+                    'Monthly AI token budget of %(budget)s tokens reached (%(used)s used). Resets next month.',
+                    budget=f'{budget:,}',
+                    used=f'{used:,}',
+                ),
+                'budget_exceeded': True,
+            }), 429
+
+        try:
+            summary = summarise_change(watch, datastore, diff=diff_text, current_snapshot=to_text)
+        except LLMInputTooLargeError as e:
+            return jsonify({'summary': None, 'error': str(e)}), 400
+        except Exception as e:
+            logger.error(f"LLM summary generation failed for {uuid}: {e}")
+            return jsonify({'summary': None, 'error': _clean_litellm_error(e)}), 500
+
+        if not summary:
+            return jsonify({'summary': None, 'error': 'LLM returned empty summary'})
+
         try:
             watch.save_llm_diff_summary(summary, from_version, to_version, prompt=cache_prompt)
         except Exception as e:
