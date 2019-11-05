@@ -133,3 +133,70 @@ class FormattableExtract(str):
         return instance
 
 
+class FormattableDiff(str):
+    """
+    A str subclass representing a rendered diff. As a plain string it renders
+    with the default options for that variant, but can be called with custom
+    arguments in Jinja2 templates:
+
+        {{ diff }}                                    → default diff output
+        {{ diff(lines=5) }}                           → truncate to 5 lines
+        {{ diff(added_only=true) }}                   → only show added lines
+        {{ diff(removed_only=true) }}                 → only show removed lines
+        {{ diff(context=3) }}                         → 3 lines of context around changes
+        {{ diff(word_diff=false) }}                   → line-level diff instead of word-level
+        {{ diff(lines=10, added_only=true) }}         → combine args
+        {{ diff_added(lines=5) }}                     → works on any diff_* variant too
+
+    Being a str subclass means it is natively JSON serializable.
+    """
+    def __new__(cls, prev_snapshot, current_snapshot, escape_output=False, **base_kwargs):
+        if prev_snapshot or current_snapshot:
+            from changedetectionio import diff as diff_module
+            rendered = diff_module.render_diff(prev_snapshot, current_snapshot, **base_kwargs)
+        else:
+            rendered = ''
+        if escape_output and rendered:
+            # Placemarkers (@removed_PLACEMARKER_OPEN etc) contain no HTML chars,
+            # so html_escape leaves them intact — they still get swapped to <span>
+            # tags later by apply_service_tweaks. See GHSA-q8xq-qg4x-wphg.
+            from markupsafe import escape as html_escape
+            rendered = str(html_escape(rendered))
+        instance = super().__new__(cls, rendered)
+        instance._prev = prev_snapshot
+        instance._current = current_snapshot
+        instance._base_kwargs = base_kwargs
+        instance._escape_output = escape_output
+        return instance
+
+    def __call__(self, lines=None, added_only=False, removed_only=False, context=0,
+                 word_diff=None, case_insensitive=False, ignore_junk=False):
+        from changedetectionio import diff as diff_module
+        kwargs = dict(self._base_kwargs)
+
+        if added_only:
+            kwargs['include_removed'] = False
+        if removed_only:
+            kwargs['include_added'] = False
+        if context:
+            kwargs['context_lines'] = int(context)
+        if word_diff is not None:
+            kwargs['word_diff'] = bool(word_diff)
+        if case_insensitive:
+            kwargs['case_insensitive'] = True
+        if ignore_junk:
+            kwargs['ignore_junk'] = True
+
+        result = diff_module.render_diff(self._prev or '', self._current or '', **kwargs)
+
+        if lines is not None:
+            result = '\n'.join(result.splitlines()[:int(lines)])
+
+        if self._escape_output and result:
+            from markupsafe import escape as html_escape
+            result = str(html_escape(result))
+
+        return result
+
+
+
