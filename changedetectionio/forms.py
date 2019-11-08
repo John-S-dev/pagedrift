@@ -458,3 +458,48 @@ class ValidateJinja2Template(object):
                 f"The following tokens used in the notification are not valid: {undefined}"
             )
 
+class ValidateSimpleURL:
+    """Validate that the value can be parsed by urllib.parse.urlparse() and has a scheme/netloc."""
+    def __init__(self, message=None):
+        self.message = message or "Invalid URL."
+
+    def __call__(self, form, field):
+        data = (field.data or "").strip()
+        if not data:
+            return  # empty is OK — pair with validators.Optional()
+        from urllib.parse import urlparse
+
+        parsed = urlparse(data)
+        if not parsed.scheme or not parsed.netloc:
+            raise ValidationError(self.message)
+
+class ValidateStartsWithRegex(object):
+    def __init__(self, regex, *, flags=0, message=None, allow_empty=True, split_lines=True):
+        # compile with given flags (we’ll pass re.IGNORECASE below)
+        self.pattern = re.compile(regex, flags) if isinstance(regex, str) else regex
+        self.message = message
+        self.allow_empty = allow_empty
+        self.split_lines = split_lines
+
+    def __call__(self, form, field):
+        data = field.data
+        if not data:
+            return
+
+        # normalize into list of lines
+        if isinstance(data, str) and self.split_lines:
+            lines = data.splitlines()
+        elif isinstance(data, (list, tuple)):
+            lines = data
+        else:
+            lines = [data]
+
+        for line in lines:
+            stripped = line.strip()
+            if not stripped:
+                if self.allow_empty:
+                    continue
+                raise ValidationError(self.message or _l("Empty value not allowed."))
+            if not self.pattern.match(stripped):
+                raise ValidationError(self.message or _l("Invalid value."))
+
