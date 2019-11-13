@@ -19,6 +19,19 @@ from changedetectionio.llm.evaluator import apply_local_token_multiplier
 # Injected at startup by inject_datastore_into_plugins()
 datastore = None
 
+# Cache LLM extraction results keyed by the exact LLM input (model + url + stripped content +
+# intent). Product pages re-fetch constantly with noisy raw HTML (analytics, nonces, CSRF
+# tokens) that changes the watch's raw checksum every check — so the processor's checksum-skip
+# rarely fires for them and the LLM would otherwise be billed on every check even when the
+# price/stock content is identical. Keying on the actual prompt means we only spend tokens when
+# the meaningful content changes. Bounded FIFO so it can't grow unbounded across many watches.
+import hashlib
+from collections import OrderedDict
+
+_LLM_RESULT_CACHE = OrderedDict()
+_LLM_RESULT_CACHE_MAX = 500
+
+
 # JSON-LD blocks worth sending: only those that actually carry price/stock signals. This drops
 # the noise (BreadcrumbList, WebSite, Organization, ItemList…) that otherwise dominates and
 # pushes the useful data out of the (truncated) prompt.
