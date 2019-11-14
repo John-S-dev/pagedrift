@@ -201,3 +201,58 @@ class fetcher(Fetcher):
 
         self.raw_content = r.content
 
+        # If the content is an image, set it as screenshot for SSIM/visual comparison
+        content_type = r.headers.get('content-type', '').lower()
+        if 'image/' in content_type:
+            self.screenshot = r.content
+            logger.debug(f"Image content detected ({content_type}), set as screenshot for comparison")
+
+    async def run(self,
+                  fetch_favicon=True,
+                  current_include_filters=None,
+                  empty_pages_are_a_change=False,
+                  ignore_status_codes=False,
+                  is_binary=False,
+                  request_body=None,
+                  request_headers=None,
+                  request_method=None,
+                  screenshot_format=None,
+                  timeout=None,
+                  url=None,
+                  watch_uuid=None,
+                  ):
+        """Async wrapper that runs the synchronous requests code in a thread pool"""
+
+        loop = asyncio.get_event_loop()
+
+        # Run the synchronous _run_sync in a thread pool to avoid blocking the event loop
+        # Retry logic is handled by requests' HTTPAdapter (see _run_sync for configuration)
+        await loop.run_in_executor(
+            None,  # Use default ThreadPoolExecutor
+            lambda: self._run_sync(
+                url=url,
+                timeout=timeout,
+                request_headers=request_headers,
+                request_body=request_body,
+                request_method=request_method,
+                ignore_status_codes=ignore_status_codes,
+                current_include_filters=current_include_filters,
+                is_binary=is_binary,
+                empty_pages_are_a_change=empty_pages_are_a_change,
+                watch_uuid=watch_uuid,
+            )
+        )
+
+    async def quit(self, watch=None):
+        # In case they switched to `requests` fetcher from something else
+        # Then the screenshot could be old, in any case, it's not used here.
+        # REMOVE_REQUESTS_OLD_SCREENSHOTS - Mainly used for testing
+        if strtobool(os.getenv("REMOVE_REQUESTS_OLD_SCREENSHOTS", 'true')):
+            screenshot = watch.get_screenshot()
+            if screenshot:
+                try:
+                    os.unlink(screenshot)
+                except Exception as e:
+                    logger.warning(f"Failed to unlink screenshot: {screenshot} - {e}")
+
+
