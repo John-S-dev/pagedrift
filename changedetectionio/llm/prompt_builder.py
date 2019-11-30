@@ -136,3 +136,54 @@ def build_preview_system_prompt() -> str:
     )
 
 
+def build_change_summary_prompt(
+    diff: str, custom_prompt: str, current_snapshot: str = '', url: str = '', title: str = ''
+) -> str:
+    """
+    Build the user message for an AI Change Summary call.
+    The user supplies their own instructions (custom_prompt); this wraps them
+    with the diff (which carries its own surrounding context via unified_diff's
+    n=3 context lines, marked '~' by _annotate_moved_lines).
+
+    NOTE: current_snapshot is accepted for caller compatibility but intentionally
+    unused. A wholesale page excerpt caused the LLM to report unchanged page
+    content (e.g. old release-note bullets) as "what changed" — hallucinations
+    drawn from the excerpt rather than the diff. The in-diff context lines give
+    the model enough surrounding text to describe each change accurately.
+    """
+    parts = []
+    if url:
+        parts.append(f"URL: {url}")
+    if title:
+        parts.append(f"Page title: {title}")
+    parts.append(f"Instructions: {custom_prompt}")
+    parts.append(f"\nWhat changed (diff):\n{_annotate_moved_lines(diff)}")
+    return '\n'.join(parts)
+
+
+def build_change_summary_system_prompt() -> str:
+    """
+    Universal, format-agnostic instructions: how to READ a diff and accuracy rules.
+    All output-format choices (prose vs JSON, sections, bullets, language, length)
+    are owned by the user prompt — including the default in
+    DEFAULT_CHANGE_SUMMARY_PROMPT — so that a user replacing the user-prompt
+    (e.g. asking for raw JSON) is not overridden by hard-coded format rules here.
+    """
+    return (
+        "You analyse a unified-diff document showing how a monitored web page changed, "
+        "and produce exactly the output the user asks for.\n\n"
+        "Rules for reading the diff:\n"
+        "- Lines starting with + are genuinely new content.\n"
+        "- Lines starting with - are genuinely removed content.\n"
+        "- Lines starting with ~ have been PRE-IDENTIFIED as moved/reordered or trivial — "
+        "the same text exists on both sides of the diff, or the line is a standalone timestamp. "
+        "Do NOT treat ~ lines as added or removed.\n\n"
+        "Accuracy: only report what the +/- lines actually contain. Never invent details, "
+        "never speculate, never add information that isn't in the diff.\n\n"
+        "Follow the user's instructions exactly — including the requested output format "
+        "(plain text, JSON, Markdown, single value, etc.), structure, language, and length. "
+        "Do not add preamble, meta-commentary, or self-introduction. Produce only the output "
+        "the user asked for — nothing before it, nothing after it."
+    )
+
+
