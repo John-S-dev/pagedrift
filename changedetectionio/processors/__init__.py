@@ -117,3 +117,88 @@ def find_processor_module(processor_name):
     return None
 
 
+@lru_cache(maxsize=1)
+def get_plugin_processor_metadata():
+    """Get metadata from plugin processors."""
+    metadata = {}
+    try:
+        from changedetectionio.pluggy_interface import plugin_manager
+        plugin_results = plugin_manager.hook.register_processor()
+
+        for result in plugin_results:
+            if result and isinstance(result, dict):
+                processor_name = result.get('processor_name')
+                meta = result.get('metadata', {})
+                if processor_name:
+                    metadata[processor_name] = meta
+    except Exception as e:
+        logger.warning(f"Error getting plugin processor metadata: {e}")
+    return metadata
+
+@lru_cache(maxsize=32)
+def _available_processors_cached(locale_str):
+    """
+    Internal cached function that includes locale in cache key.
+    This ensures translations are cached per-language instead of globally.
+
+    :param locale_str: The locale string (e.g., 'en', 'it', 'zh')
+    :return: A list of tuples (processor_name, translated_description, weight)
+    """
+    processor_classes = find_processors()
+
+    # Check if DISABLED_PROCESSORS env var is set
+    disabled_processors_env = os.getenv('DISABLED_PROCESSORS', 'image_ssim_diff').strip()
+    disabled_processors = []
+    if disabled_processors_env:
+        # Parse comma-separated list and strip whitespace
+        disabled_processors = [p.strip() for p in disabled_processors_env.split(',') if p.strip()]
+        logger.info(f"DISABLED_PROCESSORS set, disabling: {disabled_processors}")
+
+    available = []
+    plugin_metadata = get_plugin_processor_metadata()
+
+    for module, sub_package_name in processor_classes:
+        # Skip disabled processors
+        if sub_package_name in disabled_processors:
+            logger.debug(f"Skipping processor '{sub_package_name}' (in DISABLED_PROCESSORS)")
+            continue
+
+        # Check if this is a plugin processor
+        if sub_package_name in plugin_metadata:
+            meta = plugin_metadata[sub_package_name]
+            description = gettext(meta.get('name', sub_package_name))
+            # Plugin processors start from weight 10 to separate them from built-in processors
+            weight = 100 + meta.get('processor_weight', 0)
+        else:
+            # Try to get the 'name' attribute from the processor module first
+            if hasattr(module, 'name'):
+                description = gettext(module.name)
+            else:
+                # Fall back to processor_description from parent module's __init__.py
+                parent_module = get_parent_module(module)
+                if parent_module and hasattr(parent_module, 'processor_description'):
+                    description = gettext(parent_module.processor_description)
+                else:
+                    # Final fallback to a readable name
+                    description = sub_package_name.replace('_', ' ').title()
+
+            # Get weight for sorting (lower weight = higher in list)
+            weight = 0  # Default weight for processors without explicit weight
+
+            # Check processor module itself first
+            if hasattr(module, 'processor_weight'):
+                weight = module.processor_weight
+            else:
+                # Fall back to parent module (package __init__.py)
+                parent_module = get_parent_module(module)
+                if parent_module and hasattr(parent_module, 'processor_weight'):
+                    weight = parent_module.processor_weight
+
+        available.append((sub_package_name, description, weight))
+
+    # Sort by weight (lower weight = appears first)
+    available.sort(key=lambda x: x[2])
+
+    # Return as tuples without weight (for backwards compatibility)
+    return [(name, desc) for name, desc, weight in available]
+
