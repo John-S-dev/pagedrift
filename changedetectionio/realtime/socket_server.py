@@ -65,3 +65,29 @@ class SignalHandler:
         except Exception as e:
             logger.error(f"Socket.IO error in handle_general_stats_update: {str(e)}")
 
+        general_stats = {
+            'count_errors': errored_count,
+            'unread_changes_count': datastore.unread_changes_count
+        }
+
+        # Debug what's being emitted
+        # logger.debug(f"Emitting 'watch_update' event for {watch.get('uuid')}, data: {watch_data}")
+
+        # Emit to all clients (no 'broadcast' parameter needed - it's the default behavior)
+        socketio.emit("watch_update", {'watch': watch_data})
+        socketio.emit("general_stats_update", general_stats)
+
+        # The set of running UUIDs changes exactly when a worker claims/releases a watch,
+        # and this signal fires at both of those moments - so emit the live "checking now" count here.
+        socketio.emit("checking_now", {
+            "count": len(running_uuids),
+            "event_timestamp": time.time()
+        })
+
+        # Log after successful emit - use watch_data['uuid'] to avoid variable shadowing issues
+        logger.trace(f"Socket.IO: Emitted update for watch {watch_data['uuid']}, Checking now: {watch_data['checking_now']}")
+
+    except Exception as e:
+        logger.error(f"Socket.IO error in handle_watch_update: {str(e)}")
+
+
