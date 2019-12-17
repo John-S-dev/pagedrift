@@ -142,6 +142,28 @@ META_CT  = re.compile(r'<meta[^>]+http-equiv=["\']?content-type["\']?[^>]*conten
 # All of those may or may not appear on different websites - I didnt find a way todo case-insensitive searching here
 LD_JSON_PRODUCT_OFFER_SELECTORS = ["json:$..offers", "json:$..Offers"]
 
+class JSONNotFound(ValueError):
+    def __init__(self, msg):
+        ValueError.__init__(self, msg)
+
+
+_DEFAULT_UNSAFE_XPATH3_FUNCTIONS = [
+    'unparsed-text',
+    'unparsed-text-lines',
+    'unparsed-text-available',
+    'doc',
+    'doc-available',
+    'json-doc',
+    'json-doc-available',
+    'collection',           # XPath 2.0+: loads XML node collections from arbitrary URIs
+    'uri-collection',       # XPath 3.0+: enumerates URIs from resource collections
+    'transform',            # XPath 3.1: XSLT transformation (currently raises, block proactively)
+    'load-xquery-module',   # XPath 3.1: loads XQuery modules (currently raises, block proactively)
+    'environment-variable',
+    'available-environment-variables',
+]
+
+
 def get_safe_xpath3_parser():
     """Return an XPath3Parser subclass with filesystem/environment access functions removed.
 
