@@ -38,6 +38,11 @@ class FilterNotFoundInResponse(ValueError):
         ValueError.__init__(self, msg)
 
 
+class PDFToHTMLToolNotFound(ValueError):
+    def __init__(self, msg):
+        ValueError.__init__(self, msg)
+
+
 class FilterConfig:
     """Consolidates all filter and rule configurations from watch, tags, and global settings."""
 
