@@ -69,3 +69,42 @@ def get_asset(asset_name, watch, datastore, request):
         return None
 
 
+def render(watch, datastore, request, url_for, render_template, flash, redirect):
+    """
+    Render the preview page for screenshot watches.
+
+    Args:
+        watch: Watch object
+        datastore: Datastore object
+        request: Flask request
+        url_for: Flask url_for function
+        render_template: Flask render_template function
+        flash: Flask flash function
+        redirect: Flask redirect function
+
+    Returns:
+        Rendered template or redirect
+    """
+    versions = list(watch.history.keys())
+
+    if len(versions) == 0:
+        flash(gettext("Preview unavailable - No snapshots captured yet"), "error")
+        return redirect(url_for('watchlist.index'))
+
+    # Get the version to display (default: latest)
+    preferred_version = request.args.get('version')
+    timestamp = versions[-1]
+    if preferred_version and preferred_version in versions:
+        timestamp = preferred_version
+
+    # Render custom template for image preview
+    # Screenshot is now served via separate /processor-asset/ endpoint instead of base64
+    # This significantly reduces memory usage by not embedding large images in HTML
+    return render_template(
+        'image_ssim_diff/preview.html',
+        watch=watch,
+        uuid=watch.get('uuid'),
+        versions=versions,
+        timestamp=timestamp,
+        current_diff_url=watch.open_link
+    )
