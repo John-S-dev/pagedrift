@@ -22,6 +22,16 @@ from changedetectionio.flask_app import login_optionally_required
 from changedetectionio.validate_url import validate_fetch_url_async
 from loguru import logger
 
+browsersteps_sessions = {}
+browsersteps_watch_to_session = {}  # Maps watch_uuid -> browsersteps_session_id
+io_interface_context = None
+import json
+import hashlib
+from flask import Response
+import asyncio
+import threading
+import time
+
 # Dedicated event loop for ALL browser steps sessions
 _browser_steps_loop = None
 _browser_steps_thread = None
