@@ -37,3 +37,51 @@ from loguru import logger
 minimum_seconds_recheck_time = int(os.getenv('MINIMUM_SECONDS_RECHECK_TIME', 3))
 mtable = {'seconds': 1, 'minutes': 60, 'hours': 3600, 'days': 86400, 'weeks': 86400 * 7}
 
+def _brotli_save(contents, filepath, mode=None, fallback_uncompressed=False):
+    """
+    Save compressed data using native brotli with streaming compression.
+    Uses chunked compression to minimize peak memory usage and malloc_trim()
+    to force release of C-level memory back to the OS.
+
+    Args:
+        contents: data to compress (str or bytes)
+        filepath: destination file path
+        mode: brotli compression mode (e.g., brotli.MODE_TEXT)
+        fallback_uncompressed: if True, save uncompressed on failure; if False, raise exception
+
+    Returns:
+        str: actual filepath saved (may differ from input if fallback used)
+
+    Raises:
+        Exception: if compression fails and fallback_uncompressed is False
+    """
+    import brotli
+    import gc
+    import ctypes
+
+    # Ensure contents are bytes
+    if isinstance(contents, str):
+        contents = contents.encode('utf-8')
+
+    try:
+        original_size = len(contents)
+        logger.debug(f"Starting brotli streaming compression of {original_size} bytes.")
+
+        # Create streaming compressor
+        compressor = brotli.Compressor(quality=6, mode=mode if mode is not None else brotli.MODE_GENERIC)
+
+        # Stream compress in chunks to minimize memory usage
+        chunk_size = 65536  # 64KB chunks
+        total_compressed_size = 0
+
+        with open(filepath, 'wb') as f:
+            # Process data in chunks
+            offset = 0
+            while offset < len(contents):
+                chunk = contents[offset:offset + chunk_size]
+                compressed_chunk = compressor.process(chunk)
+                if compressed_chunk:
+                    f.write(compressed_chunk)
+                    total_compressed_size += len(compressed_chunk)
+                offset += chunk_size
+
