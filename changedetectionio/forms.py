@@ -503,3 +503,20 @@ class ValidateStartsWithRegex(object):
             if not self.pattern.match(stripped):
                 raise ValidationError(self.message or _l("Invalid value."))
 
+class importForm(Form):
+    processor = RadioField(_l('Processor'), choices=lambda: processors.available_processors(), default=processors.get_default_processor)
+    urls = TextAreaField(_l('URLs'))
+    xlsx_file = FileField(_l('Upload .xlsx file'), validators=[FileAllowed(['xlsx'], _l('Must be .xlsx file!'))])
+    file_mapping = SelectField(_l('File mapping'), [validators.DataRequired()], choices={('wachete', 'Wachete mapping'), ('custom','Custom mapping')})
+
+class SingleBrowserStep(Form):
+
+    operation = SelectField(_l('Operation'), [validators.Optional()], choices=browser_step_ui_config.keys())
+
+    # maybe better to set some <script>var..
+    selector = StringField(_l('Selector'), [validators.Optional()], render_kw={"placeholder": _l("CSS or xPath selector")})
+    optional_value = StringField(_l('value'), [validators.Optional()], render_kw={"placeholder": _l("Value")})
+#   @todo move to JS? ajax fetch new field?
+#    remove_button = SubmitField(_l('-'), render_kw={"type": "button", "class": "pure-button pure-button-primary", 'title': 'Remove'})
+#    add_button = SubmitField(_l('+'), render_kw={"type": "button", "class": "pure-button pure-button-primary", 'title': 'Add new step after'})
+
