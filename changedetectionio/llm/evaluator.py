@@ -310,3 +310,58 @@ def resolve_llm_field(watch, datastore, field: str) -> tuple[str, str]:
     return '', ''
 
 
+def get_llm_config(datastore) -> dict | None:
+    """
+    Return LLM config dict or None if not configured.
+
+    Resolution order (first non-empty model wins):
+      1. Environment variables: LLM_MODEL, LLM_API_KEY, LLM_API_BASE
+      2. Datastore settings (set via UI)
+    """
+    if is_llm_features_disabled():
+        return None
+    # 1. Environment variable override
+    env_model = os.getenv('LLM_MODEL', '').strip()
+    if env_model:
+        return {
+            'model': env_model,
+            'api_key': os.getenv('LLM_API_KEY', '').strip(),
+            'api_base': os.getenv('LLM_API_BASE', '').strip(),
+        }
+
+    # 2. Datastore settings
+    cfg = datastore.data['settings']['application'].get('llm') or {}
+    if not cfg.get('model'):
+        return None
+    return cfg
+
+
+def llm_configured_via_env() -> bool:
+    """True when LLM config comes from environment variables, not the UI."""
+    if is_llm_features_disabled():
+        return False
+    return bool(os.getenv('LLM_MODEL', '').strip())
+
+
+def _runtime_llm_config(datastore) -> dict | None:
+    """
+    Runtime gate used by every LLM entry point in this module (and the restock
+    fallback). Returns the resolved config dict only when both:
+      - the master 'llm_enabled' toggle is on (default True)
+      - a provider+model is actually configured
+
+    When the toggle is off but a config exists, logs a debug message and returns
+    None so callers fall through their existing "not configured" early-return path.
+
+    The settings UI deliberately still calls get_llm_config() directly so the
+    "AI / LLM configured: ..." badge keeps showing the saved provider even while
+    the toggle is off.
+    """
+    cfg = get_llm_config(datastore)
+    if not get_llm_settings(datastore).enabled:
+        if cfg:
+            logger.debug("LLM features disabled via settings (enabled=False) — skipping LLM lookup")
+        return None
+    return cfg
+
+
