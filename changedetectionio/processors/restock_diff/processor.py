@@ -265,3 +265,168 @@ def is_between(number, lower=None, upper=None):
     return (lower is None or lower <= number) and (upper is None or number <= upper)
 
 
+class perform_site_check(difference_detection_processor):
+    screenshot = None
+    xpath_data = None
+
+    def run_changedetection(self, watch, force_reprocess=False):
+        import hashlib
+
+        if not watch:
+            raise Exception("Watch no longer exists.")
+
+        current_raw_document_checksum = self.get_raw_document_checksum()
+        raw_changed = self.last_raw_content_checksum != current_raw_document_checksum
+        logger.debug(
+            f"{watch.get('uuid')} restock - raw document checksum "
+            f"last='{self.last_raw_content_checksum}' current='{current_raw_document_checksum}' "
+            f"changed={raw_changed} (was_edited={watch.was_edited}, force_reprocess={force_reprocess})"
+        )
+        # Skip processing only if BOTH conditions are true:
+        # 1. HTML content unchanged (checksum matches last saved checksum)
+        # 2. Watch configuration was not edited (including trigger_text, filters, etc.)
+        # The was_edited flag handles all watch configuration changes, so we don't need
+        # separate checks for trigger_text or other processing rules.
+        if (not force_reprocess and
+            not watch.was_edited and
+            self.last_raw_content_checksum and
+            not raw_changed):
+            logger.debug(f"{watch.get('uuid')} restock - raw document unchanged since last fetch, skipping reprocessing")
+            raise checksumFromPreviousCheckWasTheSame()
+
+        # Unset any existing notification error
+        update_obj = {'last_notification_error': False, 'last_error': False, 'restock':  Restock()}
+
+        self.screenshot = self.fetcher.screenshot
+        self.xpath_data = self.fetcher.xpath_data
+
+        # Track the content type (readonly field, doesn't trigger was_edited)
+        update_obj['content-type'] = self.fetcher.headers.get('Content-Type', '')  # Use hyphen (matches OpenAPI spec)
+        update_obj["last_check_status"] = self.fetcher.get_last_status_code()
+
+        # Save the raw content checksum to file (processor implementation detail, not watch config)
+        self.update_last_raw_content_checksum(current_raw_document_checksum)
+
+        # Only try to process restock information (like scraping for keywords) if the page was actually rendered correctly.
+        # Otherwise it will assume "in stock" because nothing suggesting the opposite was found
+#useless
+#        from ...html_tools import html_to_text
+#        text = html_to_text(self.fetcher.content)
+#        logger.debug(f"Length of text after conversion: {len(text)}")
+#        if not len(text):
+#            from ...content_fetchers.exceptions import ReplyWithContentButNoText
+#            raise ReplyWithContentButNoText(url=watch.link,
+#                                            status_code=self.fetcher.get_last_status_code(),
+#                                            screenshot=self.fetcher.screenshot,
+#                                            html_content=self.fetcher.content,
+#                                            xpath_data=self.fetcher.xpath_data
+#                                            )
+
+        # Which restock settings to compare against?
+        # Settings are stored in restock_diff.json (migrated from watch.json by update_30).
+        _extra_config = self.get_extra_watch_config('restock_diff.json')
+        restock_settings = _extra_config.get('restock_diff') or {
+            'follow_price_changes': True,
+            'in_stock_processing': 'in_stock_only',
+        }
+
+        # See if any tags have 'activate for individual watches in this tag/group?' enabled and use the first we find
+        for tag_uuid in watch.get('tags'):
+            tag = self.datastore.data['settings']['application']['tags'].get(tag_uuid, {})
+            if tag.get('overrides_watch'):
+                restock_settings = tag.get('processor_config_restock_diff') or {}
+                logger.info(f"Watch {watch.get('uuid')} - Tag '{tag.get('title')}' selected for restock settings override")
+                break
+
+
+        itemprop_availability = {}
+        multiple_prices_found = False
+
+        # Try built-in extraction first, this will scan metadata in the HTML
+        # On Linux, this runs in a subprocess to prevent lxml/extruct memory leaks
+        try:
+            itemprop_availability = extract_itemprop_availability_safe(self.fetcher.content)
+        except MoreThanOnePriceFound as e:
+            # Don't raise immediately - let plugins try to handle this case
+            # Plugins might be able to determine which price is correct
+            logger.warning(f"Built-in detection found multiple prices on {watch.get('url')}, will try plugin override")
+            multiple_prices_found = True
+            itemprop_availability = {}
+
+        # If built-in extraction didn't get both price AND availability, try plugin override
+        # Only check plugin if this watch is using a fetcher that might provide better data
+        has_price = itemprop_availability.get('price') is not None
+        has_availability = itemprop_availability.get('availability') is not None
+
+        if not (has_price and has_availability):
+            from changedetectionio.pluggy_interface import get_itemprop_availability_from_plugin
+            # The concrete backend was already resolved when the fetcher was set up
+            # (see resolve_content_fetcher) and stamped onto the fetcher instance.
+            fetcher_name = self.fetcher.backend_name
+
+            # Try plugin override - plugins can decide if they support this fetcher
+            if fetcher_name:
+                logger.debug(f"Calling extra plugins for getting item price/availability (fetcher: {fetcher_name})")
+                from changedetectionio.llm.evaluator import llm_enabled_for_watch, resolve_intent
+                # AI off for this watch (or for its group) means no intent is handed to the
+                # LLM restock plugin, so it doesn't spend tokens here either — #4204.
+                _llm_on, _ = llm_enabled_for_watch(watch, self.datastore)
+                _llm_intent, _ = resolve_intent(watch, self.datastore) if _llm_on else ('', '')
+                plugin_availability = get_itemprop_availability_from_plugin(self.fetcher.content, fetcher_name, self.fetcher, watch.link, llm_intent=_llm_intent or None)
+
+                if plugin_availability:
+                    # Extract and strip LLM token metadata before using as Restock data
+                    _plugin_tokens = plugin_availability.pop('_tokens', 0)
+                    _plugin_input_tokens = plugin_availability.pop('_input_tokens', 0)
+                    _plugin_output_tokens = plugin_availability.pop('_output_tokens', 0)
+                    _plugin_model = plugin_availability.pop('_model', '')
+
+                    # Update per-watch token counters directly on the watch (same
+                    # pattern as evaluator.py) so they're committed when update_watch runs
+                    if _plugin_tokens:
+                        watch['llm_last_tokens_used'] = _plugin_tokens
+                        watch['llm_tokens_used_cumulative'] = (watch.get('llm_tokens_used_cumulative') or 0) + _plugin_tokens
+
+                    # Plugin provided better data, use it
+                    plugin_has_price = plugin_availability.get('price') is not None
+                    plugin_has_availability = plugin_availability.get('availability') is not None
+
+                    # Only use plugin data if it's actually better than what we have
+                    if plugin_has_price or plugin_has_availability:
+                        itemprop_availability = plugin_availability
+                        logger.info(f"Using plugin-provided availability data for fetcher '{fetcher_name}' (built-in had price={has_price}, availability={has_availability}; plugin has price={plugin_has_price}, availability={plugin_has_availability})")
+                if not plugin_availability:
+                    logger.debug("No item price/availability from plugins")
+
+        # If we had multiple prices and plugins also failed, NOW raise the exception
+        if multiple_prices_found and not itemprop_availability.get('price'):
+            raise ProcessorException(
+                message="Cannot run, more than one price detected, this plugin is only for product pages with ONE product, try the content-change detection mode.",
+                url=watch.get('url'),
+                status_code=self.fetcher.get_last_status_code(),
+                screenshot=self.fetcher.screenshot,
+                xpath_data=self.fetcher.xpath_data
+            )
+
+        # Something valid in get_itemprop_availability() by scraping metadata ?
+        if itemprop_availability.get('price') or itemprop_availability.get('availability'):
+            # Store for other usage. Wrap in Restock() so it's ALWAYS a Restock, never a plain
+            # dict: the built-in extruct path returns a Restock, but plugin fallbacks (e.g. the
+            # LLM restock scraper) return a plain dict. A plain dict here later blows up callers
+            # that use its helpers, e.g. watch['restock'].get_price_change_percent() on the
+            # watchlist (AttributeError -> 500 on the list page).
+            update_obj['restock'] = Restock(itemprop_availability)
+
+            if itemprop_availability.get('availability'):
+                # @todo: Configurable?
+                if any(substring.lower() in itemprop_availability['availability'].lower() for substring in [
+                    'instock',
+                    'instoreonly',
+                    'limitedavailability',
+                    'onlineonly',
+                    'presale']
+                       ):
+                    update_obj['restock']['in_stock'] = True
+                else:
+                    update_obj['restock']['in_stock'] = False
+
