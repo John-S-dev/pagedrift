@@ -88,6 +88,87 @@ class steppable_browser_interface():
         if selector and selector.startswith('/') and not selector.startswith('//'):
             selector = "xpath=" + selector
 
+        # Check if action handler exists
+        if not hasattr(self, "action_" + call_action_name):
+            logger.warning(f"Action handler for '{call_action_name}' not found")
+            return
+            
+        action_handler = getattr(self, "action_" + call_action_name)
+
+        # Support for Jinja2 variables in the value and selector
+        if selector and ('{%' in selector or '{{' in selector):
+            selector = jinja_render(template_str=selector)
+
+        if optional_value and ('{%' in optional_value or '{{' in optional_value):
+            optional_value = jinja_render(template_str=optional_value)
+
+        # Trigger click and cautiously handle potential navigation
+        # This means the page redirects/reloads/changes JS etc etc
+        if call_action_name.startswith('click_'):
+            try:
+                # Set up navigation expectation before the click (like sync version)
+                async with self.page.expect_event("framenavigated", timeout=3000) as navigation_info:
+                    await action_handler(selector, optional_value)
+                
+                # Check if navigation actually occurred
+                try:
+                    await navigation_info.value  # This waits for the navigation promise
+                    logger.debug(f"Navigation occurred on {call_action_name}.")
+                except Exception:
+                    logger.debug(f"No navigation occurred within timeout when calling {call_action_name}, that's OK, continuing.")
+                    
+            except Exception as e:
+                # If expect_event itself times out, that means no navigation occurred - that's OK
+                if "framenavigated" in str(e) and "exceeded" in str(e):
+                    logger.debug(f"No navigation occurred within timeout when calling {call_action_name}, that's OK, continuing.")
+                else:
+                    raise e
+        else:
+            # Some other action that probably a navigation is not expected
+            await action_handler(selector, optional_value)
+
+
+        # Safely wait for timeout
+        await self.page.wait_for_timeout(1.5 * 1000)
+        logger.debug(f"Call action done in {time.time()-now:.2f}s")
+
+    async def action_goto_url(self, selector=None, value=None):
+        if not value:
+            logger.warning("No URL provided for goto_url action")
+            return None
+
+        # Every browser navigation we initiate funnels through here - the "Goto URL" step, the
+        # "Goto site" step, the live Browser Steps UI and the Add Watch snapshot preview - so this
+        # is the one place that has to enforce the fetch rules. Step values are plain user-supplied
+        # strings (forms.SingleBrowserStep.optional_value, or the browser_steps[] API field) and are
+        # NOT covered by the watch URL validation, which is what made file:///etc/passwd readable
+        # and private-IP SSRF possible via a browser step (GHSA-hm22-wg2m-35v4).
+        await validate_fetch_url_async(value)
+
+        now = time.time()
+        response = await self.page.goto(value, timeout=0, wait_until='load')
+        logger.debug(f"Time to goto URL {time.time()-now:.2f}s")
+        return response
+
+    # Incase they request to go back to the start
+    async def action_goto_site(self, selector=None, value=None):
+        return await self.action_goto_url(value=re.sub(r'^source:', '', self.start_url, flags=re.IGNORECASE))
+
+    async def action_click_element_containing_text(self, selector=None, value=''):
+        logger.debug("Clicking element containing text")
+        if not value or not len(value.strip()):
+            return
+            
+        elem = self.page.get_by_text(value)
+        if await elem.count():
+            await elem.first.click(delay=randint(200, 500), timeout=self.action_timeout)
+
+
+    async def action_click_element_containing_text_if_exists(self, selector=None, value=''):
+        logger.debug("Clicking element containing text if exists")
+        if not value or not len(value.strip()):
+            return
+            
         elem = self.page.get_by_text(value)
         count = await elem.count()
         logger.debug(f"Clicking element containing text - {count} elements found")
