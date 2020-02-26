@@ -106,6 +106,97 @@ def _worker_compare(conn, img_bytes_from, img_bytes_to, pixel_difference_thresho
         conn.close()
 
 
+async def compare_images_isolated(img_bytes_from, img_bytes_to, pixel_difference_threshold, blur_sigma, crop_region=None):
+    """
+    Compare images in isolated subprocess using OpenCV (async-safe).
+
+    Args:
+        img_bytes_from: Previous screenshot bytes
+        img_bytes_to: Current screenshot bytes
+        pixel_difference_threshold: Pixel-level sensitivity (0-255) - how different must a pixel be to count as changed
+        blur_sigma: Gaussian blur sigma
+        crop_region: Optional (left, top, right, bottom) crop coordinates
+
+    Returns:
+        float: Change percentage (0-100)
+    """
+    import time
+    import asyncio
+    print(f"[{time.time():.3f}] [Parent] Starting OpenCV comparison subprocess", flush=True)
+
+    # Use spawn method for clean process (no fork issues)
+    ctx = multiprocessing.get_context('spawn')
+    parent_conn, child_conn = ctx.Pipe()
+
+    p = ctx.Process(
+        target=_worker_compare,
+        args=(child_conn, img_bytes_from, img_bytes_to, pixel_difference_threshold, blur_sigma, crop_region)
+    )
+
+    print(f"[{time.time():.3f}] [Parent] Starting subprocess", flush=True)
+    p.start()
+    print(f"[{time.time():.3f}] [Parent] Subprocess started (pid={p.pid}), waiting for result ({POLL_TIMEOUT_ABSOLUTE}s timeout)", flush=True)
+
+    result = 0.0
+    try:
+        # Async-friendly polling: check in small intervals without blocking event loop
+        deadline = time.time() + POLL_TIMEOUT_ABSOLUTE
+        while time.time() < deadline:
+            # Run poll() in thread to avoid blocking event loop
+            has_data = await asyncio.to_thread(parent_conn.poll, 0.1)
+            if has_data:
+                print(f"[{time.time():.3f}] [Parent] Result available, receiving", flush=True)
+                result = await asyncio.to_thread(parent_conn.recv)
+                # Check if result is an error dict
+                if isinstance(result, dict) and 'error' in result:
+                    raise RuntimeError(f"Image comparison failed: {result['error']}")
+                print(f"[{time.time():.3f}] [Parent] Result received: {result:.2f}%", flush=True)
+                break
+            await asyncio.sleep(0)  # Yield control to event loop
+        else:
+            from loguru import logger
+            logger.critical(f"[OpenCV subprocess] Timeout waiting for compare_images result after {POLL_TIMEOUT_ABSOLUTE}s (subprocess may be hung)")
+            print(f"[{time.time():.3f}] [Parent] Timeout waiting for result after {POLL_TIMEOUT_ABSOLUTE}s", flush=True)
+            raise TimeoutError(f"Image comparison subprocess timeout after {POLL_TIMEOUT_ABSOLUTE}s")
+    except Exception as e:
+        print(f"[{time.time():.3f}] [Parent] Error receiving result: {e}", flush=True)
+        raise
+    finally:
+        # Always close pipe first
+        try:
+            parent_conn.close()
+        except:
+            pass
+
+        # Try graceful shutdown (async-safe)
+        print(f"[{time.time():.3f}] [Parent] Waiting for subprocess to exit (5s timeout)", flush=True)
+        join_start = time.time()
+        await asyncio.to_thread(p.join, 5)
+        join_elapsed = time.time() - join_start
+        print(f"[{time.time():.3f}] [Parent] First join took {join_elapsed:.2f}s", flush=True)
+
+        if p.is_alive():
+            print(f"[{time.time():.3f}] [Parent] Process didn't exit gracefully, terminating", flush=True)
+            term_start = time.time()
+            p.terminate()
+            await asyncio.to_thread(p.join, 3)
+            term_elapsed = time.time() - term_start
+            print(f"[{time.time():.3f}] [Parent] Terminate+join took {term_elapsed:.2f}s", flush=True)
+
+        # Force kill if still alive
+        if p.is_alive():
+            print(f"[{time.time():.3f}] [Parent] Process didn't terminate, killing", flush=True)
+            kill_start = time.time()
+            p.kill()
+            await asyncio.to_thread(p.join, 1)
+            kill_elapsed = time.time() - kill_start
+            print(f"[{time.time():.3f}] [Parent] Kill+join took {kill_elapsed:.2f}s", flush=True)
+
+        print(f"[{time.time():.3f}] [Parent] Subprocess cleanup complete, returning result", flush=True)
+
+    return result
+
+
 async def generate_diff_isolated(img_bytes_from, img_bytes_to, pixel_difference_threshold, blur_sigma, max_width, max_height):
     """
     Generate visual diff with red overlay in isolated subprocess (async-safe).
