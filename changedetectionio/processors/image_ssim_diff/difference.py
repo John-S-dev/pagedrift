@@ -157,6 +157,31 @@ def get_asset(asset_name, watch, datastore, request):
         return None
 
 
+def _detect_mime_type(img_bytes):
+    """
+    Detect MIME type using puremagic (same as Watch.py).
+
+    Args:
+        img_bytes: Image bytes
+
+    Returns:
+        str: MIME type (e.g., 'image/png', 'image/jpeg')
+    """
+    try:
+        import puremagic
+        detections = puremagic.magic_string(img_bytes[:2048])
+        if detections:
+            mime_type = detections[0].mime_type
+            logger.trace(f"Detected MIME type: {mime_type}")
+            return mime_type
+        else:
+            logger.trace("No MIME type detected, using 'image/png' fallback")
+            return 'image/png'
+    except Exception as e:
+        logger.warning(f"puremagic detection failed: {e}, using 'image/png' fallback")
+        return 'image/png'
+
+
                 # Get xpath_data from watch history
                 history_keys = list(watch.history.keys())
                 if history_keys:
