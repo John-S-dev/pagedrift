@@ -9,6 +9,9 @@ import os
 from urllib.parse import urlparse
 from loguru import logger
 
+SCREENSHOT_FORMAT_JPEG = 'JPEG'
+SCREENSHOT_FORMAT_PNG = 'PNG'
+
 class difference_detection_processor():
     browser_steps = None
     datastore = None
