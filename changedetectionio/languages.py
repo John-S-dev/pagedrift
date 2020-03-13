@@ -57,3 +57,75 @@ def get_timeago_locale(flask_locale, short=False):
     return locale_map.get(flask_locale, flask_locale)
 
 
+_short_timeago_rows = None
+_registered_short_locales = set()
+
+
+def register_short_timeago_locale(flask_locale):
+    """
+    Build the short timeago table for `flask_locale` from the gettext catalog and register it
+    under a synthetic name so timeago.format(..., <name>) can use it. Returns the locale name
+    to hand to timeago (falls back to the bundled 'en_short' if anything goes wrong).
+
+    The table is resolved with flask_babel.force_locale so it is correct regardless of which
+    locale is active, and cached per language so the gettext lookups happen only once each.
+    """
+    name = 'cd_short_' + str(flask_locale).replace('-', '_')
+    if name in _registered_short_locales:
+        return name
+
+    try:
+        import sys
+        import types
+        import timeago.locales as timeago_locales
+        from flask_babel import force_locale
+
+        global _short_timeago_rows
+        if _short_timeago_rows is None:
+            _short_timeago_rows = _build_short_timeago_rows()
+
+        with force_locale(str(flask_locale)):
+            table = [[str(past), str(future)] for past, future in _short_timeago_rows]
+
+        mod_name = 'timeago.locales.' + name
+        mod = types.ModuleType(mod_name)
+        mod.LOCALE = table
+        sys.modules[mod_name] = mod
+        setattr(timeago_locales, name, mod)
+        _registered_short_locales.add(name)
+        return name
+    except Exception:
+        # Outside an app context, or any unexpected failure -> bundled English short locale.
+        return 'en_short'
+
+# Language metadata: flag icon CSS class and native name
+# Using flag-icons library: https://flagicons.lipis.dev/
+LANGUAGE_DATA = {
+    'en_GB': {'flag': 'fi fi-gb fis', 'name': 'English (UK)'},
+    'en_US': {'flag': 'fi fi-us fis', 'name': 'English (US)'},
+    'de': {'flag': 'fi fi-de fis', 'name': 'Deutsch'},
+    'fr': {'flag': 'fi fi-fr fis', 'name': 'Français'},
+    'ko': {'flag': 'fi fi-kr fis', 'name': '한국어'},
+    'cs': {'flag': 'fi fi-cz fis', 'name': 'Čeština'},
+    'es': {'flag': 'fi fi-es fis', 'name': 'Español'},
+    'pt': {'flag': 'fi fi-pt fis', 'name': 'Português (Portugal)'},
+    'pt_BR': {'flag': 'fi fi-br fis', 'name': 'Português (Brasil)'},
+    'it': {'flag': 'fi fi-it fis', 'name': 'Italiano'},
+    'ja': {'flag': 'fi fi-jp fis', 'name': '日本語'},
+    'zh': {'flag': 'fi fi-cn fis', 'name': '中文 (简体)'},
+    'zh_Hant_TW': {'flag': 'fi fi-tw fis', 'name': '繁體中文'},
+    'ru': {'flag': 'fi fi-ru fis', 'name': 'Русский'},
+    'pl': {'flag': 'fi fi-pl fis', 'name': 'Polski'},
+    'nl': {'flag': 'fi fi-nl fis', 'name': 'Nederlands'},
+    'sv': {'flag': 'fi fi-se fis', 'name': 'Svenska'},
+    'da': {'flag': 'fi fi-dk fis', 'name': 'Dansk'},
+    'no': {'flag': 'fi fi-no fis', 'name': 'Norsk'},
+    'fi': {'flag': 'fi fi-fi fis', 'name': 'Suomi'},
+    'tr': {'flag': 'fi fi-tr fis', 'name': 'Türkçe'},
+    'ar': {'flag': 'fi fi-sa fis', 'name': 'العربية'},
+    'hi': {'flag': 'fi fi-in fis', 'name': 'हिन्दी'},
+    'id': {'flag': 'fi fi-id fis', 'name': 'Bahasa Indonesia'},
+    'uk': {'flag': 'fi fi-ua fis', 'name': 'Українська'},
+}
+
+
