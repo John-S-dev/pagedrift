@@ -28,3 +28,48 @@ def construct_tag_routes(rss_blueprint, datastore):
         if not is_valid:
             return error
 
+        rss_content_format = datastore.data['settings']['application'].get('rss_content_format')
+
+        # Verify tag exists
+        tag = datastore.data['settings']['application'].get('tags', {}).get(tag_uuid)
+        if not tag:
+            return f"Tag with UUID {tag_uuid} not found", 404
+
+        tag_title = tag.get('title', 'Unknown Tag')
+
+        # Create RSS feed
+        fg = FeedGenerator()
+        fg.title(f'changedetection.io - {tag_title}')
+        fg.description(f'Changes for watches tagged with {tag_title}')
+        fg.link(href='https://changedetection.io')
+        notification_service = NotificationService(datastore=datastore, notification_q=False)
+        # Find all watches with this tag
+        for uuid, watch in datastore.data['watching'].items():
+            #@todo  This is wrong, it needs to sort by most recently changed and then limit it  datastore.data['watching'].items().sorted(?)
+            # So get all watches in this tag then sort
+
+            # Skip if watch doesn't have this tag
+            if tag_uuid not in watch.get('tags', []):
+                continue
+
+            # Skip muted watches if configured
+            if datastore.data['settings']['application'].get('rss_hide_muted_watches') and watch.get('notification_muted'):
+                continue
+
+            # Check if watch has at least 2 history snapshots
+            dates = list(watch.history.keys())
+            if len(dates) < 2:
+                continue
+
+            # Only include unviewed watches
+            if not watch.viewed:
+                # Include a link to the diff page (use uuid from loop, don't modify watch dict)
+                diff_link = {'href': url_for('ui.ui_diff.diff_history_page', uuid=uuid, _external=True)}
+
+                # Get watch label
+                watch_label = get_watch_label(datastore, watch)
+
+                # Get template and build notification context
+                timestamp_to = dates[-1]
+                timestamp_from = dates[-2]
+
