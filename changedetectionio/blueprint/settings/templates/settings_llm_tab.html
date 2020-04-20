@@ -238,6 +238,37 @@
   {% endif %}
   {% endcall %}
 
+  {# ── Prompts ───────────────────────────────────────────────────────────── #}
+  {% call stab_pane('prompts') %}
+  <p class="stab-section-title">{{ _('Default AI Change Summary') }}</p>
+
+  <div class="pure-control-group">
+    {{ render_field(form.llm.form.change_summary_default) }}
+    <span class="pure-form-message-inline">
+      {{ _('Used for all watches unless overridden by the watch or its tag/group.') }}
+      &nbsp;<a href="#" class="pure-button button-small" onclick="var t=document.getElementById('llm-change_summary_default'); if(!t.value && t.placeholder) t.value=t.placeholder; return false;">{{ _('Modify default prompt') }}</a>
+    </span>
+  </div>
+
+  {% endcall %}
+
+  {# ── Behaviour ─────────────────────────────────────────────────────────── #}
+  {% call stab_pane('behaviour') %}
+  <p class="stab-section-title">{{ _('Behaviour') }}</p>
+
+  {% if llm_config and llm_config.get('model') %}
+  <div class="pure-control-group">
+    <label></label>
+    {{ form.llm.form.override_diff_with_summary() }}
+    <label for="{{ form.llm.form.override_diff_with_summary.id }}" style="display:inline; font-weight:normal;">
+      {{ form.llm.form.override_diff_with_summary.label.text }}
+    </label>
+    <span class="pure-form-message-inline">
+      {{ _('When enabled, the <code>%(diff)s</code> notification token shows the AI summary instead of the raw diff. Use <code>%(raw_diff)s</code> to always get the original.',
+           diff='{{diff}}', raw_diff='{{raw_diff}}') | safe }}
+    </span>
+  </div>
+
   <div class="pure-control-group">
     <label></label>
     {{ form.llm.form.restock_use_fallback_extract() }}
