@@ -38,3 +38,17 @@ Custom Format:
     {% now 'UTC', '%Y-%m-%d %H:%M:%S' %}
     # Output: 2015-12-09 23:33:01
 
+Timezone Support:
+    {% now 'America/New_York' %}
+    {% now 'Europe/London' %}
+    {% now '' %}  # Uses default timezone from environment.default_timezone
+
+Time Offsets (Addition):
+    {% now 'UTC' + 'hours=2' %}
+    {% now 'UTC' + 'hours=2,minutes=30' %}
+    {% now 'UTC' + 'days=1,hours=2,minutes=15,seconds=10' %}
+
+Time Offsets (Subtraction):
+    {% now 'UTC' - 'minutes=11' %}
+    {% now 'UTC' - 'days=2,minutes=33,seconds=1' %}
+
