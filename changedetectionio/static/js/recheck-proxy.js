@@ -60,3 +60,32 @@ $(function () {
 
     $('#check-all-proxies').click(function (e) {
 
+        e.preventDefault()
+
+        if (!$('body').hasClass('proxy-check-active')) {
+            setup_html_widget();
+            $('body').addClass('proxy-check-active');
+        }
+
+        $('.proxy-check-details').html('');
+        $('.proxy-status').html('<span class="spinner"></span>').fadeIn();
+        $('.proxy-timing').html('');
+
+        // Request start, needs CSRF?
+        $.ajax({
+            type: "POST",
+            url: recheck_proxy_start_url,
+        }).done(function (data) {
+            $.each(data, function (proxy_key, state) {
+                set_proxy_check_status(proxy_key, state['status'])
+            });
+            isActive = true;
+            pollServer();
+
+        }).fail(function (data) {
+            console.log(data);
+            alert(i18nT('serverCommError', 'There was an error communicating with the server.'));
+        });
+
+    });
+
