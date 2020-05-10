@@ -313,3 +313,83 @@ $(function () {
     });
   }
 
+  function renderQueued() {
+    const $tbody = $root.find('[data-section="queued"]').empty();
+    const live = lastQueueSnapshot;
+    const ghosts = Array.from(queuedGhosts.values())
+      .sort((a, b) => b.removedAt - a.removedAt);  // most recently popped first
+
+    if (!live.length && !ghosts.length && slots.length === 0) {
+      $tbody.append('<tr class="empty-row"><td colspan="4"><em>' + escapeHtml(I18N.noWorkers || 'No workers configured and queue is empty') + '</em></td></tr>');
+      return;
+    }
+    live.forEach(w => {
+      const since = w.enqueued_at;
+      const timeCell = since
+        ? '<td class="time-cell" data-since="' + since + '">' + escapeHtml(elapsedText(since)) + '</td>'
+        : '<td class="time-cell"><small style="opacity:0.4;">—</small></td>';
+      $tbody.append(
+        '<tr data-uuid="' + escapeHtml(w.uuid) + '">' +
+          '<td>' + (w.position + 1) + '</td>' +
+          '<td class="watch-cell">' + renderWatchCell(w) + '</td>' +
+          timeCell +
+          '<td><span class="inline-tag">' + escapeHtml(w.priority_label) + '</span></td>' +
+        '</tr>'
+      );
+    });
+    ghosts.forEach(g => {
+      const w = g.watchData;
+      $tbody.append(
+        '<tr class="is-completed" data-uuid="' + escapeHtml(w.uuid) + '">' +
+          '<td><small>—</small></td>' +
+          '<td class="watch-cell">' + renderWatchCell(w) + '</td>' +
+          '<td class="time-cell"><small style="opacity:0.4;">—</small></td>' +
+          '<td><span class="inline-tag inline-tag--done">' + escapeHtml(I18N.statusDone || 'done') + '</span></td>' +
+        '</tr>'
+      );
+    });
+  }
+
+  function repaint(snap) {
+    $root.find('[data-stat="worker_count"]').text(snap.worker_count);
+    $root.find('[data-stat="running_count"]').text(snap.running_count);
+    $root.find('[data-stat="queued_count"]').text(snap.queued_count);
+
+    reconcileQueuedGhosts(snap.queued || []);
+    reconcileRunningSlots(snap.running || [], snap.worker_count || 0);
+    cleanupSlots();
+    renderWorkers();
+    renderQueued();
+
+    // Footer "waiting…" indicator: only show when nothing is actually running or queued.
+    const idle = (snap.running_count === 0) && (snap.queued_count === 0);
+    $root.find('.queue-waiting').attr('data-show', idle ? 'true' : 'false');
+  }
+
+  // Debounced refetch — the socket fires many times per check; we only need the latest state.
+  let pending = null;
+  function refresh() {
+    if (pending) clearTimeout(pending);
+    pending = setTimeout(function () {
+      pending = null;
+      $.getJSON(refreshUrl()).done(repaint);
+    }, 200);
+  }
+
+  function attach(socket) {
+    socket.on('watch_update', refresh);
+    socket.on('queue_size', refresh);
+    socket.on('watch_deleted', refresh);
+  }
+
+  // Delegated click — survives row re-renders.
+  $root.on('click', '.queue-cancel', function (e) {
+    e.preventDefault();
+    const uuid = this.dataset.uuid;
+    if (!uuid) return;
+    const $link = $(this).addClass('is-busy').text('…');
+    $.post('{{ url_for("ui.ui_queue.queue_cancel_running") }}', { uuid: uuid })
+      .always(refresh)
+      .fail(function () { $link.removeClass('is-busy').text(I18N.cancel || 'cancel'); });
+  });
+
