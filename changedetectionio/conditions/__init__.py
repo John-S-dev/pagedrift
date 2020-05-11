@@ -26,3 +26,21 @@ field_choices = [
 EXECUTE_DATA = {}
 
 
+# Define the extended operations dictionary
+CUSTOM_OPERATIONS = {
+    **BUILTINS,  # Include all standard operators
+}
+
+def filter_complete_rules(ruleset):
+    rules = [
+        rule for rule in ruleset
+        if all(
+            rule.get(k) is not None
+            and rule.get(k) is not False
+            and rule.get(k) != ""
+            and rule.get(k) != "None"
+            for k in ("operator", "field", "value")
+        )
+    ]
+    return rules
+
