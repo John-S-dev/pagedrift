@@ -187,3 +187,12 @@ if use_playwright_as_chrome_fetcher:
         logger.debug('Using direct Python Puppeteer library as fetcher')
         from .puppeteer import fetcher as html_webdriver
 
+else:
+    logger.debug("Falling back to selenium as fetcher")
+    from .webdriver_selenium import fetcher as html_webdriver
+
+
+# Register built-in fetchers as plugins after all imports are complete
+from changedetectionio.pluggy_interface import register_builtin_fetchers
+register_builtin_fetchers()
+
