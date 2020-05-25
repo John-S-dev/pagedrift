@@ -356,6 +356,44 @@ class watch_base(dict):
                 and key not in SYSTEM_MANAGED_NON_SPEC_FIELDS):
             self.__watch_was_edited = True
 
+    def __setitem__(self, key, value):
+        """
+        Override dict.__setitem__ to track when writable watch fields are modified.
+
+        This enables skipping reprocessing when:
+        1. HTML content is unchanged (checksumFromPreviousCheckWasTheSame)
+        2. AND watch configuration was not edited
+
+        Only sets the edited flag when field is NOT in readonly_fields (from OpenAPI spec).
+        """
+        # Set the value first (always)
+        super().__setitem__(key, value)
+        # Mark as edited if writable field
+        self._mark_field_as_edited(key)
+
+    def __delitem__(self, key):
+        """Override dict.__delitem__ to track deletions of writable fields."""
+        super().__delitem__(key)
+        self._mark_field_as_edited(key)
+
+    def update(self, *args, **kwargs):
+
+        if args and args[0].get('browser_steps'):
+            args[0]['browser_steps'] = browser_steps_get_valid_steps(args[0].get('browser_steps'))
+
+        """Override dict.update() to track modifications to writable fields."""
+        # Call parent update first
+        super().update(*args, **kwargs)
+
+        # Mark as edited for any writable fields that were updated
+        # Handle both update(dict) and update(key=value) forms
+        if args:
+            for key in args[0].keys():
+                self._mark_field_as_edited(key)
+        for key in kwargs.keys():
+            self._mark_field_as_edited(key)
+
+
     def pop(self, key, *args):
         """Override dict.pop() to track removal of writable fields."""
         result = super().pop(key, *args)
