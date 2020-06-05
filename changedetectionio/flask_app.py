@@ -327,3 +327,29 @@ def _is_safe_valid_url(test_url):
 _RE_SANITIZE_TAG = re.compile(r'[^a-zA-Z0-9]')
 
 
+@app.template_filter('sanitize_tag_class')
+def _jinja2_filter_sanitize_tag_class(tag_title):
+    """Sanitize a tag title to create a valid CSS class name.
+    Removes all non-alphanumeric characters and converts to lowercase.
+
+    Args:
+        tag_title: The tag title string
+
+    Returns:
+        str: A sanitized string suitable for use as a CSS class name
+    """
+    # Remove all non-alphanumeric characters and convert to lowercase
+    sanitized = _RE_SANITIZE_TAG.sub('', tag_title).lower()
+    # Ensure it starts with a letter (CSS requirement)
+    if sanitized and not sanitized[0].isalpha():
+        sanitized = 'tag' + sanitized
+    return sanitized if sanitized else 'tag'
+
+
+# Import login_optionally_required from auth_decorator
+from changedetectionio.auth_decorator import (
+    SHARED_DIFF_READ_ONLY_ENDPOINTS,
+    login_optionally_required,
+)
+
+
