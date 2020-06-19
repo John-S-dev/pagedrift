@@ -4,3 +4,28 @@
 
 #restock-diff { width: 100%; box-sizing: border-box; }
 
+#restock-diff-summary {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.restock-latest-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.restock-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.in-stock { background: rgba(31, 164, 99, 0.15); color: #1fa463; }
+  &.out-of-stock { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+}
+
