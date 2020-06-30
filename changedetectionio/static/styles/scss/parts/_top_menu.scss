@@ -79,3 +79,18 @@ ul#top-right-menu {
 }
 
 
+.pure-menu-horizontal {
+  padding: $common-gap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  svg {
+    height: $top-menu-icon-size;
+  }
+}
+
+.fi {
+  height: $top-menu-icon-size;
+  cursor: pointer;
+}
+
