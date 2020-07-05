@@ -262,3 +262,47 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
             datastore.data['watching'][uuid].update(form.data)
             datastore.data['watching'][uuid].update(extra_update_obj)
 
+    @edit_blueprint.route("/edit/<uuid_str:uuid>/get-html", methods=['GET'])
+    @login_optionally_required
+    def watch_get_latest_html(uuid):
+        from io import BytesIO
+        from flask import send_file
+        import brotli
+
+        if uuid == 'first':
+            uuid = list(datastore.data['watching'].keys()).pop()
+        watch = datastore.data['watching'].get(uuid)
+        if watch and watch.history.keys() and os.path.isdir(watch.data_dir):
+            latest_filename = list(watch.history.keys())[-1]
+            html_fname = os.path.join(watch.data_dir, f"{latest_filename}.html.br")
+            with open(html_fname, 'rb') as f:
+                if html_fname.endswith('.br'):
+                    # Read and decompress the Brotli file
+                    decompressed_data = brotli.decompress(f.read())
+                else:
+                    decompressed_data = f.read()
+
+            buffer = BytesIO(decompressed_data)
+
+            return send_file(buffer, as_attachment=True, download_name=f"{latest_filename}.html", mimetype='text/html')
+
+        # Return a 500 error
+        abort(500)
+
+    @edit_blueprint.route("/edit/<uuid_str:uuid>/get-data-package", methods=['GET'])
+    @login_optionally_required
+    def watch_get_data_package(uuid):
+        """Download all data for a single watch as a zip file"""
+        from io import BytesIO
+        from flask import send_file
+        import zipfile
+        from pathlib import Path
+        import datetime
+
+        watch = datastore.data['watching'].get(uuid)
+        if not watch:
+            abort(404)
+
+        # Create zip in memory
+        memory_file = BytesIO()
+
