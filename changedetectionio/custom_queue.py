@@ -295,6 +295,42 @@ class SignalPriorityQueue(queue.PriorityQueue):
             }
 
 
+class AsyncSignalPriorityQueue(asyncio.PriorityQueue):
+    """
+    Async version of SignalPriorityQueue that sends signals when items are added/removed.
+    
+    This class extends asyncio.PriorityQueue and maintains the same signal behavior
+    as the synchronous version for real-time UI updates.
+    """
+    
+    def __init__(self, maxsize=0):
+        super().__init__(maxsize)
+        try:
+            self.queue_length_signal = signal('queue_length')
+        except Exception as e:
+            logger.critical(f"Exception: {e}")
+
+    async def put(self, item):
+        # Call the parent's put method first
+        await super().put(item)
+
+        # After putting the item in the queue, check if it has a UUID and emit signal
+        if hasattr(item, 'item') and isinstance(item.item, dict) and 'uuid' in item.item:
+            uuid = item.item['uuid']
+            # Get the signal and send it if it exists
+            watch_check_update = signal('watch_check_update')
+            if watch_check_update:
+                # NOTE: This would block other workers from .put/.get while this signal sends
+                # Signal handlers may iterate the queue/datastore while holding locks
+                watch_check_update.send(watch_uuid=uuid)
+        
+        # Send queue_length signal with current queue size
+        try:
+            if self.queue_length_signal:
+                self.queue_length_signal.send(length=self.qsize())
+        except Exception as e:
+            logger.critical(f"Exception: {e}")
+
         if total_items == 0:
             return {
                 'total_items': 0,
