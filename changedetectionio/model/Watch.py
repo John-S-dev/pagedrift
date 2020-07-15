@@ -133,3 +133,88 @@ def _brotli_save(contents, filepath, mode=None, fallback_uncompressed=False):
             raise Exception(f"Brotli compression failed for {filepath}: {e}")
 
 
+    def clear_watch(self):
+        import pathlib
+
+        # Get list of processor config files to preserve
+        from changedetectionio.processors import find_processors
+        processor_names = [name for cls, name in find_processors()]
+        processor_config_files = {f"{name}.json" for name in processor_names}
+
+        # JSON Data, Screenshots, Textfiles (history index and snapshots), HTML in the future etc
+        # But preserve processor config files (they're configuration, not history data)
+        # Use glob not rglob here for safety.
+        for item in pathlib.Path(str(self.data_dir)).glob("*.*"):
+            # Skip processor config files
+            if item.name in processor_config_files:
+                continue
+            os.unlink(item)
+
+        _FAVICON_FILENAME_CACHE.pop(self.data_dir, None)
+
+        # Force the attr to recalculate
+        bump = self.history
+
+        # Do this last because it will trigger a recheck due to last_checked being zero
+        self.update({
+            'browser_steps_last_error_step': None,
+            'check_count': 0,
+            'fetch_time': 0.0,
+            'has_ldjson_price_data': None,
+            'last_checked': 0,
+            'last_error': False,
+            'last_notification_error': False,
+            'last_viewed': 0,
+            'previous_md5': False,
+            'remote_server_reply': None,
+            'track_ldjson_price_data': None
+        })
+        watch_check_update = signal('watch_check_update')
+        if watch_check_update:
+            watch_check_update.send(watch_uuid=self.get('uuid'))
+
+        return
+
+    @property
+    def is_source_type_url(self):
+        return self.get('url', '').startswith('source:')
+
+    @property
+    def get_fetch_backend(self):
+        """
+        Get the fetch backend for this watch with special case handling.
+
+        CHAIN RESOLUTION OPPORTUNITY:
+        Currently returns watch.fetch_backend directly, but doesn't implement
+        Watch → Tag → Global resolution chain. With Pydantic:
+
+        @computed_field
+        def resolved_fetch_backend(self) -> str:
+            # Special case: PDFs always use html_requests
+            if self.is_pdf:
+                return 'html_requests'
+
+            # Watch override
+            if self.fetch_backend and self.fetch_backend != 'system':
+                return self.fetch_backend
+
+            # Tag override (first tag with overrides_watch=True wins)
+            for tag_uuid in self.tags:
+                tag = self._datastore.get_tag(tag_uuid)
+                if tag.overrides_watch and tag.fetch_backend:
+                    return tag.fetch_backend
+
+            # Global default
+            return self._datastore.settings.fetch_backend
+        """
+        # Maybe also if is_image etc?
+        # This is because chrome/playwright wont render the PDF in the browser and we will just fetch it and use pdf2html to see the text.
+        if self.is_pdf:
+            return 'html_requests'
+
+        return self.get('fetch_backend')
+
+    @property
+    def fetcher_supports_screenshots(self):
+        """Return True if the fetcher configured for this watch supports screenshots.
+
