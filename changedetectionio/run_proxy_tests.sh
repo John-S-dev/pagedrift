@@ -27,3 +27,67 @@ docker run --network changedet-network \
   test-changedetectionio \
   bash -c 'cd changedetectionio && pytest -s tests/proxy_list/test_multiple_proxy.py --datastore-path /tmp'
 
+set +e
+echo "- Looking for chosen.changedetection.io request in squid-one - it should NOT be here"
+docker logs squid-one 2>/dev/null|grep chosen.changedetection.io
+if [ $? -ne 1 ]
+then
+  echo "Saw a request to chosen.changedetection.io in the squid logs (while checking preferred proxy - squid one) WHEN I SHOULD NOT"
+  exit 1
+fi
+
+set -e
+echo "- Looking for chosen.changedetection.io request in squid-two"
+# And one in the 'second' squid (user selects this as preferred)
+docker logs squid-two 2>/dev/null|grep chosen.changedetection.io
+if [ $? -ne 0 ]
+then
+  echo "Did not see a request to chosen.changedetection.io in the squid logs (while checking preferred proxy - squid two)"
+  exit 1
+fi
+
+# Test the UI configurable proxies
+docker run --network changedet-network \
+  test-changedetectionio \
+  bash -c 'cd changedetectionio && pytest tests/proxy_list/test_select_custom_proxy.py --datastore-path /tmp'
+
+# Give squid proxies a moment to flush their logs
+sleep 2
+
+# Should see a request for one.changedetection.io in there
+echo "- Looking for .changedetection.io request in squid-custom"
+docker logs squid-custom 2>/dev/null|grep "TCP_TUNNEL.200.*changedetection.io"
+if [ $? -ne 0 ]
+then
+  echo "Did not see a valid request to changedetection.io in the squid logs (while checking preferred proxy - squid two)"
+  exit 1
+fi
+
+# Test "no-proxy" option
+docker run --network changedet-network \
+  test-changedetectionio \
+  bash -c 'cd changedetectionio && pytest tests/proxy_list/test_noproxy.py --datastore-path /tmp'
+
+# Give squid proxies a moment to flush their logs
+sleep 2
+
+# We need to handle grep returning 1
+set +e
+# Check request was never seen in any container
+for c in $(echo "squid-one squid-two squid-custom"); do
+  echo ....Checking $c
+  docker logs $c &> $c.txt
+  grep noproxy $c.txt
+  if [ $? -ne 1 ]
+  then
+    echo "Saw request for noproxy in $c container"
+    cat $c.txt
+    exit 1
+  fi
+done
+
+echo "docker ps output"
+docker ps
+
+docker kill squid-one squid-two squid-custom
+
