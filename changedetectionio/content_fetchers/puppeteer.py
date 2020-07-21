@@ -174,3 +174,12 @@ async def capture_full_page(page, screenshot_format='JPEG', watch_uuid=None, loc
     return screenshot_chunks[0]
 
 
+# Plugin registration for built-in fetcher
+class PuppeteerFetcherPlugin:
+    """Plugin class that registers the Puppeteer fetcher as a built-in plugin."""
+
+    def register_content_fetcher(self):
+        """Register the Puppeteer fetcher"""
+        return ('html_webdriver', fetcher)
+
+
