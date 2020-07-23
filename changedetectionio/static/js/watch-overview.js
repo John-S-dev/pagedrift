@@ -66,3 +66,28 @@ $(function () {
         showBulkChoiceModal($(this), 'bulk-proxy-options', 'bulk-proxy', 'op-set-proxy');
     });
 
+
+    $('.history-link').click(function (e) {
+        // Incase they click 'back' in the browser, it should be removed.
+        $(this).closest('tr').removeClass('unviewed');
+    });
+
+    // Inline restock price/stock graph: for restock_diff rows the History button rolls down a
+    // price/stock graph (no LLM needed), styled like the AI summary roll-down. Registered before
+    // the LLM handler and stops propagation so AI mode never turns these into LLM summaries.
+    $(document).on('click', 'tr.processor-restock_diff .ai-history-btn', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        var i18n       = window.watchOverviewI18n || {};
+        var $btn       = $(this);
+        var uuid       = $btn.data('uuid');
+        var dataUrl    = $btn.data('processor-data-url');
+        var historyUrl = $btn.attr('href');
+        var $row       = $btn.closest('tr');
+        var rowId      = 'restock-graph-row-' + uuid;
+        var cols       = $row.find('td').length;
+        var $tbody     = $row.closest('tbody');
+
+        $row.removeClass('unviewed');
+
