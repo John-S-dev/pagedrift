@@ -143,3 +143,18 @@ def _extract_jsonld(html_content: str) -> str:
     return combined[:2000]
 
 
+# Semantic tags always treated as chrome (nav/header/footer)
+_CHROME_TAGS = {'nav', 'header', 'footer', 'aside'}
+
+# id/class fragments that strongly indicate navigation or site-chrome
+_CHROME_PATTERNS = re.compile(
+    r'\b(nav|navigation|navbar|menu|mega-menu|breadcrumb|breadcrumbs?|'
+    r'site-header|page-header|top-bar|top-nav|top-header|mobile-nav|header-bar|'
+    r'site-footer|page-footer|footer-links|related|similar|'
+    r'you-?may-?also|customers?-?also|frequently-?bought|'
+    r'people-?also|sponsored|recommendation|widget|sidebar|'
+    r'cross-?sell|up-?sell)\b',
+    re.IGNORECASE,
+)
+
+
