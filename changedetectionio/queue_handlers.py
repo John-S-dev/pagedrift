@@ -267,6 +267,57 @@ class RecheckPriorityQueue:
         except Exception as e:
             logger.critical(f"CRITICAL: Failed to close RecheckPriorityQueue: {str(e)}")
     
+    # COMPATIBILITY METHODS (from original implementation)
+    @property
+    def queue(self):
+        """Provide compatibility with original queue access"""
+        try:
+            with self._lock:
+                return list(self._priority_items)
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get queue list: {str(e)}")
+            return []
+    
+    def get_uuid_position(self, target_uuid: str) -> Dict[str, Any]:
+        """Find position of UUID in queue"""
+        try:
+            with self._lock:
+                queue_list = list(self._priority_items)
+                total_items = len(queue_list)
+                
+                if total_items == 0:
+                    return {'position': None, 'total_items': 0, 'priority': None, 'found': False}
+                
+                # Find target item
+                for item in queue_list:
+                    if (hasattr(item, 'item') and isinstance(item.item, dict) and 
+                        item.item.get('uuid') == target_uuid):
+                        
+                        # Count items with higher priority
+                        position = sum(1 for other in queue_list if other.priority < item.priority)
+                        return {
+                            'position': position,
+                            'total_items': total_items, 
+                            'priority': item.priority,
+                            'found': True
+                        }
+                
+                return {'position': None, 'total_items': total_items, 'priority': None, 'found': False}
+                
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get UUID position for {target_uuid}: {str(e)}")
+            return {'position': None, 'total_items': 0, 'priority': None, 'found': False}
+    
+    def get_all_queued_uuids(self, limit: Optional[int] = None, offset: int = 0) -> Dict[str, Any]:
+        """Get all queued UUIDs with pagination"""
+        try:
+            with self._lock:
+                queue_list = sorted(self._priority_items)  # Sort by priority
+                total_items = len(queue_list)
+                
+                if total_items == 0:
+                    return {'items': [], 'total_items': 0, 'returned_items': 0, 'has_more': False}
+                
                 # Apply pagination
                 end_idx = min(offset + limit, total_items) if limit else total_items
                 items_to_process = queue_list[offset:end_idx]
