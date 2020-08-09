@@ -405,3 +405,33 @@ def _runtime_llm_config(datastore) -> dict | None:
     return cfg
 
 
+def get_effective_summary_prompt(watch, datastore) -> str:
+    """Return the prompt that summarise_change will use.
+
+    Cascade: hardcoded fallback → global settings default → tag → watch. Each level with a
+    value either replaces what it inherited or appends to it, per its own
+    `llm_change_summary_mode`. With every level left on the default 'replace' this reduces
+    to the original watch → tag → global → hardcoded first-non-empty-wins behaviour.
+    """
+    prompt = get_llm_settings(datastore).change_summary_default.strip() or DEFAULT_CHANGE_SUMMARY_PROMPT
+
+    tag_value, tag = _first_tag_with_field(watch, datastore, 'llm_change_summary')
+    if tag_value:
+        prompt = _apply_prompt_layer(prompt, tag_value, tag.get('llm_change_summary_mode'))
+
+    watch_value = (watch.get('llm_change_summary') or '').strip()
+    if watch_value:
+        prompt = _apply_prompt_layer(prompt, watch_value, watch.get('llm_change_summary_mode'))
+
+    return prompt
+
+
+def compute_summary_cache_key(diff_text: str, prompt: str) -> str:
+    """Stable 16-char hex key for a (diff, prompt) pair.  Stored alongside the summary file."""
+    h = hashlib.md5()
+    h.update(diff_text.encode('utf-8', errors='replace'))
+    h.update(b'\x00')
+    h.update(prompt.encode('utf-8', errors='replace'))
+    return h.hexdigest()[:16]
+
+
