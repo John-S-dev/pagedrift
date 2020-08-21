@@ -41,3 +41,44 @@ msgstr "Ajouter une nouvelle surveillance de détection de changement de page We
 msgid "Go"
 msgstr "Aller"
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Groupe / Étiquette"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Surveillez cette URL !"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Modifier > Surveiller"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Une sauvegarde est déjà en cours, revenez dans quelques minutes"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Nombre maximum de sauvegardes atteint, veuillez en supprimer quelques-unes"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Sauvegarde en cours de création en arrière-plan, revenez dans quelques minutes."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Les sauvegardes ont été supprimées."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr ""
+
