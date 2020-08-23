@@ -41,6 +41,47 @@ msgstr "Fügen Sie eine neue Überwachung zur Erkennung von Webseitenänderungen
 msgid "Go"
 msgstr "Gehen"
 
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Replace existing groups of the same UUID"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include watches"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Replace existing watches of the same UUID"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore backup"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "A restore is already running, check back in a few minutes"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "No file uploaded"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "File must be a .zip backup file"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+#, python-format
+msgid "Backup file is too large (max %(mb)s MB)"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Invalid or corrupted zip file"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Restore started in background, check back in a few minutes."
+msgstr ""
+
 #: changedetectionio/blueprint/settings/__init__.py
 msgid "API Key was regenerated."
 msgstr "Der API-Schlüssel wurde neu generiert."
