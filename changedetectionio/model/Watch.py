@@ -133,6 +133,47 @@ def _brotli_save(contents, filepath, mode=None, fallback_uncompressed=False):
             raise Exception(f"Brotli compression failed for {filepath}: {e}")
 
 
+class model(EntityPersistenceMixin, watch_base):
+    """
+    Watch domain model for monitoring URL changes.
+
+    Inherits from watch_base (which inherits dict) - see watch_base docstring for field documentation.
+
+    ## Configuration Override Hierarchy (Chain Resolution)
+
+    The dream architecture uses a 3-level resolution chain:
+        Watch settings → Tag/Group settings → Global settings
+
+    Current implementation is MANUAL (see processor.py:184-192 for example):
+        - Processors manually check watch.get('field')
+        - Then loop through watch.tags to find first tag with overrides_watch=True
+        - Finally fall back to datastore['settings']['application']['field']
+
+    FUTURE: Pydantic-based chain resolution would enable:
+
+        ```python
+        # Instead of manual resolution in every processor:
+        restock_settings = watch.get('restock_settings', {})
+        for tag_uuid in watch.get('tags'):
+            tag = datastore['settings']['application']['tags'][tag_uuid]
+            if tag.get('overrides_watch'):
+                restock_settings = tag.get('restock_settings', {})
+                break
+
+        # Clean computed properties with automatic resolution:
+        @computed_field
+        def resolved_restock_settings(self) -> dict:
+            if self.restock_settings:
+                return self.restock_settings
+            for tag_uuid in self.tags:
+                tag = self._datastore.get_tag(tag_uuid)
+                if tag.overrides_watch and tag.restock_settings:
+                    return tag.restock_settings
+            return self._datastore.settings.restock_settings or {}
+
+        # Usage: watch.resolved_restock_settings (automatic, type-safe, tested once)
+        ```
+
     def clear_watch(self):
         import pathlib
 
