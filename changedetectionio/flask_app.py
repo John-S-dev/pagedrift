@@ -343,6 +343,20 @@ def _is_safe_valid_url(test_url):
     return is_safe_valid_url(test_url)
 
 
+@app.template_filter('format_timestamp_timeago')
+def _jinja2_filter_datetimestamp(timestamp, format="%Y-%m-%d %H:%M:%S"):
+    if not timestamp:
+        return gettext('Not yet')
+
+    short = datastore.data['settings']['application'].get('ui', {}).get('timeago_format') == 'short'
+    locale = get_timeago_locale(str(get_locale()), short=short)
+    try:
+        return timeago.format(int(timestamp), time.time(), locale)
+    except:
+        # Fallback to English if locale not supported by timeago
+        return timeago.format(int(timestamp), time.time(), 'en_short' if short else 'en')
+
+
 @app.template_filter('pagination_slice')
 def _jinja2_filter_pagination_slice(arr, skip):
     per_page = datastore.data['settings']['application'].get('pager_size', 50)
