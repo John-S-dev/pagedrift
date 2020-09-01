@@ -459,3 +459,45 @@ class watch_base(dict):
                         continue
                 return frozenset(properties)
 
+    def _get_commit_data(self):
+        """
+        Prepare data for commit (can be overridden by subclasses).
+
+        Returns:
+            dict: Data to serialize (filtered as needed by subclass)
+        """
+        import copy
+
+        # Acquire datastore lock to prevent concurrent modifications during copy
+        lock = self._datastore.lock if self._datastore and hasattr(self._datastore, 'lock') else None
+
+        if lock:
+            with lock:
+                snapshot = dict(self)
+        else:
+            snapshot = dict(self)
+
+        # Deep copy snapshot (slower, but done outside lock to minimize contention)
+        # Subclasses can override to filter keys (e.g., Watch excludes processor_config_*)
+        return {k: copy.deepcopy(v) for k, v in snapshot.items()}
+
+    def _save_to_disk(self, data_dict, uuid):
+        """
+        Save data to disk (must be implemented by subclasses).
+
+        Args:
+            data_dict: Dictionary to save
+            uuid: UUID for logging
+
+        Raises:
+            NotImplementedError: If subclass doesn't implement
+        """
+        raise NotImplementedError("Subclass must implement _save_to_disk()")
+
+    def commit(self):
+        """
+        Save this watch/tag immediately to disk using atomic write.
+
+        Common commit logic for Watch and Tag objects.
+        Subclasses override _get_commit_data() and _save_to_disk() for specifics.
+
