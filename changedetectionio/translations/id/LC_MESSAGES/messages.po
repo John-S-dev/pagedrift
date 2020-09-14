@@ -92,6 +92,48 @@ msgstr ""
 "mis. Beri tahu saya saat produk tersedia/habis stok, waktu tunggu berubah lebih dari satu minggu, atau varian produk "
 "baru muncul. Abaikan penambahan ulasan."
 
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Create"
+msgstr "Buat"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore"
+msgstr "Pulihkan"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "A backup is running!"
+msgstr "Pencadangan sedang berjalan!"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Here you can download and request a new backup, when a backup is completed you will see it listed below."
+msgstr "Di sini Anda dapat mengunduh dan meminta cadangan baru. Setelah pencadangan selesai, cadangan akan tercantum di bawah."
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Mb"
+msgstr "MB"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "No backups found."
+msgstr "Tidak ada cadangan."
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Create backup"
+msgstr "Buat cadangan"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Remove backups"
+msgstr "Hapus cadangan"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "A restore is running!"
+msgstr "Pemulihan sedang berjalan!"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore a backup. Must be a .zip backup file created on/after v0.53.1 (new database layout)."
+msgstr "Pulihkan cadangan. Harus berupa file cadangan .zip yang dibuat pada/setelah v0.53.1 (tata letak basis data baru)."
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
