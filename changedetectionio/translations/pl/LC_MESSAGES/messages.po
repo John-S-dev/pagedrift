@@ -32,3 +32,50 @@ msgstr ""
 msgid "Add a new web page change detection watch"
 msgstr "Dodaj obserwację wykrywającą zmiany na nowej stronie internetowej"
 
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Expand on hover"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Always expanded"
+msgstr "Zawsze rozwinięte"
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Stays minimal"
+msgstr ""
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch with UUID %(uuid)s not found"
+msgstr "Nie znaleziono obserwacji o identyfikatorze UUID %(uuid)s"
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch %(uuid)s does not have enough history snapshots to show changes (need at least 2)"
+msgstr "W przypadku %(uuid)s nie ma wystarczającej liczby migawek historii, aby wyświetlić zmiany (potrzebne są co najmniej 2)"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection removed."
+msgstr "Usunięto ochronę hasłem."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})"
+msgstr ""
+"Ostrzeżenie: Liczba procesów roboczych ({worker_count}) jest zbliżona do liczby dostępnych rdzeni procesora "
+"({cpu_count}) lub ją przekracza."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Worker count adjusted: {}"
+msgstr "Skorygowano liczbę procesów roboczych: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Dynamic worker adjustment not supported for sync workers"
+msgstr "Dynamiczne dostosowywanie liczby procesów roboczych nie jest obsługiwane w przypadku procesów synchronicznych"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Error adjusting workers: {}"
+msgstr "Błąd podczas dostosowywania liczby procesów roboczych: {}"
+
