@@ -123,3 +123,49 @@ msgstr "잘못되었거나 손상된 zip 파일입니다."
 msgid "Restore started in background, check back in a few minutes."
 msgstr "복원이 백그라운드에서 시작되었습니다. 잠시 후 다시 확인해 주세요."
 
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "token in notification links."
+msgstr "토큰에 사용할 기본 URL입니다."
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Default value is the system environment variable"
+msgstr "기본값은 시스템 환경 변수"
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+#: changedetectionio/templates/_common_fields.html
+msgid "read more here"
+msgstr "자세히 보기"
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Back to settings"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/notification-log.html
+msgid "Notification debug log"
+msgstr "알림 디버그 로그"
+
+#: changedetectionio/blueprint/settings/templates/notification-log.html
+msgid "For security this log is emptied on restart."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/tags/templates/edit-tag.html
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "General"
+msgstr "일반"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Fetching"
+msgstr "가져오기"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Global Filters"
+msgstr "전역 필터"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "UI Options"
+msgstr "UI 옵션"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Backups"
+msgstr "백업"
+
