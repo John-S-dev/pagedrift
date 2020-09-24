@@ -126,3 +126,47 @@ msgstr "JSONの構造が無効のようです。ファイルが壊れていま�
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
 msgstr "{count} 件を Distill.io から {duration}秒でインポートしました。{skipped_count} 件をスキップしました。"
 
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "エクスポートXLSXファイルを読み込めませんでした。ファイルに問題がありますか？"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "行番号 {} の処理中にエラーが発生しました。URL値が正しくないため、この行をスキップしました。"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "行番号 {} の処理中にエラーが発生しました。すべてのセルのデータ型が正しいか確認してください。この行をスキップしました。"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} 件を Wachete .xlsx から {duration}秒でインポートしました"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} 件をカスタム .xlsx から {duration}秒でインポートしました"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "URLリスト"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX & Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr "バックアップ復元"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "changedetection.io のバックアップ復元は"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr "バックアップセクション"
+
