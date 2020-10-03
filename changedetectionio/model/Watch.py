@@ -259,3 +259,96 @@ class model(EntityPersistenceMixin, watch_base):
     def fetcher_supports_screenshots(self):
         """Return True if the fetcher configured for this watch supports screenshots.
 
+        """Unfortunately for now timestamp is stored as string key"""
+        keys = list(self.history.keys())
+        if not keys:
+            return None
+        if len(keys) == 1:
+            return keys[0]
+
+        last_viewed = int(self.get('last_viewed'))
+        sorted_keys = sorted(keys, key=lambda x: int(x))
+        sorted_keys.reverse()
+
+        # When the 'last viewed' timestamp is greater than or equal the newest snapshot, return second newest
+        if last_viewed >= int(sorted_keys[0]):
+            return sorted_keys[1]
+        
+        # When the 'last viewed' timestamp is between snapshots, return the older snapshot
+        for newer, older in list(zip(sorted_keys[0:], sorted_keys[1:])):
+            if last_viewed < int(newer) and last_viewed >= int(older):
+                return older
+
+        # When the 'last viewed' timestamp is less than the oldest snapshot, return oldest
+        return sorted_keys[-1]
+
+    def get_history_snapshot(self, timestamp=None, filepath=None):
+        """
+        Accepts either timestamp or filepath
+        :param timestamp:
+        :param filepath:
+        :return:
+        """
+        import brotli
+
+        if not filepath:
+            filepath = self.history[timestamp]
+
+        # Confine every read to the watch's own data directory — defence in depth
+        # against any path that bypasses the history parser (e.g. direct filepath= callers).
+        # Set HISTORY_SNAPSHOT_FILE_ALLOW_OUTSIDE_WATCH_DATADIR=true to disable (not recommended).
+        if self.data_dir and not strtobool(os.getenv('HISTORY_SNAPSHOT_FILE_ALLOW_OUTSIDE_WATCH_DATADIR', 'False')):
+            safe_data_dir = os.path.realpath(self.data_dir)
+            resolved = os.path.realpath(filepath)
+            if not (resolved.startswith(safe_data_dir + os.sep) or resolved == safe_data_dir):
+                raise PermissionError(f"Snapshot path {filepath!r} is outside the watch data directory")
+
+        # Check if binary file (image, PDF, etc.)
+        # Binary files are NEVER saved with .br compression, only text files are
+        binary_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.pdf', '.bin', '.jfif')
+        is_binary = any(filepath.endswith(ext) for ext in binary_extensions)
+
+        # Only look for .br versions for text files
+        if not is_binary:
+            # See if a brotli version exists and switch to that (text files only)
+            if not filepath.endswith('.br') and os.path.isfile(f"{filepath}.br"):
+                filepath = f"{filepath}.br"
+
+            # OR in the backup case that the .br does not exist, but the plain one does
+            if filepath.endswith('.br') and not os.path.isfile(filepath):
+                if os.path.isfile(filepath.replace('.br', '')):
+                    filepath = filepath.replace('.br', '')
+
+        # Handle .br compressed text files
+        if filepath.endswith('.br'):
+            # Brotli doesnt have a fileheader to detect it, so we rely on filename
+            # https://www.rfc-editor.org/rfc/rfc7932
+            # Note: .br should ONLY exist for text files, never binary
+            with open(filepath, 'rb') as f:
+                return brotli.decompress(f.read()).decode('utf-8')
+
+        # Binary file - return raw bytes
+        if is_binary:
+            with open(filepath, 'rb') as f:
+                return f.read()
+
+        # Text file - decode to string
+        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+            return f.read()
+
+    def _write_atomic(self, dest, data, mode='wb'):
+        """Write data atomically to dest using a temp file"""
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode, delete=False, dir=self.data_dir) as tmp:
+            tmp.write(data)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+            tmp_path = tmp.name
+        os.replace(tmp_path, dest)
+
+    def history_trim(self, newest_n_items):
+        from pathlib import Path
+        import gc
+        # Sort by timestamp (key)
+        sorted_items = sorted(self.history.items(), key=lambda x: int(x[0]))
+
