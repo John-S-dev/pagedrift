@@ -370,3 +370,44 @@ msgstr ""
 msgid "Default AI Change Summary"
 msgstr "Ringkasan Perubahan AI Default"
 
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "Tag \"{}\" sudah ada"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "Tag ditambahkan"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "Tag dihapus, sedang dihapus dari monitor di latar belakang"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr "Melepas tautan tag dari monitor di latar belakang"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr "Semua tag dihapus, sedang dibersihkan dari monitor di latar belakang"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "Tag tidak ditemukan"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "Diperbarui"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Activate for individual watches in this tag/group?"
+msgstr "Aktifkan untuk masing-masing monitor dalam tag/grup ini?"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Auto-apply to watches with URLs matching"
+msgstr "Terapkan otomatis ke monitor dengan URL yang cocok"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "e.g. *://example.com/* or github.com/myorg"
+msgstr "mis. *://example.com/* atau github.com/myorg"
+
