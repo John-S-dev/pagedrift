@@ -74,6 +74,138 @@ class NotifyDiscordCustom(NotifyDiscord):
         if self.avatar and (image_url or self.avatar_url):
             payload["avatar_url"] = self.avatar_url if self.avatar_url else image_url
 
+        if self.user:
+            payload["username"] = self.user
+
+        # Associate our thread_id with our message
+        params = {"thread_id": self.thread_id} if self.thread_id else None
+
+        # Build embeds array preserving order
+        embeds = []
+
+        # Add title as plain bold text in message content (not an embed)
+        if title:
+            payload["content"] = f"**{title}**"
+
+        # Parse the body into ordered chunks
+        chunks = self._parse_body_into_chunks(body)
+
+        # Discord limits:
+        # - Max 10 embeds per message
+        # - Max 6000 characters total across all embeds
+        # - Max 4096 characters per embed description
+        max_embeds = 10
+        max_total_chars = 6000
+        max_embed_description = 4096
+
+        # All 10 embed slots are available for content
+        max_content_embeds = max_embeds
+
+        # Start character count
+        total_chars = 0
+
+        # Create embeds from chunks in order (no titles, just color coding)
+        for chunk_type, content in chunks:
+            if not content.strip():
+                continue
+
+            # Truncate individual embed description if needed
+            if len(content) > max_embed_description:
+                content = content[:max_embed_description - 3] + "..."
+
+            # Check if we're approaching the embed count limit
+            # We need room for the warning embed, so stop at max_content_embeds - 1
+            current_content_embeds = len(embeds)
+            if current_content_embeds >= max_content_embeds - 1:
+                # Add a truncation notice (this will be the 10th embed)
+                embeds.append({
+                    "description": "⚠️ Content truncated (Discord 10 embed limit reached) - Tip: Select 'Plain Text' or 'HTML' format for longer diffs",
+                    "color": DISCORD_COLOR_WARNING,
+                })
+                break
+
+            # Check if adding this embed would exceed total character limit
+            if total_chars + len(content) > max_total_chars:
+                # Add a truncation notice
+                remaining_chars = max_total_chars - total_chars
+                if remaining_chars > 100:
+                    # Add partial content if we have room
+                    truncated_content = content[:remaining_chars - 100] + "..."
+                    embeds.append({
+                        "description": truncated_content,
+                        "color": (DISCORD_COLOR_UNCHANGED if chunk_type == "unchanged"
+                                 else DISCORD_COLOR_REMOVED if chunk_type == "removed"
+                                 else DISCORD_COLOR_ADDED),
+                    })
+                embeds.append({
+                    "description": "⚠️ Content truncated (Discord 6000 char limit reached)\nTip: Select 'Plain Text' or 'HTML' format for longer diffs",
+                    "color": DISCORD_COLOR_WARNING,
+                })
+                break
+
+            if chunk_type == "unchanged":
+                embeds.append({
+                    "description": content,
+                    "color": DISCORD_COLOR_UNCHANGED,
+                })
+            elif chunk_type == "removed":
+                embeds.append({
+                    "description": content,
+                    "color": DISCORD_COLOR_REMOVED,
+                })
+            elif chunk_type == "added":
+                embeds.append({
+                    "description": content,
+                    "color": DISCORD_COLOR_ADDED,
+                })
+            elif chunk_type == "changed":
+                # Changed (old value) - use orange to distinguish from pure removal
+                embeds.append({
+                    "description": content,
+                    "color": DISCORD_COLOR_CHANGED,
+                })
+            elif chunk_type == "changed_into":
+                # Changed into (new value) - use blue to distinguish from pure addition
+                embeds.append({
+                    "description": content,
+                    "color": DISCORD_COLOR_CHANGED_INTO,
+                })
+
+            total_chars += len(content)
+
+        if embeds:
+            payload["embeds"] = embeds
+
+        # Send the payload using parent's _send method
+        if not self._send(payload, params=params):
+            return False
+
+        # Handle attachments if present
+        if attach and self.attachment_support:
+            payload.update({
+                "tts": False,
+                "wait": True,
+            })
+            payload.pop("embeds", None)
+            payload.pop("content", None)
+            payload.pop("allow_mentions", None)
+
+            for attachment in attach:
+                self.logger.info(f"Posting Discord Attachment {attachment.name}")
+                if not self._send(payload, params=params, attach=attachment):
+                    return False
+
+        return True
+
+    def _parse_body_into_chunks(self, body):
+        """
+        Parse the body into ordered chunks of (type, content) tuples.
+        Types: "unchanged", "removed", "added", "changed", "changed_into"
+        Preserves the original order of the diff.
+        """
+        chunks = []
+        position = 0
+
         while position < len(body):
             # Find the next marker
             next_removed = body.find(REMOVED_PLACEMARKER_OPEN, position)
