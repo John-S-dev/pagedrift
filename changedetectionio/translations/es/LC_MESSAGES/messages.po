@@ -37,6 +37,47 @@ msgstr "Agregar un nuevo monitor de detección de cambios en páginas web"
 msgid "Go"
 msgstr "Ir"
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Ver grupo/etiqueta"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "¡Monitoriza esta URL!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Editar primero y luego monitorizar"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Ya se está ejecutando una copia de seguridad. Vuelve a comprobarla en unos minutos"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Se alcanzó el número máximo de copias de seguridad; elimine algunas"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "La copia de seguridad se está creando en segundo plano. Vuelve a comprobarlo en unos minutos."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Se eliminaron las copias de seguridad."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr "Archivo zip de copia de seguridad"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr "¡Debe ser un archivo de copia de seguridad .zip!"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr "Incluir grupos"
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
