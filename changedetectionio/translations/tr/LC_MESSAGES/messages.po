@@ -42,3 +42,52 @@ msgstr "Yeni bir web sayfası değişiklik tespiti izleyicisi ekle"
 msgid "Go"
 msgstr "Git"
 
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
+msgstr "{count} kayıt Distill.io'dan {duration} saniyede içe aktarıldı, {skipped_count} atlandı."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Dışa aktarılan XLSX dosyası okunamıyor, dosyada bir sorun mu var?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Satır numarası {} işlenirken hata oluştu, URL değeri yanlıştı, satır atlandı."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "Satır numarası {} işlenirken hata oluştu, tüm hücre veri tiplerinin doğru olduğunu kontrol edin, satır atlandı."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} kayıt Wachete .xlsx dosyasından {duration} saniyede içe aktarıldı"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} kayıt özel .xlsx dosyasından {duration} saniyede içe aktarıldı"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "URL Listesi"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX ve Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "changedetection.io yedeklerini geri yükleme yeri"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr "yedeklemeler bölümü"
+
