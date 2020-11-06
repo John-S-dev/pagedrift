@@ -134,3 +134,49 @@
         }
         ctx.stroke();
 
+        // Pinned, gently pulsing leading dot at the right edge = the "it's alive" tell.
+        const rightV = isNaN(ys[W - 1]) ? tv : ys[W - 1];
+        const pulse = 0.5 + 0.5 * Math.sin(((now % PULSE_MS) / PULSE_MS) * Math.PI * 2);
+        ctx.save();
+        ctx.shadowColor = "rgba(255,255,255,0.9)";
+        ctx.shadowBlur = 4 + 5 * pulse;
+        ctx.fillStyle = "rgba(255,255,255," + (0.75 + 0.25 * pulse).toFixed(3) + ")";
+        ctx.beginPath();
+        ctx.arc(W - 1.5, this.y(rightV), 1.6 + 0.7 * pulse, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    };
+
+    // --- Animation loop ---
+    let instances = [];
+    let rafId = null;
+    let lastFrame = 0;
+
+    function frame(ts) {
+        rafId = requestAnimationFrame(frame);
+        if (ts - lastFrame < FRAME_MS) return;
+        lastFrame = ts;
+        const now = Date.now();
+        for (let i = 0; i < instances.length; i++) instances[i].render(now);
+    }
+    function start() { if (rafId === null) { lastFrame = 0; rafId = requestAnimationFrame(frame); } }
+    function stop() { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } }
+
+    function attach(socket) {
+        if (!socket) return;
+        socket.on("queue_size", function (d) {
+            currentQueue = parseInt(d && d.q_length, 10) || 0;
+            pushEvent(Date.now());
+            scheduleSave();
+        });
+        socket.on("checking_now", function (d) {
+            currentChecking = parseInt(d && d.count, 10) || 0;
+            pushEvent(Date.now());
+            scheduleSave();
+        });
+    }
+
+    function init() {
+        const canvases = Array.prototype.slice.call(document.querySelectorAll("canvas.queue-spark"));
+        if (!canvases.length) return;
+
