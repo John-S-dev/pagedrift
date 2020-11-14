@@ -311,6 +311,52 @@ msgstr "Perlindungan kata sandi diaktifkan."
 msgid "Settings updated."
 msgstr "Pengaturan diperbarui."
 
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "Terjadi kesalahan, silakan lihat di bawah."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "API Key was regenerated."
+msgstr "Kunci API dibuat ulang."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling paused - checks will not be queued."
+msgstr "Penjadwalan otomatis dijeda - pemeriksaan tidak akan dimasukkan ke antrean."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling resumed - checks will be queued normally."
+msgstr "Penjadwalan otomatis dilanjutkan - pemeriksaan akan dimasukkan ke antrean seperti biasa."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications muted."
+msgstr "Semua notifikasi dibisukan."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications unmuted."
+msgstr "Semua notifikasi diaktifkan kembali."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid ""
+"api_key is required when api_base differs from the saved configuration. Refusing to send the stored API key to a "
+"different endpoint."
+msgstr ""
+"api_key diperlukan ketika api_base berbeda dari konfigurasi yang tersimpan. Menolak mengirim kunci API tersimpan ke "
+"endpoint yang berbeda."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid "AI / LLM configuration removed."
+msgstr "Konfigurasi AI / LLM dihapus."
+
+#: changedetectionio/blueprint/settings/llm.py
+#, python-brace-format
+msgid "AI summary cache cleared ({} file(s) removed)."
+msgstr "Cache ringkasan AI dibersihkan ({} file dihapus)."
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Default Notifications"
+msgstr "Notifikasi Default"
+
 #: changedetectionio/blueprint/settings/notifications/templates/apprise.html
 msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
 msgstr ""
