@@ -58,3 +58,12 @@ _EXTRACT_ADDED_RE = re.compile(
 )
 
 
+def extract_changed_from(raw_diff: str) -> str:
+    """Extract only the removed/changed-from fragments from a raw diff string.
+
+    Useful for {{diff_changed_from}} — gives just the old value (e.g. old price),
+    not the full surrounding line. Multiple fragments joined with newlines.
+    """
+    return '\n'.join(next((g for g in m.groups() if g is not None), '') for m in _EXTRACT_REMOVED_RE.finditer(raw_diff))
+
+
