@@ -91,6 +91,40 @@ $(function () {
 
         $row.removeClass('unviewed');
 
+        // Toggle off if already open
+        if ($('#' + rowId).length) {
+            $('#' + rowId).remove();
+            $tbody.find('tr:not(.restock-inline-row) td').css('background-color', '');
+            return;
+        }
+
+        // Freeze row backgrounds so inserting a <tr> doesn't shift nth-child striping
+        var $dataRows = $tbody.find('tr:not(.restock-inline-row)');
+        var bgMap = [];
+        $dataRows.each(function () { bgMap.push($(this).find('td:first').css('background-color')); });
+
+        var $r = $(
+            '<tr class="restock-inline-row" id="' + rowId + '">' +
+            '<td colspan="' + cols + '">' +
+            '<div class="restock-inline-graph"></div>' +
+            '<a class="restock-inline-history-link"></a>' +
+            '</td></tr>'
+        );
+        $r.find('.restock-inline-graph').text(i18n.loadingPriceHistory || 'Loading price history…');
+        $r.find('.restock-inline-history-link').attr('href', historyUrl).text(i18n.gotoHistory || 'Goto full history');
+        $row.after($r);
+
+        // Re-apply frozen backgrounds so the nth-child parity shift is invisible
+        $dataRows.each(function (i) { $(this).find('td').css('background-color', bgMap[i]); });
+
+        function showError() {
+            $r.find('.restock-inline-graph').html(
+                '<span class="restock-inline-error">' +
+                $('<span>').text(i18n.priceHistoryError || 'Could not load price history.').html() +
+                '</span>'
+            );
+        }
+
     // ---- Cross-page selection store -------------------------------------------
     // Selection is a Set of watch UUIDs (the source of truth) rather than the DOM,
     // so it spans paginated pages. Persisted in sessionStorage scoped to the
