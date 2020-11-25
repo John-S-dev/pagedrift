@@ -229,3 +229,66 @@ class steppable_browser_interface():
         if not selector or not len(selector.strip()):
             return
 
+        await self.page.select_option(selector, label=value, timeout=self.action_timeout)
+
+    async def action_scroll_down(self, selector, value):
+        # Some sites this doesnt work on for some reason
+        await self.page.mouse.wheel(0, 600)
+        await self.page.wait_for_timeout(1000)
+
+    async def action_wait_for_seconds(self, selector, value):
+        try:
+            seconds = float(value.strip()) if value else 1.0
+            await self.page.wait_for_timeout(seconds * 1000)
+        except (ValueError, TypeError) as e:
+            logger.error(f"Invalid value for wait_for_seconds: {str(e)}")
+
+    async def action_wait_for_text(self, selector, value):
+        if not value:
+            return
+            
+        import json
+        v = json.dumps(value)
+        await self.page.wait_for_function(
+            f'document.querySelector("body").innerText.includes({v});',
+            timeout=30000
+        )
+            
+
+    async def action_wait_for_text_in_element(self, selector, value):
+        if not selector or not value:
+            return
+            
+        import json
+        s = json.dumps(selector)
+        v = json.dumps(value)
+        
+        await self.page.wait_for_function(
+            f'document.querySelector({s}).innerText.includes({v});',
+            timeout=30000
+        )
+
+    # @todo - in the future make some popout interface to capture what needs to be set
+    # https://playwright.dev/python/docs/api/class-keyboard
+    async def action_press_enter(self, selector, value):
+        await self.page.keyboard.press("Enter", delay=randint(200, 500))
+            
+
+    async def action_press_page_up(self, selector, value):
+        await self.page.keyboard.press("PageUp", delay=randint(200, 500))
+
+    async def action_press_page_down(self, selector, value):
+        await self.page.keyboard.press("PageDown", delay=randint(200, 500))
+
+    async def action_check_checkbox(self, selector, value):
+        if not selector:
+            return
+
+        await self.page.locator(selector).check(timeout=self.action_timeout)
+
+    async def action_uncheck_checkbox(self, selector, value):
+        if not selector:
+            return
+            
+        await self.page.locator(selector).uncheck(timeout=self.action_timeout)
+            
