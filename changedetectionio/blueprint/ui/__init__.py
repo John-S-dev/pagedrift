@@ -154,3 +154,55 @@ def _handle_operations(op, uuids, datastore, worker_pool, update_q, queuedWatchM
 
     return {'message': result_message, 'type': result_type} if result_message else None
 
+def construct_blueprint(datastore: ChangeDetectionStore, update_q, worker_pool, queuedWatchMetaData, watch_check_update):
+    ui_blueprint = Blueprint('ui', __name__, template_folder="templates")
+    
+    # Register the edit blueprint
+    edit_blueprint = construct_edit_blueprint(datastore, update_q, queuedWatchMetaData)
+    ui_blueprint.register_blueprint(edit_blueprint)
+    
+    # Register the notification blueprint
+    notification_blueprint = construct_notification_blueprint(datastore)
+    ui_blueprint.register_blueprint(notification_blueprint)
+    
+    # Register the views blueprint
+    views_blueprint = construct_views_blueprint(datastore, update_q, queuedWatchMetaData, watch_check_update)
+    ui_blueprint.register_blueprint(views_blueprint)
+
+    # Register diff and preview blueprints
+    diff_blueprint = diff.construct_blueprint(datastore)
+    ui_blueprint.register_blueprint(diff_blueprint)
+
+    preview_blueprint = preview.construct_blueprint(datastore)
+    ui_blueprint.register_blueprint(preview_blueprint)
+
+    queue_blueprint = construct_queue_blueprint(datastore, update_q)
+    ui_blueprint.register_blueprint(queue_blueprint)
+
+    # Import the login decorator
+    from changedetectionio.auth_decorator import login_optionally_required
+
+    @ui_blueprint.route("/clear_history/<uuid_str:uuid>", methods=['POST'])
+    @login_optionally_required
+    def clear_watch_history(uuid):
+        try:
+            datastore.clear_watch_history(uuid)
+        except KeyError:
+            flash(gettext('Watch not found'), 'error')
+        else:
+            flash(gettext("Cleared snapshot history for watch {}").format(uuid))
+        return redirect(url_for('watchlist.index'))
+
+    @ui_blueprint.route("/clear_history", methods=['GET', 'POST'])
+    @login_optionally_required
+    def clear_all_history():
+        if request.method == 'POST':
+            confirmtext = request.form.get('confirmtext', '')
+
+            if confirmtext.strip().lower() == gettext('clear').strip().lower():
+                # Run in background thread to avoid blocking
+                def clear_history_background():
+                    # Capture UUIDs first to avoid race conditions
+                    watch_uuids = list(datastore.data['watching'].keys())
+                    logger.info(f"Background: Clearing history for {len(watch_uuids)} watches")
+
