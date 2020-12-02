@@ -305,6 +305,51 @@ msgid "Time & Date"
 msgstr "Čas a datum"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "Aktuálně běží:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "funkční"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "pracovníci"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "aktivně zpracovává"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "Příklad - 3 sekundový náhodný rozptyl může spustit o 3 sekundy dříve nebo až 3 sekundy později"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "Pro běžné základní požadavky (bez použití chrome), maximální počet sekund do vypršení, 1-999."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "Nastaveno pro všechny požadavky."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "Pozn.: Pouhá změna hodnoty User-Agent často neobejde technologie zamezující přístup robotů, je třeba vzít v potaz"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr "všechny možnosti jak lze prohlížeč rozpoznat."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Connect using Bright Data proxies, find out more here."
+msgstr "Připojit pomocí Bright Data proxy, více se lze dozvědět zde."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/diff.html
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/templates/_common_fields.html
+msgid "Tip:"
+msgstr "Tip:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Ignore whitespace, tabs and new-lines/line-feeds when considering if a change was detected."
 msgstr "Ignorovat mezery, tabulátory a nové řádky/odřádkování, při odhadu zda došlo ke změně."
 
