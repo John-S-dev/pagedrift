@@ -37,6 +37,55 @@ msgstr "Резервні копії було видалено."
 msgid "Backups"
 msgstr "Резервні копії"
 
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{} Imported from Distill.io in {:.2f}s, {} Skipped."
+msgstr "{} Імпортовано з Distill.io за {:.2f}с, {} Пропущено."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Не вдалося прочитати файл експорту XLSX, щось не так із файлом?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Помилка обробки рядка {}, значення URL некоректне, рядок пропущено."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "Помилка обробки рядка {}, перевірте правильність типів даних у клітинках, рядок пропущено."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{} imported from Wachete .xlsx in {:.2f}s"
+msgstr "{} імпортовано з Wachete .xlsx за {:.2f}с"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{} imported from custom .xlsx in {:.2f}s"
+msgstr "{} імпортовано з власного .xlsx за {:.2f}с"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Список URL"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Distill.io"
+msgstr "Distill.io"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX та Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
+msgstr "Введіть по одному URL у рядок, опціонально додайте теги для кожного URL через пробіл, розділяючи їх комами (,):"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Example:"
+msgstr "Приклад:"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Maximum number of history snapshots to include in the watch specific RSS feed."
 msgstr "Максимальна кількість знімків історії для включення в RSS-стрічку конкретного завдання."
