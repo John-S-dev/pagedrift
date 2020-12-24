@@ -1,0 +1,9 @@
+# Taken from https://github.com/linuxserver/docker-changedetection.io/blob/main/Dockerfile
+# Test that we can still build on Alpine (musl modified libc https://musl.libc.org/)
+# Some packages wont install via pypi because they dont have a wheel available under this architecture.
+
+FROM ghcr.io/linuxserver/baseimage-alpine:3.22
+ENV PYTHONUNBUFFERED=1
+
+COPY requirements.txt /requirements.txt
+
