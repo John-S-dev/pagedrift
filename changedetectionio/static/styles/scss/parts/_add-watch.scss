@@ -11,3 +11,39 @@ body {
  }
 }
 
+#add-watch-ui {
+  padding: 0;
+  /* TOP : URL input + Go */
+  #add-watch-url-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+
+    // render_nolabel_field wraps the input in a <span>
+    > span {
+      flex: 1 1 auto;
+      min-width: 0;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    #add-watch-go {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+  }
+
+  /* PANES */
+  #add-watch-panes {
+    display: flex;
+    gap: $common-gap;
+    align-items: stretch;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+    }
+  }
+
