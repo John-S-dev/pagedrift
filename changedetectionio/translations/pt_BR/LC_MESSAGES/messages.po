@@ -166,6 +166,55 @@ msgstr "Uma restauração está em execução!"
 msgid "Restore a backup. Must be a .zip backup file created on/after v0.53.1 (new database layout)."
 msgstr "Restaurar um backup. Deve ser um arquivo .zip criado na v0.53.1 ou superior (novo layout de banco de dados)."
 
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
+msgstr "{count} Importados do Distill.io em {duration}s, {skipped_count} Ignorados."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Não foi possível ler o arquivo XLSX, há algo errado com o arquivo?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Erro ao processar a linha número {}, o valor da URL estava incorreto, a linha foi ignorada."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "Erro ao processar a linha {}, verifique se os tipos de dados das células estão corretos, a linha foi ignorada."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} importados do Wachete .xlsx em {duration}s"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} importados do .xlsx personalizado em {duration}s"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Lista de URLs"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX & Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "A restauração de backups do changedetection.io está na"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr "seção de backups"
+
 #: changedetectionio/blueprint/imports/templates/import.html
 msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
 msgstr "Insira uma URL por linha e, opcionalmente, adicione tags para cada URL após um espaço, separadas por vírgula (,):"
