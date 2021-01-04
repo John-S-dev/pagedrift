@@ -171,3 +171,43 @@ msgstr "將每個監測任務的歷史快照收集限制為此歷史項目數量
 msgid "Set to empty to disable / no limit"
 msgstr "留空以停用 / 不限制"
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr "處理監測任務的並行工作程序數量。更多工作程序 = 處理速度更快，但記憶體使用量更高。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "目前執行中："
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "運作中"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "工作程序"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "活躍處理中"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "範例 - 3 秒的隨機抖動可能會提早最多 3 秒或延後最多 3 秒觸發"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "對於一般常規請求（非基於 Chrome），逾時前的最大秒數，1-999。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "套用至所有請求。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "注意：僅更改 User-Agent 通常無法破解反機器人技術，考慮瀏覽器被偵測的所有方式非常重要"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr "瀏覽器被偵測的所有方式"
+
