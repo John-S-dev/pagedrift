@@ -41,6 +41,47 @@ msgstr "Přidejte nové sledování zjišťování změn webové stránky"
 msgid "Go"
 msgstr "Přejít"
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Sledovat skupinu / Značka"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Monitorovat tuto URL!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Nejdříve upravit, poté sledovat"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Tvorba souboru zálohy běží, vraťte se za pár minut"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Maximální počet souborů záloh dosažen, některé prosím smažte"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Tvorba souboru zálohy běží na pozadí, vraťte se za pár minut."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Zálohy byly smazány"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr "Záložní zip soubor"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr "Musí být .zip soubor zálohy!"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr "Zahrnout skupiny"
+
 #: changedetectionio/blueprint/backups/restore.py
 msgid "Replace existing groups of the same UUID"
 msgstr "Nahradit existující skupiny obsahující stejné UUID"
