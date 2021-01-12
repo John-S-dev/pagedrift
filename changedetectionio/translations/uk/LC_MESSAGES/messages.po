@@ -170,6 +170,51 @@ msgstr "Структура JSON виглядає некоректною, мож�
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
 msgstr "{count} Імпортовано з Distill.io за {duration}с, {skipped_count} Пропущено."
 
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Column #"
+msgstr "Стовпець №"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Type"
+msgstr "Тип"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "none"
+msgstr "немає"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "CSS/xPath filter"
+msgstr "Фільтр CSS/xPath"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Group / Tag name(s)"
+msgstr "Група / Ім'я тегу(ів)"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Recheck time (minutes)"
+msgstr "Час перевірки (хвилини)"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/sidebar-nav.html
+msgid "Import"
+msgstr "Імпорт"
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Expand on hover"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Always expanded"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Stays minimal"
+msgstr ""
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch with UUID %(uuid)s not found"
+msgstr ""
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Time & Date"
 msgstr "Час і Дата"
