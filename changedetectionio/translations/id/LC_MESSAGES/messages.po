@@ -307,6 +307,46 @@ msgstr "Tabel pemetaan kolom kustom dan tipe data untuk"
 msgid "Custom mapping"
 msgstr "Pemetaan kustom"
 
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "File mapping type."
+msgstr "Tipe pemetaan file."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Column #"
+msgstr "Kolom #"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Type"
+msgstr "Tipe"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "none"
+msgstr "tidak ada"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "CSS/xPath filter"
+msgstr "Filter CSS/xPath"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Group / Tag name(s)"
+msgstr "Nama grup / tag"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Recheck time (minutes)"
+msgstr "Waktu periksa ulang (menit)"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/sidebar-nav.html
+msgid "Import"
+msgstr "Impor"
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Expand on hover"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Always expanded"
+msgstr "Selalu diperluas"
+
 #: changedetectionio/blueprint/menu_modes.py
 msgid "Stays minimal"
 msgstr ""
