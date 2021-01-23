@@ -523,6 +523,52 @@ msgstr "Render konten tag anchor, default dinonaktifkan, saat diaktifkan tautan 
 msgid "Changing this could affect the content of your existing watches, possibly trigger alerts etc."
 msgstr "Mengubah ini dapat memengaruhi konten monitor Anda yang sudah ada, dan mungkin memicu peringatan, dll."
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Does your reader support HTML? Set it here"
+msgstr "Apakah pembaca Anda mendukung HTML? Atur di sini"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "'System default' for the same template for all items, or re-use your \"Notification Body\" as the template."
+msgstr ""
+"Gunakan 'Default sistem' untuk template yang sama bagi semua item, atau gunakan kembali \"Isi Notifikasi\" Anda "
+"sebagai template."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ensure the settings below are correct, they are used to manage the time schedule for checking your web page watches."
+msgstr ""
+"Pastikan pengaturan di bawah ini benar, karena digunakan untuk mengelola jadwal waktu pemeriksaan monitor halaman web"
+" Anda."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "UTC Time & Date from Server:"
+msgstr "Waktu & Tanggal UTC dari Server:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Local Time & Date in Browser:"
+msgstr "Waktu & Tanggal Lokal di Browser:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable this setting to open the diff page in a new tab. If disabled, the diff page will open in the current tab."
+msgstr ""
+"Aktifkan pengaturan ini untuk membuka halaman perbedaan di tab baru. Jika dinonaktifkan, halaman perbedaan akan "
+"dibuka di tab saat ini."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Realtime UI Updates Enabled - (Restart required if this is changed)"
+msgstr "Pembaruan UI Realtime Diaktifkan - (Perlu mulai ulang jika diubah)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable or Disable Favicons next to the watch list"
+msgstr "Aktifkan atau Nonaktifkan Favicon di samping daftar monitor"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of items per page in the watch overview list, 0 to disable."
+msgstr "Jumlah item per halaman dalam daftar ringkasan monitor, 0 untuk menonaktifkan."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "How \"Checked\" and \"Changed\" times are shown in the watch overview list."
+msgstr "Cara waktu \"Diperiksa\" dan \"Berubah\" ditampilkan dalam daftar ringkasan monitor."
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 #, python-format
 msgid ""
