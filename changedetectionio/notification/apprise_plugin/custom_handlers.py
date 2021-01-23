@@ -73,6 +73,88 @@ def notify_supported_methods(func):
     return func
 
 
+def _register_http_handler(schema, send_func):
+    """Register a custom HTTP handler that extracts format= from URL query parameters."""
+
+    # Parse base URL
+    base_url = f"{schema}://"
+    base_args = apprise_parse_url(base_url, default_schema=schema, verify_host=False, simple=True)
+
+    class CustomHTTPHandler(CustomNotifyPlugin):
+        secure_protocol = schema
+        service_name = f"Custom HTTP - {schema.upper()}"
+        _base_args = base_args
+
+        def __init__(self, **kwargs):
+            # Extract format from qsd and set it as a top-level kwarg
+            # This allows NotifyBase.__init__ to properly set notify_format
+            if 'qsd' in kwargs and 'format' in kwargs['qsd']:
+                kwargs['format'] = kwargs['qsd']['format']
+
+            # Call NotifyBase.__init__ (skip CustomNotifyPlugin.__init__)
+            super(CustomNotifyPlugin, self).__init__(**kwargs)
+
+            # Set up _default_args like CustomNotifyPlugin does
+            self._default_args = {}
+            kwargs.pop("secure", None)
+            dict_full_update(self._default_args, self._base_args)
+            dict_full_update(self._default_args, kwargs)
+            self._default_args["url"] = url_assembly(**self._default_args)
+
+        __send = staticmethod(send_func)
+
+        def send(self, body, title="", notify_type="info", *args, **kwargs):
+            """Call the custom send function."""
+            try:
+                result = self.__send(
+                    body, title, notify_type,
+                    *args,
+                    meta=self._default_args,
+                    **kwargs
+                )
+                return True if result is None else bool(result)
+            except Exception as e:
+                self.logger.warning(f"Exception in custom HTTP handler: {e}")
+                return False
+
+    # Register the plugin
+    plugins.N_MGR.add(
+        plugin=CustomHTTPHandler,
+        schemas=schema,
+        send_func=send_func,
+        url=base_url,
+    )
+
+
+def _get_auth(parsed_url: dict) -> str | tuple[str, str]:
+    user: str | None = parsed_url.get("user")
+    password: str | None = parsed_url.get("password")
+
+    if user is not None and password is not None:
+        return (unquote_plus(user), unquote_plus(password))
+
+    if user is not None:
+        return unquote_plus(user)
+
+    return ""
+
+
+def _get_headers(parsed_url: dict, body: str) -> CaseInsensitiveDict:
+    headers = CaseInsensitiveDict(
+        {unquote_plus(k).title(): unquote_plus(v) for k, v in parsed_url["qsd+"].items()}
+    )
+
+    # If Content-Type is not specified, guess if the body is a valid JSON
+    if headers.get("Content-Type") is None:
+        try:
+            json.loads(body)
+            headers["Content-Type"] = "application/json; charset=utf-8"
+        except Exception:
+            pass
+
+    return headers
+
+
 def _get_params(parsed_url: dict) -> CaseInsensitiveDict:
     # https://github.com/caronc/apprise/wiki/Notify_Custom_JSON#get-parameter-manipulation
     # In Apprise, it relies on prefixing each request arg with "-", because it uses say &method=update as a flag for apprise
