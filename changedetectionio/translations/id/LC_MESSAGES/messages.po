@@ -814,6 +814,52 @@ msgstr ""
 msgid "Use system defaults"
 msgstr "Gunakan default sistem"
 
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Watch is already queued or being checked."
+msgstr "Monitor sudah berada dalam antrean atau sedang diperiksa."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Queued 1 watch for rechecking."
+msgstr "1 monitor dimasukkan ke antrean untuk diperiksa ulang."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Queued {count} watches for rechecking ({skipped_count} already queued or running)."
+msgstr ""
+"{count} monitor dimasukkan ke antrean untuk diperiksa ulang ({skipped_count} sudah dalam antrean atau sedang "
+"berjalan)."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Queued {} watches for rechecking."
+msgstr "{} monitor dimasukkan ke antrean untuk diperiksa ulang."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Queueing watches for rechecking in background..."
+msgstr "Memasukkan monitor ke antrean pemeriksaan ulang di latar belakang..."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Could not share, something went wrong while communicating with the share server - {}"
+msgstr "Tidak dapat membagikan, terjadi kesalahan saat berkomunikasi dengan server berbagi - {}"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Language set to auto-detect from browser"
+msgstr "Bahasa diatur agar terdeteksi otomatis dari browser"
+
+#: changedetectionio/blueprint/ui/diff.py changedetectionio/blueprint/ui/preview.py
+msgid "No history found for the specified link, bad link?"
+msgstr "Tidak ada riwayat untuk tautan yang ditentukan, tautan salah?"
+
+#: changedetectionio/blueprint/ui/diff.py
+msgid "Not enough history (2 snapshots required) to show difference page for this watch."
+msgstr "Riwayat tidak cukup (diperlukan 2 snapshot) untuk menampilkan halaman perbedaan monitor ini."
+
+#: changedetectionio/blueprint/ui/diff.py
+#, python-format
+msgid "Monthly AI token budget of %(budget)s tokens reached (%(used)s used). Resets next month."
+msgstr "Anggaran token AI bulanan sebesar %(budget)s token tercapai (%(used)s digunakan). Direset bulan depan."
+
 #: changedetectionio/blueprint/ui/templates/diff.html
 msgid "Pro-tip: You can enable <strong>\"share access when password is enabled\"</strong> from settings."
 msgstr "Kiat pro: Anda dapat mengaktifkan <strong>\"bagikan akses saat kata sandi diaktifkan\"</strong> dari pengaturan."
