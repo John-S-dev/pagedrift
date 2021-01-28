@@ -41,3 +41,8 @@
 {% endmacro %}
 
 
+{% macro stab_pane(tab_id) %}
+<div class="stab-pane" data-stab="{{ tab_id }}" id="stab-pane-{{ tab_id }}" role="tabpanel">
+  {{ caller() }}
+</div>
+{% endmacro %}
