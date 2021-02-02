@@ -86,3 +86,25 @@
   }
 }
 
+// ── Right content area ────────────────────────────────────────────────────────
+.stab-body {
+  flex: 1;
+  min-width: 0;
+  padding: 1.4rem 1.6rem;
+  overflow-x: hidden;
+}
+
+// ── Individual pane — hidden but field values still submitted ─────────────────
+.stab-pane {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+
+  &.active {
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+    animation: stab-enter 0.16s ease both;
+  }
+}
+
