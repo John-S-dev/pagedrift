@@ -324,3 +324,31 @@ async def generate_diff_isolated(img_bytes_from, img_bytes_to, pixel_difference_
         except:
             pass
 
+        # Try graceful shutdown (async-safe)
+        print(f"[{time.time():.3f}] [Parent] Waiting for subprocess to exit (5s timeout)", flush=True)
+        join_start = time.time()
+        await asyncio.to_thread(p.join, 5)
+        join_elapsed = time.time() - join_start
+        print(f"[{time.time():.3f}] [Parent] First join took {join_elapsed:.2f}s", flush=True)
+
+        if p.is_alive():
+            print(f"[{time.time():.3f}] [Parent] Process didn't exit gracefully, terminating", flush=True)
+            term_start = time.time()
+            p.terminate()
+            await asyncio.to_thread(p.join, 3)
+            term_elapsed = time.time() - term_start
+            print(f"[{time.time():.3f}] [Parent] Terminate+join took {term_elapsed:.2f}s", flush=True)
+
+        if p.is_alive():
+            print(f"[{time.time():.3f}] [Parent] Process didn't terminate, killing", flush=True)
+            kill_start = time.time()
+            p.kill()
+            await asyncio.to_thread(p.join, 1)
+            kill_elapsed = time.time() - kill_start
+            print(f"[{time.time():.3f}] [Parent] Kill+join took {kill_elapsed:.2f}s", flush=True)
+
+        print(f"[{time.time():.3f}] [Parent] Subprocess cleanup complete, returning result", flush=True)
+
+    return result
+
+
