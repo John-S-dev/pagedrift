@@ -303,6 +303,51 @@ msgstr ""
 msgid "Watch with UUID %(uuid)s not found"
 msgstr "UUID %(uuid)s의 모니터링을 찾을 수 없습니다."
 
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch %(uuid)s does not have enough history snapshots to show changes (need at least 2)"
+msgstr "모니터링 %(uuid)s에 변경 내용을 표시할 기록 스냅샷이 충분하지 않습니다. (최소 2개 필요)"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection removed."
+msgstr "비밀번호 보호가 해제되었습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})"
+msgstr "경고: 워커 수({worker_count})가 사용 가능한 CPU 코어 수({cpu_count})에 근접하거나 초과합니다"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Worker count adjusted: {}"
+msgstr "워커 수가 조정되었습니다: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Dynamic worker adjustment not supported for sync workers"
+msgstr "동기 워커는 동적 워커 조정을 지원하지 않습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Error adjusting workers: {}"
+msgstr "워커 수 조정 중 오류가 발생했습니다: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection enabled."
+msgstr "비밀번호 보호가 활성화되었습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+msgid "Settings updated."
+msgstr "설정이 업데이트되었습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "오류가 발생했습니다. 아래 내용을 확인해 주세요."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "API Key was regenerated."
+msgstr "API 키가 재생성되었습니다."
+
 #: changedetectionio/blueprint/settings/notifications/templates/apprise.html
 msgid "token in notification links."
 msgstr "토큰에 사용할 기본 URL입니다."
