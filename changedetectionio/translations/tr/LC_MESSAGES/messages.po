@@ -179,6 +179,48 @@ msgstr "Genel Filtreler"
 msgid "UI Options"
 msgstr "Arayüz Seçenekleri"
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will wait <i>n</i> seconds before extracting the text."
+msgstr "Metni çıkarmadan önce <i>n</i> saniye bekleyecek."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr ""
+"İzleyicileri işlemek için eşzamanlı çalışan sayısı. Daha fazla çalışan = daha hızlı işleme ancak daha yüksek bellek "
+"kullanımı."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "Şu anda çalışan:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "operasyonel"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "çalışanlar"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "aktif olarak işleniyor"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "Örnek - 3 saniyelik rastgele sapma 3 saniye öncesine veya 3 saniye sonrasına kadar tetiklenebilir"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "Normal düz istekler için (chrome tabanlı olmayan), zaman aşımına kadar geçecek maksimum saniye sayısı, 1-999."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "Tüm isteklere uygulanır."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "Not: Sadece User-Agent'ı değiştirmek genellikle anti-robot teknolojilerini alt etmez, şunları dikkate almak önemlidir"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Open the extension from the toolbar and click"
 msgstr "Araç çubuğundan eklentiyi açın ve tıklayın"
