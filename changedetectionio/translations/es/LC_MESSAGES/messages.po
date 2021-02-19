@@ -394,6 +394,50 @@ msgid "API access and examples here"
 msgstr "Acceso API y ejemplos aquí"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Restringir el límite de acceso a la API mediante el uso"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "encabezado: necesario para que funcione la extensión de Chrome"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "copiar"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "Regenerar clave API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Extensión de Chrome"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Agregue fácilmente cualquier página web a su instalación de changetection.io desde Chrome."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "Paso 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "Instale la extensión,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "Paso 2"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "Navega a esta página,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "Paso 3"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "UTC Time & Date from Server:"
 msgstr "Hora y fecha UTC del servidor:"
 
