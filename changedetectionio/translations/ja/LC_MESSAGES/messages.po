@@ -390,6 +390,54 @@ msgid "Open the extension from the toolbar and click"
 msgstr "ツールバーから拡張機能を開いてクリックしてください"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Local Time & Date in Browser:"
+msgstr "ブラウザのローカル時刻と日付："
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable this setting to open the diff page in a new tab. If disabled, the diff page will open in the current tab."
+msgstr "この設定を有効にすると差分ページが新しいタブで開きます。無効の場合は現在のタブで開きます。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Realtime UI Updates Enabled - (Restart required if this is changed)"
+msgstr "リアルタイムUI更新を有効化（変更した場合は再起動が必要です）"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable or Disable Favicons next to the watch list"
+msgstr "ウォッチリスト横のファビコンを有効または無効にする"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of items per page in the watch overview list, 0 to disable."
+msgstr "ウォッチ一覧ページの1ページあたりの表示件数（0で無効化）。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "How \"Checked\" and \"Changed\" times are shown in the watch overview list."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid ""
+"\"Collapsed icon rail\" keeps the left navigation slim and reveals labels on mouse-over; \"Always expanded\" keeps "
+"labels visible."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Tip"
+msgstr "ヒント"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "\"Residential\" and \"Mobile\" proxy type can be more successful than \"Data Center\" for blocked websites."
+msgstr "ブロックされたWebサイトには「Residential」や「Mobile」プロキシタイプが「Data Center」より効果的な場合があります。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "\"Name\" will be used for selecting the proxy in the Watch Edit settings"
+msgstr "「名前」はウォッチ編集設定でプロキシを選択する際に使用されます"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid ""
+"SOCKS5 proxies with authentication are only supported with 'plain requests' fetcher, for other fetchers you should "
+"whitelist the IP access instead"
+msgstr "認証付きSOCKS5プロキシは「プレーンリクエスト」フェッチャーのみサポートしています。他のフェッチャーではIPアクセスをホワイトリストに登録してください。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Uptime:"
 msgstr "稼働時間："
 
