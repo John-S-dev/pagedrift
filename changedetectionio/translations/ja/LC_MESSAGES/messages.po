@@ -574,3 +574,44 @@ msgstr ""
 msgid "Clear cache"
 msgstr ""
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Testing…"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connected"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Failed"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "タグ「{}」はすでに存在します"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "タグが追加されました"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "タグを削除しました。バックグラウンドでウォッチから削除しています。"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr "バックグラウンドでウォッチからタグのリンクを解除しています"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr "すべてのタグを削除しました。バックグラウンドでウォッチからクリアしています。"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "タグが見つかりません"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "更新しました"
+
