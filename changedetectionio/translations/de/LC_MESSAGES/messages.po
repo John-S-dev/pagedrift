@@ -363,3 +363,48 @@ msgstr ""
 "Wenn Sie Probleme damit haben, dass die Seite vollständig gerendert wird (fehlender Text usw.), versuchen Sie, die "
 "Wartezeit hier zu verlängern."
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "— choose a model —"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "models available with your key"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Request failed"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Testing…"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connected"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Failed"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "Das Tag „{}“ existiert bereits."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "Tag hinzugefügt"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "Tag gelöscht, wird im Hintergrund aus Überwachungen entfernt"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr ""
+
