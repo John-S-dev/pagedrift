@@ -349,6 +349,48 @@ msgstr ""
 msgid "Regular Expression support, wrap the entire line in forward slash"
 msgstr "Obsługa wyrażeń regularnych – cała linia powinna być otoczona ukośnikami"
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Changing this will affect the comparison checksum which may trigger an alert"
+msgstr "Zmiana tej wartości wpłynie na sumę kontrolną służącą do porównania, co może spowodować wygenerowanie ostrzeżenia"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Remove any text that appears in the \"Ignore text\" from the output (otherwise its just ignored for change-detection)"
+msgstr ""
+"Należy usunąć z wyniku wszelkie fragmenty tekstu wymienione w sekcji „Tekst do pominięcia” (w przeciwnym razie "
+"zostaną one po prostu pominięte podczas wykrywania zmian)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API Access"
+msgstr "Dostęp do API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Drive your changedetection.io via API, More about"
+msgstr "Korzystaj z serwisu changedetection.io za pośrednictwem API. Więcej informacji na temat"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API access and examples here"
+msgstr "Dostęp do API i przykłady znajdziesz tutaj"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Ogranicz limit dostępu do API za pomocą"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "nagłówek – niezbędny do działania rozszerzenia w przeglądarce Chrome"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "kopia"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "Odśwież klucz API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Rozszerzenie do przeglądarki Chrome"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Realtime UI Updates Enabled - (Restart required if this is changed)"
 msgstr ""
