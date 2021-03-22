@@ -5,6 +5,16 @@ Handles asynchronous workers for dynamic worker scaling.
 Each worker runs in its own thread with its own event loop for isolation.
 """
 
+# Track currently processing UUIDs for async workers - maps {uuid: worker_id}
+currently_processing_uuids = {}
+# When each currently-running UUID was claimed: {uuid: epoch_seconds}
+# Lets the queue UI render "running for Ns" without reaching into worker internals.
+_uuid_started_at = {}
+_uuid_processing_lock = threading.Lock()  # Protects currently_processing_uuids + _uuid_started_at
+
+# Configuration - async workers only
+USE_ASYNC_WORKERS = True
+
 # Custom ThreadPoolExecutor for queue operations with named threads
 # Scale executor threads to match FETCH_WORKERS (no minimum, no maximum)
 # Thread naming: "QueueGetter-N" for easy debugging in thread dumps/traces
