@@ -169,3 +169,34 @@ ul#top-right-menu {
   50% { opacity: 0.4; }
 }
 
+// "More" overflow menu: a kebab icon button revealing a floating popup of items
+// (Settings / Import / Language). The popup is a light surface card that floats
+// over the page (toggled open by static/js/menu-pop.js).
+.menu-pop-wrap {
+  position: relative;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--common-round-border);
+  background: transparent;
+  color: var(--color-text-menu-heading);
+  cursor: pointer;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
