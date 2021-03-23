@@ -195,3 +195,53 @@ window.initVisualSelector = function (opts) {
             }
         });
 
+
+        highlightCurrentSelected();
+        updateFiltersText();
+
+        if (selectionEnabled) {
+            bindElementHandlers();
+        }
+    }
+
+    function highlightCurrentSelected() {
+        if (!xctx) return;
+        xctx.fillStyle = FILL_STYLE_GREYED_OUT;
+        xctx.strokeStyle = STROKE_STYLE_REDLINE;
+        xctx.lineWidth = 3;
+        xctx.clearRect(0, 0, c.width, c.height);
+
+        currentSelections.forEach(sel => {
+            //xctx.clearRect(sel.left * xScale, sel.top * yScale, sel.width * xScale, sel.height * yScale);
+            xctx.strokeRect(sel.left * xScale, sel.top * yScale, sel.width * xScale, sel.height * yScale);
+        });
+    }
+
+    // Toggle hover/click element selection on the fly (Add Watch "by element" mode)
+    function setSelectionEnabled(enabled) {
+        selectionEnabled = enabled;
+        if (!c) return; // not loaded yet, will respect the flag in reflowSelector
+
+        if (enabled) {
+            if (!drawMode) {
+                bindElementHandlers();
+                if ($selectorCurrentXpathElem.length) {
+                    $selectorCurrentXpathElem[0].innerHTML = 'Hover over elements to select';
+                }
+            }
+        } else {
+            $selectorCanvasElem.unbind('mousemove mousedown mouseleave');
+            currentSelections = [];
+            $includeFiltersElem.val('');
+            highlightCurrentSelected();
+            if ($selectorCurrentXpathElem.length) {
+                $selectorCurrentXpathElem[0].innerHTML = '';
+            }
+        }
+    }
+
+    // ============= BOX DRAWING MODE (for image_ssim_diff processor) =============
+
+    function initializeDrawMode() {
+        if (!isImageProcessor || !c) return;
+
