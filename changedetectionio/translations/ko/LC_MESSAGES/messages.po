@@ -533,6 +533,47 @@ msgstr "다음 확인 시 다시 생성됩니다."
 msgid "Clear cache"
 msgstr "캐시 지우기"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Testing…"
+msgstr "테스트 중..."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connected"
+msgstr "연결됨"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Failed"
+msgstr "실패"
+
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "태그 \"{}\"가 이미 존재합니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "태그가 추가되었습니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "태그가 삭제되었습니다. 백그라운드에서 모니터링에서 제거하고 있습니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr "백그라운드에서 모니터링과 태그 연결을 해제하고 있습니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr "모든 태그가 삭제되었습니다. 백그라운드에서 모니터링에서 제거하고 있습니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "태그를 찾을 수 없습니다."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "업데이트되었습니다."
+
 #: changedetectionio/blueprint/tags/form.py
 msgid "Activate for individual watches in this tag/group?"
 msgstr "이 태그/그룹의 개별 모니터링에도 활성화할까요?"
