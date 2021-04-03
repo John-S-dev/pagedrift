@@ -54,6 +54,42 @@ window.initVisualSelector = function (opts) {
     const FILL_STYLE_REDLINE = 'rgba(255,0,0, 0.1)';
     const STROKE_STYLE_REDLINE = 'rgba(225,0,0,0.9)';
 
+    function clearReset() {
+        if (ctx) {
+            ctx.clearRect(0, 0, c.width, c.height);
+        }
+
+        if ($includeFiltersElem.val().length) {
+            alert(i18nT('vsFiltersCleared', "Existing filters under the 'Filters & Triggers' tab were cleared."));
+        }
+        $includeFiltersElem.val('');
+
+        currentSelections = [];
+
+        // Means we ignore the xpaths from the scraper marked as sel.highlight_as_custom_filter (it matched a previous selector)
+        runInClearMode = true;
+
+        highlightCurrentSelected();
+    }
+
+    function splitToList(v) {
+        return v.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    }
+
+    function sortScrapedElementsBySize() {
+        // Sort the currentSelections array by area (width * height) in descending order
+        selectorData['size_pos'].sort((a, b) => {
+            const areaA = a.width * a.height;
+            const areaB = b.width * b.height;
+            return areaB - areaA;
+        });
+    }
+
+    $(document).on('keydown keyup', (event) => {
+        if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+            appendToList = event.type === 'keydown';
+        }
+
         if (event.type === 'keydown') {
             if ($selectorBackgroundElem.is(":visible") && event.key === "Escape") {
                 clearReset();
