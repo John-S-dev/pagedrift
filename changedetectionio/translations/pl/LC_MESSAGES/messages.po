@@ -739,3 +739,47 @@ msgstr "Wyczyść historię!"
 msgid "Share diff as image"
 msgstr "Udostępnij różnice jako obraz"
 
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Goto single snapshot"
+msgstr "Przejdź do pojedynczego zrzutu ekranu"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Highlight text to share or add to ignore lists."
+msgstr "Zaznacz tekst, aby go udostępnić lub dodać do listy ignorowanych."
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Download difference patch"
+msgstr "Pobierz poprawkę różnicową"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "For now, Differences are performed on text, not graphically, only the latest screenshot is available."
+msgstr ""
+"Na razie operacje na różnicach są wykonywane na tekście, a nie graficznie; dostępny jest jedynie najnowszy zrzut "
+"ekranu."
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Current screenshot from most recent request"
+msgstr "Aktualny zrzut ekranu z ostatniego zapytania"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "No screenshot available just yet! Try rechecking the page."
+msgstr "Na razie nie ma zrzutu ekranu! Spróbuj ponownie sprawdzić tę stronę."
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Screenshot requires Playwright/WebDriver enabled"
+msgstr "Aby wykonać zrzut ekranu, należy włączyć obsługę bibliotek Playwright/WebDriver"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Request"
+msgstr "Żądanie"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Browser Steps"
+msgstr "Kroki w przeglądarce"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Filter Selector"
+msgstr "Wizualny selektor filtrów"
+
