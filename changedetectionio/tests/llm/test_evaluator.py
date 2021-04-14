@@ -1,6 +1,27 @@
 """
 Unit tests for changedetectionio/llm/evaluator.py
 
+Uses mocked LLM calls — no real API key needed.
+"""
+import pytest
+from unittest.mock import patch, MagicMock
+
+
+def _make_datastore(llm_cfg=None, tags=None):
+    """Build a minimal datastore-like dict for testing."""
+    ds = MagicMock()
+    app_settings = {
+        'llm': llm_cfg or {},
+        'tags': tags or {},
+    }
+    ds.data = {
+        'settings': {
+            'application': app_settings,
+        }
+    }
+    return ds
+
+
 def _make_watch(llm_intent='', llm_change_summary='', tags=None, uuid='test-uuid-1234'):
     w = {}
     w['llm_intent'] = llm_intent
