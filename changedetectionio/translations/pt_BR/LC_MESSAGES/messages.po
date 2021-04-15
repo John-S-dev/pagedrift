@@ -488,3 +488,53 @@ msgid ""
 "kind."
 msgstr ""
 
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/menu.html
+msgid "Mute notifications"
+msgstr "Silenciar notificações"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Recheck"
+msgstr "Rechecar"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/edit.py
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Edit"
+msgstr "Editar"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Delete Group?"
+msgstr "Excluir Grupo?"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#, python-format
+msgid "<p>Are you sure you want to delete group <strong>%(title)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p>Tem certeza que deseja excluir o grupo <strong>%(title)s</strong>?</p><p>Esta ação não pode ser desfeita.</p>"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/templates/base.html
+msgid "Delete"
+msgstr "Excluir"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Deletes and removes tag"
+msgstr "Exclui e remove a tag"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Unlink Group?"
+msgstr "Desvincular Grupo?"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#, python-format
+msgid ""
+"<p>Are you sure you want to unlink all watches from group <strong>%(title)s</strong>?</p><p>The tag will be kept but "
+"watches will be removed from it.</p>"
+msgstr ""
+"<p>Tem certeza que deseja desvincular todos os monitoramentos do grupo <strong>%(title)s</strong>?</p><p>A tag será "
+"mantida, mas os monitoramentos serão removidos dela.</p>"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/base.html
+msgid "Unlink"
+msgstr "Desvincular"
+
