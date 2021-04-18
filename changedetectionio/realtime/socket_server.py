@@ -229,3 +229,68 @@ def handle_watch_update(socketio, **kwargs):
         logger.error(f"Socket.IO error in handle_watch_update: {str(e)}")
 
 
+        # Access datastore from socketio
+        datastore = socketio.datastore
+        #        logger.info(f"Socket.IO: Current user authenticated: {current_user.is_authenticated if hasattr(current_user, 'is_authenticated') else 'No current_user'}")
+
+        # Check if authentication is required and user is not authenticated
+        has_password_enabled = datastore.data['settings']['application'].get('password') or os.getenv("SALTED_PASS", False)
+        #        logger.info(f"Socket.IO: Password enabled: {has_password_enabled}")
+        if has_password_enabled and not current_user.is_authenticated:
+            logger.warning("Socket.IO: Rejecting unauthenticated connection")
+            return False  # Reject the connection
+
+        # Send the current queue size to the newly connected client
+        try:
+            queue_size = update_q.qsize()
+            socketio.emit("queue_size", {
+                "q_length": queue_size,
+                "event_timestamp": time.time()
+            }, room=request.sid)  # Send only to this client
+            logger.debug(f"Socket.IO: Sent initial queue size {queue_size} to new client")
+
+            # Send the current "checking now" count (how many watches workers are processing right now)
+            checking_now = len(worker_pool.get_running_uuids())
+            socketio.emit("checking_now", {
+                "count": checking_now,
+                "event_timestamp": time.time()
+            }, room=request.sid)  # Send only to this client
+            logger.debug(f"Socket.IO: Sent initial checking_now {checking_now} to new client")
+        except Exception as e:
+            logger.error(f"Socket.IO error sending initial queue size: {str(e)}")
+
+        logger.info("Socket.IO: Client connected")
+
+    #    logger.info("Socket.IO: Registering disconnect event handler")
+    @socketio.on('disconnect')
+    def handle_disconnect():
+        """Handle client disconnection"""
+        logger.info("Socket.IO: Client disconnected")
+
+    # Create a dedicated signal handler that will receive signals and emit them to clients
+    signal_handler = SignalHandler(socketio, datastore)
+
+    # Register watch operation event handlers
+    from .events import register_watch_operation_handlers
+    register_watch_operation_handlers(socketio, datastore)
+
+    # Store the datastore reference on the socketio object for later use
+    socketio.datastore = datastore
+
+    # No stop event needed for threading mode - threads check app.config.exit directly
+
+    # Add a shutdown method to the socketio object
+    def shutdown():
+        """Shutdown the SocketIO server fast and aggressively"""
+        try:
+            logger.info("Socket.IO: Fast shutdown initiated...")
+            logger.info("Socket.IO: Fast shutdown complete")
+        except Exception as e:
+            logger.error(f"Socket.IO error during shutdown: {str(e)}")
+
+    # Attach the shutdown method to the socketio object
+    socketio.shutdown = shutdown
+
+    logger.info("Socket.IO initialized and attached to main Flask app")
+    logger.info(f"Socket.IO: Registered event handlers: {socketio.handlers if hasattr(socketio, 'handlers') else 'No handlers found'}")
+    return socketio
