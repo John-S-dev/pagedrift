@@ -23,6 +23,8 @@ import uuid as uuid_builder
 from loguru import logger
 from blinker import signal
 
+from ..model.Tags import TagsDict
+
 # Try to import orjson for faster JSON serialization
 try:
     import orjson
