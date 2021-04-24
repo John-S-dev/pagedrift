@@ -55,6 +55,96 @@ def construct_blueprint(datastore: ChangeDetectionStore):
                 redirect=redirect
             )
 
+        # Fallback: if processor doesn't have preview module, use default text preview
+        content = []
+        versions = []
+        timestamp = None
+
+        extra_stylesheets = [url_for('static_content', group='styles', filename='diff.css')]
+        is_html_webdriver = watch.fetcher_supports_screenshots
+
+        triggered_line_numbers = []
+        ignored_line_numbers = []
+        blocked_line_numbers = []
+
+        if datastore.data['watching'][uuid].history_n == 0 and (watch.get_error_text() or watch.get_error_snapshot()):
+            flash(gettext("Preview unavailable - No fetch/check completed or triggers not reached"), "error")
+        else:
+            # So prepare the latest preview or not
+            preferred_version = request.values.get('version') if request.method == 'POST' else request.args.get('version')
+
+
+            versions = list(watch.history.keys())
+            timestamp = versions[-1]
+            if preferred_version and preferred_version in versions:
+                timestamp = preferred_version
+
+            try:
+                versions = list(watch.history.keys())
+                content = watch.get_history_snapshot(timestamp=timestamp)
+
+                triggered_line_numbers = html_tools.strip_ignore_text(content=content,
+                                                                      wordlist=watch.get('trigger_text'),
+                                                                      mode='line numbers'
+                                                                      )
+                ignored_line_numbers = html_tools.strip_ignore_text(content=content,
+                                                                      wordlist=watch.get('ignore_text'),
+                                                                      mode='line numbers'
+                                                                      )
+                blocked_line_numbers = html_tools.strip_ignore_text(content=content,
+                                                                      wordlist=watch.get("text_should_not_be_present"),
+                                                                      mode='line numbers'
+                                                                      )
+            except Exception as e:
+                content.append({'line': f"File doesnt exist or unable to read timestamp {timestamp}", 'classes': ''})
+
+        from changedetectionio.pluggy_interface import get_fetcher_capabilities
+        capabilities = get_fetcher_capabilities(watch, datastore)
+
+        output = render_template("preview.html",
+                                 capabilities=capabilities,
+                                 content=content,
+                                 current_diff_url=watch.open_link,
+                                 current_version=timestamp,
+                                 extra_stylesheets=extra_stylesheets,
+                                 extra_title=f" - {gettext('Diff')} - {watch.label} @ {timestamp}",
+                                 highlight_ignored_line_numbers=ignored_line_numbers,
+                                 highlight_triggered_line_numbers=triggered_line_numbers,
+                                 highlight_blocked_line_numbers=blocked_line_numbers,
+                                 history_n=watch.history_n,
+                                 is_html_webdriver=is_html_webdriver,
+                                 last_error=watch['last_error'],
+                                 last_error_screenshot=watch.get_error_snapshot(),
+                                 last_error_text=watch.get_error_text(),
+                                 screenshot=watch.get_screenshot(),
+                                 uuid=uuid,
+                                 versions=versions,
+                                 watch=watch,
+                                 )
+
+        return output
+
+    @preview_blueprint.route("/preview/<uuid_str:uuid>/processor-asset/<string:asset_name>", methods=['GET'])
+    @login_optionally_required
+    def processor_asset(uuid, asset_name):
+        """
+        Serve processor-specific binary assets for preview (images, files, etc.).
+
+        This route is processor-aware: it delegates to the processor's
+        preview.py module, allowing different processor types to serve
+        custom assets without embedding them as base64 in templates.
+
+        This solves memory issues with large binary data by streaming them
+        as separate HTTP responses instead of embedding in the HTML template.
+
+        Each processor implements processors/{type}/preview.py::get_asset()
+        which returns (binary_data, content_type, cache_control_header).
+
+        Example URLs:
+        - /preview/{uuid}/processor-asset/screenshot?version=123456789
+        """
+        from flask import make_response
+
         if uuid == 'first':
             uuid = list(datastore.data['watching'].keys()).pop()
         try:
