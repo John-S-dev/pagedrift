@@ -76,6 +76,52 @@ msgstr "Wyczyść wybór"
 msgid "What matters — when to notify me"
 msgstr "Co jest ważne — kiedy należy mnie powiadomić"
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid ""
+"e.g. Notify me when products go in/out of stock, lead times change by more than a week, or new product variants "
+"appear. Skip review additions."
+msgstr ""
+"np. Powiadom mnie, gdy produkty pojawią się w magazynie lub zostaną wyprzedane, terminy realizacji ulegną zmianie o "
+"ponad tydzień lub pojawią się nowe warianty produktów. Pomiń dodawane recenzje."
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Grupa obserwacyjna / tag"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Obserwuj ten adres URL!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Najpierw edytuj, a potem obserwuj"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Tworzenie kopii zapasowej już trwa, spróbuj ponownie za kilka minut"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Osiągnięto maksymalną liczbę kopii zapasowych. Proszę usunąć część z nich."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Tworzenie kopii zapasowej przebiega w tle – spróbuj ponownie za kilka minut."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Kopie zapasowe zostały usunięte."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr "Plik ZIP z kopią zapasową"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr "To musi być plik kopii zapasowej w formacie .zip!"
+
 #: changedetectionio/blueprint/backups/restore.py
 msgid "Include groups"
 msgstr "Uwzględnij grupy"
