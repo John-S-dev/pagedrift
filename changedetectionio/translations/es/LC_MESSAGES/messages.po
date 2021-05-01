@@ -165,6 +165,48 @@ msgstr "Archivo zip no válido o dañado"
 msgid "Restore started in background, check back in a few minutes."
 msgstr "La restauración comenzó en segundo plano, vuelve a comprobarlo en unos minutos."
 
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr "Nota: Esto no sobrescribe la configuración principal de la aplicación, solo monitores y grupos."
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+#, python-format
+msgid "Max upload size: %(upload)s MB, Max decompressed size: %(decomp)s MB"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all groups found in backup?"
+msgstr "¿Incluir todos los grupos encontrados en la copia de seguridad?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing groups of the same UUID?"
+msgstr "¿Reemplazar cualquier grupo existente del mismo UUID?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all watches found in backup?"
+msgstr "¿Incluir todos los monitores encontrados en la copia de seguridad?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing watches of the same UUID?"
+msgstr "¿Reemplazar cualquier monitor existente con el mismo UUID?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Importing 5,000 of the first URLs from your list, the rest can be imported again."
+msgstr "Importando 5.000 de las primeras URL de tu lista, el resto se puede importar nuevamente."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from list in {duration}s, {skipped_count} Skipped."
+msgstr "{count} importado de la lista en {duration}s, {skipped_count} omitido."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read JSON file, was it broken?"
+msgstr "No se puede leer el archivo JSON, ¿estaba roto?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "La estructura JSON parece no válida, ¿estaba rota?"
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
