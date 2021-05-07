@@ -395,6 +395,46 @@ msgid "Backups"
 msgstr "백업"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "복사"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "API 키 재생성"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Chrome 확장 프로그램"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Chrome 안에서 어떤 웹페이지든 changedetection.io에 쉽게 추가할 수 있습니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "1단계"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "확장 프로그램을 설치하고"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "2단계"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "이 페이지로 이동하여"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "3단계"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Open the extension from the toolbar and click"
+msgstr "도구 모음에서 확장 프로그램을 열고 다음 버튼을 클릭해 주세요."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Uptime:"
 msgstr "가동 시간:"
 
