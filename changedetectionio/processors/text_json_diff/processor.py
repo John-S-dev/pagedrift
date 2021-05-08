@@ -402,3 +402,14 @@ class ContentProcessor:
         )
 
 
+class ChecksumCalculator:
+    """Calculates checksums with various options."""
+
+    @staticmethod
+    def calculate(text, ignore_whitespace=False):
+        """Calculate MD5 checksum of text content."""
+        if ignore_whitespace:
+            text = text.translate(TRANSLATE_WHITESPACE_TABLE)
+        return hashlib.md5(text.encode('utf-8')).hexdigest()
+
+
