@@ -745,3 +745,46 @@ msgstr "Filtrado de texto"
 msgid "Use with caution!"
 msgstr "¡Úselo con precaución!"
 
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "seconds ago."
+msgstr "hace unos segundos."
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "seconds ago"
+msgstr "hace unos segundos"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Current error-ing screenshot from most recent request"
+msgstr "Captura de pantalla con error actual de la solicitud más reciente"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Pro-tip: You can enable <strong>\"share access when password is enabled\"</strong> from settings."
+msgstr ""
+"Consejo profesional: puedes habilitar <strong>«compartir acceso cuando la contraseña está habilitada»</strong> desde "
+"la configuración."
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Generating change summary…"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Goto single snapshot"
+msgstr "Ir a instantánea única"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Highlight text to share or add to ignore lists."
+msgstr "Resalte el texto para compartir o agregar a las listas de ignorados."
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Download difference patch"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "For now, Differences are performed on text, not graphically, only the latest screenshot is available."
+msgstr "Por ahora, las diferencias se realizan en texto, no gráficamente, solo está disponible la última captura de pantalla."
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Current screenshot from most recent request"
+msgstr "Captura de pantalla actual de la solicitud más reciente"
+
