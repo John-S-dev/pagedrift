@@ -292,3 +292,44 @@ class steppable_browser_interface():
             
         await self.page.locator(selector).uncheck(timeout=self.action_timeout)
             
+            logger.debug(f"Time to get screenshot from browser {time.time() - now:.2f}s")
+
+            # Then get interactive elements
+            now = time.time()
+            await self.page.evaluate("var include_filters=''")
+            await self.page.request_gc()
+
+            scan_elements = 'a,button,input,select,textarea,i,th,td,p,li,h1,h2,h3,h4,div,span'
+
+            MAX_TOTAL_HEIGHT = int(os.getenv("SCREENSHOT_MAX_HEIGHT", SCREENSHOT_MAX_HEIGHT_DEFAULT))
+            xpath_data = json.loads(await self.page.evaluate(xpath_element_js, {
+                "visualselector_xpath_selectors": scan_elements,
+                "max_height": MAX_TOTAL_HEIGHT
+            }))
+            await self.page.request_gc()
+
+            # Sort elements by size
+            xpath_data['size_pos'] = sorted(xpath_data['size_pos'], key=lambda k: k['width'] * k['height'], reverse=True)
+            logger.debug(f"Time to scrape xPath element data in browser {time.time()-now:.2f}s")
+            
+        except Exception as e:
+            logger.error(f"Error getting current state: {str(e)}")
+            # If the page has navigated (common with logins) then the context is destroyed on navigation, continue
+            # I'm not sure that this is required anymore because we have the "expect navigation wrapper" at the top
+            if "Execution context was destroyed" in str(e):
+                logger.debug("Execution context was destroyed, most likely because of navigation, continuing...")
+            pass
+
+            # Attempt recovery - force garbage collection
+            try:
+                await self.page.request_gc()
+            except:
+                pass
+        
+        # Request garbage collection one final time
+        try:
+            await self.page.request_gc()
+        except:
+            pass
+            
+        return (screenshot, xpath_data)
