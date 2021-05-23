@@ -281,6 +281,59 @@ window.initVisualSelector = function (opts) {
     function initializeDrawMode() {
         if (!isImageProcessor || !c) return;
 
+        const $selectorModeRadios = $('input[name="selector-mode"]');
+        const $boundingBoxField = $('#bounding_box');
+        const $selectionModeField = $('#selection_mode');
+
+        // Load existing selection mode if present
+        const savedMode = $selectionModeField.val();
+        if (savedMode && (savedMode === 'element' || savedMode === 'draw')) {
+            $selectorModeRadios.filter(`[value="${savedMode}"]`).prop('checked', true);
+            console.log('Loaded saved mode:', savedMode);
+        }
+
+        // Load existing bounding box if present
+        const existingBox = $boundingBoxField.val();
+        if (existingBox) {
+            try {
+                const parts = existingBox.split(',').map(p => parseFloat(p));
+                if (parts.length === 4) {
+                    drawnBox = {
+                        x: parts[0] * xScale,
+                        y: parts[1] * yScale,
+                        width: parts[2] * xScale,
+                        height: parts[3] * yScale
+                    };
+                    console.log('Loaded saved bounding box:', existingBox);
+                }
+            } catch (e) {
+                console.error('Failed to parse existing bounding box:', e);
+            }
+        }
+
+        // Update mode when radio changes
+        $selectorModeRadios.off('change').on('change', function() {
+            const newMode = $(this).val();
+            drawMode = newMode === 'draw';
+            console.log('Mode changed to:', newMode);
+
+            // Save the mode to the hidden field
+            $selectionModeField.val(newMode);
+
+            if (drawMode) {
+                enableDrawMode();
+            } else {
+                disableDrawMode();
+            }
+        });
+
+        // Set initial mode based on which radio is checked
+        drawMode = $selectorModeRadios.filter(':checked').val() === 'draw';
+        console.log('Initial mode:', drawMode ? 'draw' : 'element');
+
+        // Save initial mode
+        $selectionModeField.val(drawMode ? 'draw' : 'element');
+
         // Highlight the restored selections
         highlightCurrentSelected();
     }
