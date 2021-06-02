@@ -174,6 +174,53 @@ msgstr "Не удалось прочитать файл JSON, он сломан?
 msgid "JSON structure looks invalid, was it broken?"
 msgstr "Структура JSON выглядит недействительной, она сломана?"
 
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Stays minimal"
+msgstr ""
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch with UUID %(uuid)s not found"
+msgstr "Часы с UUID %(uuid)s не найдены"
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch %(uuid)s does not have enough history snapshots to show changes (need at least 2)"
+msgstr "У Watch %(uuid)s недостаточно снимков истории, чтобы отобразить изменения (нужно как минимум 2)."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection removed."
+msgstr "Защита паролем снята."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})"
+msgstr ""
+"Предупреждение: количество рабочих процессов ({worker_count}) близко к доступным ядрам ЦП ({cpu_count}) или превышает"
+" их."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Worker count adjusted: {}"
+msgstr "Изменено количество работников: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Dynamic worker adjustment not supported for sync workers"
+msgstr "Динамическая настройка рабочего процесса не поддерживается для рабочих процессов синхронизации."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Error adjusting workers: {}"
+msgstr "Ошибка настройки работников: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection enabled."
+msgstr "Защита паролем включена."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+msgid "Settings updated."
+msgstr "Настройки обновлены."
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
 msgid ""
 "The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set"
