@@ -913,3 +913,45 @@ msgstr ""
 msgid "{} watches were tagged"
 msgstr "已为 {} 个监控项打标签"
 
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/watchlist/__init__.py
+msgid "Watch not found"
+msgstr "未找到监控项"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Cleared snapshot history for watch {}"
+msgstr "已清除监控项 {} 的快照历史"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "clear"
+msgstr "clear"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "History clearing started in background"
+msgstr "历史清理已在后台开始"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Incorrect confirmation text."
+msgstr "确认文本不正确。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "The watch by UUID {} does not exist."
+msgstr "UUID 为 {} 的监控项不存在。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Deleted."
+msgstr "已删除。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Cloned, you are editing the new watch."
+msgstr "已克隆，正在编辑新的监控项。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Watch is already queued or being checked."
+msgstr "监视器已在队列中或正在检查。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Queued 1 watch for rechecking."
+msgstr "已将 1 个监控项加入重新检查队列。"
+
