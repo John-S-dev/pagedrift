@@ -446,6 +446,48 @@ msgstr ""
 "Se você tiver problemas esperando a página carregar totalmente (texto faltando, etc), tente aumentar o tempo de "
 "espera aqui."
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Add multiple elements, CSS or XPath selectors per line to ignore multiple parts of the HTML."
+msgstr "Adicione múltiplos elementos, seletores CSS ou XPath por linha para ignorar várias partes do HTML."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: This is applied globally in addition to the per-watch rules."
+msgstr "Nota: Isso é aplicado globalmente além das regras por monitoramento."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Matching text will be ignored in the text snapshot (you can still see it but it wont trigger a change)"
+msgstr "O texto correspondente será ignorado no instantâneo de texto (você ainda o verá, mas não disparará uma mudança)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Each line processed separately, any line matching will be ignored (removed before creating the checksum)"
+msgstr "Cada linha processada separadamente, qualquer linha correspondente será ignorada (removida antes de criar o checksum)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Regular Expression support, wrap the entire line in forward slash"
+msgstr "Suporte a Expressão Regular, envolva a linha inteira em barras (/)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Changing this will affect the comparison checksum which may trigger an alert"
+msgstr "Alterar isso afetará o checksum de comparação, o que pode disparar um alerta"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Remove any text that appears in the \"Ignore text\" from the output (otherwise its just ignored for change-detection)"
+msgstr ""
+"Remover qualquer texto que apareça em \"Ignorar texto\" da saída (caso contrário, é apenas ignorado para a detecção "
+"de mudanças)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API Access"
+msgstr "Acesso à API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Drive your changedetection.io via API, More about"
+msgstr "Controle seu changedetection.io via API, mais sobre"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API access and examples here"
+msgstr "acesso à API e exemplos aqui"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "UTC Time & Date from Server:"
 msgstr "Data e Hora UTC do Servidor:"
