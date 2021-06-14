@@ -35,3 +35,7 @@ def _make_watch(llm_intent='', llm_change_summary='', tags=None, uuid='test-uuid
     return w
 
 
+# ---------------------------------------------------------------------------
+# The group's AI setting gates the whole cascade
+# ---------------------------------------------------------------------------
+
