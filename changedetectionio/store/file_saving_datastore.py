@@ -196,3 +196,15 @@ def save_entity_atomic(entity_dir, uuid, entity_dict, filename, entity_type, max
     save_json_atomic(entity_json, entity_dict, label=f"{entity_type} {uuid}", max_size_mb=max_size_mb)
 
 
+class _EntityFileMissing:
+    """Sentinel: the directory exists but holds no file of this entity type."""
+    __slots__ = ()
+    def __repr__(self):
+        return '<ENTITY_FILE_MISSING>'
+    def __bool__(self):
+        return False
+
+
+ENTITY_FILE_MISSING = _EntityFileMissing()
+
+
