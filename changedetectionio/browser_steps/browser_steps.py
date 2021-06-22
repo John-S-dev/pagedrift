@@ -292,6 +292,32 @@ class steppable_browser_interface():
             
         await self.page.locator(selector).uncheck(timeout=self.action_timeout)
             
+
+    async def action_remove_elements(self, selector, value):
+        """Removes all elements matching the given selector from the DOM."""
+        if not selector:
+            return
+            
+        await self.page.locator(selector).evaluate_all("els => els.forEach(el => el.remove())")
+
+    async def action_make_all_child_elements_visible(self, selector, value):
+        """Recursively makes all child elements inside the given selector fully visible."""
+        if not selector:
+            return
+            
+        await self.page.locator(selector).locator("*").evaluate_all("""
+            els => els.forEach(el => {
+                el.style.display = 'block';   // Forces it to be displayed
+                el.style.visibility = 'visible';   // Ensures it's not hidden
+                el.style.opacity = '1';   // Fully opaque
+                el.style.position = 'relative';   // Avoids 'absolute' hiding
+                el.style.height = 'auto';   // Expands collapsed elements
+                el.style.width = 'auto';   // Ensures full visibility
+                el.removeAttribute('hidden');   // Removes hidden attribute
+                el.classList.remove('hidden', 'd-none');  // Removes common CSS hidden classes
+            })
+        """)
+
             logger.debug(f"Time to get screenshot from browser {time.time() - now:.2f}s")
 
             # Then get interactive elements
