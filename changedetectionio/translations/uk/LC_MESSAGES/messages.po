@@ -984,3 +984,57 @@ msgstr "Перевірити знову"
 msgid "Edit"
 msgstr "Редагувати"
 
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches paused"
+msgstr "{} завдань призупинено"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches unpaused"
+msgstr "{} завдань відновлено"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches updated"
+msgstr "{} завдань оновлено"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches muted"
+msgstr "{} завдань заглушено (без сповіщень)"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches un-muted"
+msgstr "{} завдань увімкнено (зі сповіщеннями)"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches queued for rechecking"
+msgstr "{} завдань поставлено в чергу на перевірку"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches errors cleared"
+msgstr "Помилки очищено у {} завдань"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches cleared/reset."
+msgstr "{} завдань очищено/скинуто."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches set to use default notification settings"
+msgstr "Для {} завдань встановлено налаштування сповіщень за замовчуванням"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Browser / fetch method updated on {} watches"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid browser / fetch method selected"
+msgstr ""
+
