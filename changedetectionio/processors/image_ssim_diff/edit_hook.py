@@ -4,6 +4,15 @@ Optional hook called when processor settings are saved in edit page.
 This hook analyzes the selected region to determine if template matching
 should be enabled for tracking content movement.
 
+Template matching is controlled via ENABLE_TEMPLATE_TRACKING env var (default: False).
+"""
+
+import io
+import os
+from loguru import logger
+from changedetectionio import strtobool
+from . import CROPPED_IMAGE_TEMPLATE_FILENAME
+
 # Template matching controlled via environment variable (default: disabled)
 # Set ENABLE_TEMPLATE_TRACKING=True to enable
 TEMPLATE_MATCHING_ENABLED = strtobool(os.getenv('ENABLE_TEMPLATE_TRACKING', 'False'))
