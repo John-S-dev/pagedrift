@@ -86,3 +86,45 @@
   --color-text-footer: #444;
   --color-border-watch-table-cell: #eee;
 
+  --color-text-watch-tag-list: rgba(231, 0, 105, 0.4);
+  --color-background-new-watch-form: rgba(0, 0, 0, 0.05);
+  --color-background-new-watch-input: var(--color-white);
+  --color-background-new-watch-input-transparent: rgba(255, 255, 255, 0.1);
+  --color-text-new-watch-input: var(--color-text);
+
+  --color-border-input: var(--color-grey-500);
+  --color-shadow-input: var(--color-grey-400);
+  --color-background-input: var(--color-white);
+  --color-text-input: var(--color-text);
+  --color-text-input-description: var(--color-grey-500);
+  --color-text-input-placeholder: var(--color-grey-600);
+
+  --color-background-table-thead: var(--color-grey-800);
+  --color-border-table-cell: var(--color-grey-700);
+
+  --color-text-menu-heading: var(--color-white);
+  --color-text-menu-link: var(--color-grey-500);
+  --color-background-menu-link-hover: var(--color-grey-850);
+  --color-text-menu-link-hover: var(--color-grey-300);
+
+  --color-shadow-jump: var(--color-grey-500);
+  --color-icon-github: var(--color-black);
+
+  --color-watch-table-error: var(--color-dark-red);
+  --color-watch-table-row-text: var(--color-grey-100);
+  --color-table-line: #e7e9ee;
+
+  --highlight-trigger-text-bg-color: #1b98f8;
+  --highlight-ignored-text-bg-color: var(--color-grey-700);
+  --highlight-blocked-text-bg-color: rgb(202, 60, 60);
+
+  // Left rail — light mode defaults
+  --color-sidebar-bg: rgba(255, 255, 255, 0.97);
+  --color-sidebar-text: var(--color-text);
+  --color-sidebar-shadow: 6px 0 28px rgba(0, 0, 0, 0.18);
+  --color-sidebar-item-hover-bg: rgba(0, 0, 0, 0.06);
+  --color-sidebar-item-active-bg: rgba(0, 0, 0, 0.10);
+
+  --common-round-border: 8px;
+}
+
