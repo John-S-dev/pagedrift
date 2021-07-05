@@ -365,6 +365,58 @@ msgstr "Количество элементов на странице в обз�
 msgid "How \"Checked\" and \"Changed\" times are shown in the watch overview list."
 msgstr ""
 
+#. 'Usage' here means token consumption/cost stats for the AI provider, not a how-to guide
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgctxt "AI usage stats"
+msgid "Usage"
+msgstr "Использование"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Overview"
+msgstr "Обзор"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Provider"
+msgstr "Поставщик"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Prompts"
+msgstr "Подсказки"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Behaviour"
+msgstr "Поведение"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI-powered change monitoring"
+msgstr "Мониторинг изменений на базе искусственного интеллекта"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connect an LLM to move from \"something changed\" to \"only the thing you care about changed\"."
+msgstr "Подключите LLM, чтобы перейти от «что-то изменилось» к «изменилось только то, что вам важно»."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Intent filtering"
+msgstr "Фильтрация намерений"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Each watch or tag can carry a plain-text intent — %(ex1)s or %(ex2)s. On every detected change the AI evaluates the "
+"diff against it and suppresses irrelevant noise."
+msgstr ""
+"Каждые часы или тег могут содержать текстовое намерение — %(ex1)s или %(ex2)s. При каждом обнаруженном изменении ИИ "
+"оценивает разницу и подавляет ненужный шум."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Tip: intent evaluation benefits from a capable model — recommended %(local)s locally, or %(gpt)s / %(gemini)s. Very "
+"small models (≤3B) may misjudge numeric comparisons."
+msgstr ""
+"Совет: оценка намерений выигрывает от работоспособной модели — локально рекомендуется %(local)s или "
+"%(gpt)s/%(gemini)s. Очень маленькие модели (≤3B) могут давать ошибочные результаты при числовом сравнении."
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid ""
 "You are solely responsible for compliance with applicable data-protection laws (e.g. GDPR) regarding any personal "
