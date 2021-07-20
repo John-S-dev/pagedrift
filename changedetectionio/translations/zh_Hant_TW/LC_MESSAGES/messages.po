@@ -522,3 +522,44 @@ msgstr "它們將在下次檢查時重新產生。"
 msgid "Clear cache"
 msgstr "清除快取"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Testing…"
+msgstr "測試中 ..."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connected"
+msgstr "已連線"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Failed"
+msgstr "失敗"
+
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "標籤「{}」已存在"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "標籤已新增"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "標籤已刪除，正在背景從監測任務中移除"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr "正在背景解除標籤與監測任務的連結"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr "所有標籤已刪除，正在背景從監測任務中清除"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "找不到標籤"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "已更新"
+
