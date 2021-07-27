@@ -33,6 +33,8 @@ try:
 except ImportError:
     HAS_ORJSON = False
 
+from ..processors import get_custom_watch_obj_for_processor, find_processors
+
 dictfilt = lambda x, y: dict([(i, x[i]) for i in x if i in set(y)])
 
 
