@@ -541,6 +541,54 @@ msgid "Test connection"
 msgstr "Тестовое соединение"
 
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Your API key is stored locally and sent only to your chosen provider. On each detected change, the watch's diff and "
+"extracted text are sent to the LLM — no full page HTML."
+msgstr ""
+"Ваш ключ API хранится локально и отправляется только выбранному вами провайдеру. При каждом обнаруженном изменении "
+"разница часов и извлеченный текст отправляются в LLM — без полностраничного HTML."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Cache"
+msgstr "Кэш"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache?"
+msgstr "Очистить весь кэш сводки?"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove all cached AI change summaries across all watches."
+msgstr "Это приведет к удалению всех кэшированных сводок изменений ИИ во всех часах."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "They will be regenerated on the next check."
+msgstr "Они будут восстановлены при следующей проверке."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear cache"
+msgstr "Очистить кеш"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache"
+msgstr "Очистить весь кэш сводки"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Removes all cached AI change summaries across all watches. They will be regenerated on the next check."
+msgstr "Удаляет все кэшированные сводки изменений ИИ во всех часах. Они будут восстановлены при следующей проверке."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Enables litellm verbose output (routed through loguru). Useful when diagnosing provider errors or empty responses. "
+"Leave off in production — generates a lot of log volume."
+msgstr ""
+"Включает подробный вывод Litellm (передается через loguru). Полезно при диагностике ошибок провайдера или пустых "
+"ответов. Оставить в производстве — генерируется большой объем журналов."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Default AI Change Summary"
+msgstr "Сводка изменений ИИ по умолчанию"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "tokens"
 msgstr "жетоны"
 
