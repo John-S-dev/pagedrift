@@ -106,3 +106,45 @@ $(document).ready(function () {
         }
     }
 
+    // Debounce scroll and resize events to reduce CPU usage
+    $(window).on('scroll', updateVisualizerPosition.debounce(5));
+    $(window).on('resize', handleResize.debounce(100));
+
+    // Initial scroll to specific line if requested
+    if (typeof initialScrollToLineNumber !== 'undefined' && initialScrollToLineNumber !== null && $difference.length) {
+        // Convert line number to text position and scroll to it
+        var diffText = $difference.text();
+        var lines = diffText.split('\n');
+
+        if (initialScrollToLineNumber > 0 && initialScrollToLineNumber <= lines.length) {
+            // Calculate character position of the target line
+            var charPosition = 0;
+            for (var i = 0; i < initialScrollToLineNumber - 1; i++) {
+                charPosition += lines[i].length + 1; // +1 for newline
+            }
+
+            // Estimate vertical position based on average line height
+            var totalChars = diffText.length;
+            var totalHeight = $difference[0].scrollHeight;
+            var estimatedTop = (charPosition / totalChars) * totalHeight;
+
+            // Scroll to position with line at viewport center
+            var viewportHeight = $(window).height();
+            setTimeout(function() {
+                window.scrollTo({
+                    top: $difference.offset().top + estimatedTop - (viewportHeight / 2),
+                    behavior: "smooth"
+                });
+            }, 100); // Small delay to ensure page is fully loaded
+        }
+    }
+
+    // Initial position update
+    if ($difference.length && cellHeight) {
+        updateVisualizerPosition();
+    }
+
+    function changed() {
+        //$('#jump-next-diff').click();
+    }
+
