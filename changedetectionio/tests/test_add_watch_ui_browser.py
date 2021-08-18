@@ -10,3 +10,30 @@ which rendered a parked snapshot wins over the posted form.
 import json
 import os
 
+from flask import url_for
+
+
+def _datastore(client):
+    return client.application.config.get('DATASTORE')
+
+
+def test_hidden_without_a_live_preview_browser(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """No capable browser -> the sidebar link is hidden and the route bounces.
+
+    One seam is patched deliberately: has_visual_browser() (page + sidebar gate) and
+    default_visual_browser() both resolve through list_visual_browser_choices(), so the
+    gate can't disagree with what the picker would have offered.
+    """
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+    monkeypatch.setattr(browser_config, 'list_visual_browser_choices', lambda datastore: [])
+
+    # Sidebar link is not rendered
+    res = client.get(url_for('watchlist.index'))
+    assert url_for('add_watch_ui.add_watch_ui_index').encode() not in res.data
+
+    # Direct navigation is bounced back to the watch list
+    res = client.get(url_for('add_watch_ui.add_watch_ui_index'), follow_redirects=True)
+    assert b'name="fetch_backend"' not in res.data
+    assert b'needs an interactive browser' in res.data
+
+
