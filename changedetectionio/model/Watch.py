@@ -414,3 +414,81 @@ class model(EntityPersistenceMixin, watch_base):
         # Sort by timestamp (key)
         sorted_items = sorted(self.history.items(), key=lambda x: int(x[0]))
 
+        extension = None
+
+        # If the caller already resolved the MIME type (e.g. from blob.type or a data URI),
+        # use that directly — it's more reliable than guessing from a URL path.
+        if mime_type:
+            extension = MIME_TO_EXT.get(mime_type.lower().split(';')[0].strip(), None)
+
+        # Fall back to extracting extension from URL path, unless it's a data URI.
+        if not extension and url and not url.startswith('data:'):
+            try:
+                parsed = urlparse(url)
+                filename = os.path.basename(parsed.path)
+                (_base, ext) = filename.lower().strip().rsplit('.', 1)
+                extension = ext
+            except ValueError:
+                logger.warning(f"UUID: {self.get('uuid')} Cant work out file extension from '{url}', defaulting to ico")
+
+        # Handle data URIs: extract MIME type from the URI itself when not already known
+        if not extension and url and url.startswith('data:'):
+            m = re.match(r'^data:([^;]+);base64,', url)
+            if m:
+                extension = MIME_TO_EXT.get(m.group(1).lower(), None)
+
+        if not extension:
+            extension = 'ico'
+
+        fname = os.path.join(self.data_dir, f"favicon.{extension}")
+
+        try:
+            # validate=True makes sure the string only contains valid base64 chars
+            decoded = base64.b64decode(favicon_base_64, validate=True)
+        except (binascii.Error, ValueError) as e:
+            logger.warning(f"UUID: {self.get('uuid')} FavIcon save data (Base64) corrupt? {str(e)}")
+            return None
+
+        if len(decoded) > MAX_FAVICON_BYTES:
+            logger.warning(f"UUID: {self.get('uuid')} Favicon too large ({len(decoded)} bytes), skipping")
+            return None
+
+        try:
+            with open(fname, 'wb') as f:
+                f.write(decoded)
+
+            # Invalidate module-level favicon filename cache for this watch
+            _FAVICON_FILENAME_CACHE.pop(self.data_dir, None)
+
+            # A signal that could trigger the socket server to update the browser also
+            watch_check_update = signal('watch_favicon_bump')
+            if watch_check_update:
+                watch_check_update.send(watch_uuid=self.get('uuid'))
+
+        except Exception as e:
+            logger.warning(f"UUID: {self.get('uuid')} error saving FavIcon to {fname} - {str(e)}")
+            return None
+
+        # @todo - Store some checksum and only write when its different
+        logger.debug(f"UUID: {self.get('uuid')} updated favicon to at {fname}")
+
+    def get_favicon_filename(self) -> str | None:
+        """
+        Find any favicon.* file in the watch data directory.
+
+        Uses a module-level cache keyed by data_dir to survive Watch object recreation,
+        deepcopy (which drops instance attrs), and concurrent request races.
+        Invalidated when a favicon is saved or the watch history is cleared.
+
+        Returns:
+            str: Basename of the favicon file, or None if not found.
+        """
+        if self.data_dir in _FAVICON_FILENAME_CACHE:
+            return _FAVICON_FILENAME_CACHE[self.data_dir]
+
+        import glob
+        files = glob.glob(os.path.join(self.data_dir, "favicon.*"))
+        fname = os.path.basename(files[0]) if files else None
+        _FAVICON_FILENAME_CACHE[self.data_dir] = fname
+        return fname
+
