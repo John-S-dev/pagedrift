@@ -99,3 +99,40 @@ class WorkerThread:
         # Don't wait - thread is daemon and will die when needed
 
 
+def add_worker(update_q, notification_q, app, datastore):
+    """Add a new async worker (for dynamic scaling)"""
+    global worker_threads
+
+    _ensure_queue_executor()
+
+    # Reuse lowest available ID to prevent unbounded growth over time
+    used_ids = {w.worker_id for w in worker_threads}
+    worker_id = 0
+    while worker_id in used_ids:
+        worker_id += 1
+    logger.info(f"Adding async worker {worker_id}")
+
+    try:
+        worker = WorkerThread(worker_id, update_q, notification_q, app, datastore)
+        worker.start()
+        worker_threads.append(worker)
+        return True
+    except Exception as e:
+        logger.error(f"Failed to add worker {worker_id}: {e}")
+        return False
+
+
+def remove_worker():
+    """Remove an async worker (for dynamic scaling)"""
+    global worker_threads
+
+    if not worker_threads:
+        return False
+
+    # Stop the last worker
+    worker = worker_threads.pop()
+    worker.stop()
+    logger.info(f"Removed async worker, {len(worker_threads)} workers remaining")
+    return True
+
+
