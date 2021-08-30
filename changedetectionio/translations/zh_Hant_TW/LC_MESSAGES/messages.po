@@ -432,6 +432,46 @@ msgid "Open the extension from the toolbar and click"
 msgstr "從工具列開啟擴充功能並點擊"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Sync API Access"
+msgstr "同步 API 存取"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Try our new Chrome Extension!"
+msgstr "試試我們全新的 Chrome 擴充功能！"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome store icon"
+msgstr "Chrome 線上應用程式商店圖示"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Webstore"
+msgstr "Chrome 線上應用程式商店"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Maximum number of history snapshots to include in the watch specific RSS feed."
+msgstr "特定監測任務 RSS Feed 中包含的歷史快照最大數量。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For watching other RSS feeds - When watching RSS/Atom feeds, convert them into clean text for better change detection."
+msgstr "用於監測其他 RSS Feed - 監測 RSS / Atom Feed 時，將它們轉換為純文字以進行更好的變更檢測。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Does your reader support HTML? Set it here"
+msgstr "您的閱讀器支援 HTML 嗎？在此處設定"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "'System default' for the same template for all items, or re-use your \"Notification Body\" as the template."
+msgstr "所有項目皆使用相同範本的「系統預設」，或重複使用您的「通知內容」作為範本。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ensure the settings below are correct, they are used to manage the time schedule for checking your web page watches."
+msgstr "請確保以下設定正確，它們用於管理檢查您網頁監測任務的時間排程。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "UTC Time & Date from Server:"
+msgstr "來自伺服器的 UTC 時間與日期："
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Local Time & Date in Browser:"
 msgstr "瀏覽器中的本地時間與日期："
 
