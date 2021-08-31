@@ -37,3 +37,54 @@ def test_hidden_without_a_live_preview_browser(client, live_server, measure_memo
     assert b'needs an interactive browser' in res.data
 
 
+def test_submit_rejects_unknown_fetcher(client, live_server, measure_memory_usage, datastore_path):
+    """A posted browser is checked server side, so a doctored form can't pin a junk fetcher."""
+    datastore = _datastore(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    for bad in ('os', 'html_requests\n', '{{7*7}}', '../../etc/passwd', 'html_nope'):
+        before = len(datastore.data['watching'])
+        res = client.post(
+            url_for("ui.ui_views.form_quick_watch_add"),
+            data={"url": test_url, "fetch_backend": bad},
+            follow_redirects=True
+        )
+        assert res.status_code == 200
+        assert b"Watch added" not in res.data
+        assert len(datastore.data['watching']) == before, f"{bad!r} should not have created a watch"
+
+
+def test_submit_still_accepts_any_installed_fetcher(client, live_server, measure_memory_usage, datastore_path):
+    """This endpoint is shared with the watch-list quick-add, which may legitimately name a
+    backend that can't render a live preview (restock tests add watches with html_requests) -
+    only *offering* it on the Add-Watch page is restricted, not adding a watch with it."""
+    datastore = _datastore(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "processor": "restock_diff", "fetch_backend": "html_requests"},
+        follow_redirects=True
+    )
+    assert b"Watch added" in res.data
+
+    uuid = next(iter(datastore.data['watching']))
+    assert datastore.data['watching'][uuid].get('fetch_backend') == 'html_requests'
+
+
+def test_submit_saves_chosen_browser(client, live_server, measure_memory_usage, datastore_path):
+    """The picked browser lands on the watch instead of leaving it on 'system'."""
+    datastore = _datastore(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "fetch_backend": "html_webdriver"},
+        follow_redirects=True
+    )
+    assert b"Watch added" in res.data
+
+    uuid = next(iter(datastore.data['watching']))
+    assert datastore.data['watching'][uuid].get('fetch_backend') == 'html_webdriver'
+
+
