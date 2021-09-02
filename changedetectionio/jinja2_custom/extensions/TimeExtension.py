@@ -64,3 +64,20 @@ Configuration:
     - Default timezone: Set via TZ environment variable or override environment.default_timezone
     - Default format: '%a, %d %b %Y %H:%M:%S' (can be overridden via environment.datetime_format)
 
+Environment Customization:
+    from changedetectionio.jinja2_custom import create_jinja_env
+
+    jinja2_env = create_jinja_env()
+    jinja2_env.default_timezone = 'America/New_York'  # Override default timezone
+    jinja2_env.datetime_format = '%Y-%m-%d %H:%M'      # Override default format
+
+Supported Offset Parameters:
+    - years, months, weeks, days
+    - hours, minutes, seconds, microseconds
+    - weekday (0=Monday through 6=Sunday, must be integer)
+
+Note:
+    This extension uses the Arrow library for timezone-aware datetime handling.
+    All timezone names should be valid IANA timezone identifiers (e.g., 'America/New_York').
+"""
+
