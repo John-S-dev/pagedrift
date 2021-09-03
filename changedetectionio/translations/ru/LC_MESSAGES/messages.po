@@ -221,6 +221,48 @@ msgstr "Защита паролем включена."
 msgid "Settings updated."
 msgstr "Настройки обновлены."
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to <strong>0</strong> to disable"
+msgstr "Установите значение <strong>0</strong>, чтобы отключить"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit collection of history snapshots for each watch to this number of history items."
+msgstr "Ограничьте сбор снимков истории для каждых часов указанным количеством элементов истории."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to empty to disable / no limit"
+msgstr "Установите пустое значение, чтобы отключить/без ограничений"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password protection for your changedetection.io application."
+msgstr "Защита паролем для вашего приложения Changetection.io."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password is locked."
+msgstr "Пароль заблокирован."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Clear Snapshot History"
+msgstr "Очистить историю снимков"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Allow access to the watch change history page when password is enabled (Good for sharing the diff page)"
+msgstr ""
+"Разрешить доступ к странице истории изменений часов, когда пароль включен (хорошо для совместного использования "
+"страницы различий)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "When a request returns no content, or the HTML does not contain any text, is this considered a change?"
+msgstr "Если запрос не возвращает содержимого или HTML не содержит текста, считается ли это изменением?"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Choose a default proxy for all watches"
+msgstr "Выберите прокси-сервер по умолчанию для всех часов"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the <strong>Basic</strong> method (default) where your watched sites don't need Javascript to render."
+msgstr "Используйте метод <strong>Basic</strong> (по умолчанию), если для просмотра ваших сайтов не требуется Javascript."
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
 msgid ""
 "The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set"
