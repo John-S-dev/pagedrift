@@ -7,5 +7,11 @@ from changedetectionio import worker_pool
 from changedetectionio.queuedWatchMetaData import PrioritizedItem
 from changedetectionio.pluggy_interface import apply_update_handler_alter, apply_update_finalize
 
+# Allow alphanumerics, space, and a small set of punctuation that appears in legitimate
+# status strings ("Querying AI/LLM (intent)..", "Fetching..."). Anything that could
+# be HTML-active (<, >, &, ", ', =, ;, {, }, `, \) is stripped.
+_MINITEXT_STATUS_SAFE_RE = re.compile(r'[^A-Za-z0-9 ().,/:\-]')
+_MINITEXT_STATUS_MAX_LEN = 80
+
 from loguru import logger
 
