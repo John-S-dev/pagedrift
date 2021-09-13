@@ -1061,3 +1061,51 @@ msgstr "前へ"
 msgid "Next"
 msgstr "次へ"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "ブラウザの接続に10〜15秒お待ちください。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "「Play」を押して開始してください。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "ビジュアルセレクターのデータが準備できていません。ウォッチを少なくとも1回チェックする必要があります。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr "申し訳ありませんが、この機能はインタラクティブなJavascriptをサポートするフェッチャー（現在はPlaywrightベースのフェッチャーのみ）でのみ動作します"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "インタラクティブなJavascriptをサポートするものに変更してください。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "次の操作が必要です："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "取得方式を設定する"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sends a notification when the filter can no longer be seen on the page, good for knowing when the page changed and "
+"your filter will not work anymore."
+msgstr "フィルタがページで見つからなくなったときに通知を送信します。ページが変更されてフィルタが機能しなくなったことを把握するのに便利です。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the verify (✓) button to test if a condition passes against the current snapshot."
+msgstr "確認ボタン（✓）を使用して、現在のスナップショットに対して条件が満たされるかテストできます。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "次のクイックチュートリアルをご覧ください："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "using conditional web page changes here"
+msgstr "条件付きウェブページ変更の使用方法はこちら"
+
