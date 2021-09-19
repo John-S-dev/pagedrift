@@ -174,6 +174,50 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/edit/include_subtract.html
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example"
+msgstr "Esempio"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URLs which do not pass validation will stay in the textarea."
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Copy and Paste your Distill.io watch 'export' file, this should be a JSON file."
+msgstr ""
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ""
+"This is <i>experimental</i>, supported fields are <code>name</code>, <code>uri</code>, <code>tags</code>, "
+"<code>config:selections</code>, the rest (including <code>schedule</code>) are ignored."
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "How to export?"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Be sure to set your default fetcher to Chrome if required."
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Table of custom column and data types mapping for the"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Custom mapping"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "File mapping type."
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Column #"
+msgstr ""
+
 #: changedetectionio/blueprint/imports/templates/import.html
 msgid "Type"
 msgstr "Tipo"
@@ -980,6 +1024,47 @@ msgstr ""
 
 #: changedetectionio/blueprint/ui/__init__.py
 msgid "Queued 1 watch for rechecking."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/queue.py
+#, python-brace-format
+msgid "Queue cleared ({} items removed)."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "This will remove version history (snapshots) for ALL watches, but keep your list of URLs!"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "You may like to use the"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "BACKUP"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "link first."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Confirmation text"
+msgstr "Testo di conferma"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Type in the word"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "to confirm that you understand."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Clear History!"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Share diff as image"
 msgstr ""
 
 #: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
