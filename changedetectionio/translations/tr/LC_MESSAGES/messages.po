@@ -906,6 +906,56 @@ msgstr "Etiket / İsim adı"
 msgid "No website organisational tags/groups configured"
 msgstr "Yapılandırılmış web sitesi organizasyonel etiketi/grubu yok"
 
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/menu.html
+msgid "Mute notifications"
+msgstr "Bildirimleri sessize al"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Recheck"
+msgstr "Yeniden Kontrol Et"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/edit.py
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Edit"
+msgstr "Düzenle"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Delete Group?"
+msgstr "Grup Silinsin mi?"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#, python-format
+msgid "<p>Are you sure you want to delete group <strong>%(title)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p><strong>%(title)s</strong> grubunu silmek istediğinizden emin misiniz?</p><p>Bu işlem geri alınamaz.</p>"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/templates/base.html
+msgid "Delete"
+msgstr "Sil"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Deletes and removes tag"
+msgstr "Etiketi siler ve kaldırır"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Unlink Group?"
+msgstr "Grubun Bağlantısı Kesilsin mi?"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#, python-format
+msgid ""
+"<p>Are you sure you want to unlink all watches from group <strong>%(title)s</strong>?</p><p>The tag will be kept but "
+"watches will be removed from it.</p>"
+msgstr ""
+"<p><strong>%(title)s</strong> grubundaki tüm izleyicilerin bağlantısını kesmek istediğinizden emin "
+"misiniz?</p><p>Etiket tutulacak ancak izleyiciler ondan kaldırılacaktır.</p>"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/base.html
+msgid "Unlink"
+msgstr "Bağlantıyı Kes"
+
 #: changedetectionio/blueprint/ui/__init__.py
 msgid "Language set to auto-detect from browser"
 msgstr "Dil, tarayıcıdan otomatik algılanacak şekilde ayarlandı"
