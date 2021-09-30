@@ -1085,6 +1085,46 @@ msgstr ""
 "Tylko dla modeli Gemini 2.5+. Tokeny myślowe poprawiają jakość rozumowania, ale są wliczane do limitu wyjściowego. "
 "Ustaw opcję na „Wyłączone”, jeśli streszczenia są skracane."
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "platform.openai.com → API keys"
+msgstr "platform.openai.com → Klucze API"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "console.anthropic.com → API keys"
+msgstr "console.anthropic.com → Klucze API"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "aistudio.google.com → Get API key"
+msgstr "aistudio.google.com → Pobierz klucz API"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "No API key needed for local Ollama"
+msgstr "W przypadku lokalnej wersji Ollama klucz API nie jest wymagany"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Bearer token for your self-hosted server (vLLM, LM Studio, etc.)"
+msgstr "Token Bearer dla własnego serwera (vLLM, LM Studio itp.)"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "openrouter.ai → Keys"
+msgstr "openrouter.ai → Klucze"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Select a provider first."
+msgstr "Najpierw wybierz dostawcę."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Loading…"
+msgstr "Ładowanie…"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "No models returned by the provider."
+msgstr "Dostawca nie zwrócił żadnych modeli."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "— choose a model —"
+msgstr "— wybierz model —"
+
 #: changedetectionio/blueprint/tags/form.py
 msgid "Off for every watch"
 msgstr ""
