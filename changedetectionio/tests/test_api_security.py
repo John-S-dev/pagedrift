@@ -4,3 +4,7 @@ Comprehensive security and edge case tests for the API.
 Tests critical areas that were identified as gaps in the existing test suite.
 """
 
+# ============================================================================
+# TIER 1: CRITICAL SECURITY TESTS
+# ============================================================================
+
