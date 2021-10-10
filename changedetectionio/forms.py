@@ -605,6 +605,27 @@ class ValidateJinja2Template(object):
                 f"The following tokens used in the notification are not valid: {undefined}"
             )
 
+class validateURL(object):
+
+    """
+       Flask wtform validators wont work with basic auth
+    """
+
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        # This should raise a ValidationError() or not
+        validate_url(field.data)
+
+
+def validate_url(test_url):
+    from changedetectionio.validate_url import is_safe_valid_url
+    if not is_safe_valid_url(test_url):
+        # This should be wtforms.validators.
+        raise ValidationError('Watch protocol is not permitted or invalid URL format')
+
+
 class ValidateListRegex(object):
     """
     Validates that anything that looks like a regex passes as a regex
