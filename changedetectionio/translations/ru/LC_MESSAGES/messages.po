@@ -221,6 +221,52 @@ msgstr "Защита паролем включена."
 msgid "Settings updated."
 msgstr "Настройки обновлены."
 
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "Произошла ошибка, см. ниже."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "API Key was regenerated."
+msgstr "Ключ API был восстановлен."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling paused - checks will not be queued."
+msgstr "Автоматическое планирование приостановлено — чеки не будут поставлены в очередь."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling resumed - checks will be queued normally."
+msgstr "Автоматическое планирование возобновлено – чеки будут поставлены в очередь в обычном режиме."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications muted."
+msgstr "Все уведомления отключены."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications unmuted."
+msgstr "Все уведомления включены."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid ""
+"api_key is required when api_base differs from the saved configuration. Refusing to send the stored API key to a "
+"different endpoint."
+msgstr ""
+"api_key требуется, если api_base отличается от сохраненной конфигурации. Отказ отправить сохраненный ключ API в "
+"другую конечную точку."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid "AI / LLM configuration removed."
+msgstr "Конфигурация AI/LLM удалена."
+
+#: changedetectionio/blueprint/settings/llm.py
+#, python-brace-format
+msgid "AI summary cache cleared ({} file(s) removed)."
+msgstr "Кэш сводки AI очищен (удалены {} файлы)."
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Default Notifications"
+msgstr ""
+
 #: changedetectionio/blueprint/settings/notifications/templates/apprise.html
 msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
 msgstr ""
