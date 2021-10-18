@@ -17,3 +17,52 @@ systematic translation breakage across many languages. Follow the patterns here 
 
 ## Template rules: do not fragment `msgid`s
 
+### Why fragments break translation
+
+The GNU gettext manual is explicit on this:
+
+> **[Entire sentences](https://www.gnu.org/software/gettext/manual/html_node/Entire-sentences.html)**:
+> Translatable strings should be entire sentences. Because gender/number declension depends on other
+> parts of the sentence, half-sentence *"dumb string concatenation"* breaks in many languages other than English.
+
+> **[No string concatenation](https://www.gnu.org/software/gettext/manual/html_node/No-string-concatenation.html)**:
+> Placing adjacent `_()` calls is semantically equivalent to runtime `strcat` concatenation, so the same
+> guideline applies. The manual also notes that "in some languages the translator might want to swap the
+> order" of components.
+
+> **[No embedded URLs](https://www.gnu.org/software/gettext/manual/html_node/No-embedded-URLs.html)**:
+> URLs should not be written directly inside `msgid`s; they should be injected via `%(name)s` placeholders
+> and values passed as kwargs.
+
+> **[No unusual markup](https://www.gnu.org/software/gettext/manual/html_node/No-unusual-markup.html)**:
+> "HTML markup, however, is common enough that it's probably ok to use in translatable strings."
+
+Fragments break differently depending on language family:
+
+| Language family | How fragmentation breaks it |
+|---|---|
+| SOV (Japanese, Korean, Turkish) | Verb-final word order can't be achieved when verb and subject are in separate fragments |
+| Germanic (German) | Gender/case agreement between article and noun is lost across fragment boundaries |
+| Romance (French, Spanish, Italian, Portuguese) | Adjective placement, subjunctive mood, verb agreement can't be maintained |
+| Slavic (Czech, Ukrainian) | Case (driven by preposition/verb relationships) is easy to get wrong |
+| CJK (Chinese, Japanese, Korean) | Modifier position and SVO-vs-topic-prominent differences can't be applied at fragment level |
+
+A past workaround was redistributing translations across adjacent fragments and using `msgstr " "` (a
+single space) to suppress unused fragments. This is fragile: as soon as the same short `msgid` is reused
+in a different template, the redistributed translation is applied verbatim and breaks the new context.
+
+---
+
+## The four correct patterns
+
+### Pattern 1 — Inline HTML embedding
+
+Keep markup **inside** the `msgid`. Render with `| safe`. This also lets CJK translators decide how to
+handle `<i>` (see CJK section below).
+
+```jinja
+{# BAD: three fragments; CJK translators can't see the <i> at all #}
+{{ _('Helps reduce changes detected caused by sites shuffling lines around, combine with') }}
+<i>{{ _('check unique lines') }}</i>
+{{ _('below.') }}
+
