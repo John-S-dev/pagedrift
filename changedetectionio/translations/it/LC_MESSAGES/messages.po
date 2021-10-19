@@ -174,6 +174,56 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Impossibile leggere il file XLSX di esportazione, c'è qualcosa che non va con il file?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Errore nell'elaborazione della riga numero {}, il valore dell'URL non era corretto, riga ignorata."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr ""
+"Errore nell'elaborazione della riga numero {}, verifica che tutti i tipi di dati delle celle siano corretti, riga "
+"ignorata."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} importate da Wachete .xlsx in {duration}s"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} importate da .xlsx personalizzato in {duration}s"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Lista URL"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX & Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
+msgstr ""
+
 #: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/edit/include_subtract.html
 #: changedetectionio/templates/edit/text-options.html
 msgid "Example"
