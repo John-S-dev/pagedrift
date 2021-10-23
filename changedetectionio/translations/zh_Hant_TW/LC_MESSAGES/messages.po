@@ -219,6 +219,49 @@ msgstr ""
 msgid "Watch with UUID %(uuid)s not found"
 msgstr "找不到 UUID 為 %(uuid)s 的監測任務"
 
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling paused - checks will not be queued."
+msgstr "自動排程已暫停 - 檢查將不會排入佇列。"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling resumed - checks will be queued normally."
+msgstr "自動排程已恢復 - 檢查將正常排入佇列。"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications muted."
+msgstr "所有通知已靜音。"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications unmuted."
+msgstr "所有通知已取消靜音。"
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid ""
+"api_key is required when api_base differs from the saved configuration. Refusing to send the stored API key to a "
+"different endpoint."
+msgstr "當 api_base 與儲存的設定不同時，必須提供 api_key。拒絕將儲存的 API 金鑰發送到不同的端點。"
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid "AI / LLM configuration removed."
+msgstr "AI / LLM 設定已移除。"
+
+#: changedetectionio/blueprint/settings/llm.py
+#, python-brace-format
+msgid "AI summary cache cleared ({} file(s) removed)."
+msgstr "AI 摘要快取已清除（已移除 {} 個檔案）。"
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Default Notifications"
+msgstr "預設通知"
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
+msgstr "這些通知套用至所有網頁監測任務，或者您也可以個別針對每個群組或每個監測任務進行設定。"
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Base URL used for the"
+msgstr "用於通知連結中"
+
 #: changedetectionio/blueprint/settings/notifications/templates/apprise.html
 msgid "token in notification links."
 msgstr "通知 URL 列表"
