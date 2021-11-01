@@ -1215,3 +1215,43 @@ msgstr "监视器已在队列中或正在检查。"
 msgid "Queued 1 watch for rechecking."
 msgstr "已将 1 个监控项加入重新检查队列。"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "下载最新的 HTML 快照"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "删除监控项？"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "确定要删除以下监控项吗："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This action cannot be undone."
+msgstr "此操作不可撤销。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear History?"
+msgstr "清除历史记录？"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to clear all history for:"
+msgstr "确定要清除以下监控项的全部历史记录吗："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will remove all snapshots and previous versions. This action cannot be undone."
+msgstr "这将删除所有快照和历史版本。此操作不可撤销。"
+
