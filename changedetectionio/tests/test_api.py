@@ -35,6 +35,8 @@ def is_valid_uuid(val):
         return False
 
 
+def test_api_simple(client, live_server, measure_memory_usage, datastore_path):
+
     time.sleep(3)
     # Fetch the whole watch again, viewed should be true
     res = client.get(
