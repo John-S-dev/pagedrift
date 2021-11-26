@@ -87,6 +87,65 @@ $(document).ready(function () {
     }
 
 
+    // Cache DOM elements for performance.
+    // queue-size-int is a class (not an id) because the count is rendered in
+    // BOTH the desktop sidebar and the hamburger drawer — keep them in sync.
+    const queueBubble = document.getElementById('queue-bubble');
+    const queueSizeNodes = document.querySelectorAll('.queue-size-int');
+    // "Checking now" count - rendered in both the desktop sidebar and the hamburger drawer.
+    const checkingNowNodes = document.querySelectorAll('.checking-now-int');
+    // Only try to connect if authentication isn't required or user is authenticated
+    // The 'is_authenticated' variable will be set in the template
+    if (typeof is_authenticated !== 'undefined' ? is_authenticated : true) {
+        // Try to create the socket connection to the SocketIO server - if it fails, the site will still work normally
+        try {
+            // Connect to Socket.IO on the same host/port, with path from template
+            const socket = io({
+                path: socketio_url,  // This will be the path prefix like "/app/socket.io" from the template
+                transports: ['websocket', 'polling'],
+                reconnectionDelay: 3000,
+                reconnectionAttempts: 25
+            });
+
+            // Expose the socket so other pages can attach their own listeners
+            // (e.g. the queue page reacts to watch_update / queue_size events).
+            window.cdioSocket = socket;
+            document.dispatchEvent(new CustomEvent('cdio:socket-ready', { detail: { socket: socket } }));
+
+            // Connection status logging
+            socket.on('connect', function () {
+                $('#realtime-conn-error').hide();
+                console.log('Socket.IO connected with path:', socketio_url);
+                console.log('Socket transport:', socket.io.engine.transport.name);
+                bindSocketHandlerButtonsEvents(socket);
+            });
+
+            socket.on('connect_error', function(error) {
+                console.error('Socket.IO connection error:', error);
+            });
+
+            socket.on('connect_timeout', function() {
+                console.error('Socket.IO connection timeout');
+            });
+
+            socket.on('error', function(error) {
+                console.error('Socket.IO error:', error);
+            });
+
+            socket.on('disconnect', function (reason) {
+                console.log('Socket.IO disconnected, reason:', reason);
+                $('.ajax-op').off('.socketHandlerNamespace');
+                $('#realtime-conn-error').show();
+            });
+
+            // Tell the server we're leaving cleanly so it can release the connection
+            // immediately rather than waiting for a timeout.
+            // Note: this only fires for voluntary closes (tab/window close, navigation away).
+            // Hard kills, crashes and network drops will still timeout normally on the server.
+            window.addEventListener('beforeunload', function () {
+                socket.disconnect();
+            });
+
             socket.on('watch_small_status_comment', function (data) {
                 console.log(`Socket.IO: Operation  watch_small_status_comment'${data.uuid}' status ${data.status}`);
                 $('tr[data-watch-uuid="' + data.uuid + '"] td.last-checked .status-text').html("&nbsp;").text(data.status);
