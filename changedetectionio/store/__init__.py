@@ -35,6 +35,11 @@ except ImportError:
 
 from ..processors import get_custom_watch_obj_for_processor, find_processors
 
+# Import the base class and helpers
+from .file_saving_datastore import (FileSavingDataStore, load_all_watches, load_all_tags, load_watch_from_file,
+                                    save_json_atomic)
+from .updates import DatastoreUpdatesMixin
+
 dictfilt = lambda x, y: dict([(i, x[i]) for i in x if i in set(y)])
 
 
