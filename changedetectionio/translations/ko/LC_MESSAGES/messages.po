@@ -438,6 +438,49 @@ msgstr "오류가 발생했습니다. 아래 내용을 확인해 주세요."
 msgid "API Key was regenerated."
 msgstr "API 키가 재생성되었습니다."
 
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling paused - checks will not be queued."
+msgstr "자동 예약이 일시중지되었습니다. 확인 작업이 대기열에 추가되지 않습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling resumed - checks will be queued normally."
+msgstr "자동 예약이 재개되었습니다. 확인 작업이 정상적으로 대기열에 추가됩니다."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications muted."
+msgstr "모든 알림이 음소거되었습니다."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications unmuted."
+msgstr "모든 알림의 음소거가 해제되었습니다."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid ""
+"api_key is required when api_base differs from the saved configuration. Refusing to send the stored API key to a "
+"different endpoint."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid "AI / LLM configuration removed."
+msgstr "AI / LLM 설정이 제거되었습니다."
+
+#: changedetectionio/blueprint/settings/llm.py
+#, python-brace-format
+msgid "AI summary cache cleared ({} file(s) removed)."
+msgstr "AI 요약 캐시가 지워졌습니다({}개 파일 제거됨)."
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Default Notifications"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/notifications/templates/apprise.html
+msgid "Base URL used for the"
+msgstr "알림 링크의"
+
 #: changedetectionio/blueprint/settings/notifications/templates/apprise.html
 msgid "token in notification links."
 msgstr "토큰에 사용할 기본 URL입니다."
