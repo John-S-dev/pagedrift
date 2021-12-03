@@ -252,3 +252,58 @@ class difference_detection_processor():
         if self.watch.get('webdriver_js_execute_code') is not None and self.watch.get('webdriver_js_execute_code').strip():
             self.fetcher.webdriver_js_execute_code = self.watch.get('webdriver_js_execute_code')
 
+        Args:
+            filename: Name of JSON file (e.g., "visual_ssim_score.json")
+
+        Returns:
+            dict: Parsed JSON data, or empty dict if file doesn't exist
+        """
+        import json
+        import os
+
+        watch = self.datastore.data['watching'].get(self.watch_uuid)
+        data_dir = watch.data_dir
+
+        if not data_dir:
+            return {}
+
+        filepath = self._resolve_watch_config_path(data_dir, filename)
+        if not filepath:
+            return {}
+
+        if not os.path.isfile(filepath):
+            return {}
+
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError) as e:
+            logger.warning(f"Failed to read extra watch config {filename}: {e}")
+            return {}
+
+    def update_extra_watch_config(self, filename, data, merge=True):
+        """
+        Write processor-specific JSON config file to watch data directory.
+
+        Args:
+            filename: Name of JSON file (e.g., "visual_ssim_score.json")
+            data: Dictionary to serialize as JSON
+            merge: If True, merge with existing data; if False, overwrite completely
+        """
+        import json
+        import os
+
+        watch = self.datastore.data['watching'].get(self.watch_uuid)
+        data_dir = watch.data_dir
+
+        if not data_dir:
+            logger.warning(f"Cannot save extra watch config {filename}: no data_dir")
+            return
+
+        # Ensure directory exists
+        watch.ensure_data_dir_exists()
+
+        filepath = self._resolve_watch_config_path(data_dir, filename)
+        if not filepath:
+            return
+
