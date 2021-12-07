@@ -920,6 +920,58 @@ msgstr "Plugin aktif:"
 msgid "No plugins active"
 msgstr "Tidak ada plugin aktif"
 
+#. 'Usage' here means token consumption/cost stats for the AI provider, not a how-to guide
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgctxt "AI usage stats"
+msgid "Usage"
+msgstr "Penggunaan"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Overview"
+msgstr "Ringkasan"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Provider"
+msgstr "Penyedia"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Prompts"
+msgstr "Prompt"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Behaviour"
+msgstr "Perilaku"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI-powered change monitoring"
+msgstr "Pemantauan perubahan bertenaga AI"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connect an LLM to move from \"something changed\" to \"only the thing you care about changed\"."
+msgstr "Hubungkan LLM untuk beralih dari \"ada sesuatu yang berubah\" menjadi \"hanya hal yang Anda pedulikan yang berubah\"."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Intent filtering"
+msgstr "Pemfilteran intent"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Each watch or tag can carry a plain-text intent — %(ex1)s or %(ex2)s. On every detected change the AI evaluates the "
+"diff against it and suppresses irrelevant noise."
+msgstr ""
+"Setiap monitor atau tag dapat memiliki intent teks biasa — %(ex1)s atau %(ex2)s. Pada setiap perubahan yang "
+"terdeteksi, AI mengevaluasi perbedaannya terhadap intent tersebut dan menyaring gangguan yang tidak relevan."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Tip: intent evaluation benefits from a capable model — recommended %(local)s locally, or %(gpt)s / %(gemini)s. Very "
+"small models (≤3B) may misjudge numeric comparisons."
+msgstr ""
+"Kiat: evaluasi intent akan lebih baik dengan model yang mumpuni — direkomendasikan %(local)s untuk lokal, atau "
+"%(gpt)s / %(gemini)s. Model yang sangat kecil (≤3B) dapat salah menilai perbandingan numerik."
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 #, python-format
 msgid ""
