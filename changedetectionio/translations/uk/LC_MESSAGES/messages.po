@@ -1709,6 +1709,47 @@ msgstr "Будь ласка, зачекайте, перший крок брау�
 msgid "Click here to Start"
 msgstr "Натисніть тут для запуску"
 
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Waiting for new pages to check…"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/views.py
+#, python-brace-format
+msgid "Warning, URL {} already exists"
+msgstr "Увага, URL {} вже існує"
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added in Paused state, saving will unpause."
+msgstr "Завдання додано в стані 'Пауза', збереження зніме його з паузи."
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added."
+msgstr "Завдання додано."
+
+#: changedetectionio/blueprint/watchlist/__init__.py
+msgid "records"
+msgstr "записів"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Pause checks"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "UnPause checks"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Mute notification"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "UnMute notification"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Goto web page"
+msgstr ""
+
 #: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
 msgid "Summary"
 msgstr ""
