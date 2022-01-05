@@ -322,3 +322,22 @@ label {
   }
 }
 
+#feed-icon {
+  vertical-align: middle;
+}
+
+#top-right-menu {
+  // Just let flex overflow the x axis for now
+  /*
+      position: absolute;
+      right: 0px;
+      background: linear-gradient(to right, #fff0, #fff 10%);
+      padding-left: 20px;
+      padding-right: 10px;
+      */
+}
+
+#new-version-text a {
+  color: var(--color-link-new-version);
+}
+
