@@ -4,6 +4,41 @@ from changedetectionio import __version__
 import re
 import time
 
+def test_check_access_control(app, client, live_server, measure_memory_usage, datastore_path):
+    # Still doesnt work, but this is closer.
+   #  live_server_setup(live_server) # Setup on conftest per function
+
+    with app.test_client(use_cookies=True) as c:
+        # Check we don't have any password protection enabled yet.
+        res = c.get(url_for("settings.settings_page"))
+        assert b"Remove password" not in res.data
+
+        # add something that we can hit via diff page later
+        res = c.post(
+            url_for("imports.import_page"),
+            data={"urls": url_for('test_random_content_endpoint', _external=True)},
+            follow_redirects=True
+        )
+
+        assert b"1 Imported" in res.data
+        # causes a 'Popped wrong request context.' error when client. is accessed?
+        wait_for_all_checks(client)
+
+        res = c.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+        assert b'Queued 1 watch for rechecking.' in res.data
+        wait_for_all_checks(client)
+
+
+        # Enable password check and diff page access bypass
+        res = c.post(
+            url_for("settings.settings_page"),
+            data={"application-password": "foobar",
+                  "application-shared_diff_access": "True",
+                  "requests-time_between_check-minutes": 180,
+                  'application-fetch_backend': "html_requests"},
+            follow_redirects=True
+        )
+
         assert b"Password protection enabled." in res.data
 
         # Check we hit the login
