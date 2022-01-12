@@ -529,6 +529,49 @@ msgstr ""
 "Для обычных простых запросов (не на основе Chrome) максимальное количество секунд до истечения времени ожидания — "
 "1–999."
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "Применяется ко всем запросам."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "Примечание. Простое изменение User-Agent часто не побеждает технологии защиты от роботов, это важно учитывать."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr "все способы обнаружения браузера"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Connect using Bright Data proxies, find out more here."
+msgstr "Подключайтесь с помощью прокси Bright Data, узнайте больше здесь."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/diff.html
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/templates/_common_fields.html
+msgid "Tip:"
+msgstr "Кончик:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ignore whitespace, tabs and new-lines/line-feeds when considering if a change was detected."
+msgstr ""
+"Игнорируйте пробелы, символы табуляции и символы новой строки/перевода строки при рассмотрении вопроса об обнаружении"
+" изменения."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note:"
+msgstr "Примечание:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this will change the status of your existing watches, possibly trigger alerts etc."
+msgstr "Изменение этого параметра приведет к изменению статуса ваших существующих часов, возможно, вызовет оповещения и т. д."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Render anchor tag content, default disabled, when enabled renders links as"
+msgstr "Отображение содержимого тега привязки (по умолчанию отключено). При включении ссылки отображаются как"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this could affect the content of your existing watches, possibly trigger alerts etc."
+msgstr "Изменение этого параметра может повлиять на содержимое ваших существующих часов, возможно, вызвать оповещения и т. д."
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
 msgid "Remove HTML element(s) by CSS and XPath selectors before text conversion."
 msgstr "Удалите элементы HTML с помощью селекторов CSS и XPath перед преобразованием текста."
