@@ -559,6 +559,48 @@ msgid "Info"
 msgstr "Informacje"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Default recheck time for all watches, current system minimum is"
+msgstr "Domyślny czas ponownego sprawdzania dla wszystkich obserwacji; aktualne minimalne ustawienie systemowe wynosi"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "more info"
+msgstr "więcej informacji"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "After this many consecutive times that the CSS/xPath filter is missing, send a notification"
+msgstr "Po wystąpieniu tak wielu kolejnych przypadków braku filtra CSS/xPath należy wysłać powiadomienie"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to <strong>0</strong> to disable"
+msgstr "Aby wyłączyć tę funkcję, ustaw wartość na <strong>0</strong>"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit collection of history snapshots for each watch to this number of history items."
+msgstr "Ogranicz liczbę migawek historii dla każdego obserwowanego obiektu do tej liczby elementów historii."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to empty to disable / no limit"
+msgstr "Ustaw na „puste”, aby wyłączyć / nie stosować ograniczenia"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password protection for your changedetection.io application."
+msgstr "Ochrona hasłem aplikacji changedetection.io."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password is locked."
+msgstr "Hasło jest zablokowane."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Clear Snapshot History"
+msgstr "Wyczyść historię migawek"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Allow access to the watch change history page when password is enabled (Good for sharing the diff page)"
+msgstr ""
+"Zezwól na dostęp do strony historii zmian, gdy hasło jest włączone (przydatne przy udostępnianiu strony pokazującej "
+"różnice)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "When a request returns no content, or the HTML does not contain any text, is this considered a change?"
 msgstr ""
 "Czy sytuacja, w której żądanie nie zwraca żadnej treści lub kod HTML nie zawiera żadnego tekstu, jest uznawana za "
