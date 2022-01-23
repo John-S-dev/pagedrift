@@ -1115,6 +1115,56 @@ msgstr ""
 msgid "Currently matching watches"
 msgstr ""
 
+#: changedetectionio/blueprint/tags/templates/edit-tag.html
+msgid "Custom colour"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html
+msgid "Leave unchecked to use the auto-generated colour based on the tag name."
+msgstr ""
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/tags/templates/edit-tag.html
+msgid "These settings are <strong><i>added</i></strong> to any existing watch configurations."
+msgstr ""
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Text filtering"
+msgstr "Filtrování textu"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use with caution!"
+msgstr "Používejte opatrně!"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will easily fill up your email storage quota or flood other storages."
+msgstr "Snadno tak zaplníte kvótu e-mailového úložiště nebo zahltíte další úložiště."
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Look out!"
+msgstr "ODHLÁSIT SE"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Lookout!"
+msgstr "ODHLÁSIT SE"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#, python-format
+msgid ""
+"There are <a href=\"%(url)s\">system-wide notification URLs enabled</a>, this form will override notification "
+"settings for this watch only &dash; an empty Notification URL list here will still send notifications."
+msgstr ""
+"<a href=\"%(url)s\">Jsou povoleny adresy URL pro upozornění v celém systému</a>. Tento formulář přepíše nastavení "
+"oznámení pouze pro tato sledování &dash; prázdný seznam adres URL upozornění zde bude stále odesílat upozornění."
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use system defaults"
+msgstr "Použít výchozí nastavení systému"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Add a new organisational tag"
+msgstr "Přidejte novou značku organizace"
+
 #: changedetectionio/blueprint/ui/__init__.py
 #, python-brace-format
 msgid "{} watches muted"
