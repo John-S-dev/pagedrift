@@ -1218,3 +1218,43 @@ msgstr "Mevcut ekran görüntüsü"
 msgid "Extract Data"
 msgstr "Veriyi Çıkar"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Choose a proxy for this watch"
+msgstr "Bu izleyici için bir proxy seçin"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Using the current global default settings"
+msgstr "Mevcut genel varsayılan ayarlar kullanılıyor"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Show advanced options"
+msgstr "Gelişmiş seçenekleri göster"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Run this code before performing change detection, handy for filling in fields and other actions"
+msgstr "Değişiklik tespiti yapmadan önce bu kodu çalıştırın, alanları doldurmak ve diğer eylemler için kullanışlıdır"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Daha fazla yardım ve örnek burada"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "İstek gövdesinde değişkenler desteklenir"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "İstek başlığı değerlerinde değişkenler desteklenir"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "Uyarı! Ekstra başlık dosyası bulundu ve bu izleyiciye eklenecek!"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Başlıklar ayrıca veri dizininizdeki bir dosyadan da okunabilir"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Daha fazlasını buradan okuyun"
+
