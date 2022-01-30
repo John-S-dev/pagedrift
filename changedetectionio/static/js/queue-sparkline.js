@@ -90,6 +90,69 @@
         }
     }
 
+    let saveTimer = null;
+    function saveLog() {
+        if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+        try {
+            trimLog(Date.now());
+            localStorage.setItem(STORE_KEY, JSON.stringify({ savedAt: Date.now(), log: eventLog }));
+        } catch (e) { /* quota / private mode — history is best-effort */ }
+    }
+    function scheduleSave() {
+        if (saveTimer) return;
+        saveTimer = setTimeout(function () { saveTimer = null; saveLog(); }, 750);
+    }
+
+    // --- One Spark per canvas (different widths: rail vs drawer) ---
+    function Spark(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
+        this.W = 1;
+        this.cssW = 0;
+        this.cssH = 0;
+        this.rawW = -1;       // last-seen clientWidth/Height (incl. padding) — cheap change check
+        this.rawH = -1;
+        this.displayMax = MIN_SCALE;
+        this.resize();
+    }
+
+    // Measure the canvas CONTENT box straight from the browser's computed CSS, so
+    // sizing fully follows the stylesheet (padding/box styling from e.g. the
+    // .action-sidebar-item class included) instead of hand-computed pixel maths.
+    // clientWidth/Height already exclude border + scrollbar; subtract padding to
+    // land on the exact content box that the canvas bitmap is drawn into.
+    Spark.prototype.resize = function () {
+        const rawW = this.canvas.clientWidth;
+        const rawH = this.canvas.clientHeight;
+        const cs = getComputedStyle(this.canvas);
+        const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+        const padY = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+        const cssW = Math.max(0, Math.round(rawW - padX));
+        const cssH = Math.max(0, Math.round(rawH - padY));
+        this.rawW = rawW;
+        this.rawH = rawH;
+        if (cssW === this.cssW && cssH === this.cssH) return;
+        this.cssW = cssW;
+        this.cssH = cssH;
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = Math.max(1, Math.round(cssW * dpr));
+        this.canvas.height = Math.max(1, Math.round(cssH * dpr));
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        this.W = Math.max(1, cssW);
+    };
+
+    // Wall-clock time represented by pixel column x: right edge = now, left edge = now - window.
+    Spark.prototype.columnTime = function (x, now) {
+        return now - ((this.W - 1 - x) / Math.max(1, this.W - 1)) * (WINDOW_SECONDS * 1000);
+    };
+
+    Spark.prototype.y = function (v) {
+        const pad = 2;
+        const h = Math.max(1, this.cssH - pad * 2);
+        const t = Math.min(1, v / this.displayMax);
+        return pad + h * (1 - t);
+    };
+
     Spark.prototype.render = function (now) {
         if (this.cssW < 4 || this.cssH < 4) return;
         if (this.canvas.clientWidth !== this.rawW || this.canvas.clientHeight !== this.rawH) this.resize();
