@@ -51,3 +51,56 @@
     document.body.appendChild(container);
   }
 
+  /**
+   * Show a toast notification
+   */
+  function show(message, options = {}) {
+    createContainer();
+
+    const toast = createToastElement(message, options);
+
+    // Limit number of toasts
+    const existingToasts = container.querySelectorAll('.toast');
+    if (existingToasts.length >= config.maxToasts) {
+      removeToast(existingToasts[0]);
+    }
+
+    // Add to container
+    container.appendChild(toast);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+      toast.classList.add('toast-show');
+    });
+
+    // Auto-dismiss
+    if (options.duration !== 0 && (options.duration || config.duration) > 0) {
+      setupAutoDismiss(toast, options.duration || config.duration);
+    }
+
+    return {
+      dismiss: () => removeToast(toast)
+    };
+  }
+
+  /**
+   * Create toast DOM element
+   */
+  function createToastElement(message, options) {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${options.type || 'default'}`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
+
+    // Icon
+    const icon = createIcon(options.type || 'default');
+    if (icon) {
+      toast.appendChild(icon);
+    }
+
+    // Message
+    const messageEl = document.createElement('div');
+    messageEl.className = 'toast-message';
+    messageEl.textContent = message;
+    toast.appendChild(messageEl);
+
