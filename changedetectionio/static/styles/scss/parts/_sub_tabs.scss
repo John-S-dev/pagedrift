@@ -287,6 +287,39 @@
   font-weight: 600;
 }
 
+// ── Section header inside a pane ──────────────────────────────────────────────
+.stab-section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin: 1.4rem 0 0.6rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+// ── Mobile: stack nav above content, buttons stay vertical ───────────────────
+@media (max-width: 600px) {
+  .stab-shell {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .stab-nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 0.4rem 0;
+  }
+
+  .stab-body {
+    padding-left: 1rem;
+  }
+}
+
 // ── LLM Usage pane — stat cards ───────────────────────────────────────────────
 .llm-usage-grid {
   display: grid;
