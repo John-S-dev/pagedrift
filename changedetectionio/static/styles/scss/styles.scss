@@ -251,6 +251,39 @@ details summary {
   }
 }
 
+code {
+  background: var(--color-background-code);
+  color: var(--color-text);
+}
+
+.inline-tag {
+  white-space: nowrap;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin-right: 4px;
+}
+
+/* Processor type badges - colors auto-generated from processor names */
+.processor-badge {
+  @extend .inline-tag;
+  font-weight: 900;
+
+  /* Used as a link to filter the watchlist by processor */
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  /* Highlight the processor currently used as a filter */
+  &.active {
+    outline: 2px solid var(--color-link);
+    outline-offset: 1px;
+  }
+}
+
 .button-secondary {
   background: var(--color-background-button-secondary);
 }
