@@ -887,6 +887,50 @@ msgid "Invalid browser / fetch method selected"
 msgstr "選擇了無效的瀏覽器 / 抓取方式"
 
 #: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Proxy updated on {} watches"
+msgstr "已更新 {} 個監測任務的代理伺服器"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid proxy selected"
+msgstr "選擇了無效的代理伺服器"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches were tagged"
+msgstr "{} 個監測任務已加上標籤"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/watchlist/__init__.py
+msgid "Watch not found"
+msgstr "找不到監測任務"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Cleared snapshot history for watch {}"
+msgstr "已清除監測任務 {} 的快照歷史記錄"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "clear"
+msgstr "清除"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "History clearing started in background"
+msgstr "已在背景開始清除歷史記錄"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Incorrect confirmation text."
+msgstr "確認文字不正確。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "The watch by UUID {} does not exist."
+msgstr "UUID 為 {} 的監測任務不存在。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Deleted."
+msgstr "已刪除。"
+
+#: changedetectionio/blueprint/ui/__init__.py
 msgid "Cloned, you are editing the new watch."
 msgstr "已複製，您正在編輯新的監測任務。"
 
