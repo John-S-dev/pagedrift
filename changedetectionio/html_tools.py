@@ -520,6 +520,69 @@ def _sanitize_lone_surrogates(value):
         return [_sanitize_lone_surrogates(v) for v in value]
     return value
 
+#
+def _parse_json(json_data, json_filter):
+    from jsonpath_ng.ext import parse
+
+    # Replace lone surrogates with U+FFFD, matching what processors/base.py already does for
+    # fetched content. Two separate failures otherwise, neither of which is confined to the
+    # offending value: jq re-serializes the whole document for its own C parser, which rejects
+    # a lone high surrogate, so every jq:/jqraw: filter on the page errors even when it points
+    # at an unrelated field; and on the json: path the surrogate reaches the caller intact and
+    # raises UnicodeEncodeError later in checksums and history writes.
+    # See: https://github.com/dgtlmoon/changedetection.io/issues/4273
+    if _has_lone_surrogate(json_data):
+        logger.warning("Lone unicode surrogate(s) in JSON document, replacing with U+FFFD before filtering")
+        json_data = _sanitize_lone_surrogates(json_data)
+
+    if json_filter.startswith("json:"):
+        jsonpath_expression = parse(json_filter.replace('json:', ''))
+        match = jsonpath_expression.find(json_data)
+        return _get_stripped_text_from_json_match(match)
+
+    if json_filter.startswith("jq:") or json_filter.startswith("jqraw:"):
+
+        try:
+            import jq
+        except ModuleNotFoundError:
+            # `jq` requires full compilation in windows and so isn't generally available
+            raise Exception("jq not support not found")
+
+        if json_filter.startswith("jq:"):
+            expr = json_filter.removeprefix("jq:")
+            validate_jq_expression(expr)
+            jq_expression = jq.compile(expr)
+            match = jq_expression.input(json_data).all()
+            return _get_stripped_text_from_json_match(match)
+
+        if json_filter.startswith("jqraw:"):
+            expr = json_filter.removeprefix("jqraw:")
+            validate_jq_expression(expr)
+            jq_expression = jq.compile(expr)
+            match = jq_expression.input(json_data).all()
+            return '\n'.join(str(item) for item in match)
+
+def _get_stripped_text_from_json_match(match):
+    s = []
+    # More than one result, we will return it as a JSON list.
+    if len(match) > 1:
+        for i in match:
+            s.append(i.value if hasattr(i, 'value') else i)
+
+    # Single value, use just the value, as it could be later used in a token in notifications.
+    if len(match) == 1:
+        s = match[0].value if hasattr(match[0], 'value') else match[0]
+
+    # Re #257 - Better handling where it does not exist, in the case the original 's' value was False..
+    if not match:
+        # Re 265 - Just return an empty string when filter not found
+        return ''
+
+    # Ticket #462 - allow the original encoding through, usually it's UTF-8 or similar
+    stripped_text_from_html = json.dumps(s, indent=4, ensure_ascii=False)
+
+    return stripped_text_from_html
+
 # Mode     - "content" return the content without the matches (default)
 #          - "line numbers" return a list of line numbers that match (int list)
 #
