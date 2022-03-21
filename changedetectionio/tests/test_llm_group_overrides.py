@@ -10,6 +10,11 @@ A group has exactly ONE AI control on its edit page — the ternary llm_backend_
   Off                  AI off for every watch in the group; its prompts are never used
   Leave it to each     the group has no say; each watch's own AI settings apply
 
+import html
+import json
+
+from flask import url_for
+
 from changedetectionio.tests.util import live_server_setup, delete_all_watches
 
 
