@@ -4,6 +4,32 @@ from flask import url_for
 from .util import live_server_setup, wait_for_all_checks
 
 
+def test_language_switching(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """
+    Test that the language switching functionality works correctly.
+
+    1. Switch to Italian using the /set-language endpoint
+    2. Verify that Italian text appears on the page
+    3. Switch back to English and verify English text appears
+    """
+
+    # The Add-Watch page is only served when a browser that can render a live preview is
+    # installed (it is the page this test reads translated processor labels off). A plain
+    # test container has none - without PLAYWRIGHT_DRIVER_URL html_webdriver is Selenium,
+    # which cannot - so pretend one exists rather than assert against a redirect.
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+    monkeypatch.setattr(browser_config, 'list_visual_browser_choices',
+                        lambda datastore: [('html_webdriver', 'WebDriver Chrome/Javascript')])
+
+    # Establish session cookie
+    client.get(url_for("add_watch_ui.add_watch_ui_index"), follow_redirects=True)
+
+    # Step 1: Set the language to Italian using the /set-language endpoint
+    res = client.post(
+        url_for("set_language", locale="it"),
+        follow_redirects=True
+    )
+
     assert res.status_code == 200
 
     # Step 2: Request the index page - should be in Italian
