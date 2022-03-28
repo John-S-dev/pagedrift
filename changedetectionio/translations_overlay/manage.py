@@ -15,3 +15,19 @@ silently reverts to upstream wording. ``check`` turns that silent revert into a 
     python changedetectionio/translations_overlay/manage.py add de
 """
 
+import argparse
+import os
+import sys
+
+from babel.messages.mofile import read_mo, write_mo
+from babel.messages.pofile import read_po, write_po
+
+OVERLAY_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.join(os.path.dirname(OVERLAY_DIR), 'translations')
+POT_FILE = os.path.join(BASE_DIR, 'messages.pot')
+
+
+def _po_path(root, locale):
+    return os.path.join(root, locale, 'LC_MESSAGES', 'messages.po')
+
+
