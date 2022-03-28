@@ -1662,3 +1662,45 @@ msgstr "Zaznaczono wszystkie %(total)s pasujące wyniki."
 msgid "%(count)s records selected"
 msgstr "Wybrano %(count)s rekordów"
 
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "sekunda"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "sekund"
+
+#: changedetectionio/flask_app.py
+msgid "Already logged in"
+msgstr "Jesteś już zalogowany"
+
+#: changedetectionio/flask_app.py
+msgid "You must be logged in, please log in."
+msgstr "Musisz być zalogowany – zaloguj się."
+
+#: changedetectionio/flask_app.py
+msgid "Incorrect password"
+msgstr "Nieprawidłowe hasło"
+
+#: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified."
+msgstr "Należy określić co najmniej jedną jednostkę czasu (tygodnie, dni, godziny, minuty lub sekundy)."
+
+#: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified when not using global settings."
+msgstr ""
+"W przypadku niekorzystania z ustawień globalnych należy określić co najmniej jedną jednostkę czasu (tygodnie, dni, "
+"godziny, minuty lub sekundy)."
+
+#: changedetectionio/forms.py
+msgid "Invalid time format. Use HH:MM."
+msgstr "Nieprawidłowy format czasu. Należy użyć formatu HH:MM."
+
+#: changedetectionio/forms.py
+msgid "Not a valid timezone name"
+msgstr "Nieprawidłowa nazwa strefy czasowej"
+
+#: changedetectionio/forms.py
+msgid "not set"
+msgstr "nieustalone"
+
