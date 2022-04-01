@@ -15,3 +15,24 @@ from changedetectionio.tests.util import live_server_setup, delete_all_watches
 CANARY_KEY = 'sk-CANARY-SECRET-DO-NOT-EXPOSE-12345'
 
 
+def _configure_llm(datastore, api_key=CANARY_KEY):
+    """Inject a recognisable API key into the datastore LLM settings."""
+    app = datastore.data['settings']['application']
+    if 'llm' not in app:
+        app['llm'] = {}
+    app['llm'].update({
+        'model': 'gpt-4o-mini',
+        'api_key': api_key,
+    })
+
+
+def _api_token(client):
+    return client.application.config.get('DATASTORE').data['settings']['application'].get('api_access_token')
+
+
+def _key_in_response(response, key=CANARY_KEY) -> bool:
+    """Return True if the canary key appears anywhere in the response body."""
+    body = response.data.decode('utf-8', errors='replace')
+    return key in body
+
+
