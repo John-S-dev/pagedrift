@@ -11,3 +11,17 @@ Covers:
 
 from unittest.mock import patch, call
 
+from flask import url_for
+
+from changedetectionio.tests.util import delete_all_watches
+
+
+SNAP1 = "apple\nbanana\n"
+SNAP2 = "apple\nbanana\ncherry\n"
+SNAP3 = "apple\nbanana\ncherry\ndate\n"
+
+TS1 = "2000000001"
+TS2 = "2000000002"
+TS3 = "2000000003"
+
+
