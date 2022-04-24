@@ -1795,6 +1795,50 @@ msgid "Click here to Start"
 msgstr "Натисніть тут для запуску"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "Активувати попередній перегляд"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "Поради:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "Використовуйте сторінку попереднього перегляду, щоб побачити підсвічування фільтрів і тригерів."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "Обмежити тригер/ігнор/блок/вилучення до;"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Note: Depending on the length and similarity of the text on each line, the algorithm may consider an "
+"<strong>addition</strong> instead of <strong>replacement</strong> for example."
+msgstr ""
+"Примітка: Залежно від довжини та схожості тексту, алгоритм може вважати це, наприклад, <strong>додаванням</strong> "
+"замість <strong>заміни</strong>."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "So it's always better to select"
+msgstr "Тому завжди краще обирати"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "коли вас цікавить новий контент."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "When content is merely moved in a list, it will also trigger an"
+msgstr "Коли контент просто переміщується у списку, це також викличе"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "додаванням"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "розгляньте увімкнення"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Only trigger when unique lines appear"
 msgstr "Спрацьовувати лише при появі унікальних рядків"
 
