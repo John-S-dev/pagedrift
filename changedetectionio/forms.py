@@ -626,6 +626,29 @@ def validate_url(test_url):
         raise ValidationError('Watch protocol is not permitted or invalid URL format')
 
 
+class validateLLMApiBaseSafe(object):
+    """Block private/loopback/reserved api_base values (SSRF) unless the operator
+    has opted in via ALLOW_IANA_RESTRICTED_ADDRESSES=true."""
+
+    def __call__(self, form, field):
+        from changedetectionio.validate_url import is_llm_api_base_safe
+        ok, reason = is_llm_api_base_safe(field.data)
+        if not ok:
+            raise ValidationError(reason)
+
+
+class ValidateSinglePythonRegexString(object):
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        try:
+            re.compile(field.data)
+        except re.error:
+            message = field.gettext('RegEx \'%s\' is not a valid regular expression.')
+            raise ValidationError(message % (field.data))
+
+
 class ValidateListRegex(object):
     """
     Validates that anything that looks like a regex passes as a regex
