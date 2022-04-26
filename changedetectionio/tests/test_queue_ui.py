@@ -1,6 +1,16 @@
 """
 Tests for the queue inspection UI (blueprint/ui/queue.py).
 
+Strategy: shut down all workers, pause the scheduler, then push synthetic
+UUIDs directly into update_q. Synthetic UUIDs are immune to scheduler
+interference. The HTTP test client + live_server share the same process,
+so update_q is a single instance.
+"""
+
+import time
+from flask import url_for
+
+
 def _quiesce(live_server, timeout=3.0):
     """Pause scheduler, shut down all workers, wait for in-flight async workers
     to fully drain, clear queue. Returns (update_q, worker_pool, queuedWatchMetaData).
