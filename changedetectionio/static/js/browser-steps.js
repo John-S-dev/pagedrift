@@ -181,6 +181,69 @@ $(document).ready(function () {
         }.debounce(10));
     });
 
+//    $("#browser-steps-fieldlist").bind('mouseover', function(e) {
+//        console.log(e.xpath_data_index);
+    // });
+
+
+    // callback for clicking on an xpath on the canvas
+    function process_selected(selected_in_xpath_list) {
+        found_something = false;
+        var first_available = $("ul#browser_steps li.empty").first();
+
+
+        if (selected_in_xpath_list !== false) {
+            // Nothing focused, so fill in a new one
+            // if inpt type button or <button>
+            // from the top, find the next not used one and use it
+            var x = selected_in_xpath_list;
+            console.log(x);
+            if (x && first_available.length) {
+                // @todo will it let you click shit that has a layer ontop? probably not.
+                if (x['tagtype'] === 'text' || x['tagtype'] === 'number' || x['tagtype'] === 'email' || x['tagName'] === 'textarea' || x['tagtype'] === 'password' || x['tagtype'] === 'search') {
+                    $('select', first_available).val('Enter text in field').change();
+                    $('input[type=text]', first_available).first().val(x['xpath']);
+                    $('input[placeholder="Value"]', first_available).addClass('ok').click().focus();
+                    found_something = true;
+                }
+                else if (x['tagName'] === 'select') {
+                    $('select', first_available).val('<select> by option text').change();
+                    $('input[type=text]', first_available).first().val(x['xpath']);
+                    $('input[placeholder="Value"]', first_available).addClass('ok').click().focus();
+                    found_something = true;
+                }
+                else {
+                    // There's no good way (that I know) to find if this
+                    // see https://stackoverflow.com/questions/446892/how-to-find-event-listeners-on-a-dom-node-in-javascript-or-in-debugging
+                    // https://codepen.io/azaslavsky/pen/DEJVWv
+
+                    // So we dont know if its really a clickable element or not :-(
+                    // Assume it is - then we dont fill the pages with unreliable "Click X,Y" selections
+                    // If you switch to "Click X,y" after an element here is setup, it will give the last co-ords anyway
+                    //if (x['isClickable'] || x['tagName'].startsWith('h') || x['tagName'] === 'a' || x['tagName'] === 'button' || x['tagtype'] === 'submit' || x['tagtype'] === 'checkbox' || x['tagtype'] === 'radio' || x['tagtype'] === 'li') {
+                        $('select', first_available).val('Click element').change();
+                        $('input[type=text]', first_available).first().val(x['xpath']).focus();
+                        found_something = true;
+                    //}
+                }
+            }
+        }
+    }
+
+    function draw_circle_on_canvas(x, y) {
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgba(255,0,0, 0.6)';
+        ctx.fill();
+    }
+
+    // Reusable AJAX function for browser step operations
+    function executeBrowserStep(url, data = {}) {
+        $('#browser-steps-ui .loader .spinner').fadeIn();
+        apply_buttons_disabled = true;
+        $('ul#browser_steps li .control .apply').css('opacity', 0.5);
+        $("#browsersteps-img").css('opacity', 0.65);
+
         if (config[0] == 0) {
             $(elem_selector).fadeOut();
         } else {
