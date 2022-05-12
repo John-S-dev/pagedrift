@@ -75,3 +75,43 @@ def set_modified_ext_response(datastore_path):
         f.write(data)
     return None
 
+def set_original_response(datastore_path):
+    test_return_data = """
+    {
+      "employees": [
+        {
+          "id": 1,
+          "name": "Pankaj",
+          "salary": "10000"
+        },
+        {
+          "name": "David",
+          "salary": "5000",
+          "id": 2
+        }
+      ],
+      "boss": {
+        "name": "Fat guy"
+      },
+      "available": true
+    }
+    """
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
+def set_json_response_with_html(datastore_path):
+    test_return_data = """
+    {
+      "test": [
+        {
+          "html": "<b>"
+        }
+      ]
+    }
+    """
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
