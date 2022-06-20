@@ -1705,6 +1705,50 @@ msgid "Please allow 10-15 seconds for the browser to connect."
 msgstr "Proszę poczekać 10–15 sekund, aż przeglądarka nawiąże połączenie."
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "Naciśnij przycisk „Odtwórz”, aby rozpocząć."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "Dane selektora wizualnego nie są jeszcze gotowe; obserwację należy sprawdzić co najmniej raz."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr ""
+"Przepraszamy, ta funkcja działa tylko z modułami pobierającymi, które obsługują interaktywny JavaScript (jak dotąd są"
+" to wyłącznie moduły oparte na Playwright)."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "na taką, która obsługuje interaktywny JavaScript."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "Musisz"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "Ustaw metodę pobierania"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sends a notification when the filter can no longer be seen on the page, good for knowing when the page changed and "
+"your filter will not work anymore."
+msgstr ""
+"Wysyła powiadomienie, gdy filtr przestaje być widoczny na stronie; przydaje się to do stwierdzenia, kiedy strona "
+"uległa zmianie i filtr przestanie działać."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the verify (✓) button to test if a condition passes against the current snapshot."
+msgstr "Użyj przycisku „Sprawdź” (✓), aby sprawdzić, czy warunek jest spełniony w odniesieniu do bieżącej migawki."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "Zapoznaj się z krótkim poradnikiem na temat"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "using conditional web page changes here"
 msgstr "wykorzystanie warunkowych zmian na stronie internetowej w tym miejscu"
 

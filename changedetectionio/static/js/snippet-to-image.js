@@ -208,3 +208,18 @@ function countLines(content) {
     return lines > 0 ? lines : 1;
 }
 
+/**
+ * Convert data URL to Blob for sharing
+ */
+function dataURLtoBlob(dataURL) {
+    const parts = dataURL.split(',');
+    const byteString = atob(parts[1]);
+    const mimeString = parts[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+}
+
