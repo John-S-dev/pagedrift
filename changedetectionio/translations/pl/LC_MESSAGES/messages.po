@@ -1882,6 +1882,50 @@ msgstr "Zaznaczono wszystkie %(total)s pasujące wyniki."
 msgid "%(count)s records selected"
 msgstr "Wybrano %(count)s rekordów"
 
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "Wskaźnik podobieństwa tekstu według Levenshteina"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "Levenshtein – odległość zmian tekstowych"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Not enough history to calculate Levenshtein metrics"
+msgstr "Brak wystarczającej historii do obliczenia metryk Levenshteina"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Snapshot too large for edit statistics, skipping."
+msgstr "Migawka jest zbyt duża, aby obliczyć statystyki edycji — pomijam."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Unable to calculate Levenshtein metrics"
+msgstr "Nie można obliczyć metryk Levenshteina"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein Text Similarity Details"
+msgstr "Szczegóły podobieństwa tekstu metodą Levenshteina"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Raw distance (edits needed)"
+msgstr "Surowa odległość (wymagane edycje)"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Similarity ratio"
+msgstr "Współczynnik podobieństwa"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Percent similar"
+msgstr "Procent podobieństwa"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid ""
+"Levenshtein metrics compare the last two snapshots, measuring how many character edits are needed to transform one "
+"into the other."
+msgstr ""
+"Metryki Levenshteina porównują dwie ostatnie migawki, określając liczbę zmian znaków potrzebnych do przekształcenia "
+"jednej w drugą."
+
 #: changedetectionio/flask_app.py
 msgid "second"
 msgstr "sekunda"
