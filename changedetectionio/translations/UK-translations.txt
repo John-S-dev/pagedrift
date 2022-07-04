@@ -994,3 +994,51 @@ msgstr "Використовуються поточні глобальні на�
 msgid "Show advanced options"
 msgstr "Показати розширені налаштування"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "текстові"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"elements that will be used for the change detection. It automatically fills-in the filters in the "
+"\"CSS/JSONPath/JQ/XPath Filters\" box of the"
+msgstr ""
+"елементи, які будуть використовуватися для виявлення змін. Він автоматично заповнює фільтри в полі "
+"\"CSS/JSONPath/JQ/XPath Фільтри\" у вкладці"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "tab. Use"
+msgstr ". Використовуйте"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Shift+Клік"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "для вибору кількох елементів."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "Режим вибору:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Select by element"
+msgstr "Вибір за елементом"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "Малювання області"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear selection"
+msgstr "Очистити вибір"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "Хвилинку, отримання скріншота та інформації про елементи..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Currently:"
+msgstr "В даний час:"
+
