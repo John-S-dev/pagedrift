@@ -51,6 +51,30 @@ function getVersionInfo() {
 }
 
 /**
+ * Helper: Find text node containing newline in a given direction
+ */
+function findTextNodeWithNewline(node, searchBackwards = false) {
+    if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const idx = searchBackwards ? text.lastIndexOf('\n') : text.indexOf('\n');
+        if (idx !== -1) {
+            return { node, offset: searchBackwards ? idx + 1 : idx };
+        }
+    } else {
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+        let textNode;
+        while (textNode = walker.nextNode()) {
+            const text = textNode.textContent;
+            const idx = searchBackwards ? text.lastIndexOf('\n') : text.indexOf('\n');
+            if (idx !== -1) {
+                return { node: textNode, offset: searchBackwards ? idx + 1 : idx };
+            }
+        }
+    }
+    return null;
+}
+
+/**
  * Helper: Walk through siblings in a given direction to find line boundary
  */
 function findLineBoundary(node, container, searchBackwards = false) {
