@@ -1849,3 +1849,43 @@ msgstr ""
 msgid "Web page URL"
 msgstr ""
 
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length minimum"
+msgstr "최소 길이"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length maximum"
+msgstr "최대 길이"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Matches Regex"
+msgstr "텍스트가 정규식과 일치"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Does NOT Match Regex"
+msgstr "텍스트가 정규식과 일치하지 않음"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Extracted number after 'Filters & Triggers'"
+msgstr "'필터 및 트리거' 이후 추출된 숫자"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Page text after 'Filters & Triggers'"
+msgstr "'필터 및 트리거' 이후 페이지 텍스트"
+
+#: changedetectionio/conditions/form.py
+msgid "Field"
+msgstr "필드"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator"
+msgstr "연산자"
+
+#: changedetectionio/conditions/form.py
+msgid "A value"
+msgstr "값"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator is required."
+msgstr "연산자는 필수입니다."
+
