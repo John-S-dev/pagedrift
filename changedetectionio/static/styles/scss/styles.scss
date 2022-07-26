@@ -284,6 +284,26 @@ code {
   }
 }
 
+.fetch-error {
+  padding-top: 1em;
+  font-size: 80%;
+  max-width: 400px;
+  display: block;
+}
+
+.pure-button-primary,
+a.pure-button-primary,
+.pure-button-selected,
+a.pure-button-selected {
+  background-color: var(--color-background-button-primary);
+}
+
+.button-secondary {
+  color: var(--color-text-button);
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
 .button-success {
   background: var(--color-background-button-success);
 }
