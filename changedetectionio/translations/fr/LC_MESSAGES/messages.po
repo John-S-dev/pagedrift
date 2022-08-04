@@ -617,6 +617,46 @@ msgid "This will wait <i>n</i> seconds before extracting the text."
 msgstr "Cela attendra <i>n</i> secondes avant d’extraire le texte."
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "En cours d'exécution:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "opérationnel"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "workers"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "en traitement actif"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Connect using Bright Data proxies, find out more here."
 msgstr ""
 
