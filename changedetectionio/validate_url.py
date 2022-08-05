@@ -65,6 +65,33 @@ def normalize_url_encoding(url):
         return url
 
 
+# Address blocks that are NOT globally reachable but which Python's ipaddress flags
+# (is_private / is_loopback / is_link_local / is_reserved) do not report — so relying on
+# those four alone leaves them fetchable. Each entry states what it is and why it matters:
+#
+#   100.64.0.0/10   RFC 6598 Carrier-Grade NAT "shared address space". Not private per
+#                   ipaddress, yet it is exactly where an ISP/cloud tenant's other
+#                   customers, CPE admin panels and CGNAT gateways live. This is the
+#                   incomplete-remediation gap reported in GHSA-gwph-fp79-379w.
+#   192.88.99.0/24  RFC 7526 deprecated 6to4 relay anycast.
+#   224.0.0.0/4     IPv4 multicast (includes 224.0.0.1 all-hosts).
+#   ff00::/8        IPv6 multicast (includes ff02::1 link-local all-nodes).
+#   3fff::/20       RFC 9637 documentation range; unknown to older Python releases.
+#
+# Kept as an explicit, documented list rather than leaning only on `not ip.is_global`
+# because the meaning of is_global has shifted between Python releases; the is_global
+# check below is a belt-and-braces catch-all on top of these, never a replacement.
+_NON_GLOBAL_EXTRA_NETWORKS = tuple(
+    ipaddress.ip_network(n) for n in (
+        '100.64.0.0/10',
+        '192.88.99.0/24',
+        '224.0.0.0/4',
+        'ff00::/8',
+        '3fff::/20',
+    )
+)
+
+
 def is_special_purpose_ip(ip):
     """Return (blocked: bool, why: str) for a single resolved IP address.
 
