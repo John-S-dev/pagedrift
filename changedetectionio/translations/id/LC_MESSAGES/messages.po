@@ -2009,3 +2009,43 @@ msgstr "bulan"
 msgid "months"
 msgstr "bulan"
 
+#: changedetectionio/forms.py
+msgid "AI enabled for this watch?"
+msgstr "Aktifkan AI untuk monitor ini?"
+
+#: changedetectionio/forms.py
+msgid "CSS/JSONPath/JQ/XPath Filters"
+msgstr "Filter CSS/JSONPath/JQ/XPath"
+
+#: changedetectionio/forms.py
+msgid "Remove elements"
+msgstr "Hapus elemen"
+
+#: changedetectionio/forms.py
+msgid "Extract lines containing"
+msgstr "Ekstrak baris yang mengandung"
+
+#: changedetectionio/forms.py
+msgid "Extract text"
+msgstr "Ekstrak teks"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "Title"
+msgstr "Judul"
+
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Abaikan baris yang mengandung"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Isi permintaan"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Metode permintaan"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Abaikan kode status (proses kode status non-2xx seperti biasa)"
+
