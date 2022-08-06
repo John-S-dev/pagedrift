@@ -1422,3 +1422,43 @@ msgstr ""
 msgid "Searching"
 msgstr "Идет поиск"
 
+#: changedetectionio/conditions/__init__.py
+msgid "Not Equals"
+msgstr "Не Равно"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Contains"
+msgstr "Содержит"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Choose one - Field"
+msgstr "Выберите один — Поле"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Does NOT Contain"
+msgstr "НЕ содержит"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Starts With"
+msgstr "Текст начинается с"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Ends With"
+msgstr "Текст заканчивается на"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length minimum"
+msgstr "Минимальная длина"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length maximum"
+msgstr "Максимальная длина"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Matches Regex"
+msgstr "Текст соответствует регулярному выражению"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Does NOT Match Regex"
+msgstr "Текст НЕ соответствует регулярному выражению"
+
