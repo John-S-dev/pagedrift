@@ -278,6 +278,37 @@ class Watch(Resource):
         return "OK", 200
 
 
+class WatchHistory(Resource):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+
+    # Get a list of available history for a watch by UUID
+    # curl http://localhost:5000/api/v1/watch/<uuid_str:uuid>/history
+    @auth.check_token
+    @validate_openapi_request('getWatchHistory')
+    def get(self, uuid):
+        """Get a list of all historical snapshots available for a watch."""
+        watch = self.datastore.data['watching'].get(uuid)
+        if not watch:
+            abort(404, message='No watch exists with the UUID of {}'.format(uuid))
+        return watch.history, 200
+
+    # Delete all history/snapshots for a watch, but keep the watch itself
+    # curl -X DELETE http://localhost:5000/api/v1/watch/<uuid_str:uuid>/history
+    @auth.check_token
+    @validate_openapi_request('deleteWatchHistory')
+    def delete(self, uuid):
+        """Clear all snapshot history for a watch (the watch itself is kept)."""
+        if not self.datastore.data['watching'].get(uuid):
+            abort(404, message='No watch exists with the UUID of {}'.format(uuid))
+
+        # Same call as the UI "Clear history" button - wipes snapshots/screenshots and
+        # resets last_checked etc, while preserving the watch and its processor config
+        self.datastore.clear_watch_history(uuid)
+        return 'OK', 204
+
+
 class WatchSingleHistory(Resource):
     def __init__(self, **kwargs):
         # datastore is a black box dependency
