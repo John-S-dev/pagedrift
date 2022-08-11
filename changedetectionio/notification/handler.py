@@ -375,3 +375,41 @@ def process_notification(n_object: NotificationContextData, datastore):
                     apprise_input_format = NotifyFormat.TEXT.value
                     requested_output_format = NotifyFormat.TEXT.value
 
+#@todo on null:// (only if its a 1 url with null) probably doesnt need to actually .add/setup/etc
+            sent_objs.append({'title': n_title,
+                              'body': n_body,
+                              'url': url,
+                              # So that we can do a null:// call and get back exactly what would have been sent
+                              'original_context': n_object })
+
+            if not url.startswith('null://'):
+                apobj.add(url)
+
+            # Since the output is always based on the plaintext of the 'diff' engine, wrap it nicely.
+            # It should always be similar to the 'history' part of the UI.
+            if url.startswith('mail') and 'html' in requested_output_format:
+                if not '<pre' in n_body and not '<body' in n_body: # No custom HTML-ish body was setup already
+                    n_body = as_monospaced_html_email(content=n_body, title=n_title)
+
+        if not url.startswith('null://'):
+            apobj.notify(
+                title=n_title,
+                body=n_body,
+                # `body_format` Tell apprise what format the INPUT is in, specify a wrong/bad type and it will force skip conversion in apprise
+                # &format= in URL Tell apprise what format the OUTPUT should be in (it can convert between)
+                body_format=apprise_input_format,
+                # False is not an option for AppRise, must be type None
+                attach=n_object.get('screenshot', None)
+            )
+
+        # Returns empty string if nothing found, multi-line string otherwise
+        log_value = logs.getvalue()
+
+        if log_value and ('WARNING' in log_value or 'ERROR' in log_value):
+            logger.critical(log_value)
+            raise Exception(log_value)
+
+    # Return what was sent for better logging - after the for loop
+    return sent_objs
+
+
