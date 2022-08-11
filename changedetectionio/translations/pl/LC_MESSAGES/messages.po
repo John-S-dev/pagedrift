@@ -1448,6 +1448,53 @@ msgstr ""
 "<p>Czy na pewno chcesz usunąć wszystkie obserwacje z grupy <strong>%(title)s</strong>?</p><p>Tagi zostaną zachowane, "
 "ale obserwacje zostaną z nich usunięte.</p>"
 
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/base.html
+msgid "Unlink"
+msgstr "Usuń powiązanie"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Keep the tag but unlink any watches"
+msgstr "Zachowaj tag, ale usuń powiązania ze wszystkimi obserwowanymi"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "RSS Feed for this watch"
+msgstr "Kanał RSS dla tej obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches deleted"
+msgstr "Usunięto {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches paused"
+msgstr "Wstrzymano {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches unpaused"
+msgstr "Wznowiono {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches updated"
+msgstr "Zaktualizowano {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches muted"
+msgstr "Wyciszono {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches un-muted"
+msgstr "Usunięto wyciszenie dla {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches queued for rechecking"
+msgstr "Dodano {} obserwacji do kolejki ponownego sprawdzenia"
+
 #: changedetectionio/blueprint/ui/__init__.py
 #, python-brace-format
 msgid "{} watches errors cleared"
