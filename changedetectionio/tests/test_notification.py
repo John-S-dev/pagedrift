@@ -20,3 +20,26 @@ from ..model import USE_SYSTEM_DEFAULT_NOTIFICATION_FORMAT_FOR_WATCH
 from ..notification_service import FormattableTimestamp
 
 
+    #
+    # https://github.com/caronc/apprise/wiki/Notify_Custom_JSON#header-manipulation
+    test_notification_url = "hassio://127.0.0.1/longaccesstoken?verify=no&nid={{watch_uuid}}"
+
+    res = client.post(
+        url_for("settings.notifications.apprise"),
+        data={
+              "notification_body": '{ "url" : "{{ watch_url }}", "secret": 444, "somebug": "网站监测 内容更新了", "another": "{{diff|truncate(1500)}}" }',
+              "notification_format": default_notification_format,
+              "notification_urls": test_notification_url,
+              # https://github.com/caronc/apprise/wiki/Notify_Custom_JSON#get-parameter-manipulation
+              "notification_title": "New ChangeDetection.io Notification - {{ watch_url }}  {{diff|truncate(200)}} ",
+              },
+        follow_redirects=True
+    )
+    assert b'Settings updated' in res.data
+    assert '网站监测'.encode() in res.data
+    assert b'{{diff|truncate(1500)}}' in res.data
+    assert b'{{diff|truncate(200)}}' in res.data
+
+
+
+
