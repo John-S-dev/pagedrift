@@ -208,3 +208,72 @@ class _EntityFileMissing:
 ENTITY_FILE_MISSING = _EntityFileMissing()
 
 
+def load_tag_from_file(tag_json, uuid, rehydrate_entity_func, missing_ok=False):
+    """
+    Load a tag from its JSON file.
+
+    Args:
+        tag_json: Path to the tag.json file
+        uuid: Tag UUID
+        rehydrate_entity_func: Function to convert dict to Tag object
+        missing_ok: When True, a missing file returns ENTITY_FILE_MISSING instead of
+                    logging. Used by load_all_tags, which walks every datastore
+                    subdirectory - most of those are watch dirs, not tags.
+
+    Returns:
+        Tag object, ENTITY_FILE_MISSING if absent and missing_ok, else None
+    """
+    try:
+        # See load_watch_from_file: open first, size from the open fd, one syscall.
+        try:
+            f = open(tag_json, 'rb')
+        except (FileNotFoundError, NotADirectoryError):
+            if missing_ok:
+                return ENTITY_FILE_MISSING
+            logger.debug(f"Tag file not found: {tag_json} for tag {uuid}")
+            return None
+
+        with f:
+            file_size = os.fstat(f.fileno()).st_size
+            MAX_TAG_SIZE = 1 * 1024 * 1024  # 1MB
+            if file_size > MAX_TAG_SIZE:
+                logger.critical(
+                    f"CORRUPTED TAG DATA: Tag {uuid} file is unexpectedly large: "
+                    f"{file_size / 1024 / 1024:.2f}MB (max: {MAX_TAG_SIZE / 1024 / 1024}MB). "
+                    f"File: {tag_json}. This indicates a bug or data corruption. "
+                    f"Tag will be skipped."
+                )
+                return None
+            raw = f.read()
+
+        tag_data = orjson.loads(raw) if HAS_ORJSON else json.loads(raw.decode('utf-8'))
+
+        tag_data['processor'] = 'restock_diff'
+        # Rehydrate tag (convert dict to Tag object)
+        # processor_override is set inside the rehydration function
+        tag_obj = rehydrate_entity_func(uuid, tag_data)
+        return tag_obj
+
+    except json.JSONDecodeError as e:
+        logger.critical(
+            f"CORRUPTED TAG DATA: Failed to parse JSON for tag {uuid}. "
+            f"File: {tag_json}. Error: {e}. "
+            f"Tag will be skipped and may need manual recovery from backup."
+        )
+        return None
+    except ValueError as e:
+        # orjson raises ValueError for invalid JSON
+        if "invalid json" in str(e).lower() or HAS_ORJSON:
+            logger.critical(
+                f"CORRUPTED TAG DATA: Failed to parse JSON for tag {uuid}. "
+                f"File: {tag_json}. Error: {e}. "
+                f"Tag will be skipped and may need manual recovery from backup."
+            )
+            return None
+        # Re-raise if it's not a JSON parsing error
+        raise
+    except Exception as e:
+        logger.error(f"Failed to load tag {uuid} from {tag_json}: {e}")
+        return None
+
+
