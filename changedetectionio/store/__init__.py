@@ -130,3 +130,144 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         # Base definition for all watchers (deepcopy part of #569)
         self.generic_definition = deepcopy(Watch.model(datastore_path=datastore_path, __datastore=self.__data, default={}))
 
+        # Validate proxies.json if it exists
+        _ = self.proxy_list  # Just to test parsing
+
+        # Ensure app_guid exists (for datastores loaded from existing files)
+        if 'app_guid' not in self.__data:
+            if "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ:
+                self.__data['app_guid'] = "test-" + str(uuid_builder.uuid4())
+            else:
+                self.__data['app_guid'] = str(uuid_builder.uuid4())
+            self.commit()
+
+        # Ensure RSS access token exists
+        if not self.__data['settings']['application'].get('rss_access_token'):
+            secret = secrets.token_hex(16)
+            self.__data['settings']['application']['rss_access_token'] = secret
+            self.commit()
+
+        # Ensure API access token exists
+        if not self.__data['settings']['application'].get('api_access_token'):
+            secret = secrets.token_hex(16)
+            self.__data['settings']['application']['api_access_token'] = secret
+            self.commit()
+
+        # Handle password reset lockfile
+        password_reset_lockfile = os.path.join(self.datastore_path, "removepassword.lock")
+        if path.isfile(password_reset_lockfile):
+            self.remove_password()
+            unlink(password_reset_lockfile)
+
+    def rehydrate_entity(self, uuid, entity, processor_override=None):
+        """Set the dict back to the dict Watch object"""
+        entity['uuid'] = uuid
+
+        if processor_override:
+            watch_class = get_custom_watch_obj_for_processor(processor_override)
+            entity['processor'] = processor_override
+        else:
+            watch_class = get_custom_watch_obj_for_processor(entity.get('processor'))
+
+        if entity.get('processor') != 'text_json_diff':
+            logger.trace(f"Loading Watch object '{watch_class.__module__}.{watch_class.__name__}' for UUID {uuid}")
+
+        entity = watch_class(datastore_path=self.datastore_path, __datastore=self.__data, default=entity)
+        return entity
+
+    # ============================================================================
+    # FileSavingDataStore Abstract Method Implementations
+    # ============================================================================
+
+    def _watch_exists(self, uuid):
+        """Check if watch exists in datastore."""
+        return uuid in self.__data['watching']
+
+    def _get_watch_dict(self, uuid):
+        """Get watch as dictionary."""
+        return dict(self.__data['watching'][uuid])
+
+    def _build_settings_data(self):
+        """
+        Build settings data structure for saving.
+
+        Tags behavior depends on schema version:
+        - Before update_28 (schema < 28): Tags saved in settings for migration
+        - After update_28 (schema >= 28): Tags excluded from settings (in individual files)
+
+        Returns:
+            dict: Settings data ready for serialization
+        """
+        import copy
+
+        # Deep copy settings to avoid modifying the original
+        settings_copy = copy.deepcopy(self.__data['settings'])
+
+        # Is saved as {uuid}/tag.json
+        settings_copy['application']['tags'] = {}
+
+        return {
+            'note': 'Settings file - watches are in {uuid}/watch.json, tags are in {uuid}/tag.json',
+            'app_guid': self.__data.get('app_guid'),
+            'settings': settings_copy,
+            'build_sha': self.__data.get('build_sha'),
+            'version_tag': self.__data.get('version_tag')
+        }
+
+    def _save_settings(self):
+        """
+        Save settings to storage.
+
+        File backend implementation: saves to changedetection.json
+        Implementation of abstract method from FileSavingDataStore.
+        Uses the generic save_json_atomic helper.
+
+        Raises:
+            OSError: If disk is full or other I/O error
+        """
+        settings_data = self._build_settings_data()
+        changedetection_json = os.path.join(self.datastore_path, "changedetection.json")
+        save_json_atomic(changedetection_json, settings_data, label="settings")
+
+    def _load_watches(self):
+        """
+        Load all watches from storage.
+
+        File backend implementation: reads individual watch.json files
+        Implementation of abstract method from FileSavingDataStore.
+        Delegates to helper function and stores results in internal data structure.
+        """
+
+        # Store loaded data
+        # @note this will also work for the old legacy format because self.__data['watching'] should already have them loaded by this point.
+        self.__data['watching'].update(load_all_watches(
+            self.datastore_path,
+            self.rehydrate_entity
+        ))
+        logger.debug(f"Loaded {len(self.__data['watching'])} watches")
+
+    def _load_tags(self):
+        """
+        Load all tags from storage.
+
+        File backend implementation: reads individual tag.json files.
+        Tags loaded from files override any tags in settings (migration path).
+        """
+        from ..model import Tag
+
+        def rehydrate_tag(uuid, entity_dict):
+            """Rehydrate tag as Tag object with forced restock_diff processor."""
+            entity_dict['uuid'] = uuid
+            entity_dict['processor'] = 'restock_diff'  # Force processor for override functionality
+
+            return Tag.model(
+                datastore_path=self.datastore_path,
+                __datastore=self.__data,
+                default=entity_dict
+            )
+
+        tags = load_all_tags(
+            self.datastore_path,
+            rehydrate_tag
+        )
+
