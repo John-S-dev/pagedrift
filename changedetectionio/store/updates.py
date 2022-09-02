@@ -8,6 +8,15 @@ IMPORTANT: Each update could be run even when they have a new install and the sc
 Therefore - each `update_n` should be very careful about checking if it needs to actually run.
 """
 
+import os
+import re
+import shutil
+import tarfile
+import time
+from loguru import logger
+from copy import deepcopy
+
+
 # Try to import orjson for faster JSON serialization
 try:
     import orjson
