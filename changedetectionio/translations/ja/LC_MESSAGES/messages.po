@@ -1774,3 +1774,43 @@ msgstr "選択してください - 演算子"
 msgid "Greater Than"
 msgstr "より大きい"
 
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "フィールドは必須です。"
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "値は必須です。"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "レーベンシュタイン - テキスト類似度"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "レーベンシュタイン - テキスト変化距離"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Not enough history to calculate Levenshtein metrics"
+msgstr "レーベンシュタイン指標を計算するのに十分な履歴がありません"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Snapshot too large for edit statistics, skipping."
+msgstr "スナップショットが大きすぎるため、編集統計をスキップします。"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Unable to calculate Levenshtein metrics"
+msgstr "レーベンシュタイン指標を計算できません"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein Text Similarity Details"
+msgstr "レーベンシュタイン テキスト類似度の詳細"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Raw distance (edits needed)"
+msgstr "編集距離（必要な編集回数）"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Similarity ratio"
+msgstr "類似度"
+
