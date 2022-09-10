@@ -483,6 +483,35 @@ def get_fetcher_capabilities(watch, datastore):
     return caps.model_dump()
 
 
+def get_plugin_settings_tabs():
+    """Get all plugin settings tabs.
+
+    Returns:
+        list: List of dictionaries with plugin settings tab information:
+            [
+                {
+                    'plugin_id': str,
+                    'tab_label': str,
+                    'form_class': Form,
+                    'description': str
+                },
+                ...
+            ]
+    """
+    tabs = []
+    results = plugin_manager.hook.plugin_settings_tab()
+
+    for result in results:
+        if result and isinstance(result, dict):
+            # Validate required fields
+            if 'plugin_id' in result and 'tab_label' in result and 'form_class' in result:
+                tabs.append(result)
+            else:
+                logger.warning(f"Invalid plugin settings tab spec: {result}")
+
+    return tabs
+
+
 def get_plugin_template_paths():
     """Get list of plugin template directories for Jinja2 loader.
 
