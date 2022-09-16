@@ -114,3 +114,62 @@ def test_check_access_control(app, client, live_server, measure_memory_usage, da
             follow_redirects=True
         )
 
+        assert b"/logout" in res.data
+
+        # 598 - Password should be set and not accidently removed
+        res = c.post(
+            url_for("settings.settings_page"),
+            data={
+                  "requests-time_between_check-minutes": 180,
+                  'application-fetch_backend': "html_requests"},
+            follow_redirects=True
+        )
+
+        res = c.post(url_for("logout"),
+            follow_redirects=True)
+
+        assert b"Login" in res.data
+
+        res = c.get(url_for("settings.settings_page"),
+            follow_redirects=True)
+
+
+        assert b"Login" in res.data
+
+        res = c.get(url_for("login"))
+        assert b"Login" in res.data
+
+
+        res = c.post(
+            url_for("login"),
+            data={"password": "foobar"},
+            follow_redirects=True
+        )
+
+        # Yes we are correctly logged in
+        assert b"/logout" in res.data
+
+        res = c.get(url_for("settings.settings_page"))
+
+        # Menu should be available now (Settings/Import moved to sidebar-nav.html as translated mixed-case strings)
+        assert b"Settings" in res.data
+        assert b"Import" in res.data
+        assert b"/logout" in res.data
+        assert b"time_between_check-minutes" in res.data
+        assert b"fetch_backend" in res.data
+
+        ##################################################
+        # Remove password button, and check that it worked
+        ##################################################
+        res = c.post(
+            url_for("settings.settings_page"),
+            data={
+                "requests-time_between_check-minutes": 180,
+                "application-fetch_backend": "html_webdriver",
+                "application-removepassword_button": "Remove password"
+            },
+            follow_redirects=True,
+        )
+        assert b"Password protection removed." in res.data
+        assert b"/logout" not in res.data
+
