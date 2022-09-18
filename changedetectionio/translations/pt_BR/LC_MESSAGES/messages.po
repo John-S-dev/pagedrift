@@ -1623,6 +1623,46 @@ msgstr ""
 msgid "Loading..."
 msgstr "Carregando..."
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "Baixar último instantâneo HTML"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr "Baixar pacote de dados do monitoramento"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "Excluir Monitoramento?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "Tem certeza que deseja excluir o monitoramento para:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This action cannot be undone."
+msgstr "Esta ação não pode ser desfeita."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear History?"
+msgstr "Limpar Histórico?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to clear all history for:"
+msgstr "Tem certeza que deseja limpar todo o histórico de:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will remove all snapshots and previous versions. This action cannot be undone."
+msgstr "Isso removerá todos os instantâneos e versões anteriores. Esta ação não pode ser desfeita."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear History"
+msgstr "Limpar Histórico"
+
 #. {pct} is a percentage including the % sign, e.g. "80%"
 #: changedetectionio/blueprint/watchlist/templates/watch-overview.html
 #: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
