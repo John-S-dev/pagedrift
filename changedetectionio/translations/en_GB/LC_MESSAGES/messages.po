@@ -2177,3 +2177,44 @@ msgstr ""
 msgid "Word count (latest snapshot)"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr ""
+
