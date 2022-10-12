@@ -1408,3 +1408,51 @@ msgstr "顯示進階選項"
 msgid "Run this code before performing change detection, handy for filling in fields and other actions"
 msgstr "在執行變更檢測之前執行此程式碼，方便填寫欄位和其他動作"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "請等待 10-15 秒讓瀏覽器連線。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "按 \"Play\" 開始。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "視覺選擇器資料尚未準備好，監測任務至少需要檢查一次。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr "抱歉，此功能僅適用於支援互動式 Javascript 的抓取器（目前僅限基於 Playwright 的抓取器）"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "為支援互動式 Javascript 的方式。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "您需要"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "設定抓取方式"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sends a notification when the filter can no longer be seen on the page, good for knowing when the page changed and "
+"your filter will not work anymore."
+msgstr "當頁面上找不到過濾器時發送通知，這有助於了解頁面何時變更導致您的過濾器失效。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the verify (✓) button to test if a condition passes against the current snapshot."
+msgstr "使用驗證 (✓) 按鈕測試條件是否符合目前的快照。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "閱讀有關"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "using conditional web page changes here"
+msgstr "使用條件式網頁變更的快速教學"
+
