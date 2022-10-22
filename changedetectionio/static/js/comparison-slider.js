@@ -88,3 +88,53 @@
             afterWrapper.style.clipPath = `inset(0 0 0 ${percentage}%)`;
         }
 
+        /**
+         * Handle move events (mouse or touch)
+         */
+        function onMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            updateSlider(clientX);
+        }
+
+        /**
+         * Start dragging
+         */
+        function onStart(e) {
+            isDragging = true;
+            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            updateSlider(clientX);
+        }
+
+        /**
+         * Stop dragging
+         */
+        function onEnd() {
+            isDragging = false;
+        }
+
+        /**
+         * Click anywhere on container to jump slider to that position
+         */
+        function onClick(e) {
+            if (e.target !== slider && !slider.contains(e.target)) {
+                const clientX = e.clientX;
+                updateSlider(clientX);
+            }
+        }
+
+        // Mouse events
+        slider.addEventListener('mousedown', onStart);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+
+        // Touch events
+        slider.addEventListener('touchstart', onStart, { passive: false });
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onEnd);
+
+        // Click anywhere on container to move slider
+        container.addEventListener('click', onClick);
+
