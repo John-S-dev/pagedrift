@@ -1456,3 +1456,89 @@ msgstr "閱讀有關"
 msgid "using conditional web page changes here"
 msgstr "使用條件式網頁變更的快速教學"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "啟用預覽"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "專業提示："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "使用預覽頁面查看反白的過濾器和觸發器。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "將觸發 / 忽略 / 阻擋 / 提取限制為；"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Note: Depending on the length and similarity of the text on each line, the algorithm may consider an "
+"<strong>addition</strong> instead of <strong>replacement</strong> for example."
+msgstr "注意：根據每行文字的長度和相似度，演算法可能會將 <strong>替換</strong> 誤判為 <strong>新增</strong>，例如。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "So it's always better to select"
+msgstr "所以最好選擇"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "當您對新內容感興趣時。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "When content is merely moved in a list, it will also trigger an"
+msgstr "當內容僅在列表中移動時，也會觸發"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "新增"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "考慮啟用"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#, python-format
+msgid "All %(page)s on this page are selected."
+msgstr "已選取此頁面上的所有 %(page)s。"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#, python-format
+msgid "Select all %(total)s matching"
+msgstr "選取所有 %(total)s 個符合的項目"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#, python-format
+msgid "All %(total)s matching are selected."
+msgstr "已選取所有 %(total)s 個符合的項目。"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#, python-format
+msgid "%(count)s records selected"
+msgstr "已選取 %(count)s 筆記錄"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Searching"
+msgstr "搜尋中"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "All"
+msgstr "全部"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Filter watches"
+msgstr "過濾監測任務"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Unread"
+msgstr "未讀"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Deals"
+msgstr "特惠"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "With errors"
+msgstr "有錯誤"
+
