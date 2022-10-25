@@ -1304,3 +1304,49 @@ msgstr "Поточний скріншот з помилкою з останнь�
 msgid "Screenshot requires a Content Fetcher ( Sockpuppetbrowser, selenium, etc ) that supports screenshots."
 msgstr "Скріншот вимагає завантажувача контенту (Sockpuppetbrowser, selenium тощо), який підтримує створення скріншотів."
 
+#: changedetectionio/blueprint/ui/views.py
+#, python-brace-format
+msgid "Warning, URL {} already exists"
+msgstr "Увага, URL {} вже існує"
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added in Paused state, saving will unpause."
+msgstr "Завдання додано в стані 'Пауза', збереження зніме його з паузи."
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added."
+msgstr "Завдання додано."
+
+#: changedetectionio/blueprint/watchlist/__init__.py
+#, python-brace-format
+msgid "displaying <b>{start} - {end}</b> {record_name} in total <b>{total}</b>"
+msgstr "відображено <b>{start} - {end}</b> {record_name}, всього <b>{total}</b>"
+
+#: changedetectionio/blueprint/watchlist/__init__.py
+msgid "records"
+msgstr "записів"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Changedetection.io can monitor more than just web-pages! See our plugins!"
+msgstr "Changedetection.io може моніторити більше, ніж просто веб-сторінки! Дивіться наші плагіни!"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "More info"
+msgstr "Детальніше"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "You can also add 'shared' watches."
+msgstr "Ви також можете додати 'спільні' завдання."
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Add a new web page change detection watch"
+msgstr "Додати нове завдання відстеження змін веб-сторінки"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Watch this URL!"
+msgstr "Відстежувати цей URL!"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Edit first then Watch"
+msgstr "Спочатку редагувати, потім Відстежувати"
+
