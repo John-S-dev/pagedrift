@@ -57,3 +57,7 @@ def create_backup_tarball(datastore_path, update_number):
     backup_filename = f"before-update-{update_number}-{timestamp}.tar.gz"
     backup_path = os.path.join(datastore_path, backup_filename)
 
+class DatastoreUpdatesMixin:
+    """
+    Mixin class containing all schema update methods.
+
