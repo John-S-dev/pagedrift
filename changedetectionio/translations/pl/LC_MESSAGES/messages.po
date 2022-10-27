@@ -2436,6 +2436,47 @@ msgid "Processor"
 msgstr "Procesor"
 
 #: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Wymienione/zmienione linie"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Usunięte wiersze"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Wyzwalacze słów kluczowych — wyzwól/oczekuj na tekst"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Zablokuj wykrywanie zmian, jeśli tekst jest zgodny"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Wykonaj kod JavaScript przed wykryciem zmian"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Serwer proxy"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Wyślij powiadomienie, gdy filtr nie będzie już widoczny na stronie"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "W dniu"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Powiadomienia"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Wyciszone"
+
+#: changedetectionio/forms.py
 msgid "Attach screenshot to notification (where possible)"
 msgstr "Dołącz zrzut ekranu do zgłoszenia (jeśli to możliwe)"
 
