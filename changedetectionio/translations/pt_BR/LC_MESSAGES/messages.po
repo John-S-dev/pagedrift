@@ -619,6 +619,48 @@ msgstr ""
 "Se você tiver problemas esperando a página carregar totalmente (texto faltando, etc), tente aumentar o tempo de "
 "espera aqui."
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will wait <i>n</i> seconds before extracting the text."
+msgstr "Isso esperará <i>n</i> segundos antes de extrair o texto."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr ""
+"Número de workers simultâneos para processar monitoramentos. Mais workers = processamento rápido, mas maior uso de "
+"memória."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "Executando no momento:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "operacional"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "workers"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "processando ativamente"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "Exemplo - 3 segundos de jitter aleatório podem disparar até 3 segundos antes ou até 3 segundos depois"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "Para solicitações comuns (não baseadas em Chrome), número máximo de segundos até o timeout, 1-999."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "Aplicado a todas as solicitações."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "Nota: Mudar apenas o User-Agent geralmente não supera tecnologias anti-robô, é importante considerar"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "all of the ways that the browser is detected"
 msgstr "todas as formas como o navegador é detectado"
