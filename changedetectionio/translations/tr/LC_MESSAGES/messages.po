@@ -395,6 +395,52 @@ msgstr ""
 msgid "Stays minimal"
 msgstr ""
 
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch with UUID %(uuid)s not found"
+msgstr "%(uuid)s UUID'li izleyici bulunamadı"
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch %(uuid)s does not have enough history snapshots to show changes (need at least 2)"
+msgstr "%(uuid)s izleyicisinin değişiklikleri göstermek için yeterli geçmiş anlık görüntüsü yok (en az 2 tane gerekli)"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection removed."
+msgstr "Parola koruması kaldırıldı."
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})"
+msgstr "Uyarı: Çalışan sayısı ({worker_count}), mevcut CPU çekirdek sayısına ({cpu_count}) yakın veya bunu aşıyor"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Worker count adjusted: {}"
+msgstr "Çalışan sayısı ayarlandı: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Dynamic worker adjustment not supported for sync workers"
+msgstr "Senkron çalışanlar için dinamik çalışan ayarı desteklenmiyor"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Error adjusting workers: {}"
+msgstr "Çalışanlar ayarlanırken hata oluştu: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection enabled."
+msgstr "Parola koruması etkinleştirildi."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+msgid "Settings updated."
+msgstr "Ayarlar güncellendi."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "Bir hata oluştu, lütfen aşağıya bakın."
+
 #: changedetectionio/blueprint/settings/__init__.py
 msgid "API Key was regenerated."
 msgstr "API Anahtarı yeniden oluşturuldu."
