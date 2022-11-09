@@ -80,3 +80,46 @@ def _add_tag_with_llm(datastore, title, llm_intent='', llm_change_summary='', ai
     return tag_uuid
 
 
+def _link_watch_to_tag(datastore, watch_uuid, tag_uuid):
+    """Append a tag UUID to a watch's tags list."""
+    watch = datastore.data['watching'][watch_uuid]
+    tags = list(watch.get('tags') or [])
+    if tag_uuid not in tags:
+        tags.append(tag_uuid)
+    watch['tags'] = tags
+
+
+# ---------------------------------------------------------------------------
+# The group's one AI control — ternary on a group, checkbox on a watch
+# ---------------------------------------------------------------------------
+
+def test_group_edit_page_has_the_ternary_ai_control(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    The group edit page must offer all three states — without them there is no way to turn
+    group-wide AI settings on, or to switch AI off for a whole group (#4204).
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+
+    tag_uuid = ds.add_tag('Ternary Group')
+
+    res = client.get(url_for('tags.form_tag_edit', uuid=tag_uuid))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+    text = _page_text(res)
+
+    assert 'name="llm_backend_profile"' in body, \
+        "group edit page is missing the 'AI for watches in this group' control"
+    for value in ('true', 'false', 'none'):
+        assert f'name="llm_backend_profile" value="{value}"' in body, \
+            f"group AI control is missing its '{value}' option"
+    assert 'AI for watches in this group' in text
+    assert 'Leave it to each watch' in text
+    # New groups start undecided, so they never touch their watches
+    assert 'id="llm_backend_profile_none" checked' in body, \
+        "a new group must default to 'Leave it to each watch'"
+
+    delete_all_watches(client)
+
+
