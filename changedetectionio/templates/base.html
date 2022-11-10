@@ -220,3 +220,22 @@
             </div>
         </div>
 
+      // Temporarily use flex wrap to check if wrapping occurs
+      ul.style.display = 'flex';
+      ul.style.flexWrap = 'wrap';
+      void ul.offsetHeight;
+
+      const top = tabs[0].offsetTop;
+      const wrapped = Array.from(tabs).some((t, i) => i > 0 && t.offsetTop !== top);
+
+      // Reset display to use CSS grid
+      ul.style.display = '';
+      ul.style.flexWrap = '';
+
+      // Set CSS variable for wrapped mode
+      if (wrapped) {
+        ul.style.setProperty('--tab-width', `${cache.get(ul) + 10}px`);
+      } else {
+        ul.style.setProperty('--tab-width', '');
+      }
+
