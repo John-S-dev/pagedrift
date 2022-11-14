@@ -99,6 +99,19 @@ function findLineBoundary(node, container, searchBackwards = false) {
 }
 
 /**
+ * Helper: Get the last text node in a container
+ */
+function getLastTextNode(container) {
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+    let lastNode = null;
+    let textNode;
+    while (textNode = walker.nextNode()) {
+        lastNode = textNode;
+    }
+    return lastNode;
+}
+
+/**
  * Expands a selection range to include complete lines
  * If a user selects partial text, this ensures full lines are captured
  */
