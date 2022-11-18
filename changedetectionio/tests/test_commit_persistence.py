@@ -17,6 +17,35 @@ from flask import url_for
 from .util import wait_for_all_checks
 
 
+# ==============================================================================
+# 2. Commit() Persistence Tests
+# ==============================================================================
+
+def test_watch_commit_persists_to_disk(client, live_server):
+    """Test that watch.commit() actually writes to watch.json immediately"""
+    datastore = client.application.config.get('DATASTORE')
+
+    # Create a watch
+    uuid = datastore.add_watch(url='http://example.com', extras={'title': 'Original Title'})
+    watch = datastore.data['watching'][uuid]
+
+    # Modify and commit
+    watch['title'] = 'Modified Title'
+    watch['paused'] = True
+    watch.commit()
+
+    # Read directly from disk (bypass datastore cache)
+    watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+    assert os.path.exists(watch_json_path), "watch.json should exist on disk"
+
+    with open(watch_json_path, 'r') as f:
+        disk_data = json.load(f)
+
+    assert disk_data['title'] == 'Modified Title', "Title should be persisted to disk"
+    assert disk_data['paused'] == True, "Paused state should be persisted to disk"
+    assert disk_data['uuid'] == uuid, "UUID should match"
+
+
 def test_concurrent_watch_commits_dont_corrupt(client, live_server):
     """Test that simultaneous commits to same watch don't corrupt JSON"""
     datastore = client.application.config.get('DATASTORE')
