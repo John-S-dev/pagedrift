@@ -86,3 +86,41 @@ def test_check_basic_change_detection_functionality(client, live_server, measure
     assert b'which has this one new line' in res.data
     assert b'CDATA' in res.data
 
+def test_title_scraper(client, live_server, measure_memory_usage, datastore_path):
+
+    set_original_response(datastore_path=datastore_path)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=url_for('test_endpoint', _external=True))
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks()
+
+    # It should report nothing found (no new 'has-unread-changes' class)
+    res = client.get(url_for("watchlist.index"))
+
+    assert b'head title' in res.data  # Should be ON by default
+
+    # Recheck it but only with a title change, content wasnt changed
+    set_original_response(datastore_path=datastore_path, extra_title=" and more")
+
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'head title and more' in res.data
+
+    # disable <title> pickup
+    res = client.post(
+        url_for("settings.settings_page"),
+        data={"application-ui-use_page_title_in_list": "",
+              "requests-time_between_check-minutes": 180,
+              'application-fetch_backend': "html_requests"},
+        follow_redirects=True
+    )
+
+    set_original_response(datastore_path=datastore_path, extra_title=" SHOULD NOT APPEAR")
+
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'SHOULD NOT APPEAR' not in res.data
+
+    delete_all_watches(client)
+
