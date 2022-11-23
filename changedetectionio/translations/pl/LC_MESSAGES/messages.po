@@ -1480,6 +1480,54 @@ msgstr "Te ustawienia są <strong><i>dodawane</i></strong> do wszystkich istniej
 msgid "Text filtering"
 msgstr "Filtrowanie tekstu"
 
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use with caution!"
+msgstr "Należy zachować ostrożność!"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will easily fill up your email storage quota or flood other storages."
+msgstr "To z łatwością zapełni limit miejsca na pocztę elektroniczną lub zapełni inne przestrzenie dyskowe."
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Look out!"
+msgstr "Uwaga!"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Lookout!"
+msgstr "Uwaga!"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#, python-format
+msgid ""
+"There are <a href=\"%(url)s\">system-wide notification URLs enabled</a>, this form will override notification "
+"settings for this watch only &dash; an empty Notification URL list here will still send notifications."
+msgstr ""
+"W systemie są <a href=\"%(url)s\">włączone adresy URL powiadomień</a>; ten formularz zastąpi ustawienia powiadomień "
+"wyłącznie dla tego obserwowanego elementu — nawet jeśli lista adresów URL powiadomień pozostanie pusta, powiadomienia"
+" będą nadal wysyłane."
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use system defaults"
+msgstr "Użyj ustawień domyślnych systemu"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Add a new organisational tag"
+msgstr "Dodaj nowy tag organizacyjny"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Groups allows you to manage filters and notifications for multiple watches under a single organisational tag."
+msgstr ""
+"Funkcja „Grupy” pozwala zarządzać filtrami i powiadomieniami dla wielu obserwacji w ramach jednego tagu "
+"organizacyjnego."
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "# Watches"
+msgstr "# Obserwacje"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Tag / Label name"
+msgstr "Nazwa tagu / etykiety"
+
 #: changedetectionio/blueprint/tags/templates/groups-overview.html
 msgid "No website organisational tags/groups configured"
 msgstr "Nie skonfigurowano żadnych tagów/grup organizacyjnych dla tej witryny"
