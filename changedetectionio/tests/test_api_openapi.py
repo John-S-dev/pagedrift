@@ -56,3 +56,39 @@ def test_openapi_merged_spec_contains_restock_fields():
         f"WatchBase.processor_config_restock_diff should $ref the schema, got: {ref}"
 
 
+def test_openapi_validation_invalid_content_type_on_create_watch(client, live_server, measure_memory_usage, datastore_path):
+    """Test that creating a watch with invalid content-type triggers OpenAPI validation error."""
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Try to create a watch with JSON data but without proper content-type header
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": "https://example.com", "title": "Test Watch"}),
+        headers={'x-api-key': api_key},  # Missing 'content-type': 'application/json'
+        follow_redirects=True
+    )
+
+    # Should get 400 error due to OpenAPI validation failure
+    assert res.status_code == 400, f"Expected 400 but got {res.status_code}"
+    assert b"Validation failed" in res.data, "Should contain validation error message"
+    delete_all_watches(client)
+
+
+def test_openapi_validation_missing_required_field_create_watch(client, live_server, measure_memory_usage, datastore_path):
+    """Test that creating a watch without required URL field triggers OpenAPI validation error."""
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Try to create a watch without the required 'url' field
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"title": "Test Watch Without URL"}),  # Missing required 'url' field
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        follow_redirects=True
+    )
+
+    # Should get 400 error due to missing required field
+    assert res.status_code == 400, f"Expected 400 but got {res.status_code}"
+    assert b"Validation failed" in res.data, "Should contain validation error message"
+    delete_all_watches(client)
+
+
