@@ -13,6 +13,61 @@ import re
 BAD_CHARS_REGEX = r'[\x00-\x08\x0B\x0C\x0E-\x1F]'
 
 
+def scan_invalid_chars_in_rss(content):
+    """
+    Scan for invalid characters in RSS content.
+    Returns True if invalid characters are found.
+    """
+    for match in re.finditer(BAD_CHARS_REGEX, content):
+        i = match.start()
+        bad_char = content[i]
+        hex_value = f"0x{ord(bad_char):02x}"
+        # Grab context
+        start = max(0, i - 20)
+        end = min(len(content), i + 21)
+        context = content[start:end].replace('\n', '\\n').replace('\r', '\\r')
+        logger.warning(f"Invalid char {hex_value} at pos {i}: ...{context}...")
+        # First match is enough
+        return True
+
+    return False
+
+
+def clean_entry_content(content):
+    """
+    Remove invalid characters from RSS content.
+    """
+    cleaned = re.sub(BAD_CHARS_REGEX, '', content)
+    return cleaned
+
+
+def generate_watch_guid(watch, timestamp):
+    """
+    Generate a unique GUID for a watch RSS entry.
+
+    Args:
+        watch: The watch object
+        timestamp: The timestamp of the specific change this entry represents
+    """
+    return f"{watch['uuid']}/{timestamp}"
+
+
+def validate_rss_token(datastore, request):
+    """
+    Validate the RSS access token from the request.
+
+    Returns:
+        tuple: (is_valid, error_response) where error_response is None if valid
+    """
+    app_rss_token = datastore.data['settings']['application'].get('rss_access_token')
+    rss_url_token = request.args.get('token')
+
+    if rss_url_token != app_rss_token:
+        return False, ("Access denied, bad token", 403)
+
+    return True, None
+
+
 def get_rss_template(datastore, watch, rss_content_format, default_html, default_plaintext):
     """Get the appropriate template for RSS content."""
     if datastore.data['settings']['application'].get('rss_template_type') == 'notification_body':
