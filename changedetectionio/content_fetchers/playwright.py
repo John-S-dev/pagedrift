@@ -411,3 +411,7 @@ class fetcher(Fetcher):
                 # The actual screenshot - this always base64 and needs decoding! horrible! huge CPU usage
                 self.screenshot = await capture_full_page_async(page=self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
 
+# Create module-level instance for plugin registration
+playwright_plugin = PlaywrightFetcherPlugin()
+
+
