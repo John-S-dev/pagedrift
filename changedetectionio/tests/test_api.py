@@ -308,6 +308,44 @@ def test_api_delete_watch_history(client, live_server, measure_memory_usage, dat
     delete_all_watches(client)
 
 
+def test_roundtrip_API(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test the full round trip, this way we test the default Model fits back into OpenAPI spec
+    :param client:
+    :param live_server:
+    :param measure_memory_usage:
+    :param datastore_path:
+    :return:
+    """
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Create new
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": test_url}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 201
+    uuid = res.json.get('uuid')
+
+    # Now fetch it and send it back
+
+    res = client.get(
+        url_for("watch", uuid=uuid),
+        headers={'x-api-key': api_key}
+    )
+
+    watch=res.json
+
+    # Be sure that 'readOnly' values are never updated in the real watch
+    watch['last_changed'] = 454444444444
+    watch['date_created'] = 454444444444
+
 def test_access_denied(client, live_server, measure_memory_usage, datastore_path):
     # `config_api_token_enabled` Should be On by default
     res = client.get(
