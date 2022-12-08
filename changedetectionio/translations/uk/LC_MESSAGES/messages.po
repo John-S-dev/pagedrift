@@ -2517,3 +2517,47 @@ msgstr "Тіло запиту"
 msgid "Request method"
 msgstr "Метод запиту"
 
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "Вважати порожні сторінки зміною?"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "Ігнорувати текст"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "Ігнорувати пробіли"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Має бути між 0 та 100"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Пароль"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Розмір сторінки (пагінація)"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "Має бути як мінімум нуль (вимкнено)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "Формат контенту RSS"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "Тіло <description> RSS будується з"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "Перевизначення шаблону RSS \"Системний за замовчуванням\""
+

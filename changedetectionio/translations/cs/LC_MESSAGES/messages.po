@@ -1755,6 +1755,50 @@ msgstr "Vymazat historii!"
 msgid "Share diff as image"
 msgstr "Sdílet rozdíl jako obrázek"
 
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Share as Image"
+msgstr "Sdílet jako obrázek"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Ignore any lines matching"
+msgstr "Ignorovat všechny odpovídající řádky"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Ignore any lines matching excluding digits"
+msgstr "Ignorovat všechny odpovídající řádky kromě číslic"
+
+#. 'From' labels the older snapshot version selector on the diff page
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgctxt "diff version"
+msgid "From"
+msgstr "Z"
+
+#. 'To' labels the newer snapshot version selector on the diff page
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgctxt "diff version"
+msgid "To"
+msgstr "Na"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Words"
+msgstr "Slova"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Lines"
+msgstr "Řádky"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Ignore Whitespace"
+msgstr "Ignorovat mezery"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Same/non-changed"
+msgstr "Stejné/beze změny"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Removed"
+msgstr "Odebráno"
+
 #: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/edit.html
 msgid "Added"
 msgstr "Přidáno"
