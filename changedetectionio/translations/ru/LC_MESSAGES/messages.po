@@ -933,6 +933,62 @@ msgstr ""
 "%(gpt)s/%(gemini)s. Очень маленькие модели (≤3B) могут давать ошибочные результаты при числовом сравнении."
 
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Instead of raw diffs, receive plain-language summaries in notifications — %(ex1)s or %(ex2)s. Set a global default "
+"prompt here, or override per watch or tag."
+msgstr ""
+"Вместо необработанных различий получайте в уведомлениях сводку на простом языке — %(ex1)s или %(ex2)s. Установите "
+"здесь глобальное приглашение по умолчанию или переопределите его для каждого просмотра или тега."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Minimal cost"
+msgstr "Минимальная стоимость"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"The AI sees only a unified diff of what changed — never full page HTML. Low-cost models like %(gpt)s or %(gemini)s "
+"handle this well, typically fractions of a cent per check."
+msgstr ""
+"ИИ видит только единую разницу того, что изменилось, а не полный HTML-код страницы. Недорогие модели, такие как "
+"%(gpt)s или %(gemini)s, справляются с этим хорошо, обычно доли цента за чек."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI / LLM configured:"
+msgstr "AI/LLM настроено:"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Configure AI Provider"
+msgstr "Настройка поставщика AI"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI Provider"
+msgstr "Поставщик ИИ"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Master switch — when off, all AI lookups are skipped even if a provider is configured below."
+msgstr "Главный переключатель — если он выключен, все запросы AI пропускаются, даже если провайдер настроен ниже."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Third-party data transfer — please read"
+msgstr "Передача данных третьим лицам — прочтите"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"When AI features are active, change data from the websites you monitor — including page diffs and extracted text — is"
+" sent to an external AI provider of your choice."
+msgstr ""
+"Когда функции искусственного интеллекта активны, данные об изменениях с веб-сайтов, которые вы отслеживаете, включая "
+"различия страниц и извлеченный текст, отправляются внешнему поставщику искусственного интеллекта по вашему выбору."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "You are solely responsible for ensuring this complies with the terms of service of each website you monitor."
+msgstr ""
+"Вы несете единоличную ответственность за обеспечение соответствия условиям обслуживания каждого веб-сайта, который вы"
+" отслеживаете."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid ""
 "You are solely responsible for compliance with applicable data-protection laws (e.g. GDPR) regarding any personal "
 "data that may appear in monitored content."
