@@ -8,6 +8,11 @@ clobber those values when an unrelated section (workers, RSS, etc.) is saved,
 because both pages mutate the same `application` dict.
 """
 
+from flask import url_for
+
+from changedetectionio.tests.util import live_server_setup, delete_all_watches
+
+
 def _seed_notification_config(datastore):
     """Pre-load the notification config into the application settings dict."""
     app = datastore.data['settings']['application']
