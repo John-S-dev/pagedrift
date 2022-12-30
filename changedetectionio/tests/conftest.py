@@ -39,3 +39,25 @@ def reportlog(pytestconfig):
     logger.remove(handler_id)
 
 
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Hook to capture test results and attach to the test node."""
+    outcome = yield
+    rep = outcome.get_result()
+
+    # Store report on the test node for access in fixtures
+    setattr(item, f"rep_{rep.when}", rep)
+
+
+@pytest.fixture
+def environment(mocker):
+    """Mock arrow.now() to return a fixed datetime for testing jinja2 time extension."""
+    # Fixed datetime: Wed, 09 Dec 2015 23:33:01 UTC
+    # This is calculated to match the test expectations when offsets are applied
+    fixed_datetime = arrow.Arrow(2015, 12, 9, 23, 33, 1, tzinfo='UTC')
+    # Patch on the arrow module itself - TimeExtension imports arrow lazily inside its methods
+    # (import diet), so there is no module-level TimeExtension.arrow attribute to patch
+    mocker.patch('arrow.now', return_value=fixed_datetime)
+    return fixed_datetime
+
+
