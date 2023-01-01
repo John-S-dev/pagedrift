@@ -1586,6 +1586,51 @@ msgstr "將用於變更檢測的元素。它會自動填入"
 msgid "tab. Use"
 msgstr "分頁的「CSS / JSONPath / JQ / XPath 過濾器」欄位。使用"
 
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Workers"
+msgstr "工作程序"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Running now"
+msgstr "正在執行"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Queued"
+msgstr "已排程"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear Queue?"
+msgstr "是否清除佇列？"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "<p>This will remove every pending check from the queue.</p><p>Running checks will continue.</p>"
+msgstr "<p>這將會移除佇列中所有待處理的檢查。</p><p>正在執行的檢查將會繼續。</p>"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear"
+msgstr "清除"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear Queue"
+msgstr "清除佇列"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Workers & queue"
+msgstr "工作程序與佇列"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Elapsed"
+msgstr "已耗時"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Status"
+msgstr "狀態"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "No workers configured (FETCH_WORKERS=0) and queue is empty"
+msgstr "未設定工作程序（FETCH_WORKERS=0）且排程佇列為空"
+
 #: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
 msgid "Create a link to share watch config with others"
 msgstr ""
