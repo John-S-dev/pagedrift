@@ -77,3 +77,6 @@ def set_response_without_ldjson(datastore_path):
         f.write(test_return_data)
     return None
 
+# def test_setup(client, live_server, measure_memory_usage, datastore_path):
+   #  live_server_setup(live_server) # Setup on conftest per function
+
