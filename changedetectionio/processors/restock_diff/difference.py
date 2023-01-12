@@ -23,6 +23,30 @@ _RE_PRICE = re.compile(r"Price:\s*([\d.]+)", re.IGNORECASE)
 _RE_INSTOCK = re.compile(r"In Stock:\s*(True|False)", re.IGNORECASE)
 
 
+def _parse_restock_snapshot(text):
+    """Parse a snapshot string into (price: float|None, in_stock: bool|None)."""
+    price = None
+    in_stock = None
+    if text:
+        m = _RE_PRICE.search(text)
+        if m:
+            try:
+                price = float(m.group(1))
+            except (TypeError, ValueError):
+                price = None
+        mi = _RE_INSTOCK.search(text)
+        if mi:
+            in_stock = mi.group(1).lower() == 'true'
+    return price, in_stock
+
+
+def _currency(watch):
+    try:
+        return (watch.get('restock') or {}).get('currency') or ''
+    except Exception:
+        return ''
+
+
 def _build_series(watch):
     """Read the full history into a [{timestamp, price, in_stock}] timeline (oldest -> newest)."""
     series = []
