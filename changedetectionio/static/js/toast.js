@@ -234,3 +234,41 @@
     return show(message, { ...options, type: 'success' });
   }
 
+  function error(message, options = {}) {
+    return show(message, { ...options, type: 'error' });
+  }
+
+  function warning(message, options = {}) {
+    return show(message, { ...options, type: 'warning' });
+  }
+
+  function info(message, options = {}) {
+    return show(message, { ...options, type: 'info' });
+  }
+
+  /**
+   * Clear all toasts
+   */
+  function clear() {
+    if (!container) return;
+    const toasts = container.querySelectorAll('.toast');
+    toasts.forEach(removeToast);
+  }
+
+  // Public API
+  window.Toast = {
+    init,
+    show,
+    success,
+    error,
+    warning,
+    info,
+    clear,
+    version: '1.0.0'
+  };
+
+  // Auto-initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+  });
+
