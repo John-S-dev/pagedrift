@@ -2479,6 +2479,46 @@ msgstr "Usunąć obserwacje?"
 msgid "<p><strong>Are you sure you want to delete the selected watches?</strong></p><p>This action cannot be undone.</p>"
 msgstr "<p><strong>Czy na pewno chcesz usunąć wybrane obserwacje?</strong></p><p>Tej czynności nie można cofnąć.</p>"
 
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/templates/base.html
+msgid "Close"
+msgstr "Zamknij"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Web page"
+msgstr "Strona internetowa"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Restock & Price"
+msgstr "Uzupełnienie zapasów i cena"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "No web page change detection watches configured, please add a URL in the box above, or"
+msgstr "Nie skonfigurowano żadnych obserwacji stron internetowych. Dodaj adres URL w polu powyżej lub"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "import a list"
+msgstr "zaimportuj listę"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Choose one - Operator"
+msgstr "Wybierz jedną opcję – Operator"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Greater Than"
+msgstr "Większy niż"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Less Than"
+msgstr "Mniej niż"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Greater Than or Equal To"
+msgstr "Większe lub równe"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Less Than or Equal To"
+msgstr "Mniejsze lub równe"
+
 #: changedetectionio/conditions/plugins/levenshtein_plugin.py
 msgid "Levenshtein - Text similarity ratio"
 msgstr "Wskaźnik podobieństwa tekstu według Levenshteina"
