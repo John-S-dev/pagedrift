@@ -2125,6 +2125,51 @@ msgid "Similarity ratio"
 msgstr "類似度"
 
 #: changedetectionio/forms.py
+#, python-format
+msgid "RegEx '%s' is not a valid regular expression."
+msgstr "正規表現 '%s' は有効な正規表現ではありません。"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid XPath expression. (%(error)s)"
+msgstr "'%(expression)s' は有効なXPath式ではありません。(%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid JSONPath expression. (%(error)s)"
+msgstr "'%(expression)s' は有効なJSONPath式ではありません。(%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
+msgstr "'%(expression)s' は有効なjq式ではありません。(%(error)s)"
+
+#: changedetectionio/forms.py
+msgid "Empty value not allowed."
+msgstr "空の値は許可されていません。"
+
+#: changedetectionio/forms.py
+msgid "Invalid value."
+msgstr "無効な値です。"
+
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "グループタグ"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "ウォッチ"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "プロセッサー"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Use page <title> in list"
 msgstr "リストでページの <title> を使用"
 
