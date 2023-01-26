@@ -42,3 +42,38 @@ def _key_in_response(response, key=CANARY_KEY) -> bool:
     return key in body
 
 
+def test_tag_get_does_not_expose_llm_api_key(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET /api/v1/tag/<uuid> must not contain the LLM API key."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+
+    tag_uuid = ds.add_tag('security-test-tag')
+
+    res = client.get(
+        f'/api/v1/tag/{tag_uuid}',
+        headers={'x-api-key': api_token},
+    )
+    assert res.status_code == 200
+    assert not _key_in_response(res), \
+        "LLM API key leaked in GET /api/v1/tag/<uuid> response"
+
+    delete_all_watches(client)
+
+
+def test_tag_list_does_not_expose_llm_api_key(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET /api/v1/tags must not contain the LLM API key."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+
+    res = client.get('/api/v1/tags', headers={'x-api-key': api_token})
+    assert res.status_code == 200
+    assert not _key_in_response(res), \
+        "LLM API key leaked in GET /api/v1/tags response"
+
+    delete_all_watches(client)
+
+
