@@ -9,6 +9,41 @@ those races corrupt libxml2 state and one document's rendered text lands in anot
 Reported by a hosted customer whose snapshots contained an entirely different university's staff
 directory concatenated ahead of their own, at double the normal size.
 
+These tests fail reliably (tens of failures, several whole-document leaks) with the lock removed.
+"""
+import threading
+from concurrent.futures import ThreadPoolExecutor
+
+import pytest
+
+from changedetectionio import html_tools
+
+THREADS = 12
+# The bug corrupted ~4.75% of extractions, so 600 jobs means ~28 expected failures with the
+# guard removed - enough that this cannot pass by luck. Paths that were never affected only
+# need enough volume to catch a future regression, hence JOBS_GUARD.
+JOBS = 600
+JOBS_GUARD = 200
+
+# Distinct, mutually-identifiable documents. Each row carries a marker unique to its document so
+# any foreign content is unambiguous - mirrors the real report, where the giveaway was another
+# university's email domain appearing in the snapshot.
+NAMES = ["hamline", "gwynedd", "thiel", "lbcc", "wabash", "baruch", "purdue", "butler"]
+
+
+def _make_doc(name, rows=120):
+    body = "\n".join(
+        f"<tr><td>Person {i} {name}</td><td>p{i}@{name}.example</td></tr>" for i in range(rows)
+    )
+    return (
+        f"<html><head><title>{name}</title>"
+        f"<script>var pad=\"{'z' * 1200}\";</script><style>.a{{color:red}}</style></head>"
+        f"<body><div class='ads'>AD-{name}</div>"
+        f"<div id='staff'><table class='sidearm-table'>{body}</table></div>"
+        f"<footer>END-{name}</footer></body></html>"
+    )
+
+
 DOCS = {n: _make_doc(n) for n in NAMES}
 
 
