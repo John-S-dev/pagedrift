@@ -1356,6 +1356,46 @@ msgstr "Desvincular etiqueta de monitores en segundo plano"
 msgid "All tags deleted, clearing from watches in background"
 msgstr "Todas las etiquetas eliminadas, borradas de los monitores en segundo plano."
 
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "Etiqueta no encontrada"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "Actualizado"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Activate for individual watches in this tag/group?"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Auto-apply to watches with URLs matching"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "e.g. *://example.com/* or github.com/myorg"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/edit-tag.html
+msgid "Tag colour"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Must be a hex colour, for example #4f8ef7"
+msgstr "Debe ser un color hexadecimal, por ejemplo #4f8ef7"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "AI for watches in this group"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "On, use the settings below"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Off for every watch"
+msgstr ""
+
 #: changedetectionio/blueprint/tags/form.py
 msgid "Leave it to each watch"
 msgstr ""
