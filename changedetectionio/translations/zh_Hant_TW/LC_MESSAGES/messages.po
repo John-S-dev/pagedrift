@@ -1369,6 +1369,52 @@ msgstr "已更新監測任務 - 已取消暫停！"
 msgid "Updated watch."
 msgstr "已更新監測任務。"
 
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Pro-tip: You can enable <strong>\"share access when password is enabled\"</strong> from settings."
+msgstr "專業提示：您可以於設定中啟用 <strong>「啟用密碼時分享存取權限」</strong>。"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Generating change summary…"
+msgstr "正在產生變更摘要 ..."
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Goto single snapshot"
+msgstr "前往單一快照"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Highlight text to share or add to ignore lists."
+msgstr "反白文字以分享或新增至忽略列表。"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Download difference patch"
+msgstr "下載差異修補檔（Patch）"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "For now, Differences are performed on text, not graphically, only the latest screenshot is available."
+msgstr "目前，差異比對是針對文字執行，而非圖形，僅提供最新的截圖。"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Current screenshot from most recent request"
+msgstr "最近請求的目前截圖"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "No screenshot available just yet! Try rechecking the page."
+msgstr "目前還沒有可用的截圖！請嘗試複查頁面。"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Screenshot requires Playwright/WebDriver enabled"
+msgstr "截圖需要啟用 Playwright / WebDriver"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Request"
+msgstr "請求"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Browser Steps"
+msgstr "瀏覽器步驟"
+
 #: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Visual Filter Selector"
 msgstr "視覺過濾選擇器"
