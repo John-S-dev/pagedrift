@@ -541,3 +541,9 @@ Your configured browser step at position {step} for the web page watch {{{{watch
 
 The element may have moved and needs editing, or does it need a delay added?
 
+# Convenience functions for creating notification service instances
+def create_notification_service(datastore, notification_q):
+    """
+    Factory function to create a NotificationService instance
+    """
+    return NotificationService(datastore, notification_q)
