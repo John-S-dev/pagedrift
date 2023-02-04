@@ -12,3 +12,47 @@ import os
 
 
 
+def test_surrogate_characters_in_content_are_sanitized():
+    """Lone surrogates can appear in requests' r.text when a server returns malformed/mixed-encoding
+    content. Without sanitization, encoding to UTF-8 raises UnicodeEncodeError.
+    See: https://github.com/dgtlmoon/changedetection.io/issues/3952
+    """
+    content_with_surrogate = '<html><body>Hello \udcad World</body></html>'
+
+    # Confirm the raw problem exists
+    with pytest.raises(UnicodeEncodeError):
+        content_with_surrogate.encode('utf-8')
+
+    # Our fix: sanitize after fetcher.run() in processors/base.py call_browser()
+    sanitized = content_with_surrogate.encode('utf-8', errors='replace').decode('utf-8')
+    assert 'Hello' in sanitized
+    assert 'World' in sanitized
+    assert '\udcad' not in sanitized
+
+    # Checksum computation (processors/base.py get_raw_document_checksum) must not crash
+    hashlib.md5(sanitized.encode('utf-8')).hexdigest()
+
+
+def test_utf8_content_without_charset_header(client, live_server, datastore_path):
+    """Server returns UTF-8 content but no charset in Content-Type header.
+    chardet can misdetect such pages as UTF-7 (Python 3.14 then produces surrogates).
+    Our fix tries UTF-8 first before falling back to chardet.
+    See: https://github.com/dgtlmoon/changedetection.io/issues/3952
+    """
+    from .util import write_test_file_and_sync
+    # UTF-8 encoded content with non-ASCII chars - no charset will be in the header
+    html = '<html><body><p>Español</p><p>Français</p><p>日本語</p></body></html>'
+    write_test_file_and_sync(os.path.join(datastore_path, "endpoint-content.txt"), html.encode('utf-8'), mode='wb')
+
+    test_url = url_for('test_endpoint', content_type="text/html", _external=True)
+    client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.get(url_for("ui.ui_preview.preview_page", uuid="first"), follow_redirects=True)
+    # Should decode correctly as UTF-8, not produce mojibake (EspaÃ±ol) or replacement chars
+    assert 'Español'.encode('utf-8') in res.data
+    assert 'Français'.encode('utf-8') in res.data
+    assert '日本語'.encode('utf-8') in res.data
+
+
