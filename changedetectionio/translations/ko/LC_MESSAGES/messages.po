@@ -1421,6 +1421,54 @@ msgstr "주의"
 msgid "Lookout!"
 msgstr "주의"
 
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#, python-format
+msgid ""
+"There are <a href=\"%(url)s\">system-wide notification URLs enabled</a>, this form will override notification "
+"settings for this watch only &dash; an empty Notification URL list here will still send notifications."
+msgstr ""
+"<a href=\"%(url)s\">시스템 전체 알림 URL이 활성화되어 있습니다</a>. 이 양식은 이 모니터링에 대해서만 알림 설정을 재정의합니다. 여기의 알림 URL 목록이 비어 있어도 알림은 계속 "
+"전송됩니다."
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use system defaults"
+msgstr "시스템 기본값 사용"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Add a new organisational tag"
+msgstr "새 그룹 / 태그 추가"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Groups allows you to manage filters and notifications for multiple watches under a single organisational tag."
+msgstr "그룹을 사용하면 하나의 분류용 태그 아래에서 여러 모니터링의 필터와 알림을 관리할 수 있습니다."
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "# Watches"
+msgstr "모니터링 수"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Tag / Label name"
+msgstr "태그/라벨 이름"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "No website organisational tags/groups configured"
+msgstr "구성된 그룹/태그 없음"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/menu.html
+msgid "Mute notifications"
+msgstr "알림 음소거"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Recheck"
+msgstr "재확인"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/edit.py
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Edit"
+msgstr "편집"
+
 #: changedetectionio/blueprint/tags/templates/groups-overview.html
 msgid "Delete Group?"
 msgstr "그룹을 삭제하시겠습니까?"
@@ -2234,6 +2282,46 @@ msgstr "값"
 #: changedetectionio/conditions/form.py
 msgid "Operator is required."
 msgstr "연산자는 필수입니다."
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "분"
+
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "초"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "초"
+
+#: changedetectionio/flask_app.py
+msgid "Already logged in"
+msgstr "이미 로그인되어 있습니다."
+
+#: changedetectionio/flask_app.py
+msgid "You must be logged in, please log in."
+msgstr "로그인해야 합니다. 로그인해 주세요."
+
+#: changedetectionio/flask_app.py
+msgid "Incorrect password"
+msgstr "비밀번호가 올바르지 않습니다."
+
+#: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified."
+msgstr "최소 하나 이상의 시간 간격(주, 일, 시, 분 또는 초)을 지정해야 합니다."
+
+#: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified when not using global settings."
+msgstr "전역 설정을 사용하지 않을 때는 최소 하나 이상의 시간 간격(주, 일, 시, 분 또는 초)을 지정해야 합니다."
+
+#: changedetectionio/forms.py
+msgid "Invalid time format. Use HH:MM."
+msgstr "시간 형식이 올바르지 않습니다. HH:MM 형식을 사용하세요."
+
+#: changedetectionio/forms.py
+msgid "Not a valid timezone name"
+msgstr "유효한 시간대 이름이 아닙니다."
 
 #: changedetectionio/forms.py
 msgid "Edit > Watch"
