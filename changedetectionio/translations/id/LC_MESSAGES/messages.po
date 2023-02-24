@@ -1998,6 +1998,46 @@ msgid "Show advanced options"
 msgstr "Tampilkan opsi lanjutan"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Run this code before performing change detection, handy for filling in fields and other actions"
+msgstr "Jalankan kode ini sebelum melakukan deteksi perubahan, berguna untuk mengisi bidang dan tindakan lainnya"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Bantuan dan contoh lainnya di sini"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "Variabel didukung dalam isi permintaan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "Variabel didukung dalam nilai header permintaan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "Peringatan! File header tambahan ditemukan dan akan ditambahkan ke monitor ini!"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Header juga dapat dibaca dari file di direktori data Anda"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Baca selengkapnya di sini"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Tidak didukung oleh browser Selenium"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Aktifkan pencari teks"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Harap tunggu, langkah browser pertama mungkin perlu sedikit waktu untuk dimuat.."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Click here to Start"
 msgstr "Klik di sini untuk Mulai"
 
