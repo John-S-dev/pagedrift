@@ -355,3 +355,71 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         # Re #148 - Some people have just {{ base_url }} in the body or title, but this may break some notification services
         #           like 'Join', so it's always best to atleast set something obvious so that they are not broken.
 
+        Returns:
+            bool: True if resource exists
+        """
+        resource_path = os.path.join(self.datastore_path, watch_uuid, resource_name)
+        return path.isfile(resource_path)
+
+    def visualselector_data_is_ready(self, watch_uuid):
+        """
+        Check if visual selector data (screenshot + elements) is ready.
+
+        Returns:
+            bool: True if both screenshot and elements data exist
+        """
+        has_screenshot = self._watch_resource_exists(watch_uuid, "last-screenshot.png")
+        has_elements = self._watch_resource_exists(watch_uuid, "elements.deflate")
+        return has_screenshot and has_elements
+
+    # Old sync_to_json and save_datastore methods removed - now handled by FileSavingDataStore parent class
+
+    @property
+    def proxy_list(self):
+        proxy_list = {}
+        proxy_list_file = os.path.join(self.datastore_path, 'proxies.json')
+
+        # Load from external config file
+        if path.isfile(proxy_list_file):
+            if HAS_ORJSON:
+                # orjson.loads() expects UTF-8 encoded bytes #3611
+                with open(os.path.join(self.datastore_path, "proxies.json"), 'rb') as f:
+                    proxy_list = orjson.loads(f.read())
+            else:
+                with open(os.path.join(self.datastore_path, "proxies.json"), encoding='utf-8') as f:
+                    proxy_list = json.load(f)
+
+        # Mapping from UI config if available
+        extras = self.data['settings']['requests'].get('extra_proxies')
+        if extras:
+            i = 0
+            for proxy in extras:
+                i += 0
+                if proxy.get('proxy_name') and proxy.get('proxy_url'):
+                    k = "ui-" + str(i) + proxy.get('proxy_name')
+                    proxy_list[k] = {'label': proxy.get('proxy_name'), 'url': proxy.get('proxy_url')}
+
+        if proxy_list and strtobool(os.getenv('ENABLE_NO_PROXY_OPTION', 'True')):
+            proxy_list["no-proxy"] = {'label': "No proxy", 'url': ''}
+
+        return proxy_list if len(proxy_list) else None
+
+    def get_preferred_proxy_for_watch(self, uuid):
+        """
+        Returns the preferred proxy by ID key
+        :param uuid: UUID
+        :return: proxy "key" id
+        """
+
+        if self.proxy_list is None:
+            return None
+
+        # If it's a valid one
+        watch = self.data['watching'].get(uuid)
+
+        if strtobool(os.getenv('ENABLE_NO_PROXY_OPTION', 'True')) and watch.get('proxy') == "no-proxy":
+            return None
+
+        if watch.get('proxy') and watch.get('proxy') in list(self.proxy_list.keys()):
+            return watch.get('proxy')
+
