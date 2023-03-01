@@ -1445,6 +1445,51 @@ msgstr ""
 msgid "AI: every change between versions"
 msgstr ""
 
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Keyboard:"
+msgstr "Tastatur:"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Previous"
+msgstr "Zurück"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Next"
+msgstr "Nächste"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Jump to next difference"
+msgstr "Springe zum nächsten Unterschied"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Jump"
+msgstr "Springen"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/templates/extract.html
+msgid "Error Text"
+msgstr "Fehlertext"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/templates/extract.html
+msgid "Error Screenshot"
+msgstr "Fehler-Screenshot"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/templates/extract.html
+msgid "Text"
+msgstr "Text"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Current screenshot"
+msgstr "Aktueller Screenshot"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/processors/extract.py
+#: changedetectionio/processors/templates/extract.html
+msgid "Extract Data"
+msgstr "Daten extrahieren"
+
 #: changedetectionio/blueprint/ui/templates/edit.html
 msgid "help and examples here"
 msgstr "Hilfe und Beispiele finden Sie hier"
