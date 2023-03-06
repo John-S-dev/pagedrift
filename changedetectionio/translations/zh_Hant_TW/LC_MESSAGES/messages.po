@@ -1864,6 +1864,53 @@ msgstr "特惠"
 msgid "With errors"
 msgstr "有錯誤"
 
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Percent similar"
+msgstr "相似百分比"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid ""
+"Levenshtein metrics compare the last two snapshots, measuring how many character edits are needed to transform one "
+"into the other."
+msgstr "Levenshtein 指標會比較最後兩個快照，測量將一個快照轉換為另一個快照需要多少個字元編輯。"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Error calculating Levenshtein metrics"
+msgstr "計算 Levenshtein 指標時發生錯誤"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Word count of content"
+msgstr "內容字數"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Content Analysis"
+msgstr "內容分析"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Word count (latest snapshot)"
+msgstr "字數（最新快照）"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Word count is a simple measure of content length, calculated by splitting text on whitespace."
+msgstr "字數是內容長度的簡單測量方式，透過在空白處拆分文字來計算。"
+
+#: changedetectionio/content_fetchers/requests.py
+msgid "Basic fast Plaintext/HTTP Client"
+msgstr "基礎快速純文字 / HTTP 用戶端"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html changedetectionio/flask_app.py
+#: changedetectionio/realtime/socket_server.py
+msgid "Not yet"
+msgstr "還沒有"
+
+#: changedetectionio/flask_app.py
+msgid "0 seconds"
+msgstr "0 秒"
+
+#: changedetectionio/flask_app.py
+msgid "year"
+msgstr "年"
+
 #: changedetectionio/forms.py
 msgid "not set"
 msgstr "未設定"
