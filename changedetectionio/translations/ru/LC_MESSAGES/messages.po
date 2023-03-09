@@ -1875,6 +1875,46 @@ msgstr "Текст соответствует регулярному выраж�
 msgid "Text Does NOT Match Regex"
 msgstr "Текст НЕ соответствует регулярному выражению"
 
+#: changedetectionio/conditions/default_plugin.py
+msgid "Extracted number after 'Filters & Triggers'"
+msgstr "Извлеченный номер после «Фильтры и триггеры»"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Page text after 'Filters & Triggers'"
+msgstr "Текст страницы после «Фильтры и триггеры»"
+
+#: changedetectionio/conditions/form.py
+msgid "Field"
+msgstr "Поле"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator"
+msgstr "Оператор"
+
+#: changedetectionio/conditions/form.py
+msgid "A value"
+msgstr "Значение"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator is required."
+msgstr "Требуется оператор."
+
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "Поле обязательно."
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "Требуется значение."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "Левенштейн - Коэффициент сходства текста"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "Левенштейн - Расстояние изменения текста"
+
 #: changedetectionio/conditions/plugins/wordcount_plugin.py
 msgid "Content Analysis"
 msgstr "Анализ содержимого"
