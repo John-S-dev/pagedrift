@@ -1276,6 +1276,49 @@ msgid "Show advanced options"
 msgstr "Показати розширені налаштування"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "Будь ласка, зачекайте 10-15 секунд для підключення браузера."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "Натисніть \"Play\" для старту."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "Дані візуального селектора не готові, завдання має бути перевірено хоча б один раз."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr ""
+"Вибачте, ця функція працює лише із завантажувачами, що підтримують інтерактивний Javascript (наразі лише на базі Playwright)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "на той, що підтримує інтерактивний Javascript."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "Вам потрібно"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "Встановити метод завантаження"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the verify (✓) button to test if a condition passes against the current snapshot."
+msgstr "Використовуйте кнопку перевірки (✓), щоб протестувати умову на поточному знімку."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "Прочитайте короткий посібник про"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "using conditional web page changes here"
+msgstr "використання умовних змін веб-сторінок тут"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Activate preview"
 msgstr "Активувати попередній перегляд"
 
