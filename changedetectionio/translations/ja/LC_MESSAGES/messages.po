@@ -1915,6 +1915,50 @@ msgid "tab. Use"
 msgstr "タブにあります。複数の項目を選択するには"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Shift+クリック"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "を使用します。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "選択モード:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "エリアを描画"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "少々お待ちください。スクリーンショットと要素情報を取得しています..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc)."
+msgstr "申し訳ありませんが、この機能はJavascriptとスクリーンショットをサポートするフェッチャー（playwrightなど）でのみ動作します。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports Javascript and screenshots."
+msgstr "Javascriptとスクリーンショットをサポートするものに変更してください。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Check count"
+msgstr "チェック回数"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Consecutive filter failures"
+msgstr "連続フィルタ失敗回数"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "History length"
+msgstr "履歴の件数"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Last fetch duration"
+msgstr "最後の取得時間"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Notification alert count"
 msgstr "通知アラート回数"
 

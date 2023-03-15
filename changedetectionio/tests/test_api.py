@@ -454,6 +454,36 @@ def test_roundtrip_API(client, live_server, measure_memory_usage, datastore_path
     watch['last_changed'] = 454444444444
     watch['date_created'] = 454444444444
 
+    # Exercise the new extract_lines_containing field
+    watch['extract_lines_containing'] = ['celsius', 'temperature']
+
+    # HTTP PUT ( UPDATE an existing watch )
+    res = client.put(
+        url_for("watch", uuid=uuid),
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        data=json.dumps(watch),
+    )
+    if res.status_code != 200:
+        print(f"\n=== PUT failed with {res.status_code} ===")
+        print(f"Error: {res.data}")
+    assert res.status_code == 200, "HTTP PUT update was sent OK"
+
+    res = client.get(
+        url_for("watch", uuid=uuid),
+        headers={'x-api-key': api_key}
+    )
+    last_changed = res.json.get('last_changed')
+    assert last_changed != 454444444444
+    assert last_changed != "454444444444"
+
+    date_created = res.json.get('date_created')
+    assert date_created != 454444444444
+    assert date_created != "454444444444"
+
+    assert res.json.get('extract_lines_containing') == ['celsius', 'temperature'], \
+        "extract_lines_containing should be persisted and returned via API"
+
+
 def test_access_denied(client, live_server, measure_memory_usage, datastore_path):
     # `config_api_token_enabled` Should be On by default
     res = client.get(
