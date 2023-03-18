@@ -1515,6 +1515,60 @@ msgstr "{} 件のウォッチを削除しました"
 
 #: changedetectionio/blueprint/ui/__init__.py
 #, python-brace-format
+msgid "{} watches paused"
+msgstr "{} 件のウォッチを一時停止しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches unpaused"
+msgstr "{} 件のウォッチの一時停止を解除しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches updated"
+msgstr "{} 件のウォッチを更新しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches muted"
+msgstr "{} 件のウォッチをミュートしました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches un-muted"
+msgstr "{} 件のウォッチのミュートを解除しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches queued for rechecking"
+msgstr "{} 件のウォッチを再チェックのためキューに追加しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches errors cleared"
+msgstr "{} 件のウォッチのエラーをクリアしました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches cleared/reset."
+msgstr "{} 件のウォッチをクリア/リセットしました。"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches set to use default notification settings"
+msgstr "{} 件のウォッチをデフォルト通知設定に変更しました"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Browser / fetch method updated on {} watches"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid browser / fetch method selected"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
 msgid "Proxy updated on {} watches"
 msgstr ""
 
