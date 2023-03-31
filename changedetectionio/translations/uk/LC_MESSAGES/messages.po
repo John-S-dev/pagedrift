@@ -2436,6 +2436,50 @@ msgstr "Невірний формат часу. Використовуйте Г�
 msgid "Not a valid timezone name"
 msgstr "Неприпустиме ім'я часового поясу"
 
+#: changedetectionio/forms.py
+msgid "not set"
+msgstr "не задано"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "Почати о"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "Тривалість виконання"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Використовувати планувальник часу"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Опціональний часовий пояс для запуску"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Понеділок"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Вівторок"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Середа"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Четвер"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "П'ятниця"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Субота"
+
 #: changedetectionio/conditions/form.py changedetectionio/forms.py
 msgid "Value"
 msgstr ""
