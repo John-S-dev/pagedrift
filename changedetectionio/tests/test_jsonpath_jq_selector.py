@@ -39,6 +39,88 @@ def test_jsonp_treated_as_plaintext():
     assert result.is_plaintext is False
 
 
+def test_jsonp_json_filter_extraction():
+    from .. import html_tools
+
+    # Tough case: dotted namespace callback, trailing semicolon, deeply nested content with arrays
+    jsonp_content = 'weixin.update.callback({"platforms": {"android": {"variants": [{"arch": "arm64", "versionName": "8.0.68", "url": "https://example.com/app-arm64.apk"}, {"arch": "arm32", "versionName": "8.0.41", "url": "https://example.com/app-arm32.apk"}]}}});'
+
+    # Deep nested jsonpath filter into array element
+    text = html_tools.extract_json_as_string(jsonp_content, "json:$.platforms.android.variants[0].versionName")
+    assert text == '"8.0.68"'
+
+    # Filter that selects the second array element
+    text = html_tools.extract_json_as_string(jsonp_content, "json:$.platforms.android.variants[1].arch")
+    assert text == '"arm32"'
+
+    if jq_support:
+        text = html_tools.extract_json_as_string(jsonp_content, "jq:.platforms.android.variants[0].versionName")
+        assert text == '"8.0.68"'
+
+        text = html_tools.extract_json_as_string(jsonp_content, "jqraw:.platforms.android.variants[1].url")
+        assert text == "https://example.com/app-arm32.apk"
+
+
+def test_unittest_inline_html_extract():
+    # So lets pretend that the JSON we want is inside some HTML
+    content="""
+    <html>
+    
+    food and stuff and more
+    <script>
+    alert('nothing really good here');
+    </script>
+    
+    <script type="application/ld+json">
+  xx {"@context":"http://schema.org","@type":"Product","name":"Nan Optipro Stage 1 Baby Formula  800g","description":"During the first year of life, nutrition is critical for your baby. NAN OPTIPRO 1 is tailored to ensure your formula fed infant receives balanced, high quality nutrition.<br />Starter infant formula. The age optimised protein source (whey dominant) is from cow’s milk.<br />Backed by more than 150 years of Nestlé expertise.<br />For hygiene and convenience, it is available in an innovative packaging format with a separate storage area for the scoop, and a semi-transparent window which allows you to see how much powder is left in the can without having to open it.","image":"https://cdn0.woolworths.media/content/wowproductimages/large/155536.jpg","brand":{"@context":"http://schema.org","@type":"Organization","name":"Nan"},"gtin13":"7613287517388","offers":{"@context":"http://schema.org","@type":"Offer","potentialAction":{"@context":"http://schema.org","@type":"BuyAction"},"availability":"http://schema.org/InStock","itemCondition":"http://schema.org/NewCondition","price":23.5,"priceCurrency":"AUD"},"review":[],"sku":"155536"}
+</script>
+<body>
+and it can also be repeated
+<script type="application/ld+json">
+  {"@context":"http://schema.org","@type":"Product","name":"Nan Optipro Stage 1 Baby Formula  800g","description":"During the first year of life, nutrition is critical for your baby. NAN OPTIPRO 1 is tailored to ensure your formula fed infant receives balanced, high quality nutrition.<br />Starter infant formula. The age optimised protein source (whey dominant) is from cow’s milk.<br />Backed by more than 150 years of Nestlé expertise.<br />For hygiene and convenience, it is available in an innovative packaging format with a separate storage area for the scoop, and a semi-transparent window which allows you to see how much powder is left in the can without having to open it.","image":"https://cdn0.woolworths.media/content/wowproductimages/large/155536.jpg","brand":{"@context":"http://schema.org","@type":"Organization","name":"Nan"},"gtin13":"7613287517388","offers":{"@context":"http://schema.org","@type":"Offer","potentialAction":{"@context":"http://schema.org","@type":"BuyAction"},"availability":"http://schema.org/InStock","itemCondition":"http://schema.org/NewCondition","price":23.5,"priceCurrency":"AUD"},"review":[],"sku":"155536"}
+</script>
+<h4>ok</h4>
+</body>
+</html>
+
+    """
+    from .. import html_tools
+
+    # See that we can find the second <script> one, which is not broken, and matches our filter
+    text = html_tools.extract_json_as_string(content, "json:$.offers.priceCurrency")
+    assert text == '"AUD"'
+
+    text = html_tools.extract_json_as_string('{"id":5}', "json:$.id")
+    assert text == "5"
+
+    # also check for jq
+    if jq_support:
+        text = html_tools.extract_json_as_string(content, "jq:.offers.priceCurrency")
+        assert text == '"AUD"'
+
+        text = html_tools.extract_json_as_string('{"id":5}', "jq:.id")
+        assert text == "5"
+
+        text = html_tools.extract_json_as_string(content, "jqraw:.offers.priceCurrency")
+        assert text == "AUD"
+
+        text = html_tools.extract_json_as_string('{"id":5}', "jqraw:.id")
+        assert text == "5"
+
+
+    # When nothing at all is found, it should throw JSONNOTFound
+    # Which is caught and shown to the user in the watch-overview table
+    with pytest.raises(html_tools.JSONNotFound) as e_info:
+        html_tools.extract_json_as_string('COMPLETE GIBBERISH, NO JSON!', "json:$.id")
+
+    if jq_support:
+        with pytest.raises(html_tools.JSONNotFound) as e_info:
+            html_tools.extract_json_as_string('COMPLETE GIBBERISH, NO JSON!', "jq:.id")
+
+        with pytest.raises(html_tools.JSONNotFound) as e_info:
+            html_tools.extract_json_as_string('COMPLETE GIBBERISH, NO JSON!', "jqraw:.id")
+
+
 def test_lone_surrogate_escapes_do_not_break_filters():
     """A \\uD800-style escape in the watched JSON must not take the whole document down.
 
