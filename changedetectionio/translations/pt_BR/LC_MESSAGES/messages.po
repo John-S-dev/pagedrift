@@ -2058,3 +2058,47 @@ msgstr "'%(expression)s' não é uma expressão JSONPath válida. (%(error)s)"
 msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
 msgstr "'%(expression)s' não é uma expressão jq válida. (%(error)s)"
 
+#: changedetectionio/forms.py
+msgid "Remove elements"
+msgstr "Remover elementos"
+
+#: changedetectionio/forms.py
+msgid "Extract lines containing"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Extract text"
+msgstr "Extrair texto"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "Title"
+msgstr "Título"
+
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Ignorar linhas contendo"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Corpo da solicitação (Body)"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Método da solicitação (Method)"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Ignorar códigos de status (processar códigos não-2xx como normal)"
+
+#: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "Disparar apenas quando linhas exclusivas aparecerem em todo o histórico"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Remover linhas de texto duplicadas"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Ordenar texto alfabeticamente"
+
