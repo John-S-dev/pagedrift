@@ -2620,6 +2620,50 @@ msgid "Name"
 msgstr "Název"
 
 #: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr "Kontrola zabezpečení přístupového tokenu API povolena"
+
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "Považovat prázdné stránky za změnu?"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "Ignorovat text"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "Ignorujte mezery"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr "Screenshot: minimální procento změny"
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Musí být mezi 0 a 100"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Heslo"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Počet položek na stránku"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "Mělo by být alespoň nula (vypnuto)"
+
+#: changedetectionio/forms.py
 msgid "RSS Content format"
 msgstr "Formát obsahu RSS"
 
