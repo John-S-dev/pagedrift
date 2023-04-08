@@ -2145,3 +2145,43 @@ msgstr "Remover linhas de texto duplicadas"
 msgid "Sort text alphabetically"
 msgstr "Ordenar texto alfabeticamente"
 
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Remover linhas ignoradas"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Remover espaços antes e depois do texto"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Linhas adicionadas"
+
+#: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Linhas substituídas/alteradas"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Linhas removidas"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Gatilhos de palavras-chave - Disparar/aguardar por texto"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Bloquear detecção de mudança enquanto o texto corresponder"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Executar JavaScript antes da detecção de mudanças"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Proxy"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Enviar uma notificação quando o filtro não puder mais ser encontrado na página"
+
