@@ -107,3 +107,7 @@
 {% endmacro %}
 
 
+{% macro render_button(field) %}
+  {{ field(**kwargs)|safe }}
+{% endmacro %}
+
