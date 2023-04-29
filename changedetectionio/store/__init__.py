@@ -355,6 +355,85 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         # Re #148 - Some people have just {{ base_url }} in the body or title, but this may break some notification services
         #           like 'Join', so it's always best to atleast set something obvious so that they are not broken.
 
+        active_base_url = BASE_URL_NOT_SET_TEXT
+        if self.__data['settings']['application'].get('base_url'):
+            active_base_url = self.__data['settings']['application'].get('base_url')
+        elif os.getenv('BASE_URL'):
+            active_base_url = os.getenv('BASE_URL')
+
+        # I looked at various ways todo the following, but in the end just copying the dict seemed simplest/most reliable
+        # even given the memory tradeoff - if you know a better way.. maybe return d|self.__data.. or something
+        d = self.__data
+        d['settings']['application']['active_base_url'] = active_base_url.strip('" ')
+        return d
+
+    # Delete a single watch by UUID
+    def delete(self, uuid):
+        """
+        Delete a watch by UUID.
+
+        Uses abstracted storage method for backend-agnostic deletion.
+        Supports 'all' to delete all watches (mainly for testing).
+
+        Args:
+            uuid: Watch UUID to delete, or 'all' to delete all watches
+        """
+        with self.lock:
+            if uuid == 'all':
+                # Delete all watches - capture UUIDs first before modifying dict
+                all_uuids = list(self.__data['watching'].keys())
+
+                for watch_uuid in all_uuids:
+                    # Delete from storage using polymorphic method
+                    try:
+                        self._delete_watch(watch_uuid)
+                    except Exception as e:
+                        logger.error(f"Failed to delete watch {watch_uuid} from storage: {e}")
+
+                    # Send delete signal
+                    watch_delete_signal = signal('watch_deleted')
+                    if watch_delete_signal:
+                        watch_delete_signal.send(watch_uuid=watch_uuid)
+
+                # Clear the dict
+                self.__data['watching'] = {}
+
+                # Mainly used for testing to allow all items to flush before running next test
+                time.sleep(1)
+
+            else:
+                # Delete single watch from storage using polymorphic method
+                try:
+                    self._delete_watch(uuid)
+                except Exception as e:
+                    logger.error(f"Failed to delete watch {uuid} from storage: {e}")
+
+                # Remove from watching dict
+                del self.data['watching'][uuid]
+
+                # Send delete signal
+                watch_delete_signal = signal('watch_deleted')
+                if watch_delete_signal:
+                    watch_delete_signal.send(watch_uuid=uuid)
+
+    # Clone a watch by UUID
+    def clone(self, uuid):
+        url = self.data['watching'][uuid].get('url')
+        # No need to deepcopy here - add_watch() will deepcopy extras anyway (line 569)
+        # Just pass a dict copy (with lock for thread safety)
+        # NOTE: dict() is shallow copy but safe since add_watch() deepcopies it
+        with self.lock:
+            extras = dict(self.data['watching'][uuid])
+        # None when add_watch() refused it (e.g. PAGE_WATCH_LIMIT), having already flashed why
+        return self.add_watch(url=url, extras=extras)
+
+    def url_exists(self, url):
+
+        # Probably their should be dict...
+        for watch in self.data['watching'].values():
+            if watch['url'].lower() == url.lower():
+                return True
+
         Returns:
             bool: True if resource exists
         """
