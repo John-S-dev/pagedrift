@@ -3,6 +3,12 @@
 """
 Comprehensive tests for time_handler module refactored to use arrow.
 
+import unittest
+import unittest.mock
+import arrow
+from changedetectionio import time_handler
+
+
 class TestAmIInsideTime(unittest.TestCase):
     """Tests for the am_i_inside_time function."""
 
