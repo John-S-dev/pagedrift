@@ -186,3 +186,23 @@ def test_title_scraper(client, live_server, measure_memory_usage, datastore_path
 
     delete_all_watches(client)
 
+def test_title_scraper_html_only(client, live_server, measure_memory_usage, datastore_path):
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write('"My text document\nWhere I talk about <title>\nwhich should not get registered\n</title>')
+
+    test_url = url_for('test_endpoint', content_type="text/plain", _external=True)
+
+    uuid = client.application.config.get('DATASTORE').add_watch(test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks()
+
+    # It should report nothing found (no new 'has-unread-changes' class)
+    res = client.get(url_for("watchlist.index"))
+
+    assert b'which should not get registered' not in res.data  # Should be ON by default
+    assert not live_server.app.config['DATASTORE'].data['watching'][uuid].get('title')
+
+
+
+
