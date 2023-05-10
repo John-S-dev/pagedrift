@@ -272,6 +272,8 @@ def test_check_notification(client, live_server, measure_memory_usage, datastore
     )
 
 
+def test_notification_urls_jinja2_apprise_integration(client, live_server, measure_memory_usage, datastore_path):
+
     #
     # https://github.com/caronc/apprise/wiki/Notify_Custom_JSON#header-manipulation
     test_notification_url = "hassio://127.0.0.1/longaccesstoken?verify=no&nid={{watch_uuid}}"
