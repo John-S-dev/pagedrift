@@ -1823,6 +1823,50 @@ msgid "tab. Use"
 msgstr "分頁的「CSS / JSONPath / JQ / XPath 過濾器」欄位。使用"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Shift + 點擊"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "選擇多個項目。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "選擇模式："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "繪製區域"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "請稍候，正在抓取截圖和元素資訊 ..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc)."
+msgstr "抱歉，此功能僅適用於支援 Javascript 和截圖的抓取器（如 playwright 等）。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports Javascript and screenshots."
+msgstr "為支援 Javascript 和截圖的方式。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Check count"
+msgstr "檢查次數"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Consecutive filter failures"
+msgstr "連續過濾失敗"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "History length"
+msgstr "歷史長度"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Last fetch duration"
+msgstr "上次抓取耗時"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Notification alert count"
 msgstr "通知警報次數"
 
