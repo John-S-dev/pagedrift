@@ -1,0 +1,8 @@
+openapi: 3.1.0
+info:
+  title: ChangeDetection.io API
+  description: |
+    # ChangeDetection.io Web page monitoring and notifications API
+    
+    REST API for managing Page watches, Group tags, and Notifications.
+    
