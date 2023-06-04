@@ -2911,6 +2911,46 @@ msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
 msgstr "Nieprawidłowa składnia szablonu w nagłówku „%(header)s”: %(error)s"
 
 #: changedetectionio/languages.py
+msgid "in 1d"
+msgstr "w 1d"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sd ago"
+msgstr "%sd temu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sd"
+msgstr "w %sd"
+
+#: changedetectionio/languages.py
+msgid "1w ago"
+msgstr "1 tydzień temu"
+
+#: changedetectionio/languages.py
+msgid "in 1w"
+msgstr "w ciągu 1 tygodnia"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sw ago"
+msgstr "%sw temu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sw"
+msgstr "w %sw"
+
+#: changedetectionio/languages.py
+msgid "1mo ago"
+msgstr "1 miesiąc temu"
+
+#: changedetectionio/languages.py
+msgid "in 1mo"
+msgstr "za miesiąc"
+
+#: changedetectionio/languages.py
 #, python-format
 msgid "%smo ago"
 msgstr "%smo temu"
