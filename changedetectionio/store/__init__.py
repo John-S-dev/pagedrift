@@ -277,6 +277,89 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
             rehydrate_tag
         )
 
+        # Override settings tags with loaded tags
+        # This ensures tag.json files take precedence over settings
+        if tags:
+            self.__data['settings']['application']['tags'].update(tags)
+            logger.info(f"Loaded {len(tags)} tags from individual tag.json files")
+
+    def _delete_watch(self, uuid):
+        """
+        Delete a watch from storage.
+
+        File backend implementation: deletes entire {uuid}/ directory recursively.
+        Implementation of abstract method from FileSavingDataStore.
+
+        Args:
+            uuid: Watch UUID to delete
+        """
+        watch_dir = os.path.join(self.datastore_path, uuid)
+        if os.path.exists(watch_dir):
+            shutil.rmtree(watch_dir)
+            logger.info(f"Deleted watch directory: {watch_dir}")
+
+    # ============================================================================
+    # Watch Management Methods
+    # ============================================================================
+
+    def set_last_viewed(self, uuid, timestamp, send_signal=True):
+        logger.debug(f"Setting watch UUID: {uuid} last viewed to {int(timestamp)}")
+        self.data['watching'][uuid].update({'last_viewed': int(timestamp)})
+        self.data['watching'][uuid].commit()
+
+        # Bulk callers (mark-all-viewed) pass send_signal=False and emit one summary event
+        # afterwards instead. Each signal fans out to handle_watch_update(), which rescans
+        # EVERY watch twice (errored_count + unread_changes_count), takes the queue and
+        # worker-pool locks, and broadcasts 3 socket events — so signalling per watch makes
+        # a bulk mark O(n^2) with 3n emits, and floods every connected browser with n
+        # row updates it will immediately re-render anyway.
+        if send_signal:
+            watch_check_update = signal('watch_check_update')
+            if watch_check_update:
+                watch_check_update.send(watch_uuid=uuid)
+
+    def remove_password(self):
+        self.__data['settings']['application']['password'] = False
+        self.commit()
+
+    def clear_all_last_checksums(self):
+        """
+        Delete all last-checksum.txt files to force reprocessing of all watches.
+
+        This should be called when global settings change, since watches inherit
+        configuration and need to reprocess even if their individual watch dict
+        hasn't been modified.
+
+        Note: We delete the checksum file rather than setting was_edited=True because:
+        - was_edited is not persisted across restarts
+        - File deletion ensures reprocessing works across app restarts
+        """
+        deleted_count = 0
+        for uuid in self.__data['watching'].keys():
+            watch = self.__data['watching'][uuid]
+            if watch.data_dir:
+                checksum_file = os.path.join(watch.data_dir, 'last-checksum.txt')
+                if os.path.isfile(checksum_file):
+                    try:
+                        os.remove(checksum_file)
+                        deleted_count += 1
+                        logger.debug(f"Cleared checksum for watch {uuid}")
+                    except OSError as e:
+                        logger.warning(f"Failed to delete checksum file for {uuid}: {e}")
+
+        logger.info(f"Cleared {deleted_count} checksum files to force reprocessing")
+        return deleted_count
+
+    def clear_checksums_for_tag(self, tag_uuid):
+        """
+        Delete last-checksum.txt files for all watches using a specific tag.
+
+        This should be called when a tag configuration is edited, since watches
+        inherit tag settings and need to reprocess.
+
+        Args:
+            tag_uuid: UUID of the tag that was modified
+
         Returns:
             int: Number of checksum files deleted
         """
