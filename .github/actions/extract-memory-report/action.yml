@@ -1,0 +1,14 @@
+name: 'Extract Memory Test Report'
+description: 'Extracts and displays memory test report from a container'
+inputs:
+  container-name:
+    description: 'Name of the container to extract logs from'
+    required: true
+  python-version:
+    description: 'Python version for artifact naming'
+    required: true
+  output-dir:
+    description: 'Directory to store output logs'
+    required: false
+    default: 'output-logs'
+
