@@ -2504,6 +2504,46 @@ msgid "Similarity ratio"
 msgstr ""
 
 #: changedetectionio/flask_app.py
+msgid "years"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "month"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr ""
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr ""
+
+#: changedetectionio/flask_app.py
 msgid "minutes"
 msgstr ""
 
