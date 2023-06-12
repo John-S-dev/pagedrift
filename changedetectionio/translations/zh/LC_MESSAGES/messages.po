@@ -2109,3 +2109,44 @@ msgstr ""
 msgid "day"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "分组 / 标签"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "监控项"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "处理器"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr "编辑 > 监控项"
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr "抓取方式"
+
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr "通知正文"
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr "通知格式"
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr "通知标题"
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr "通知 URL 列表"
+
