@@ -128,6 +128,41 @@
   --common-round-border: 8px;
 }
 
+html[data-darkmode="true"] {
+  --color-link: #59bdfb;
+  --color-text: var(--color-white);
+  --color-table-line: #262c37;
+  --color-background-gradient-first: #3f90a5;
+  --color-background-gradient-second: #1e316c;
+  --color-background-gradient-third: #4d2c64;
+
+  --color-background-new-watch-input: var(--color-grey-100);
+  --color-background-new-watch-input-transparent: var(--color-grey-100);
+  --color-text-new-watch-input: var(--color-text);
+  --color-background-table-thead: var(--color-grey-200);
+  --color-table-background: var(--color-grey-300);
+  --color-table-stripe: var(--color-grey-325);
+
+  --watchlist-row-selected: #1e3a5f; // darker blue highlight for selected rows in dark mode
+  --watchlist-row-hover: #2a2a2a;     // subtle grey highlight on row hover (dark mode)
+
+  --color-background: var(--color-grey-300);
+  --color-text-menu-heading: var(--color-grey-850);
+  --color-text-menu-link: var(--color-grey-800);
+  --color-border-table-cell: var(--color-grey-400);
+  --color-text-tab-active: var(--color-text);
+
+  --color-border-input: var(--color-grey-400);
+  --color-shadow-input: var(--color-grey-50);
+  --color-background-input: var(--color-grey-350);
+  --color-text-input-description: var(--color-grey-600);
+  --color-text-input-placeholder: var(--color-grey-600);
+  --color-text-watch-tag-list: rgba(250, 62, 146, 0.4);
+  --color-background-code: var(--color-grey-200);
+
+  --color-background-tab: rgba(0, 0, 0, 0.2);
+  --color-background-tab-hover: rgba(0, 0, 0, 0.5);
+
   --color-background-snapshot-age: var(--color-grey-200);
   --color-shadow-jump: var(--color-grey-200);
   --color-icon-github: var(--color-white);
