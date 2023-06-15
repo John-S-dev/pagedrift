@@ -2065,6 +2065,46 @@ msgid "tab. Use"
 msgstr ". Використовуйте"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Notification alert count"
+msgstr "Кількість надісланих сповіщень"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Server type reply"
+msgstr "Відповідь типу сервера"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "Так"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "Ні"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "Завантажити останній знімок HTML"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "Видалити завдання?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "Ви впевнені, що хочете видалити завдання для:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "This action cannot be undone."
 msgstr "Цю дію неможливо скасувати."
 
