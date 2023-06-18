@@ -19,3 +19,13 @@ info:
     
     The API can be found at `/api/v1/`, so for example if you run changedetection.io locally on port 5000, then URL would be `http://localhost:5000/api/v1/watch/cc0cfffa-f449-477b-83ea-0caafd1dc091/history`.
     
+      Set the query argument `html` to any value to retrieve the last HTML fetched, the system only keeps the last two 
+      (2) HTML files fetched.
+      
+      Use the Watch History API endpoint to get a list of timestamps to pass to this query.
+      
+  - name: Favicon
+    description: |
+      Retrieve favicon images associated with monitored web pages. These are used in the dashboard interface 
+      to visually identify different watches in your monitoring list.
+      
