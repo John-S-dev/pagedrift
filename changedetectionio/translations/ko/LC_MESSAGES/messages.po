@@ -1875,6 +1875,48 @@ msgid "Run this code before performing change detection, handy for filling in fi
 msgstr "변경 감지를 수행하기 전에 이 코드를 실행합니다. 입력란 채우기 등 여러 작업에 유용합니다."
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "미리보기 활성화"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "전문가 팁:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "미리보기 페이지에서 강조 표시된 필터와 트리거를 확인해 보세요."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "트리거/무시/차단/추출 대상 제한:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Note: Depending on the length and similarity of the text on each line, the algorithm may consider an "
+"<strong>addition</strong> instead of <strong>replacement</strong> for example."
+msgstr "참고: 각 줄의 텍스트 길이와 유사도에 따라 알고리즘이 예를 들어 <strong>교체</strong>가 아닌 <strong>추가</strong>로 판단할 수 있습니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "So it's always better to select"
+msgstr "새 콘텐츠를 보고 싶다면"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "를 선택하는 것이 좋습니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "When content is merely moved in a list, it will also trigger an"
+msgstr "콘텐츠가 목록 안에서 단순히 이동해도"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "추가"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "으로 감지될 수 있으므로 다음 설정을 활성화해 보세요:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Only trigger when unique lines appear"
 msgstr "고유한 줄이 나타날 때만 트리거"
 
