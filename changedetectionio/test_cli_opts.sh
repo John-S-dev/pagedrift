@@ -165,3 +165,42 @@ test_recheck_specific() {
     timeout 10 python3 changedetection.py -d "$dir" -r "$uuids" -b 2>&1 | grep -q "Queuing"
 }
 
+test_combined_operations() {
+    local test_id=$1
+    local dir="/tmp/cli-test-combined-${test_id}-$$"
+    timeout 12 python3 changedetection.py -d "$dir" -C \
+        -u https://example.com \
+        -u https://github.com \
+        -r all \
+        -b &>/dev/null
+    # Count watch directories (UUID directories containing watch.json)
+    [ "$(find "$dir" -mindepth 2 -maxdepth 2 -name 'watch.json' | wc -l)" -eq 2 ]
+}
+
+test_invalid_json() {
+    local test_id=$1
+    local dir="/tmp/cli-test-invalid-${test_id}-$$"
+    timeout 5 python3 changedetection.py -d "$dir" -C \
+        -u https://example.com \
+        -u0 'invalid json here' \
+        2>&1 | grep -qi "invalid json\|json decode error"
+}
+
+test_create_directory() {
+    local test_id=$1
+    local dir="/tmp/cli-test-create-${test_id}-$$/nested/path"
+    timeout 10 python3 changedetection.py -d "$dir" -C \
+        -u https://example.com \
+        -b &>/dev/null
+    [ -d "$dir" ]
+}
+
+# =============================================================================
+# Main Test Execution
+# =============================================================================
+
+echo "=========================================="
+echo "  CLI Options Test Suite (Parallel)"
+echo "=========================================="
+echo ""
+
