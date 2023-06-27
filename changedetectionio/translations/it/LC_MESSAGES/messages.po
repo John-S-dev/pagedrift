@@ -2577,6 +2577,46 @@ msgid "Name"
 msgstr "Nome"
 
 #: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Timeout richieste in secondi"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "Deve essere tra 1 e 999"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Override User-Agent predefiniti"
+
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "Sono richiesti sia un nome che un URL proxy."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "Apri pagina 'Cronologia' in una nuova scheda"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "Aggiornamenti UI in tempo reale attivi"
+
+#: changedetectionio/forms.py
+msgid "Favicons Enabled"
+msgstr "Favicon attive"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in watch overview list"
+msgstr "Usa <title> pagina nell'elenco osservati"
+
+#: changedetectionio/forms.py
+msgid "Relative time format"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Long (1 minute ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Number of times the filter can be missing before sending a notification"
 msgstr "Numero di volte che il filtro può mancare prima di inviare notifica"
 
