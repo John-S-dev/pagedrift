@@ -2321,6 +2321,46 @@ msgstr "재개"
 msgid "Mute"
 msgstr "음소거"
 
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "UnMute"
+msgstr "음소거 해제"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Tag"
+msgstr "태그"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Set browser / fetch method for selected"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Apply"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Set proxy for selected"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Mark viewed"
+msgstr "본 것으로 표시"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Use default notification"
+msgstr "기본 알림 사용"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear errors"
+msgstr "오류 지우기"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear Histories"
+msgstr "기록 지우기"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "<p>Are you sure you want to clear history for the selected items?</p><p>This action cannot be undone.</p>"
+msgstr "<p>선택한 항목의 기록을 지우시겠습니까?</p><p>이 작업은 되돌릴 수 없습니다.</p>"
+
 #. Universally recognized; typically left as-is. dennis-ignore: W302
 #: changedetectionio/blueprint/watchlist/templates/watch-overview.html
 msgid "OK"
