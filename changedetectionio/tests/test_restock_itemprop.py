@@ -16,3 +16,49 @@ instock_props = [
     '<div itemscope itemtype="https://schema.org/Product"><h1 itemprop="name">Example Product</h1><p itemprop="description">This is a sample product description.</p><div itemprop="offers" itemscope itemtype="https://schema.org/Offer"><p>Price: <span itemprop="price">$$$PRICE$$</span></p><link itemprop="availability" href="https://schema.org/InStock" /></div></div>'
 ]
 
+def test_itemprop_price_change(client, live_server, measure_memory_usage, datastore_path):
+    
+
+    # Out of the box 'Follow price changes' should be ON
+    test_url = url_for('test_endpoint', _external=True)
+
+    set_original_response(props_markup=instock_props[0], price="190.95", datastore_path=datastore_path)
+    client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "tags": 'restock tests', 'processor': 'restock_diff'},
+        follow_redirects=True
+    )
+
+    # A change in price, should trigger a change by default
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'190.95' in res.data
+
+    # basic price change, look for notification
+    set_original_response(props_markup=instock_props[0], price='180.45', datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'180.45' in res.data
+    assert b'has-unread-changes' in res.data
+    client.post(url_for("ui.mark_all_viewed"), follow_redirects=True)
+    time.sleep(0.2)
+
+
+    # turning off price change trigger, but it should show the new price, with no change notification
+    set_original_response(props_markup=instock_props[0], price='120.45', datastore_path=datastore_path)
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"processor_config_restock_diff-follow_price_changes": "", "url": test_url, "tags": "", "headers": "", 'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"Updated watch." in res.data
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'120.45' in res.data
+    assert b'has-unread-changes' not in res.data
+
+
+    delete_all_watches(client)
+
