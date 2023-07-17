@@ -358,6 +358,39 @@ def _jinja2_filter_format_number_locale(value: float) -> str:
     return formatted_value
 
 
+@app.template_global('get_worker_status_info')
+def _get_worker_status_info():
+    """Get detailed worker status information for display"""
+    status = worker_pool.get_worker_status()
+    running_uuids = worker_pool.get_running_uuids()
+
+    return {
+        'count': status['worker_count'],
+        'type': status['worker_type'],
+        'active_workers': len(running_uuids),
+        'processing_watches': running_uuids,
+        'loop_running': status.get('async_loop_running', None),
+    }
+
+
+# We use the whole watch object from the store/JSON so we can see if there's some related status in terms of a thread
+# running or something similar.
+@app.template_filter('format_last_checked_time')
+def _jinja2_filter_datetime(watch_obj, format="%Y-%m-%d %H:%M:%S"):
+    if watch_obj['last_checked'] == 0:
+        return gettext('Not yet')
+
+    short = datastore.data['settings']['application'].get('ui', {}).get('timeago_format') == 'short'
+    locale = get_timeago_locale(str(get_locale()), short=short)
+    try:
+        return timeago.format(int(watch_obj['last_checked']), time.time(), locale)
+    except:
+        # Fallback to English if locale not supported by timeago
+        return timeago.format(
+            int(watch_obj['last_checked']), time.time(), 'en_short' if short else 'en'
+        )
+
+
 @app.template_filter('format_timestamp_timeago')
 def _jinja2_filter_datetimestamp(timestamp, format="%Y-%m-%d %H:%M:%S"):
     if not timestamp:
