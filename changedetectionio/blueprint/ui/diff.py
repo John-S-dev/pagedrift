@@ -478,3 +478,29 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         from changedetectionio.processors import get_processor_submodule
         processor_module = get_processor_submodule(processor_name, 'extract')
 
+        # Call the processor's get_asset() function
+        if processor_module and hasattr(processor_module, 'get_asset'):
+            result = processor_module.get_asset(
+                asset_name=asset_name,
+                watch=watch,
+                datastore=datastore,
+                request=request
+            )
+
+            if result is None:
+                from flask import abort
+                abort(404, description=f"Asset '{asset_name}' not found")
+
+            binary_data, content_type, cache_control = result
+
+            response = make_response(binary_data)
+            response.headers['Content-Type'] = content_type
+            if cache_control:
+                response.headers['Cache-Control'] = cache_control
+            return response
+        else:
+            logger.warning(f"Processor {processor_name} does not implement get_asset()")
+            from flask import abort
+            abort(404, description=f"Processor '{processor_name}' does not support assets")
+
+    return diff_blueprint
