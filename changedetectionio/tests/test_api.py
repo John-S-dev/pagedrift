@@ -484,6 +484,35 @@ def test_roundtrip_API(client, live_server, measure_memory_usage, datastore_path
         "extract_lines_containing should be persisted and returned via API"
 
 
+    # --- POST must also silently discard internal fields ---
+    # Use unique sentinel values so we can distinguish "POST persisted my value" from
+    # "the worker concurrently re-set the field while processing the new watch".
+    attacker_check_status = 'attacker-sentinel-__check_status-9f7c'
+    attacker_llm_result = 'attacker-sentinel-_llm_result-9f7c'
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": test_url + "?2",
+            "__check_status": attacker_check_status,
+            "_llm_result": attacker_llm_result,
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True,
+    )
+    assert res.status_code == 201, \
+        f"POST with internal fields should succeed (got {res.status_code}: {res.data!r})"
+    new_uuid = res.json.get('uuid')
+    new_watch = datastore.data['watching'][new_uuid]
+    # If POST had persisted the attacker payload these specific sentinel values would remain.
+    # The worker may legitimately re-set __check_status with its own status string, that's fine.
+    assert new_watch.get('__check_status') != attacker_check_status, \
+        "POST must not persist __-prefixed fields from input"
+    assert new_watch.get('_llm_result') != attacker_llm_result, \
+        "POST must not persist system-managed fields from input"
+
+    delete_all_watches(client)
+
+
 def test_access_denied(client, live_server, measure_memory_usage, datastore_path):
     # `config_api_token_enabled` Should be On by default
     res = client.get(
