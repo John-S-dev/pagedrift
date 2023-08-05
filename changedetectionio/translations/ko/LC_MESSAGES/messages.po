@@ -2527,6 +2527,51 @@ msgid "Should contain one or more seconds"
 msgstr "1초 이상을 포함해야 합니다."
 
 #: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "텍스트가 일치하는 동안 변경 감지 차단"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "변경 감지 전에 JavaScript 실행"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "프록시"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "페이지에서 필터를 더 이상 찾을 수 없으면 알림 보내기"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "켜짐"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "알림"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "음소거됨"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "알림에 스크린샷 첨부(가능한 경우)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "일치 방식"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "다음 모두와 일치"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "다음 중 하나와 일치"
+
+#: changedetectionio/forms.py
 msgid "AI thinking budget (tokens)"
 msgstr "AI 추론 예산 (토큰)"
 
