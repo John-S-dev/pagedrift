@@ -2601,6 +2601,46 @@ msgstr "Mulai Pada"
 msgid "Run duration"
 msgstr "Durasi berjalan"
 
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Gunakan penjadwal waktu"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Zona waktu opsional untuk menjalankan"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Senin"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Selasa"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Rabu"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Kamis"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Jumat"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Sabtu"
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Minggu"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Minggu"
+
 #: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
 #: changedetectionio/forms.py
 msgid "Save"
