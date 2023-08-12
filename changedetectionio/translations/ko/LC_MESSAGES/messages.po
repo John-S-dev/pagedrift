@@ -1920,6 +1920,46 @@ msgid "Run this code before performing change detection, handy for filling in fi
 msgstr "변경 감지를 수행하기 전에 이 코드를 실행합니다. 입력란 채우기 등 여러 작업에 유용합니다."
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "도움말 및 예시"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "요청 본문에서 변수가 지원됩니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "요청 헤더 값에서 변수가 지원됩니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "주의: 추가 헤더 파일이 발견되어 이 모니터링에 추가됩니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "데이터 디렉터리의 파일에서도 헤더를 읽을 수 있습니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "자세히 보기"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Selenium 브라우저에서는 지원되지 않습니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "텍스트 찾기 켜기"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "잠시 기다려 주십시오. 첫 번째 브라우저 단계를 로드하는 데 약간의 시간이 걸릴 수 있습니다."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "시작하려면 클릭"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Activate preview"
 msgstr "미리보기 활성화"
 
