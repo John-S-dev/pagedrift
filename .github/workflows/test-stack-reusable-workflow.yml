@@ -1,2 +1,49 @@
 name: ChangeDetection.io App Test
 
+      - name: Load Docker image
+        run: |
+          docker load -i /tmp/test-changedetectionio.tar
+
+      - name: Run Unit Tests
+        run: |
+          docker run test-changedetectionio bash -c 'cd changedetectionio;pytest tests/unit/ tests/llm/'
+
+  # Basic pytest tests with ancillary services
+  basic-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 25
+    env:
+      PYTHON_VERSION: ${{ inputs.python-version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: test-changedetectionio-${{ env.PYTHON_VERSION }}
+          path: /tmp
+
+      - name: Load Docker image
+        run: |
+          docker load -i /tmp/test-changedetectionio.tar
+
+      - name: Test built container with Pytest
+        run: |
+          docker network inspect changedet-network >/dev/null 2>&1 || docker network create changedet-network
+          docker run --name test-cdio-basic-tests --network changedet-network test-changedetectionio bash -c 'cd changedetectionio && ./run_basic_tests.sh'
+
+      - name: Test CLI options
+        run: |
+          docker network inspect changedet-network >/dev/null 2>&1 || docker network create changedet-network
+          docker run --name test-cdio-cli-opts --network changedet-network test-changedetectionio bash -c 'changedetectionio/test_cli_opts.sh' &> cli-opts-output.txt
+          echo "=== CLI Options Test Output ==="
+          cat cli-opts-output.txt
+
+      - name: CLI Memory Test
+        run: |
+          echo "=== Checking CLI batch mode memory usage ==="
+          # Extract RSS memory value from output
+          RSS_MB=$(grep -oP "Memory consumption before worker shutdown: RSS=\K[\d.]+" cli-opts-output.txt | head -1 || echo "0")
+          echo "RSS Memory: ${RSS_MB} MB"
+
