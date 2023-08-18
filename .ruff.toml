@@ -41,3 +41,12 @@ ignore = [
     "N815", # mixed-case-variable-in-class-scope
 ]
 
+[lint.mccabe]
+max-complexity = 12
+
+[lint.flake8-gettext]
+extend-function-names = ["_l", "lazy_gettext", "pgettext", "npgettext"]
+
+[format]
+indent-style = "space"
+quote-style = "preserve"
