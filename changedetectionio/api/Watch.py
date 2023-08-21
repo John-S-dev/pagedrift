@@ -455,3 +455,71 @@ class WatchFavicon(Resource):
         abort(404, message=f'No Favicon available for {uuid}')
 
 
+class CreateWatch(Resource):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+        self.update_q = kwargs['update_q']
+
+    @auth.check_token
+    @validate_openapi_request('createWatch')
+    def post(self):
+        """Create a single watch."""
+
+        # Silently discard `__`-prefixed transient/internal keys (not part of the public schema).
+        json_data = strip_internal_api_fields(request.get_json())
+        url = json_data['url'].strip()
+
+        if not is_safe_valid_url(url):
+            return "Invalid or unsupported URL", 400
+
+        if json_data.get('proxy'):
+            plist = self.datastore.proxy_list
+            if not plist or json_data.get('proxy') not in plist:
+                proxy_list_str = ', '.join(plist) if plist else 'none configured'
+                return f"Invalid proxy choice, currently supported proxies are '{proxy_list_str}'", 400
+
+        # Validate time_between_check when not using defaults
+        validation_error = validate_time_between_check_required(json_data)
+        if validation_error:
+            return validation_error, 400
+
+        # An invalid timezone here makes the watch permanently unschedulable
+        validation_error = validate_time_schedule_limit(json_data)
+        if validation_error:
+            return validation_error, 400
+
+        # Validate notification_urls if provided
+        if 'notification_urls' in json_data:
+            from wtforms import ValidationError
+            from changedetectionio.api.Notifications import validate_notification_urls
+            try:
+                notification_urls = json_data.get('notification_urls', [])
+                validate_notification_urls(notification_urls)
+            except ValidationError as e:
+                return str(e), 400
+
+        # Handle processor-config-* fields separately (save to JSON, not watch)
+        from changedetectionio import processors
+
+        extras = copy.deepcopy(json_data)
+
+        # Extract and remove processor config fields from extras
+        processor_config_data = processors.extract_processor_config_from_form_data(extras)
+
+        # Because we renamed 'tag' to 'tags' but don't want to change the API (can do this in v2 of the API)
+        tags = None
+        if extras.get('tag'):
+            tags = extras.get('tag')
+            del extras['tag']
+
+        del extras['url']
+
+        # PAGE_WATCH_LIMIT - checked up front so a blocked add is reported as 429 rather than
+        # being guessed at from add_watch() returning None
+        if self.datastore.watch_limit_reached():
+            current_watch_count = len(self.datastore.data['watching'])
+            return f"Watch limit reached ({current_watch_count}/{self.datastore.watch_limit} watches). Cannot add more watches.", 429
+
+        new_uuid = self.datastore.add_watch(url=url, extras=extras, tag=tags)
+
