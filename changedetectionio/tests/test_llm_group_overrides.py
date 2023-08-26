@@ -218,3 +218,61 @@ def test_watch_edit_llm_intent_shows_own_value_not_group_placeholder(
     delete_all_watches(client)
 
 
+def test_watch_edit_hides_llm_change_summary_placeholder_when_group_overrides_disabled(
+        client, live_server, measure_memory_usage, datastore_path):
+    """Group override OFF → no "From group ..." for the summary prompt either."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    watch_uuid = _create_watch(client, test_url, api_token)
+    tag_uuid = _add_tag_with_llm(
+        ds, 'Summary Group',
+        llm_change_summary='List new items as bullet points. Translate to English.',
+        ai=False,
+    )
+    _link_watch_to_tag(ds, watch_uuid, tag_uuid)
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    assert res.status_code == 200
+    text = _page_text(res)
+
+    assert 'From group' not in text
+    assert 'List new items as bullet points' not in text
+
+    delete_all_watches(client)
+
+
+def test_watch_edit_llm_change_summary_shows_own_value_not_group_placeholder(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    When the watch has its own llm_change_summary, the textarea body shows the watch's
+    value and no group placeholder appears.
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    watch_uuid = _create_watch(client, test_url, api_token)
+    tag_uuid = _add_tag_with_llm(ds, 'Summary Group', llm_change_summary='Tag summary prompt',
+                                 ai=True)
+    _link_watch_to_tag(ds, watch_uuid, tag_uuid)
+
+    ds.data['watching'][watch_uuid]['llm_change_summary'] = 'My own summary prompt'
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    assert res.status_code == 200
+    text = _page_text(res)
+
+    assert 'My own summary prompt' in text
+    assert 'From group' not in text
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# No tag linked — fields are editable
+# ---------------------------------------------------------------------------
+
