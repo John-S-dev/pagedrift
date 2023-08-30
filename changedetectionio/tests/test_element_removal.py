@@ -69,3 +69,51 @@ def set_modified_response(datastore_path):
         f.write(test_return_data)
 
 
+def test_element_removal_output():
+    from inscriptis import get_text
+
+    # Check text with sub-parts renders correctly
+    content = """<html>
+    <header>
+    <h2>Header</h2>
+    </header>
+    <nav>
+    <ul>
+      <li><a href="#">A</a></li>
+    </ul>
+    </nav>
+       <body>
+     Some initial text<br>
+     <p>across multiple lines</p>
+     <div id="changetext">Some text that changes</div>
+     <div>Some text should be matched by xPath // selector</div>
+     <div>Some text should be matched by xPath selector</div>
+     <div>Some text should be matched by xPath1 selector</div>
+     </body>
+    <footer>
+    <p>Footer</p>
+    </footer>
+     </html>
+    """
+    html_blob = element_removal(
+      [
+        "header",
+        "footer",
+        "nav",
+        "#changetext",
+        "//*[contains(text(), 'xPath // selector')]",
+        "xpath://*[contains(text(), 'xPath selector')]",
+        "xpath1://*[contains(text(), 'xPath1 selector')]"
+      ],
+      html_content=content
+    )
+    text = get_text(html_blob)
+    assert (
+        text
+        == """Some initial text
+
+across multiple lines
+"""
+    )
+
+
