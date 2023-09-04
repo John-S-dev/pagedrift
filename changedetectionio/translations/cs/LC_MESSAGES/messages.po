@@ -2959,3 +2959,47 @@ msgstr "Porovnává snímky obrazovky pomocí rychlého algoritmu OpenCV, 10-100
 msgid "Date"
 msgstr ""
 
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Časové limity plánu"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Víkendy"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Resetovat"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Další nápověda a příklady použití plánovače"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Chcete použít časový plán?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Spouštěcí text"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr ""
+
