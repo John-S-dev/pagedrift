@@ -156,6 +156,76 @@ def test_group_edit_page_has_the_ternary_ai_control(
     delete_all_watches(client)
 
 
+def test_group_edit_form_saves_and_reloads_each_ai_state(
+        client, live_server, measure_memory_usage, datastore_path):
+    """All three states round-trip through the real form, and the prompt is kept regardless."""
+    res = client.post(url_for('tags.form_tag_add'), data={'name': 'Saved Group'}, follow_redirects=True)
+    assert b'Tag added' in res.data
+
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    tag_uuid = list(ds.data['settings']['application']['tags'].keys())[0]
+
+    for posted, expected in (('true', True), ('false', False), ('none', None)):
+        res = client.post(
+            url_for('tags.form_tag_edit_submit', uuid=tag_uuid),
+            data={'title': 'Saved Group',
+                  'llm_intent': 'Only notify me about price drops',
+                  'llm_backend_profile': posted},
+            follow_redirects=True,
+        )
+        assert b'Updated' in res.data
+        tag = ds.data['settings']['application']['tags'][tag_uuid]
+        assert tag.get('llm_backend_profile') is expected, f"posting {posted!r} should store {expected!r}"
+        # The prompt is always kept — the AI state only decides whether it is used
+        assert tag.get('llm_intent') == 'Only notify me about price drops'
+
+        # ..and the reloaded page comes back on the same option
+        body = client.get(url_for('tags.form_tag_edit', uuid=tag_uuid)).data.decode('utf-8', errors='replace')
+        assert f'id="llm_backend_profile_{posted}" checked' in body, \
+            f"saved state {posted!r} must render as the selected option"
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# Watch edit page — llm_intent group override, gated on the checkbox
+# ---------------------------------------------------------------------------
+
+def test_watch_edit_shows_llm_intent_placeholder_when_group_overrides_enabled(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    Group override ON + watch has no own llm_intent → the edit page shows
+    "From group '<name>': <value>" as the placeholder, and the field stays editable.
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    watch_uuid = _create_watch(client, test_url, api_token)
+    tag_uuid = _add_tag_with_llm(ds, 'Price Watchers',
+                                 llm_intent='Notify only when price drops',
+                                 ai=True)
+    _link_watch_to_tag(ds, watch_uuid, tag_uuid)
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    assert res.status_code == 200
+    text = _page_text(res)
+
+    assert 'name="llm_intent"' in text
+    assert _from_group_text('Price Watchers', 'Notify only when price drops') in text, \
+        "watch edit must show the inherited group intent as a 'From group ...' placeholder"
+
+    # Field must be editable — no readonly attribute
+    intent_pos = text.find('name="llm_intent"')
+    snippet = text[max(0, intent_pos - 50): intent_pos + 300]
+    assert 'readonly' not in snippet, \
+        f"llm_intent must be editable when group sets it; snippet: {snippet!r}"
+
+    delete_all_watches(client)
+
+
 def test_watch_edit_hides_llm_intent_placeholder_when_group_overrides_disabled(
         client, live_server, measure_memory_usage, datastore_path):
     """
