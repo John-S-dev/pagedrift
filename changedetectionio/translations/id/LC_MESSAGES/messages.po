@@ -2808,6 +2808,49 @@ msgid "Ignore status codes (process non-2xx status codes as normal)"
 msgstr "Abaikan kode status (proses kode status non-2xx seperti biasa)"
 
 #: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "Gunakan <title> halaman dalam daftar"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr "Jumlah item riwayat per monitor yang disimpan"
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "Isi harus kosong saat Metode Permintaan diatur ke GET"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax configuration: %(error)s"
+msgstr "Konfigurasi sintaks template tidak valid: %(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax: %(error)s"
+msgstr "Sintaks template tidak valid: %(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
+msgstr "Sintaks template tidak valid pada header \"%(header)s\": %(error)s"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Name"
+msgstr "Nama"
+
+#: changedetectionio/forms.py
+msgid "Proxy URL"
+msgstr "URL Proksi"
+
+#: changedetectionio/forms.py
+msgid "Proxy URLs must start with http://, https:// or socks5://"
+msgstr "URL Proksi harus diawali dengan http://, https:// atau socks5://"
+
+#: changedetectionio/forms.py
+msgid "Browser connection URL"
+msgstr "URL koneksi browser"
+
+#: changedetectionio/forms.py
 msgid "Both a name, and a Proxy URL is required."
 msgstr "Nama dan URL Proksi wajib diisi."
 
