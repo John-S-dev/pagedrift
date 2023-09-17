@@ -2685,6 +2685,49 @@ msgstr "Minggu"
 msgid "Weeks"
 msgstr "Minggu"
 
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid JSONPath expression. (%(error)s)"
+msgstr "'%(expression)s' bukan ekspresi JSONPath yang valid. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
+msgstr "'%(expression)s' bukan ekspresi jq yang valid. (%(error)s)"
+
+#: changedetectionio/forms.py
+msgid "Empty value not allowed."
+msgstr "Nilai kosong tidak diizinkan."
+
+#: changedetectionio/forms.py
+msgid "Invalid value."
+msgstr "Nilai tidak valid."
+
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "Tag grup"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "Monitor"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "Prosesor"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr "Browser"
+
+#: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr "Edit > Monitor"
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr "Metode Pengambilan"
+
 #: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
 #: changedetectionio/forms.py
 msgid "Save"
