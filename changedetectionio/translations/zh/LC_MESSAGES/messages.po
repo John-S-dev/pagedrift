@@ -1885,6 +1885,48 @@ msgid "Alert! Extra headers file found and will be added to this watch!"
 msgstr "警告！发现额外的请求头文件，将添加到此监控项！"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "你需要"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "设置抓取方式"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sends a notification when the filter can no longer be seen on the page, good for knowing when the page changed and "
+"your filter will not work anymore."
+msgstr "当页面上找不到该过滤器时发送通知，便于知晓页面已变化且过滤器不再适用。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the verify (✓) button to test if a condition passes against the current snapshot."
+msgstr "使用验证（✓）按钮测试条件是否符合当前快照。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "阅读快速教程"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "using conditional web page changes here"
+msgstr "在此了解如何使用条件式网页变更"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "启用预览"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "小贴士："
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "在预览页查看高亮的过滤器和触发器。"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "将触发/忽略/阻止/提取限定为;"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid ""
 "Note: Depending on the length and similarity of the text on each line, the algorithm may consider an "
 "<strong>addition</strong> instead of <strong>replacement</strong> for example."
