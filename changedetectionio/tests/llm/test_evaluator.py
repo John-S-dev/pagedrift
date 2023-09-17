@@ -500,6 +500,10 @@ class TestTokenBudget:
         assert result == {'important': True, 'summary': ''}
 
 
+# ---------------------------------------------------------------------------
+# resolve_llm_field (generic cascade)
+# ---------------------------------------------------------------------------
+
 class TestResolveLlmField:
     def test_watch_value_takes_priority(self):
         from changedetectionio.llm.evaluator import resolve_llm_field
