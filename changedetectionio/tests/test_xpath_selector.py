@@ -210,3 +210,34 @@ def test_check_markup_xpath_filter_restriction(client, live_server, measure_memo
     delete_all_watches(client)
 
 
+def test_xpath_validation(client, live_server, measure_memory_usage, datastore_path):
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"include_filters": "/something horrible", "url": test_url, "tags": "", "headers": "", 'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"is not a valid XPath expression" in res.data
+    delete_all_watches(client)
+
+
+def test_xpath23_prefix_validation(client, live_server, measure_memory_usage, datastore_path):
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"include_filters": "xpath:/something horrible", "url": test_url, "tags": "", "headers": "", 'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"is not a valid XPath expression" in res.data
+    delete_all_watches(client)
+
