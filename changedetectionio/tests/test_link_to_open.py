@@ -9,3 +9,21 @@ and every "go to the site" affordance (watch list, history/preview header, the
 
 import os
 
+from flask import url_for
+
+from .util import set_original_response, set_modified_response, wait_for_all_checks, \
+    wait_for_notification_endpoint_output
+
+OPEN_URL = "https://example.com/the-real-human-page"
+
+
+def _add_watch(client, test_url):
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "tags": ''},
+        follow_redirects=True
+    )
+    assert b"Watch added" in res.data
+    wait_for_all_checks(client)
+
+
