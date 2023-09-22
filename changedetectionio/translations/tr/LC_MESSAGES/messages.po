@@ -1923,6 +1923,54 @@ msgid "Read more here"
 msgstr "Daha fazlasını buradan okuyun"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Selenium tarayıcısı tarafından desteklenmiyor"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Metin bulucuyu aç"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Lütfen bekleyin, ilk tarayıcı adımının yüklenmesi biraz zaman alabilir.."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "Başlamak için buraya tıklayın"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "Lütfen tarayıcının bağlanması için 10-15 saniye bekleyin."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "Başlamak için \"Oynat\"a basın."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "Görsel Seçici verileri hazır değil, izleyicinin en az bir kez kontrol edilmesi gerekiyor."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr ""
+"Üzgünüz, bu işlevsellik yalnızca etkileşimli Javascript'i destekleyen getiricilerle (şimdiye kadar yalnızca "
+"Playwright tabanlı getiriciler) çalışır"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "etkileşimli Javascript'i destekleyen bir tanesine."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "Yapmanız gerekenler"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "Getirme yöntemini ayarla"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "when you're interested in new content."
 msgstr "yeni içerikle ilgilendiğinizde."
 
