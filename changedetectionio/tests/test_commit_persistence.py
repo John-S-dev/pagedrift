@@ -113,6 +113,10 @@ def test_multiple_watches_commit_independently(client, live_server):
     assert data3['paused'] == False, "Watch 3 should not be paused"
 
 
+# ==============================================================================
+# 3. Concurrency/Race Condition Tests
+# ==============================================================================
+
 def test_concurrent_watch_commits_dont_corrupt(client, live_server):
     """Test that simultaneous commits to same watch don't corrupt JSON"""
     datastore = client.application.config.get('DATASTORE')
