@@ -219,6 +219,33 @@ class _EntityFileMissing:
 ENTITY_FILE_MISSING = _EntityFileMissing()
 
 
+def iter_entity_dirs(datastore_path):
+    """
+    Yield (uuid, dir_path) for every immediate subdirectory of the datastore.
+
+    Replaces glob.glob(f"{datastore_path}/*/watch.json"). glob has to build a
+    regex from the "*" component and fnmatch every name in the directory, then
+    stat each candidate to test the literal "watch.json" part. With ~60k watches
+    that measured as 238k allocations in fnmatch.filter plus one stat per
+    directory, all to produce a list we then split back into uuid + path.
+
+    scandir hands us the names directly, and entry.is_dir() is free on Linux
+    because it reads d_type straight from the dirent (no stat syscall).
+    Symlinked directories are followed, matching glob's behaviour.
+    """
+    try:
+        with os.scandir(datastore_path) as it:
+            for entry in it:
+                try:
+                    if entry.is_dir():
+                        yield entry.name, entry.path
+                except OSError:
+                    # Raced with a delete, or a broken symlink - not loadable either way
+                    continue
+    except FileNotFoundError:
+        return
+
+
 def load_tag_from_file(tag_json, uuid, rehydrate_entity_func, missing_ok=False):
     """
     Load a tag from its JSON file.
