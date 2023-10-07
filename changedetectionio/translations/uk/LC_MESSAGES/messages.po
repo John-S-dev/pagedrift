@@ -2754,6 +2754,51 @@ msgstr "П'ятниця"
 msgid "Saturday"
 msgstr "Субота"
 
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "Перевизначення базового URL сповіщень"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "Зберегти"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL-адреси"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Завантажити файл .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Має бути файл .xlsx!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Зіставлення файлу"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Операція"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Селектор"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "значення"
+
 #: changedetectionio/conditions/form.py changedetectionio/forms.py
 msgid "Value"
 msgstr ""
