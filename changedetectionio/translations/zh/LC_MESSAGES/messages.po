@@ -2488,3 +2488,43 @@ msgstr "提取文本"
 msgid "Title"
 msgstr "标题"
 
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "忽略包含以下内容的行"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "请求正文"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "请求方法"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "忽略状态代码（正常处理非 2xx 状态码）"
+
+#: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "仅当全历史中出现新的唯一行时触发"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "删除重复的文本行"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "按字母顺序排序文本"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "去除忽略的行"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "去除文本前后空白"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "新增行"
+
