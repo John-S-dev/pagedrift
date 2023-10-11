@@ -496,6 +496,28 @@ def accumulate_global_tokens(datastore, tokens: int,
         datastore.commit()
 
 
+def is_global_token_budget_exceeded(datastore) -> bool:
+    """
+    Returns True when a monthly token budget is configured (via
+    LLM_TOKEN_BUDGET_MONTH) and the current month's usage has reached
+    or exceeded that budget.
+    """
+    budget = get_global_token_budget_month(datastore)
+    if not budget:
+        return False
+
+    llm_cfg = datastore.data['settings']['application'].get('llm') or {}
+    if llm_cfg.get('tokens_month_key') != _get_month_key():
+        # Counter hasn't been updated yet this month → zero usage
+        return False
+
+    return (llm_cfg.get('tokens_this_month') or 0) >= budget
+
+
+# ---------------------------------------------------------------------------
+# One-time setup: derive pre-filter
+# ---------------------------------------------------------------------------
+
 def _check_token_budget(watch, cfg, tokens_this_call: int = 0) -> bool:
     """
     Per-watch per-period token cap.
