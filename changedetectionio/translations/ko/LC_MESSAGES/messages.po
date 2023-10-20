@@ -2739,6 +2739,51 @@ msgid "Should contain one or more seconds"
 msgstr "1초 이상을 포함해야 합니다."
 
 #: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "알림 기본 URL 재정의"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr "설정되지 않음"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "저장"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr ".xlsx 파일 업로드"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr ".xlsx 파일이어야 합니다."
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "파일 매핑"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "작업"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "선택자"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr "CSS 또는 XPath 선택자"
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "값"
+
+#: changedetectionio/forms.py
 msgid "Block change-detection while text matches"
 msgstr "텍스트가 일치하는 동안 변경 감지 차단"
 
