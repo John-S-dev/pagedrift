@@ -536,3 +536,29 @@
         modelSel.appendChild(opt);
       }
 
+  // On page load: detect and pre-select provider from current model
+  (function detectCurrentProvider() {
+    const modelField = document.querySelector('[name="llm-model"]');
+    if (!modelField) return;
+    const m = modelField.value.trim();
+    if (!m) return;
+
+    let guessed = '';
+    if (m.startsWith('gemini/'))       guessed = 'gemini';
+    else if (m.startsWith('ollama/'))  guessed = 'ollama';
+    else if (m.startsWith('openrouter/')) guessed = 'openrouter';
+    else if (m.startsWith('openai/')) {
+      // openai/<model> + custom api_base = self-hosted OpenAI-compatible (vLLM etc.)
+      const baseField = document.querySelector('[name="llm-api_base"]');
+      guessed = (baseField && baseField.value.trim()) ? 'openai_compatible' : 'openai';
+    }
+    else if (m.startsWith('claude'))   guessed = 'anthropic';
+    else if (m.startsWith('gpt') || m.startsWith('o1') || m.startsWith('o3')) guessed = 'openai';
+
+    if (guessed) {
+      const sel = document.getElementById('llm-provider');
+      if (sel) { sel.value = guessed; llmOnProviderChange(guessed); }
+    }
+  })();
+}());
+</script>
