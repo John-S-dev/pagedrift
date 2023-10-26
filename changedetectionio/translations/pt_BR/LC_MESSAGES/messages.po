@@ -2019,6 +2019,47 @@ msgstr "Isso removerá todos os instantâneos e versões anteriores. Esta ação
 msgid "Clear History"
 msgstr "Limpar Histórico"
 
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear Queue"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Workers & queue"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Elapsed"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Status"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "No workers configured (FETCH_WORKERS=0) and queue is empty"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Waiting for new pages to check…"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/views.py
+#, python-brace-format
+msgid "Warning, URL {} already exists"
+msgstr "Aviso, a URL {} já existe"
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added in Paused state, saving will unpause."
+msgstr "Monitoramento adicionado em estado Pausado; salvar irá retomá-lo."
+
+#: changedetectionio/blueprint/ui/views.py
+msgid "Watch added."
+msgstr "Monitoramento adicionado."
+
+#: changedetectionio/blueprint/watchlist/__init__.py
+msgid "records"
+msgstr "registros"
+
 #. {pct} is a percentage including the % sign, e.g. "80%"
 #: changedetectionio/blueprint/watchlist/templates/watch-overview.html
 #: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
