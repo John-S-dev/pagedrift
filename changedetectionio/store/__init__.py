@@ -75,6 +75,84 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         """
         import re
 
+        version_text = re.sub(r'\D+', '-', version_tag)
+        db_path = os.path.join(self.datastore_path, "changedetection.json")
+        db_path_version_backup = os.path.join(self.datastore_path, f"changedetection-{version_text}.json")
+
+        if not os.path.isfile(db_path_version_backup) and os.path.isfile(db_path):
+            from shutil import copyfile
+            logger.info(f"Backing up changedetection.json due to new version to '{db_path_version_backup}'.")
+            copyfile(db_path, db_path_version_backup)
+
+    def _load_settings(self, filename="changedetection.json"):
+        """
+        Load settings from storage.
+
+        File backend implementation: reads from changedetection.json
+
+        Returns:
+            dict: Settings data loaded from storage
+        """
+        changedetection_json = os.path.join(self.datastore_path, filename)
+
+        logger.info(f"Loading settings from {changedetection_json}")
+
+        if HAS_ORJSON:
+            with open(changedetection_json, 'rb') as f:
+                return orjson.loads(f.read())
+        else:
+            with open(changedetection_json, 'r', encoding='utf-8') as f:
+                return json.load(f)
+
+    def _apply_settings(self, settings_data):
+        """
+        Apply loaded settings data to internal data structure.
+
+        Args:
+            settings_data: Dictionary loaded from changedetection.json
+        """
+        # Apply top-level fields
+        if 'app_guid' in settings_data:
+            self.__data['app_guid'] = settings_data['app_guid']
+        if 'build_sha' in settings_data:
+            self.__data['build_sha'] = settings_data['build_sha']
+        if 'version_tag' in settings_data:
+            self.__data['version_tag'] = settings_data['version_tag']
+
+        # Apply settings sections
+        if 'settings' in settings_data:
+            if 'headers' in settings_data['settings']:
+                self.__data['settings']['headers'].update(settings_data['settings']['headers'])
+            if 'requests' in settings_data['settings']:
+                self.__data['settings']['requests'].update(settings_data['settings']['requests'])
+            if 'application' in settings_data['settings']:
+                self.__data['settings']['application'].update(settings_data['settings']['application'])
+
+                # Use our Tags dict with cleanup helpers etc
+                # @todo Same for Watches
+                existing_tags = settings_data.get('settings', {}).get('application', {}).get('tags') or {}
+                self.__data['settings']['application']['tags'] = TagsDict(existing_tags, datastore_path=self.datastore_path)
+
+        # More or less for the old format which had this data in the one url-watches.json
+        # cant hurt to leave it here,
+        if 'watching' in settings_data:
+            self.__data['watching'].update(settings_data['watching'])
+
+    def _rehydrate_tags(self):
+        """Rehydrate tag entities from stored data into Tag objects with restock_diff processor."""
+        from ..model import Tag
+
+        for uuid, tag in self.__data['settings']['application']['tags'].items():
+            # Force processor to restock_diff for override functionality (technical debt)
+            tag['processor'] = 'restock_diff'
+
+            self.__data['settings']['application']['tags'][uuid] = Tag.model(
+                datastore_path=self.datastore_path,
+                __datastore=self.__data,
+                default=tag
+            )
+            logger.info(f"Tag: {uuid} {tag['title']}")
+
     def _rehydrate_watches(self):
         """Rehydrate watch entities from stored data (converts dicts to Watch objects)."""
         watch_count = len(self.__data.get('watching', {}))
