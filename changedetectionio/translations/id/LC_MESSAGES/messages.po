@@ -2217,6 +2217,52 @@ msgid "text"
 msgstr "teks"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"elements that will be used for the change detection. It automatically fills-in the filters in the "
+"\"CSS/JSONPath/JQ/XPath Filters\" box of the"
+msgstr ""
+"elemen yang akan digunakan untuk deteksi perubahan. Alat ini otomatis mengisi filter pada kotak \"Filter "
+"CSS/JSONPath/JQ/XPath\" di"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "tab. Use"
+msgstr "tab. Gunakan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Shift+Klik"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "untuk memilih beberapa item."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "Mode Pemilihan:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "Gambar area"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "Tunggu sebentar, sedang mengambil tangkapan layar dan informasi elemen.."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc)."
+msgstr ""
+"Maaf, fungsi ini hanya bekerja dengan pengambil yang mendukung Javascript dan tangkapan layar (seperti Playwright, "
+"dll.)."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports Javascript and screenshots."
+msgstr "ke pengambil yang mendukung Javascript dan tangkapan layar."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Check count"
+msgstr "Jumlah pemeriksaan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Consecutive filter failures"
 msgstr "Kegagalan filter berturut-turut"
 
