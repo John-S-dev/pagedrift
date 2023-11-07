@@ -171,3 +171,51 @@ def is_private_hostname(hostname):
     return False
 
 
+def extract_url_hostnames(url):
+    """Return every hostname this URL could resolve to under different URL parsers.
+
+    Why: urllib's urlparse() and urllib3's parse_url() disagree on URLs containing
+    a backslash (e.g. http://INTERNAL:8888\\@PUBLIC/ — urlparse extracts PUBLIC, but
+    urllib3/requests will actually connect to INTERNAL). Any SSRF check that trusts
+    only one parser can be bypassed by the other. Callers should reject the fetch
+    if ANY hostname returned here is private/reserved.
+
+    See GHSA-rph4-96w6-q594.
+    """
+    hostnames = set()
+    try:
+        h = urlparse(url).hostname
+        if h:
+            hostnames.add(h)
+    except Exception:
+        pass
+    try:
+        from urllib3.util.url import parse_url as _u3_parse_url
+        u3 = _u3_parse_url(url)
+        if u3.host:
+            # urllib3 keeps IPv6 brackets in `.host`; strip them so socket.getaddrinfo() accepts the literal.
+            hostnames.add(u3.host.strip('[]'))
+    except Exception:
+        pass
+    return hostnames
+
+
+def is_url_private_or_parser_confused(url):
+    """SSRF gate that defends against urlparse/urllib3 parser-differential attacks.
+
+    Returns True (block the fetch) when:
+      * the URL contains a backslash — no legitimate URL needs one, and it is the
+        established vector for the parser-differential bypass (GHSA-rph4-96w6-q594), OR
+      * any hostname produced by urlparse OR urllib3 resolves to an address that
+        is_special_purpose_ip() refuses (private, loopback, link-local, reserved,
+        multicast, CGNAT/RFC 6598 or otherwise not globally reachable).
+    """
+    if '\\' in url:
+        logger.warning(f"URL '{url}' contains a backslash — rejected to prevent urlparse/urllib3 parser-differential SSRF.")
+        return True
+    for hostname in extract_url_hostnames(url):
+        if is_private_hostname(hostname):
+            return True
+    return False
+
+
