@@ -2342,6 +2342,47 @@ msgstr "Kloning & Edit"
 msgid "Select timestamp"
 msgstr "Pilih stempel waktu"
 
+#: changedetectionio/blueprint/ui/templates/preview.html
+msgid "Current erroring screenshot from most recent request"
+msgstr "Tangkapan layar kesalahan saat ini dari permintaan terbaru"
+
+#: changedetectionio/blueprint/ui/templates/preview.html
+msgid "Screenshot requires a Content Fetcher ( Sockpuppetbrowser, selenium, etc ) that supports screenshots."
+msgstr "Tangkapan layar memerlukan Pengambil Konten (Sockpuppetbrowser, selenium, dll.) yang mendukung tangkapan layar."
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+#, python-format
+msgid "Worker %(num)s"
+msgstr "Worker %(num)s"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "— idle"
+msgstr "— menganggur"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "running"
+msgstr "berjalan"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "idle"
+msgstr "menganggur"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "done"
+msgstr "selesai"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "cancel"
+msgstr "batal"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "No workers configured and queue is empty"
+msgstr "Tidak ada worker yang dikonfigurasi dan antrean kosong"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Watch no longer exists"
+msgstr "Monitor sudah tidak ada"
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Nothing running"
 msgstr "Tidak ada yang berjalan"
