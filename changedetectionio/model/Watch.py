@@ -600,3 +600,62 @@ class model(EntityPersistenceMixin, watch_base):
         _FAVICON_FILENAME_CACHE[self.data_dir] = fname
         return fname
 
+        self.ensure_data_dir_exists()
+
+        with open(target_path, 'wb') as f:
+            f.write(screenshot)
+            f.close()
+
+
+    def get_last_fetched_text_before_filters(self):
+        import brotli
+        filepath = os.path.join(self.data_dir, 'last-fetched.br')
+
+        if not os.path.isfile(filepath) or os.path.getsize(filepath) == 0:
+            # If a previous attempt doesnt yet exist, just snarf the previous snapshot instead
+            dates = list(self.history.keys())
+            if len(dates):
+                return self.get_history_snapshot(timestamp=dates[-1])
+            else:
+                return ''
+
+        with open(filepath, 'rb') as f:
+            return(brotli.decompress(f.read()).decode('utf-8'))
+
+    def save_last_text_fetched_before_filters(self, contents):
+        import brotli
+        filepath = os.path.join(self.data_dir, 'last-fetched.br')
+        _brotli_save(contents, filepath, mode=brotli.MODE_TEXT, fallback_uncompressed=False)
+
+    def save_last_fetched_html(self, timestamp, contents):
+        self.ensure_data_dir_exists()
+        snapshot_fname = f"{timestamp}.html.br"
+        filepath = os.path.join(self.data_dir, snapshot_fname)
+        _brotli_save(contents, filepath, mode=None, fallback_uncompressed=True)
+        self._prune_last_fetched_html_snapshots()
+
+    def get_fetched_html(self, timestamp):
+        import brotli
+
+        snapshot_fname = f"{timestamp}.html.br"
+        filepath = os.path.join(self.data_dir, snapshot_fname)
+        if os.path.isfile(filepath):
+            with open(filepath, 'rb') as f:
+                return (brotli.decompress(f.read()).decode('utf-8'))
+
+        return False
+
+
+    def _prune_last_fetched_html_snapshots(self):
+
+        dates = list(self.history.keys())
+        dates.reverse()
+
+        for index, timestamp in enumerate(dates):
+            snapshot_fname = f"{timestamp}.html.br"
+            filepath = os.path.join(self.data_dir, snapshot_fname)
+
+            # Keep only the first 2
+            if index > 1 and os.path.isfile(filepath):
+                os.remove(filepath)
+
