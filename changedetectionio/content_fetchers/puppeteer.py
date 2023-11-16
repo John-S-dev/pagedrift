@@ -306,6 +306,70 @@ class fetcher(Fetcher):
         except Exception as e:
             raise BrowserConnectError(msg=f"Error connecting to the browser - Exception '{str(e)}'")
 
+        self.instock_data = await self.page.evaluate(INSTOCK_DATA_JS)
+
+        # It's good to log here in the case that the browser crashes on shutting down but we still get the data we need
+        logger.success(f"Fetching '{url}' complete, exiting puppeteer fetch.")
+
+    async def main(self, **kwargs):
+        await self.fetch_page(**kwargs)
+
+    async def run(self,
+                  fetch_favicon=True,
+                  current_include_filters=None,
+                  empty_pages_are_a_change=False,
+                  ignore_status_codes=False,
+                  is_binary=False,
+                  request_body=None,
+                  request_headers=None,
+                  request_method=None,
+                  screenshot_format=None,
+                  timeout=None,
+                  url=None,
+                  watch_uuid=None,
+                  ):
+
+        #@todo make update_worker async which could run any of these content_fetchers within memory and time constraints
+        max_time = int(os.getenv('PUPPETEER_MAX_PROCESSING_TIMEOUT_SECONDS', 180))
+
+        # Now we run this properly in async context since we're called from async worker
+        try:
+            await asyncio.wait_for(self.main(
+                current_include_filters=current_include_filters,
+                empty_pages_are_a_change=empty_pages_are_a_change,
+                fetch_favicon=fetch_favicon,
+                ignore_status_codes=ignore_status_codes,
+                is_binary=is_binary,
+                request_body=request_body,
+                request_headers=request_headers,
+                request_method=request_method,
+                screenshot_format=None,
+                timeout=timeout,
+                url=url,
+                watch_uuid=watch_uuid,
+            ), timeout=max_time
+            )
+        except asyncio.TimeoutError:
+            raise (BrowserFetchTimedOut(msg=f"Browser connected but was unable to process the page in {max_time} seconds."))
+        finally:
+            # Nothing consumes page_errors yet, but a crashed renderer usually means the content we
+            # just extracted is partial or stale, so always say so - otherwise the only clue is a
+            # confusing downstream error (or worse, a silently wrong "change detected").
+            if self.page_errors:
+                logger.warning(
+                    f"[{watch_uuid}] {len(self.page_errors)} page error(s) during this fetch of '{url}', "
+                    f"content may be incomplete: {'; '.join(str(e) for e in self.page_errors)}"
+                )
+
+            # Internal cleanup on any exception/timeout - call quit() immediately
+            # This prevents connection leaks during exception bursts
+            # Worker.py's quit() call becomes a redundant safety net (idempotent)
+            try:
+                await self.quit(watch={'uuid': watch_uuid} if watch_uuid else None)
+            except Exception as cleanup_error:
+                logger.error(f"[{watch_uuid}] Error during internal quit() cleanup: {cleanup_error}")
+
+
 # Plugin registration for built-in fetcher
 class PuppeteerFetcherPlugin:
     """Plugin class that registers the Puppeteer fetcher as a built-in plugin."""
