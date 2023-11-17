@@ -478,6 +478,49 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         from changedetectionio.processors import get_processor_submodule
         processor_module = get_processor_submodule(processor_name, 'extract')
 
+        response = make_response(patch_text)
+        response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+        return response
+
+    @diff_blueprint.route("/diff/<uuid_str:uuid>/processor-asset/<string:asset_name>", methods=['GET'])
+    @login_optionally_required
+    def processor_asset(uuid, asset_name):
+        """
+        Serve processor-specific binary assets (images, files, etc.).
+
+        This route is processor-aware: it delegates to the processor's
+        difference.py module, allowing different processor types to serve
+        custom assets without embedding them as base64 in templates.
+
+        This solves memory issues with large binary data (e.g., screenshots)
+        by streaming them as separate HTTP responses instead of embedding
+        in the HTML template.
+
+        Each processor implements processors/{type}/difference.py::get_asset()
+        which returns (binary_data, content_type, cache_control_header).
+
+        Example URLs:
+        - /diff/{uuid}/processor-asset/before
+        - /diff/{uuid}/processor-asset/after
+        - /diff/{uuid}/processor-asset/rendered_diff
+        """
+
+        if uuid == 'first':
+            uuid = list(datastore.data['watching'].keys()).pop()
+
+        try:
+            watch = datastore.data['watching'][uuid]
+        except KeyError:
+            flash(gettext("No history found for the specified link, bad link?"), "error")
+            return redirect(url_for('watchlist.index'))
+
+        # Get the processor type for this watch
+        processor_name = watch.get('processor', 'text_json_diff')
+
+        # Try to get the processor's difference module (works for both built-in and plugin processors)
+        from changedetectionio.processors import get_processor_submodule
+        processor_module = get_processor_submodule(processor_name, 'difference')
+
         # Call the processor's get_asset() function
         if processor_module and hasattr(processor_module, 'get_asset'):
             result = processor_module.get_asset(
