@@ -201,3 +201,56 @@ This will re-parse the JSON and apply formatting to the text, making it super ea
 
 For more complex parsing, filtering, and modifying of JSON data, jq is recommended due to the built-in operators and functions. Refer to the [documentation](https://stedolan.github.io/jq/manual/) for more specific information on jq.
 
+One big advantage of `jq` is that you can use logic in your JSON filter, such as filters to only show items that have a value greater than/less than etc.
+
+See the wiki https://github.com/dgtlmoon/changedetection.io/wiki/JSON-Selector-Filter-help for more information and examples
+
+### Parse JSON embedded in HTML!
+
+When you enable a `json:` or `jq:` filter, you can even automatically extract and parse embedded JSON inside a HTML page! Amazingly handy for sites that build content based on JSON, such as many e-commerce websites. 
+
+```
+<html>
+...
+<script type="application/ld+json">
+
+{
+   "@context":"http://schema.org/",
+   "@type":"Product",
+   "offers":{
+      "@type":"Offer",
+      "availability":"http://schema.org/InStock",
+      "price":"3949.99",
+      "priceCurrency":"USD",
+      "url":"https://www.newegg.com/p/3D5-000D-001T1"
+   },
+   "description":"Cobratype King Cobra Hero Desktop Gaming PC",
+   "name":"Cobratype King Cobra Hero Desktop Gaming PC",
+   "sku":"3D5-000D-001T1",
+   "itemCondition":"NewCondition"
+}
+</script>
+```  
+
+`json:$..price` or `jq:..price` would give `3949.99`, or you can extract the whole structure (use a JSONpath test website to validate with)
+
+The application also supports notifying you that it can follow this information automatically
+
+
+## Proxy Configuration
+
+See the wiki https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration , we also support using [Bright Data proxy services where possible](https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration#brightdata-proxy-support) and [Oxylabs](https://oxylabs.go2cloud.org/SH2d) proxy services.
+
+## Raspberry Pi support?
+
+Raspberry Pi and linux/arm/v6 linux/arm/v7 arm64 devices are supported! See the wiki for [details](https://github.com/dgtlmoon/changedetection.io/wiki/Fetching-pages-with-WebDriver)
+
+## Import support
+
+Easily [import your list of websites to watch for changes in Excel .xslx file format](https://changedetection.io/tutorial/how-import-your-website-change-detection-lists-excel), or paste in lists of website URLs as plaintext. 
+
+Excel import is recommended - that way you can better organise tags/groups of websites and other features.
+
+
+## API Support
+
