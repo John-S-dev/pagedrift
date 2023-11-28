@@ -252,6 +252,78 @@ class difference_detection_processor():
         if self.watch.get('webdriver_js_execute_code') is not None and self.watch.get('webdriver_js_execute_code').strip():
             self.fetcher.webdriver_js_execute_code = self.watch.get('webdriver_js_execute_code')
 
+        # Requests for PDF's, images etc should be passwd the is_binary flag
+        is_binary = self.watch.is_pdf
+
+        # And here we go! call the right browser with browser-specific settings
+        empty_pages_are_a_change = self.datastore.data['settings']['application'].get('empty_pages_are_a_change', False)
+        # All fetchers are now async
+        await self.fetcher.run(
+            current_include_filters=self.watch.get('include_filters'),
+            empty_pages_are_a_change=empty_pages_are_a_change,
+            fetch_favicon=self.watch.favicon_is_expired(),
+            ignore_status_codes=ignore_status_codes,
+            is_binary=is_binary,
+            request_body=request_body,
+            request_headers=request_headers,
+            request_method=request_method,
+            screenshot_format=self.screenshot_format,
+            timeout=timeout,
+            url=url,
+            watch_uuid=self.watch_uuid,
+        )
+
+        # @todo .quit here could go on close object, so we can run JS if change-detected
+        await self.fetcher.quit(watch=self.watch)
+
+        # Sanitize lone surrogates - these can appear when servers return malformed/mixed-encoding
+        # content that gets decoded into surrogate characters (e.g. \udcad). Without this,
+        # encode('utf-8') raises UnicodeEncodeError downstream in checksums, diffs, file writes, etc.
+        # Covers all fetchers (requests, playwright, puppeteer, selenium) in one place.
+        # Also note: By this point we SHOULD know the original encoding so it can safely convert to utf-8 for the rest of the app.
+        # See: https://github.com/dgtlmoon/changedetection.io/issues/3952
+
+        if self.fetcher.content and isinstance(self.fetcher.content, str):
+            self.fetcher.content = self.fetcher.content.encode('utf-8', errors='replace').decode('utf-8')
+
+        # After init, call run_changedetection() which will do the actual change-detection
+
+    @staticmethod
+    def _resolve_watch_config_path(data_dir, filename):
+        """Resolve `filename` inside `data_dir`, refusing anything that escapes it.
+
+        Security: callers derive `filename` from watch['processor'] (see
+        processors/save_processor_config), and that value is not enum-validated on every
+        write path - so it must be treated as untrusted here. os.path.join() will happily
+        accept '../../../../tmp/pwned', which previously escaped the watch directory and
+        allowed an arbitrary-path JSON file write (and read) as the app user.
+
+        Returns the absolute path, or None if it is not safely contained.
+        """
+        import os
+
+        if not filename or filename in ('.', '..'):
+            logger.error(f"Refusing unsafe watch config filename {filename!r}")
+            return None
+
+        # Must be a bare filename - no directory component, no separator of either flavour
+        if filename != os.path.basename(filename) or '/' in filename or '\\' in filename:
+            logger.error(f"Refusing watch config filename with a path component: {filename!r}")
+            return None
+
+        # realpath both sides so a symlink planted inside data_dir cannot redirect the write
+        base = os.path.realpath(data_dir)
+        filepath = os.path.realpath(os.path.join(base, filename))
+        if os.path.dirname(filepath) != base:
+            logger.error(f"Refusing watch config path outside the watch directory: {filepath!r}")
+            return None
+
+        return filepath
+
+    def get_extra_watch_config(self, filename):
+        """
+        Read processor-specific JSON config file from watch data directory.
+
         Args:
             filename: Name of JSON file (e.g., "visual_ssim_score.json")
 
