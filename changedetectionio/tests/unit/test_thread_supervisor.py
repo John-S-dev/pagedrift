@@ -13,3 +13,13 @@ The two behaviours that matter:
   - a target that returns or raises is restarted, loudly
   - a target that exits during shutdown is NOT restarted
 
+Run:  python3 -m unittest changedetectionio.tests.unit.test_thread_supervisor
+"""
+
+import threading
+import time
+import unittest
+
+from changedetectionio.thread_supervisor import supervise, start_supervised_thread
+
+
