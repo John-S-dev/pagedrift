@@ -2481,3 +2481,44 @@ msgstr "Редактировать > Смотреть"
 msgid "Fetch Method"
 msgstr "Метод выборки"
 
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr "URL-адрес веб-страницы"
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Group Tag"
+msgstr "Групповой тег"
+
+#: changedetectionio/forms.py
+msgid "Time Between Check"
+msgstr "Интервал проверки"
+
+#: changedetectionio/forms.py
+msgid "Use global settings for time between check and scheduler."
+msgstr "Используйте глобальные настройки времени между проверкой и планировщиком."
+
+#: changedetectionio/forms.py
+msgid "AI Change Intent - Notify me when.."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/blueprint/ui/templates/diff.html
+#: changedetectionio/forms.py
+msgid "AI Change Summary"
+msgstr "Обзор изменений ИИ"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Change Summary prompt - Append or Replace the default?"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Replace the inherited prompt"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Append to the inherited prompt"
+msgstr ""
+
