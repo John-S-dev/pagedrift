@@ -2774,6 +2774,46 @@ msgstr "Teks Cocok dengan Regex"
 msgid "Text Does NOT Match Regex"
 msgstr "Teks TIDAK Cocok dengan Regex"
 
+#: changedetectionio/conditions/default_plugin.py
+msgid "Extracted number after 'Filters & Triggers'"
+msgstr "Angka yang diekstrak setelah 'Filter & Pemicu'"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Page text after 'Filters & Triggers'"
+msgstr "Teks halaman setelah 'Filter & Pemicu'"
+
+#: changedetectionio/conditions/form.py
+msgid "Field"
+msgstr "Bidang"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator"
+msgstr "Operator"
+
+#: changedetectionio/conditions/form.py
+msgid "A value"
+msgstr "Nilai"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator is required."
+msgstr "Operator wajib diisi."
+
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "Bidang wajib diisi."
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "Nilai wajib diisi."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "Levenshtein - Rasio kemiripan teks"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "Levenshtein - Jarak perubahan teks"
+
 #: changedetectionio/conditions/plugins/wordcount_plugin.py
 msgid "Content Analysis"
 msgstr "Analisis Konten"
