@@ -106,6 +106,25 @@ def test_rss_single_watch_order(client, live_server, measure_memory_usage, datas
     print(f"Second item content (first 200 chars): {descriptions[1][:200] if descriptions[1] else 'None'}")
     print(f"Third item content (first 200 chars): {descriptions[2][:200] if descriptions[2] else 'None'}")
 
+    # The FIRST item should contain the NEWEST change (Version 5)
+    # The SECOND item should contain Version 4
+    # The THIRD item should contain Version 3
+    # Note: Content may include [edit watch] links and diff markup like "(added) 5"
+    # So we check for "5 content" which appears in "Version 5 content"
+    assert "5 content" in descriptions[0], \
+        f"First item should show newest change (with '5 content'), but got: {descriptions[0][:500]}"
+
+    # Verify the order is correct
+    assert "4 content" in descriptions[1], \
+        f"Second item should show Version 4 (with '4 content'), but got: {descriptions[1][:500]}"
+
+    assert "3 content" in descriptions[2], \
+        f"Third item should show Version 3 (with '3 content'), but got: {descriptions[2][:500]}"
+
+    # Clean up
+    delete_all_watches(client)
+
+
 def test_rss_categories_from_tags(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that RSS feeds include category tags from watch tags.
