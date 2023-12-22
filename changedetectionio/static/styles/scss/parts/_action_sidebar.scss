@@ -340,3 +340,79 @@ body.actionside-bar-on {
   font-weight: 700;
 }
 
+// Dark-mode overrides handled via CSS vars in parts/_variables.scss
+
+// Mobile drawer reuses the markup but renders labels inline (full rows)
+.mobile-menu-section {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-table-cell);
+
+  ul.action-sidebar-list {
+    gap: 1px;
+    .action-sidebar-li {
+      a, button {
+        padding: $common-gap;
+      }
+    }
+  }
+
+  .action-sidebar-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: $common-gap;
+    padding: $common-gap $common-gap;
+    border-radius: var(--common-round-border);
+    color: var(--color-text);
+
+    &:hover {
+      background-color: var(--color-background-menu-link-hover);
+      color: var(--color-text);
+    }
+
+    &.active {
+      background-color: var(--color-background-menu-link-hover);
+      color: var(--color-text);
+    }
+
+    // Force inline label rendering in the drawer (override rollout positioning)
+    .action-label {
+      position: static;
+      transform: none;
+      background: transparent;
+      box-shadow: none;
+      color: inherit;
+      opacity: 1;
+      pointer-events: auto;
+      padding: 0;
+      font-weight: 500;
+
+      &::before { display: none; }
+    }
+
+    .action-badge {
+      position: static;
+      margin-left: auto;
+      font-size: 0.62rem;
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--color-text);
+    }
+
+    &.action-sidebar-item--accent {
+      background: var(--color-background-menu-link-hover);
+      box-shadow: inset 0 0 0 1px var(--color-border-table-cell);
+      color: var(--color-text);
+      .action-label { color: inherit; }
+    }
+  }
+
+  .action-sidebar-item--button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+  }
+}
+
