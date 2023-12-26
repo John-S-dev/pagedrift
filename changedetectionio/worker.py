@@ -75,3 +75,11 @@ async def async_update_worker(worker_id, q, notification_q, app, datastore, exec
     thread_name = threading.current_thread().name
     logger.info(f"Starting async worker {worker_id} on thread '{thread_name}' (max_jobs={max_jobs}, max_runtime={max_runtime_seconds}s)")
 
+def cleanup_error_artifacts(uuid, datastore):
+    """Helper function to clean up error artifacts"""
+    cleanup_files = ["last-error-screenshot.png", "last-error.txt"]
+    for f in cleanup_files:
+        full_path = os.path.join(datastore.datastore_path, uuid, f)
+        if os.path.isfile(full_path):
+            os.unlink(full_path)
+
