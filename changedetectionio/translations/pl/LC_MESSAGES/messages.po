@@ -2902,6 +2902,46 @@ msgstr "Minimalna długość"
 msgid "Length maximum"
 msgstr "Maksymalna długość"
 
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Matches Regex"
+msgstr "Tekst pasuje do wyrażenia regularnego"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Does NOT Match Regex"
+msgstr "Tekst NIE pasuje do wyrażenia regularnego"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Extracted number after 'Filters & Triggers'"
+msgstr "Liczba wyodrębniona po pozycji „Filtry i wyzwalacze”"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Page text after 'Filters & Triggers'"
+msgstr "Tekst strony po sekcji „Filtry i wyzwalacze”"
+
+#: changedetectionio/conditions/form.py
+msgid "Field"
+msgstr "Pole"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator"
+msgstr "Operator"
+
+#: changedetectionio/conditions/form.py
+msgid "A value"
+msgstr "Wartość"
+
+#: changedetectionio/conditions/form.py
+msgid "Operator is required."
+msgstr "Wymagany jest operator."
+
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "To pole jest obowiązkowe."
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "Wartość jest wymagana."
+
 #: changedetectionio/conditions/plugins/levenshtein_plugin.py
 msgid "Levenshtein - Text similarity ratio"
 msgstr "Wskaźnik podobieństwa tekstu według Levenshteina"
