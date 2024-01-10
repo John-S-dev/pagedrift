@@ -178,6 +178,43 @@ async () => {
             }
         }
 
+        const elementsToScan = [];
+        collectVisibleElements(document.body, elementsToScan);
+
+        var elementText = "";
+
+        // REGEXS THAT REALLY MEAN IT'S IN STOCK
+        for (let i = elementsToScan.length - 1; i >= 0; i--) {
+            const element = elementsToScan[i];
+
+            if (!elementIsInEyeBallRange(element)) {
+                continue
+            }
+
+            elementText = "";
+            try {
+                if (element.tagName.toLowerCase() === "input") {
+                    elementText = element.value.toLowerCase().trim();
+                } else {
+                    elementText = getElementBaseText(element);
+                }
+            } catch (e) {
+                console.warn('stock-not-in-stock.js scraper - handling element for gettext failed', e);
+            }
+            if (elementText.length) {
+                // try which ones could mean its in stock
+                if (negateOutOfStockRegex.test(elementText) && !elementText.includes('(0 products)')) {
+                    console.log(`Negating/overriding 'Out of Stock' back to "Possibly in stock" found "${elementText}"`)
+                    element.style.border = "2px solid green"; // highlight the element that was detected as in stock
+                    return 'Possibly in stock';
+                }
+            }
+        }
+
+        // OTHER STUFF THAT COULD BE THAT IT'S OUT OF STOCK
+        for (let i = elementsToScan.length - 1; i >= 0; i--) {
+            const element = elementsToScan[i];
+
             if (!elementIsInEyeBallRange(element)) {
                 continue
             }
