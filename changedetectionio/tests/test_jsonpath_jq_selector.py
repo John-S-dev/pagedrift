@@ -281,3 +281,13 @@ def set_json_response_with_html(datastore_path):
         f.write(test_return_data)
     return None
 
+def test_check_jq_filter_bool_val(client, live_server, measure_memory_usage, datastore_path):
+    if jq_support:
+        check_json_filter_bool_val("jq:.available", client, live_server, datastore_path=datastore_path)
+    delete_all_watches(client)
+
+def test_check_jqraw_filter_bool_val(client, live_server, measure_memory_usage, datastore_path):
+    if jq_support:
+        check_json_filter_bool_val("jq:.available", client, live_server, datastore_path=datastore_path)
+    delete_all_watches(client)
+
