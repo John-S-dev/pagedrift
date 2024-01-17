@@ -1797,6 +1797,55 @@ msgid "Hours"
 msgstr "Години"
 
 #: changedetectionio/forms.py
+msgid "Minutes"
+msgstr "Хвилини"
+
+#: changedetectionio/forms.py
+msgid "Seconds"
+msgstr "Секунди"
+
+#: changedetectionio/forms.py
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr "Тіло та заголовок сповіщення обов'язкові, якщо використовується URL сповіщення"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr "'%s' не є допустимим URL AppRise."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "RegEx '%s' is not a valid regular expression."
+msgstr "RegEx '%s' не є допустимим регулярним виразом."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid XPath expression. (%s)"
+msgstr "'%s' не є допустимим виразом XPath. (%s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid JSONPath expression. (%s)"
+msgstr "'%s' не є допустимим виразом JSONPath. (%s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid jq expression. (%s)"
+msgstr "'%s' не є допустимим виразом jq. (%s)"
+
+#: changedetectionio/forms.py
+msgid "Empty value not allowed."
+msgstr "Порожнє значення неприпустиме."
+
+#: changedetectionio/forms.py
+msgid "Invalid value."
+msgstr "Неприпустиме значення."
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "URL"
+msgstr "URL"
+
+#: changedetectionio/forms.py
 msgid "Chrome requests"
 msgstr "Запити Chrome"
 
