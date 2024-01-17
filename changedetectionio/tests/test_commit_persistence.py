@@ -232,3 +232,83 @@ def test_concurrent_modifications_during_commit(client, live_server):
     assert len(runtime_errors) == 0, f"Should not have RuntimeError, got: {runtime_errors}"
 
 
+def test_api_post_saves_processor_config_separately(client, live_server):
+    """Test that API POST saves processor configs to {processor}.json"""
+    import json
+    from changedetectionio.processors import extract_processor_config_from_form_data
+
+    # Get API key
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Create watch via API with processor config
+    response = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            'url': 'http://example.com',
+            'processor': 'restock_diff',
+            'processor_config_price_threshold': 10.0,
+            'processor_config_in_stock_only': True
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key}
+    )
+
+    assert response.status_code in (200, 201), f"Expected 200/201, got {response.status_code}"
+    uuid = response.json.get('uuid')
+    assert uuid, "Should return UUID"
+
+    datastore = client.application.config.get('DATASTORE')
+    watch = datastore.data['watching'][uuid]
+
+    # Check that processor config file exists
+    processor_config_path = os.path.join(watch.data_dir, 'restock_diff.json')
+    assert os.path.exists(processor_config_path), "Processor config file should exist"
+
+    with open(processor_config_path, 'r') as f:
+        config = json.load(f)
+
+    # Verify fields are saved WITHOUT processor_config_ prefix
+    assert config.get('price_threshold') == 10.0, "Should have price_threshold (no prefix)"
+    assert config.get('in_stock_only') == True, "Should have in_stock_only (no prefix)"
+    assert 'processor_config_price_threshold' not in config, "Should NOT have prefixed keys"
+
+
+def test_api_put_saves_processor_config_separately(client, live_server):
+    """Test that API PUT updates processor configs in {processor}.json"""
+    import json
+    datastore = client.application.config.get('DATASTORE')
+
+    # Get API key
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Create watch
+    uuid = datastore.add_watch(
+        url='http://example.com',
+        extras={'processor': 'restock_diff'}
+    )
+
+    # Update via API with processor config
+    response = client.put(
+        url_for("watch", uuid=uuid),
+        data=json.dumps({
+            'processor_config_price_threshold': 15.0,
+            'processor_config_min_stock': 5
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key}
+    )
+
+    # PUT might return different status codes, 200 or 204 are both OK
+    assert response.status_code in (200, 204), f"Expected 200/204, got {response.status_code}: {response.data}"
+
+    watch = datastore.data['watching'][uuid]
+
+    # Check processor config file
+    processor_config_path = os.path.join(watch.data_dir, 'restock_diff.json')
+    assert os.path.exists(processor_config_path), "Processor config file should exist"
+
+    with open(processor_config_path, 'r') as f:
+        config = json.load(f)
+
+    assert config.get('price_threshold') == 15.0, "Should have updated price_threshold"
+    assert config.get('min_stock') == 5, "Should have min_stock"
+
+
