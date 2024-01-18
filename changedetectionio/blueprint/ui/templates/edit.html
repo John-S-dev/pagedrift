@@ -348,3 +348,93 @@ Math: {{ 1 + 1 }}") }}
               <div>
               <div id="edit-text-filter">
 
+{% if capabilities.supports_text_filters_and_triggers_elements %}
+                        <div class="pure-control-group" id="pro-tips">
+                            <strong>{{ _('Pro-tips:') }}</strong><br>
+                            <ul>
+                                <li>
+                                    {{ _('Use the preview page to see your filters and triggers highlighted.') }}
+                                </li>
+                                <li>
+                                    {{ _('Some sites use JavaScript to create the content, for this you should') }} <a href="https://github.com/dgtlmoon/changedetection.io/wiki/Fetching-pages-with-WebDriver">{{ _('use the Chrome/WebDriver Fetcher') }}</a>
+                                </li>
+                            </ul>
+                    </div>
+{% include "edit/include_subtract.html" %}
+{% endif %}
+                <div class="text-filtering border-fieldset">
+                <fieldset class="pure-group" id="text-filtering-type-options">
+                    <h3>{{ _('Text filtering') }}</h3>
+                        {{ _('Limit trigger/ignore/block/extract to;') }}<br>
+                        {{ render_checkbox_field(form.filter_text_added) }}
+                        {{ render_checkbox_field(form.filter_text_replaced) }}
+                        {{ render_checkbox_field(form.filter_text_removed) }}
+                    <span class="pure-form-message-inline">{{ _('Note: Depending on the length and similarity of the text on each line, the algorithm may consider an <strong>addition</strong> instead of <strong>replacement</strong> for example.')|safe }}</span><br>
+                    <span class="pure-form-message-inline">&nbsp;{{ _('So it\'s always better to select') }} <strong>{{ _('Added') }}</strong>+<strong>{{ _('Replaced') }}</strong> {{ _('when you\'re interested in new content.') }}</span><br>
+                    <span class="pure-form-message-inline">&nbsp;{{ _('When content is merely moved in a list, it will also trigger an') }} <strong>{{ _('addition') }}</strong>, {{ _('consider enabling') }} <code><strong>{{ _('Only trigger when unique lines appear') }}</strong></code></span>
+                </fieldset>
+                <fieldset class="pure-control-group">
+                    {{ render_checkbox_field(form.check_unique_lines) }}
+                    <span class="pure-form-message-inline">{{ _('Good for websites that just move the content around, and you want to know when NEW content is added, compares new lines against all history for this watch.') }}</span>
+                </fieldset>
+                <fieldset class="pure-control-group">
+                    {{ render_checkbox_field(form.remove_duplicate_lines) }}
+                    <span class="pure-form-message-inline">{{ _('Remove duplicate lines of text') }}</span>
+                </fieldset>
+                <fieldset class="pure-control-group">
+                    {{ render_checkbox_field(form.sort_text_alphabetically) }}
+                    {# TRANSLATORS: CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303 #}
+                    <span class="pure-form-message-inline">{{ _('Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below.')|safe }}</span>
+                </fieldset>
+                <fieldset class="pure-control-group">
+                    {{ render_checkbox_field(form.trim_text_whitespace) }}
+                    <span class="pure-form-message-inline">{{ _('Remove any whitespace before and after each line of text') }}</span>
+                </fieldset>
+                {% include "edit/text-options.html" %}
+                </div>
+              </div>
+              <div id="text-preview" style="display: none;" >
+                <script>
+                    const preview_text_edit_filters_url="{{url_for('ui.ui_edit.watch_get_preview_rendered', uuid=uuid)}}";
+                </script>
+                <br>
+                {% if llm_configured %}
+                <div id="llm-preview-result" style="display:none; margin-bottom: 0.8em; padding: 0.8em 1.1em; border-radius: 4px; border-left: 4px solid #ccc; font-size: 0.9em;">
+                    <div style="font-size:0.75em; text-transform:uppercase; letter-spacing:0.06em; opacity:0.55; margin-bottom:0.35em;">{{ _('AI Intent preview') }}</div>
+                    <span class="llm-preview-verdict" style="font-weight: bold;"></span>
+                    <div class="llm-preview-answer" style="margin-top: 0.5em; white-space: pre-wrap; line-height: 1.5; font-style: italic;"></div>
+                </div>
+                <style>
+                    #llm-preview-result { transition: border-color 0.2s, background 0.2s; }
+                    #llm-preview-result[data-found="1"] { border-color: #2ecc71; background: rgba(46,204,113,0.07); }
+                    #llm-preview-result[data-found="1"] .llm-preview-verdict { color: #27ae60; }
+                    #llm-preview-result[data-found="0"] { border-color: #aaa; background: rgba(0,0,0,0.03); }
+                    #llm-preview-result[data-found="0"] .llm-preview-verdict { color: #888; }
+                </style>
+                {% endif %}
+                <div class="minitabs-wrapper">
+                  <div class="minitabs-content">
+                      <div id="text-preview-inner" class="monospace-preview">
+                          <p>{{ _('Loading...') }}</p>
+                      </div>
+                      <div id="text-preview-before-inner" style="display: none;" class="monospace-preview">
+                          <p>{{ _('Loading...') }}</p>
+                      </div>
+                  </div>
+                </div>
+                {{ highlight_trigger_ignored_explainer() }}
+            </div>
+          </div>
+        </div>
+
+        {% endif %}
+        {# rendered sub Template #}
+        {% if extra_form_content %}
+            <div class="tab-pane-inner" id="extras_tab">
+            {{ extra_form_content|safe }}
+            </div>
+        {% endif %}
+            {% if capabilities.supports_visual_selector %}
+            <div class="tab-pane-inner visual-selector-ui" id="visualselector">
+                <img class="beta-logo" src="{{url_for('static_content', group='images', filename='beta-logo.png')}}" alt="New beta functionality">
+
