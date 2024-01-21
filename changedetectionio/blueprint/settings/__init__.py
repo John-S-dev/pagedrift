@@ -214,3 +214,91 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         active_plugins = get_active_plugins()
         python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
 
+        # Calculate uptime in seconds
+        uptime_seconds = time.time() - datastore.start_time
+
+        # Get plugin settings tabs and instantiate forms
+        plugin_tabs = get_plugin_settings_tabs()
+        plugin_forms = {}
+
+        for tab in plugin_tabs:
+            plugin_id = tab['plugin_id']
+            form_class = tab['form_class']
+
+            # Load existing settings
+            settings = load_plugin_settings(datastore.datastore_path, plugin_id)
+
+            # Instantiate the form with existing settings
+            plugin_forms[plugin_id] = form_class(data=settings)
+
+        from changedetectionio.llm.evaluator import (
+            get_llm_config as _get_llm_cfg,
+            llm_configured_via_env,
+            get_global_token_budget_month,
+        )
+        llm_config = _get_llm_cfg(datastore) or {}
+        llm_env_configured = llm_configured_via_env()
+        llm_stored = datastore.data['settings']['application'].get('llm') or {}
+        llm_token_budget_month = get_global_token_budget_month(datastore)
+        llm_token_budget_month_env = get_global_token_budget_month()  # env var only, for readonly logic
+        _max_input_chars_env_str = os.getenv('LLM_MAX_INPUT_CHARS', '').strip()
+        llm_max_input_chars_env = int(_max_input_chars_env_str) if _max_input_chars_env_str.isdigit() else 0
+        from changedetectionio.llm.evaluator import _get_max_input_chars, _DEFAULT_MAX_INPUT_CHARS
+        llm_effective_max_input_chars = _get_max_input_chars(datastore)
+        # Cost display: only when user configured their own key (not hosted/operator-managed)
+        llm_show_costs = not llm_env_configured
+
+        output = render_template("settings.html",
+                                active_plugins=active_plugins,
+                                api_key=datastore.data['settings']['application'].get('api_access_token'),
+                                llm_config=llm_config,
+                                llm_env_configured=llm_env_configured,
+                                llm_stored=llm_stored,
+                                llm_token_budget_month=llm_token_budget_month,
+                                llm_token_budget_month_env=llm_token_budget_month_env,
+                                llm_max_input_chars_env=llm_max_input_chars_env,
+                                llm_effective_max_input_chars=llm_effective_max_input_chars,
+                                llm_show_costs=llm_show_costs,
+                                python_version=python_version,
+                                uptime_seconds=uptime_seconds,
+                                # None unless PAGE_WATCH_LIMIT is set, which hides the row entirely
+                                watch_limit=datastore.watch_limit,
+                                available_timezones=sorted(available_timezones()),
+                                emailprefix=os.getenv('NOTIFICATION_MAIL_BUTTON_PREFIX', False),
+                                extra_notification_token_placeholder_info=datastore.get_unique_notification_token_placeholders_available(),
+                                form=form,
+                                hide_remove_pass=os.getenv("SALTED_PASS", False),
+                                min_system_recheck_seconds=int(os.getenv('MINIMUM_SECONDS_RECHECK_TIME', 3)),
+                                settings_application=datastore.data['settings']['application'],
+                                timezone_default_config=datastore.data['settings']['application'].get('scheduler_timezone_default'),
+                                utc_time=utc_time,
+                                plugin_tabs=plugin_tabs,
+                                plugin_forms=plugin_forms,
+                                )
+
+        return output
+
+    @settings_blueprint.route("/reset-api-key", methods=['POST'])
+    @login_optionally_required
+    def settings_reset_api_key():
+        secret = secrets.token_hex(16)
+        datastore.data['settings']['application']['api_access_token'] = secret
+        datastore.commit()
+        flash(gettext("API Key was regenerated."))
+        return redirect(url_for('settings.settings_page')+'#api')
+        
+    @settings_blueprint.route("/notification-logs", methods=['GET'])
+    @login_optionally_required
+    def notification_logs():
+        from changedetectionio.flask_app import notification_debug_log
+        output = render_template("notification-log.html",
+                               logs=notification_debug_log if len(notification_debug_log) else ["Notification logs are empty - no notifications sent yet."])
+        return output
+
+    @settings_blueprint.route("/toggle-all-paused", methods=['POST'])
+    @login_optionally_required
+    def toggle_all_paused():
+        current_state = datastore.data['settings']['application'].get('all_paused', False)
+        datastore.data['settings']['application']['all_paused'] = not current_state
+        datastore.commit()
+
