@@ -2,6 +2,53 @@ from flask import make_response, request, url_for, redirect
 
 
 
+def construct_main_feed_routes(rss_blueprint, datastore):
+    """
+    Construct the main RSS feed routes.
+
+    Args:
+        rss_blueprint: The Flask blueprint to add routes to
+        datastore: The ChangeDetectionStore instance
+    """
+
+    # Some RSS reader situations ended up with rss/ (forward slash after RSS) due
+    # to some earlier blueprint rerouting work, it should goto feed.
+    @rss_blueprint.route("/", methods=['GET'])
+    def extraslash():
+        return redirect(url_for('rss.feed'))
+
+    # Import the login decorator if needed
+    # from changedetectionio.auth_decorator import login_optionally_required
+    @rss_blueprint.route("", methods=['GET'])
+    def feed():
+        from feedgen.feed import FeedGenerator
+        from loguru import logger
+        import time
+
+        from . import RSS_TEMPLATE_HTML_DEFAULT, RSS_TEMPLATE_PLAINTEXT_DEFAULT
+        from ._util import (validate_rss_token, generate_watch_guid, get_rss_template,
+                           get_watch_label, build_notification_context, render_notification,
+                           populate_feed_entry, add_watch_categories)
+        from ...notification_service import NotificationService
+
+        now = time.time()
+
+        # Validate token
+        is_valid, error = validate_rss_token(datastore, request)
+        if not is_valid:
+            return error
+
+        rss_content_format = datastore.data['settings']['application'].get('rss_content_format')
+
+        limit_tag = request.args.get('tag', '').lower().strip()
+        # Be sure limit_tag is a uuid
+        for uuid, tag in datastore.data['settings']['application'].get('tags', {}).items():
+            if limit_tag == tag.get('title', '').lower().strip():
+                limit_tag = uuid
+
+        # Sort by last_changed and add the uuid which is usually the key..
+        sorted_watches = []
+
         # @todo needs a .itemsWithTag() or something - then we can use that in Jinaj2 and throw this away
         for uuid, watch in datastore.data['watching'].items():
             # @todo tag notification_muted skip also (improve Watch model)
