@@ -422,3 +422,42 @@ def test_resolve_llm_field_uses_watch_value_over_tag(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# Tag edit page — AI section is always visible regardless of processor
+# ---------------------------------------------------------------------------
+
+def test_tag_edit_page_shows_ai_section(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    The tag/group edit page must always show the AI Intent and AI Change Summary
+    textareas when LLM is configured, regardless of whether the tag has a
+    'processor' key set (e.g. restock_diff tags must still show AI fields).
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+
+    tag_uuid = ds.add_tag('Test AI Group')
+
+    # Simulate a tag that has processor set (e.g. saved via restock form)
+    ds.data['settings']['application']['tags'][tag_uuid]['processor'] = 'restock_diff'
+
+    res = client.get(url_for('tags.form_tag_edit', uuid=tag_uuid))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+
+    # Both AI textareas must appear
+    assert 'name="llm_intent"' in body, \
+        "llm_intent textarea missing from tag edit page — processor check incorrectly blocks it"
+    assert 'name="llm_change_summary"' in body, \
+        "llm_change_summary textarea missing from tag edit page"
+
+    # Neither should be readonly in tag context
+    for field in ('llm_intent', 'llm_change_summary'):
+        pos = body.find(f'name="{field}"')
+        snippet = body[max(0, pos - 50): pos + 300]
+        assert 'readonly' not in snippet, \
+            f"{field} must not be readonly in tag edit context; snippet: {snippet!r}"
+
+    delete_all_watches(client)
+
+
