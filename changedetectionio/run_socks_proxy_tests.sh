@@ -23,3 +23,28 @@ docker run --network changedet-network \
   test-changedetectionio \
   bash -c 'cd changedetectionio && pytest --live-server-host=0.0.0.0 --live-server-port=5004  -s tests/proxy_socks5/test_socks5_proxy_sources.py  --datastore-path /tmp'
 
+# SOCKS5 related - by manually entering in UI
+docker run --network changedet-network \
+  --rm \
+  -e "FLASK_SERVER_NAME=cdio" \
+  --hostname cdio \
+  -e "SOCKSTEST=manual" \
+  test-changedetectionio \
+  bash -c 'cd changedetectionio && pytest --live-server-host=0.0.0.0 --live-server-port=5004  -s tests/proxy_socks5/test_socks5_proxy.py --datastore-path /tmp'
+
+# SOCKS5 related - test from proxies.json via playwright - NOTE- PLAYWRIGHT DOESNT SUPPORT AUTHENTICATING PROXY
+docker run --network changedet-network \
+  -e "SOCKSTEST=manual-playwright" \
+  --hostname cdio \
+  -e "FLASK_SERVER_NAME=cdio" \
+  -v `pwd`/tests/proxy_socks5/proxies.json-example-noauth:/tmp/proxies.json \
+  -e "PLAYWRIGHT_DRIVER_URL=ws://sockpuppetbrowser:3000" \
+  --rm \
+  test-changedetectionio \
+  bash -c 'cd changedetectionio && pytest --live-server-host=0.0.0.0 --live-server-port=5004  -s tests/proxy_socks5/test_socks5_proxy_sources.py --datastore-path /tmp'
+
+echo "socks5 server logs"
+docker logs socks5proxy
+echo "----------------------------------"
+
+docker kill socks5proxy socks5proxy-noauth
