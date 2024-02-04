@@ -2658,6 +2658,46 @@ msgstr "값"
 msgid "Operator is required."
 msgstr "연산자는 필수입니다."
 
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "필드는 필수입니다."
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "값은 필수입니다."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "Levenshtein - 텍스트 유사도 비율"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "Levenshtein - 텍스트 변경 거리"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Not enough history to calculate Levenshtein metrics"
+msgstr "Levenshtein 지표를 계산할 기록이 충분하지 않습니다."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Snapshot too large for edit statistics, skipping."
+msgstr "스냅샷이 너무 커서 편집 통계를 계산할 수 없어 건너뜁니다."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Unable to calculate Levenshtein metrics"
+msgstr "Levenshtein 지표를 계산할 수 없습니다."
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein Text Similarity Details"
+msgstr "Levenshtein 텍스트 유사도 상세"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Raw distance (edits needed)"
+msgstr "원시 거리(필요한 편집 횟수)"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Similarity ratio"
+msgstr "유사도 비율"
+
 #: changedetectionio/flask_app.py
 msgid "minutes"
 msgstr "분"
