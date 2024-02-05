@@ -3412,3 +3412,43 @@ msgstr "To narzędzie wyodrębni dane tekstowe z całej historii obserwacji."
 msgid "A <strong>RegEx</strong> is a pattern that identifies exactly which part inside of the text that you want to extract."
 msgstr "<strong>Wyrażenie regularne</strong> to wzorzec, który dokładnie określa, którą część tekstu chcesz wyodrębnić."
 
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Najpierw sprawdź i zapisz ustawienia strefy czasowej"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Tekst wywołany"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Wywołuje zmianę, jeśli pojawi się ten tekst ORAZ nastąpiła jakaś zmiana w dokumencie."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Tekst pominięty"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Nie jest brane pod uwagę przy obliczaniu zmian, ale nadal jest wyświetlane."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr "Tekst z pogrubieniem"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr "Wykrywanie zmian nie zostanie wykonane, ponieważ ten tekst już istnieje."
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr "Sekcje ustawień"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr "Potwierdź czynność"
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr "Jesteś pewien?"
+
