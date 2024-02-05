@@ -2598,6 +2598,51 @@ msgid "week"
 msgstr "hafta"
 
 #: changedetectionio/forms.py
+msgid "Hours"
+msgstr "Saat"
+
+#: changedetectionio/forms.py
+msgid "Minutes"
+msgstr "Dakika"
+
+#: changedetectionio/forms.py
+msgid "Seconds"
+msgstr "Saniye"
+
+#: changedetectionio/forms.py
+msgid "Unknown fetch method."
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr "Bir Bildirim URL'si kullanıldığında Bildirim Gövdesi ve Başlığı gereklidir"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr "'%s' geçerli bir AppRise URL'si değil."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "RegEx '%s' is not a valid regular expression."
+msgstr "'%s' RegEx'i geçerli bir düzenli ifade değil."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid XPath expression. (%(error)s)"
+msgstr "'%(expression)s' geçerli bir XPath ifadesi değil. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid JSONPath expression. (%(error)s)"
+msgstr "'%(expression)s' geçerli bir JSONPath ifadesi değil. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
+msgstr "'%(expression)s' geçerli bir jq ifadesi değil. (%(error)s)"
+
+#: changedetectionio/forms.py
 msgid "Notification Title"
 msgstr "Bildirim Başlığı"
 

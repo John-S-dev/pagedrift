@@ -224,6 +224,17 @@ def remove_worker():
     return True
 
 
+def get_worker_count():
+    """Get current number of async workers"""
+    return len(worker_threads)
+
+
+def get_running_uuids():
+    """Get list of UUIDs currently being processed by async workers"""
+    with _uuid_processing_lock:
+        return list(currently_processing_uuids.keys())
+
+
 def get_uuid_started_at(uuid):
     """Return the epoch seconds when this UUID was claimed for processing, or None."""
     with _uuid_processing_lock:
