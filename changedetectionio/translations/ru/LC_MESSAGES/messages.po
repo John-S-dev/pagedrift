@@ -2565,6 +2565,47 @@ msgstr "Редактировать > Смотреть"
 msgid "Fetch Method"
 msgstr "Метод выборки"
 
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "Сохранять"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL-адреса"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Загрузите файл .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Должен быть файл .xlsx!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Сопоставление файлов"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Операция"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Селектор"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr "Селектор CSS или xPath"
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "ценить"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr "Ценить"
+
 #: changedetectionio/forms.py
 msgid "Web Page URL"
 msgstr "URL-адрес веб-страницы"
