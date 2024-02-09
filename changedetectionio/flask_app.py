@@ -358,6 +358,19 @@ def _jinja2_filter_format_number_locale(value: float) -> str:
     return formatted_value
 
 
+@app.template_filter('format_int_locale')
+def _jinja2_filter_format_int_locale(value) -> str:
+    "Locale-grouped integer, e.g. 1000 -> 1,000 (no decimals — for counts)"
+    return locale.format_string("%d", int(value), grouping=True)
+
+
+@app.template_filter('regex_search')
+def _jinja2_filter_regex_search(value, pattern):
+    import re
+
+    return re.search(pattern, str(value)) is not None
+
+
 @app.template_global('get_worker_status_info')
 def _get_worker_status_info():
     """Get detailed worker status information for display"""
