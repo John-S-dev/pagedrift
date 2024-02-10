@@ -2793,6 +2793,46 @@ msgstr "RSS <description> 本文の構築元"
 msgid "RSS \"System default\" template override"
 msgstr "RSS「システムデフォルト」テンプレートの上書き"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "在庫補充検知"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "在庫あり時のみ（在庫切れ → 在庫ありの変化のみ）"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "在庫状態のいかなる変化も"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "オフ：在庫状態を追跡しない"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "通知をトリガーする下限価格"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "制限なし"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "通知をトリガーする上限価格"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "前回のチェックからの価格変動率のしきい値（%）"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "0から100の間で指定してください"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "価格変動を追跡"
+
 #: changedetectionio/templates/_common_fields.html
 msgid "The page title of the watch, uses <title> if not set, falls back to URL"
 msgstr "ウォッチのページタイトル。設定されていない場合は <title> を使用し、それもなければURLにフォールバックします。"
