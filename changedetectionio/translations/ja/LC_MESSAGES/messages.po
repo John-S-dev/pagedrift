@@ -2004,6 +2004,46 @@ msgid "Run this code before performing change detection, handy for filling in fi
 msgstr "変更検知を実行する前にこのコードを実行します。フィールドへの入力などのアクションに便利です。"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "詳細なヘルプと例はこちら"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "リクエストボディで変数を使用できます"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "リクエストヘッダー値で変数を使用できます"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "アラート！追加ヘッダーファイルが見つかりました。このウォッチに追加されます！"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "ヘッダーはデータディレクトリのファイルからも読み込めます"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "詳しくはこちら"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Seleniumブラウザではサポートされていません"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "テキスト検索をオンにする"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "お待ちください。最初のブラウザステップの読み込みに少し時間がかかる場合があります.."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "クリックして開始"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Please allow 10-15 seconds for the browser to connect."
 msgstr "ブラウザの接続に10〜15秒お待ちください。"
 

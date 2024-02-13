@@ -26,6 +26,59 @@ from babel.messages.catalog import Catalog
 from babel.messages.mofile import write_mo
 from flask import url_for
 
+PKG_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_ROOT = os.path.dirname(PKG_DIR)
+OVERLAY_DIR = os.path.join(PKG_DIR, 'translations_overlay')
+BASE_DIR = os.path.join(PKG_DIR, 'translations')
+MANAGE = os.path.join(OVERLAY_DIR, 'manage.py')
+
+# A msgid that renders as a settings-page tab label. The test asserts it is present *before*
+# overriding it, so a rename upstream fails loudly rather than making the test silently vacuous.
+OVERRIDDEN_MSGID = 'Global Filters'
+SENTINEL = 'zzOverlaySentinelFiltersZZ'
+
+
+def _write_mo(root, locale, entries):
+    """Write a compiled catalog at <root>/<locale>/LC_MESSAGES/messages.mo."""
+    catalog = Catalog(locale=locale, domain='messages')
+    for msgid, msgstr in entries.items():
+        catalog.add(msgid, msgstr)
+    mo_dir = os.path.join(root, locale, 'LC_MESSAGES')
+    os.makedirs(mo_dir, exist_ok=True)
+    with open(os.path.join(mo_dir, 'messages.mo'), 'wb') as fp:
+        write_mo(fp, catalog)
+
+
+def _import_app_with(env_overlay_dir):
+    """Import flask_app in a clean subprocess and report its BABEL_TRANSLATION_DIRECTORIES.
+
+    Has to be a subprocess: the config is built at module import time, so it cannot be re-evaluated
+    under a different environment once flask_app is already in sys.modules.
+    """
+    env = dict(os.environ, TRANSLATION_OVERLAY_DIR=env_overlay_dir)
+    result = subprocess.run(
+        [
+            sys.executable,
+            '-c',
+            'from changedetectionio import flask_app;'
+            'print("DIRS=" + flask_app.app.config["BABEL_TRANSLATION_DIRECTORIES"])',
+        ],
+        capture_output=True,
+        text=True,
+        env=env,
+        cwd=REPO_ROOT,
+    )
+    assert result.returncode == 0, f"importing flask_app failed:\n{result.stdout}\n{result.stderr}"
+    line = [l for l in result.stdout.splitlines() if l.startswith('DIRS=')]
+    assert line, f"no config line in output:\n{result.stdout}\n{result.stderr}"
+    return line[0][len('DIRS=') :].split(';')
+
+
+# ---------------------------------------------------------------------------
+# 1. The overlay catalogs shipped in this repo are internally consistent
+# ---------------------------------------------------------------------------
+
+
 @pytest.mark.skipif(
     not os.path.isdir(OVERLAY_DIR), reason='no translation overlay in this deployment'
 )
