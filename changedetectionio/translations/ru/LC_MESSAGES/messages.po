@@ -2134,6 +2134,49 @@ msgstr "Токены AI (всего)"
 msgid "Download latest HTML snapshot"
 msgstr "Загрузить последний снимок HTML"
 
+#: changedetectionio/blueprint/ui/templates/preview.html
+msgid "Current erroring screenshot from most recent request"
+msgstr "Текущий скриншот с ошибкой из последнего запроса"
+
+#: changedetectionio/blueprint/ui/templates/preview.html
+msgid "Screenshot requires a Content Fetcher ( Sockpuppetbrowser, selenium, etc ) that supports screenshots."
+msgstr ""
+"Для создания снимков экрана требуется сборщик контента (Sockpuppetbrowser, selenium и т. д.), поддерживающий снимки "
+"экрана."
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+#, python-format
+msgid "Worker %(num)s"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "— idle"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "running"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "idle"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "done"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "cancel"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "No workers configured and queue is empty"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Watch no longer exists"
+msgstr ""
+
 #: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
 msgid "UnPause checks"
 msgstr "Возобновить проверку"
