@@ -26,6 +26,19 @@ def _set_response(datastore_path, content):
         f.write(content)
 
 
+def _configure_llm(client):
+    ds = client.application.config.get('DATASTORE')
+    # Merge into the existing llm dict so other test setup (e.g. change_summary_default
+    # set via _set_global_default) survives.
+    existing = ds.data['settings']['application'].get('llm') or {}
+    existing.update({'model': 'gpt-4o-mini', 'api_key': 'sk-test'})
+    ds.data['settings']['application']['llm'] = existing
+
+
+# ---------------------------------------------------------------------------
+# Form field persistence
+# ---------------------------------------------------------------------------
+
 def test_llm_change_summary_saved_via_edit_form(
         client, live_server, measure_memory_usage, datastore_path):
     """llm_change_summary submitted via watch edit form is persisted."""
