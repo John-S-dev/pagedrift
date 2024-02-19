@@ -18,6 +18,18 @@ smtp_test_server = os.getenv('SMTP_TEST_MAILSERVER', 'mailserver')
 
 ALL_MARKUP_TOKENS = ''.join(f"TOKEN: '{t}'\n{{{{{t}}}}}\n" for t in NotificationContextData().keys())
 
+def get_last_message_from_smtp_server():
+    import requests
+    time.sleep(1) # wait for any smtp connects to die off
+    port = 11080  # HTTP server port number
+    # Make HTTP GET request to Flask server
+    response = requests.get(f'http://{smtp_test_server}:{port}/')
+    data = response.text
+    logging.info("get_last_message_from_smtp_server..")
+    logging.info(data)
+    return data
+
+
 def test_check_notification_email_formats_default_HTML(client, live_server, measure_memory_usage, datastore_path):
     ##  live_server_setup(live_server) # Setup on conftest per function
     set_original_response(datastore_path=datastore_path)
