@@ -282,6 +282,51 @@ def cancel_running_uuid(uuid, update_q=None, notification_q=None, app=None, data
     return {'cancelled': True, 'worker_id': worker_id, 'replaced': replaced}
 
 
+def claim_uuid_for_processing(uuid, worker_id):
+    """
+    Atomically check if UUID is available and claim it for processing.
+
+    This is thread-safe and prevents race conditions where multiple workers
+    try to process the same UUID simultaneously.
+
+    Args:
+        uuid: The watch UUID to claim
+        worker_id: The ID of the worker claiming this UUID
+
+    Returns:
+        True if successfully claimed (UUID was not being processed)
+        False if already being processed by another worker
+    """
+    with _uuid_processing_lock:
+        if uuid in currently_processing_uuids:
+            # Already being processed by another worker
+            return False
+        # Claim it atomically
+        currently_processing_uuids[uuid] = worker_id
+        import time as _t
+        _uuid_started_at[uuid] = _t.time()
+        logger.debug(f"Worker {worker_id} claimed UUID: {uuid}")
+        return True
+
+
+def release_uuid_from_processing(uuid, worker_id):
+    """
+    Release a UUID from processing (thread-safe).
+
+    Args:
+        uuid: The watch UUID to release
+        worker_id: The ID of the worker releasing this UUID
+    """
+    with _uuid_processing_lock:
+        # Only remove if this worker owns it (defensive)
+        if currently_processing_uuids.get(uuid) == worker_id:
+            currently_processing_uuids.pop(uuid, None)
+            _uuid_started_at.pop(uuid, None)
+            logger.debug(f"Worker {worker_id} released UUID: {uuid}")
+        else:
+            logger.warning(f"Worker {worker_id} tried to release UUID {uuid} but doesn't own it (owned by {currently_processing_uuids.get(uuid, 'nobody')})")
+
+
 def is_watch_running_by_another_worker(watch_uuid, current_worker_id):
     """Check if a specific watch is currently being processed by a different worker"""
     with _uuid_processing_lock:
