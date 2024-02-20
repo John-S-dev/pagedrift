@@ -57,6 +57,66 @@ def create_backup_tarball(datastore_path, update_number):
     backup_filename = f"before-update-{update_number}-{timestamp}.tar.gz"
     backup_path = os.path.join(datastore_path, backup_filename)
 
+    try:
+        logger.info(f"Creating backup tarball: {backup_filename}")
+
+        with tarfile.open(backup_path, "w:gz") as tar:
+            # Backup changedetection.json if it exists (new format)
+            changedetection_json = os.path.join(datastore_path, "changedetection.json")
+            if os.path.isfile(changedetection_json):
+                tar.add(changedetection_json, arcname="changedetection.json")
+                logger.debug("Added changedetection.json to backup")
+
+            # Backup url-watches.json if it exists (legacy format)
+            url_watches_json = os.path.join(datastore_path, "url-watches.json")
+            if os.path.isfile(url_watches_json):
+                tar.add(url_watches_json, arcname="url-watches.json")
+                logger.debug("Added url-watches.json to backup")
+
+            # Backup all watch/tag directories with their JSON files
+            # This preserves the UUID directory structure
+            watch_count = 0
+            tag_count = 0
+            for entry in os.listdir(datastore_path):
+                entry_path = os.path.join(datastore_path, entry)
+
+                # Skip if not a directory
+                if not os.path.isdir(entry_path):
+                    continue
+
+                # Skip hidden directories and backup directories
+                if entry.startswith('.') or entry.startswith('before-update-'):
+                    continue
+
+                # Backup watch.json if exists
+                watch_json = os.path.join(entry_path, "watch.json")
+                if os.path.isfile(watch_json):
+                    tar.add(watch_json, arcname=f"{entry}/watch.json")
+                    watch_count += 1
+
+                    if watch_count % 100 == 0:
+                        logger.debug(f"Backed up {watch_count} watch.json files...")
+
+                # Backup tag.json if exists
+                tag_json = os.path.join(entry_path, "tag.json")
+                if os.path.isfile(tag_json):
+                    tar.add(tag_json, arcname=f"{entry}/tag.json")
+                    tag_count += 1
+
+            logger.success(f"Backup created: {backup_filename} ({watch_count} watches from disk, {tag_count} tags from disk)")
+            return backup_path
+
+    except Exception as e:
+        logger.error(f"Failed to create backup tarball: {e}")
+        # Try to clean up partial backup
+        if os.path.exists(backup_path):
+            try:
+                os.unlink(backup_path)
+            except:
+                pass
+        return None
+
+
 class DatastoreUpdatesMixin:
     """
     Mixin class containing all schema update methods.
