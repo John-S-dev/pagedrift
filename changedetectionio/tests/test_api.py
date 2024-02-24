@@ -864,3 +864,8 @@ def test_api_watch_get_returns_resolved_restock_processor_config(client, live_se
     delete_all_watches(client)
 
 
+def test_api_conflict_UI_password(client, live_server, measure_memory_usage, datastore_path):
+
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
