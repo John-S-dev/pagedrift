@@ -2892,6 +2892,51 @@ msgid "Invalid value."
 msgstr "Valore non valido."
 
 #: changedetectionio/forms.py
+msgid "Processor - What do you want to achieve?"
+msgstr "Processore - Cosa vuoi ottenere?"
+
+#: changedetectionio/forms.py
+msgid "Default timezone for watch check scheduler"
+msgstr "Fuso orario predefinito per pianificazione controlli"
+
+#: changedetectionio/forms.py
+msgid "Wait seconds before extracting text"
+msgstr "Secondi di attesa prima di estrarre il testo"
+
+#: changedetectionio/forms.py
+msgid "Should contain one or more seconds"
+msgstr "Deve contenere uno o più secondi"
+
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "URL base notifiche"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "Salva"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Carica file .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Deve essere un file .xlsx!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Mappatura file"
+
+#: changedetectionio/forms.py
 msgid "Operation"
 msgstr "Operazione"
 
