@@ -2888,6 +2888,47 @@ msgid "Saturday"
 msgstr "Субота"
 
 #: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Неділя"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Тижні"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "Має містити нуль або більше секунд"
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "Дні"
+
+#: changedetectionio/forms.py
+msgid "Hours"
+msgstr "Години"
+
+#: changedetectionio/forms.py
+msgid "Minutes"
+msgstr "Хвилини"
+
+#: changedetectionio/forms.py
+msgid "Seconds"
+msgstr "Секунди"
+
+#: changedetectionio/forms.py
+msgid "Unknown fetch method."
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr "Тіло та заголовок сповіщення обов'язкові, якщо використовується URL сповіщення"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr "'%s' не є допустимим URL AppRise."
+
+#: changedetectionio/forms.py
 msgid "Notification base URL override"
 msgstr "Перевизначення базового URL сповіщень"
 
