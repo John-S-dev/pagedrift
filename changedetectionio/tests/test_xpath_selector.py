@@ -260,3 +260,80 @@ def test_xpath23_prefix_validation(client, live_server, measure_memory_usage, da
     assert b"is not a valid XPath expression" in res.data
     delete_all_watches(client)
 
+# actually only really used by the distll.io importer, but could be handy too
+def test_check_with_prefix_include_filters(client, live_server, measure_memory_usage, datastore_path):
+    delete_all_watches(client)
+
+    set_original_response(datastore_path=datastore_path)
+    wait_for_all_checks(client)
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"include_filters": "xpath://*[contains(@class, 'sametext')]", "url": test_url, "tags": "", "headers": "",
+              'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+
+    assert b"Updated watch." in res.data
+    wait_for_all_checks(client)
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+
+    assert b"Some text thats the same" in res.data  # in selector
+    assert b"Some text that will change" not in res.data  # not in selector
+
+    delete_all_watches(client)
+
+
+def test_various_rules(client, live_server, measure_memory_usage, datastore_path):
+    # Just check these don't error
+    ##  live_server_setup(live_server) # Setup on conftest per function
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write("""<html>
+       <body>
+     Some initial text<br>
+     <p>Which is across multiple lines</p>
+     <br>
+     So let's see what happens.  <br>
+     <div class="sametext">Some text thats the same</div>
+     <div class="changetext">Some text that will change</div>
+     <a href=''>some linky </a>
+     <a href=''>another some linky </a>
+     <!-- related to https://github.com/dgtlmoon/changedetection.io/pull/1774 -->
+     <input   type="email"   id="email" />     
+     </body>
+     </html>
+    """)
+
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    for r in ['//div', '//a', 'xpath://div', 'xpath://a']:
+        res = client.post(
+            url_for("ui.ui_edit.edit_page", uuid="first"),
+            data={"include_filters": r,
+                  "url": test_url,
+                  "tags": "",
+                  "headers": "",
+                  'fetch_backend': "html_requests",
+                  "time_between_check_use_default": "y"},
+            follow_redirects=True
+        )
+        wait_for_all_checks(client)
+        assert b"Updated watch." in res.data
+        res = client.get(url_for("watchlist.index"))
+        assert b'fetch-error' not in res.data, f"Should not see errors after '{r} filter"
+
+    delete_all_watches(client)
+
+
