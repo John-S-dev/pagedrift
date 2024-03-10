@@ -680,6 +680,71 @@ def test_api_watch_PUT_update(client, live_server, measure_memory_usage, datasto
     assert b"One" in res.data, "Tag 'One' was found"
     assert b"Two" in res.data, "Tag 'Two' was found"
 
+    # HTTP PUT ( UPDATE an existing watch )
+    res = client.put(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        data=json.dumps({
+            "title": "new title",
+            'time_between_check': {'minutes': 552},
+            'headers': {'cookie': 'all eaten'},
+            'last_viewed': int(time.time())
+        }),
+    )
+    assert res.status_code == 200, "HTTP PUT update was sent OK"
+
+    # HTTP GET single watch, title should be updated
+    res = client.get(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key}
+    )
+    assert res.json.get('title') == 'new title'
+    assert res.json.get('viewed'), 'With the timestamp greater than "changed" a watch can be updated to viewed'
+
+    # Check in the edit page just to be sure
+    res = client.get(
+        url_for("ui.ui_edit.edit_page", uuid=watch_uuid),
+    )
+    assert b"new title" in res.data, "new title found in edit page"
+    assert b"552" in res.data, "552 minutes found in edit page"
+    assert b"One" in res.data, "Tag 'One' was found"
+    assert b"Two" in res.data, "Tag 'Two' was found"
+    assert b"cookie: all eaten" in res.data, "'cookie: all eaten' found in 'headers' section"
+
+    ######################################################
+
+    # HTTP PUT try a field that doesn't exist
+
+    # HTTP PUT an update
+    res = client.put(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        data=json.dumps({"title": "new title", "some other field": "uh oh"}),
+    )
+
+    assert res.status_code == 400, "Should get error 400 when we give a field that doesnt exist"
+    # Backend validation now rejects unknown fields with a clear error message
+    assert (b'Unknown field' in res.data or
+            b'Additional properties are not allowed' in res.data or
+            b'Unevaluated properties are not allowed' in res.data or
+            b'does not match any of the regexes' in res.data), \
+            "Should reject unknown fields with validation error"
+
+
+    # Try a XSS URL
+    res = client.put(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        data=json.dumps({
+            'url': 'javascript:alert(document.domain)'
+        }),
+    )
+    assert res.status_code == 400
+
+    # Cleanup everything
+    delete_all_watches(client)
+
+
 def test_api_import_small_synchronous(client, live_server, measure_memory_usage, datastore_path):
     """Test that small imports (< threshold) are processed synchronously"""
     from changedetectionio.api.Import import IMPORT_SWITCH_TO_BACKGROUND_THRESHOLD
