@@ -1918,6 +1918,46 @@ msgid "Next"
 msgstr "Следующий"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Browser Steps"
+msgstr "Шаги браузера"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Filter Selector"
+msgstr "Выбор визуального фильтра"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Conditions"
+msgstr "Условия"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Stats"
+msgstr "Статистика"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Some sites use JavaScript to create the content, for this you should"
+msgstr "Некоторые сайты используют JavaScript для создания контента, для этого вам следует"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "use the Chrome/WebDriver Fetcher"
+msgstr "используйте Chrome/WebDriver Fetcher"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the URL"
+msgstr "В URL-адресе поддерживаются переменные."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "help and examples here"
+msgstr "помощь и примеры здесь"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Organisational tag/group name used in the main listing page"
+msgstr "Название организационного тега/группы, используемое на главной странице листинга."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Also automatically applied by URL pattern:"
+msgstr "Также автоматически применяется по шаблону URL:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Run this code before performing change detection, handy for filling in fields and other actions"
 msgstr "Запустите этот код перед обнаружением изменений, что удобно для заполнения полей и других действий."
 
