@@ -156,6 +156,49 @@ def test_group_edit_page_has_the_ternary_ai_control(
     delete_all_watches(client)
 
 
+def test_watch_edit_page_has_a_plain_ai_checkbox(
+        client, live_server, measure_memory_usage, datastore_path):
+    """A watch gets a simple on/off, not the group's three-way choice."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    watch_uuid = _create_watch(client, url_for('test_endpoint', _external=True), api_token)
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+
+    assert 'name="llm_intent"' in body  # AI section is rendered...
+    assert 'type="checkbox"' in _input_tag(body, 'llm_backend_profile')
+    assert 'Leave it to each watch' not in _page_text(res), \
+        "the group's three-way AI choice must not appear on a watch"
+
+    delete_all_watches(client)
+
+
+def test_group_edit_page_never_shows_the_from_group_placeholder(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    "From group ..." describes something inherited by a watch; the group edit page is
+    where the value is authored, so it must show group-flavoured copy instead.
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+
+    tag_uuid = _add_tag_with_llm(ds, 'Authoring Group', llm_intent='Group intent value')
+
+    res = client.get(url_for('tags.form_tag_edit', uuid=tag_uuid))
+    assert res.status_code == 200
+    text = _page_text(res)
+
+    assert 'From group' not in text
+    # Group copy, not the per-watch copy (both live in the same shared include)
+    assert 'Set a change intent for all watches in this tag/group' in text
+    assert 'Describe what you care about' not in text
+
+    delete_all_watches(client)
+
+
 def test_group_edit_form_saves_and_reloads_each_ai_state(
         client, live_server, measure_memory_usage, datastore_path):
     """All three states round-trip through the real form, and the prompt is kept regardless."""
