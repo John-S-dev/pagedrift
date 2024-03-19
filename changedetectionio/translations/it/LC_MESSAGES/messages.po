@@ -3310,3 +3310,45 @@ msgstr ""
 msgid "Minimum Change Percentage"
 msgstr "Percentuale minima di modifica"
 
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Watch limit reached ({current}/{limit} watches). Cannot add more watches."
+msgstr "Limite di monitoraggi raggiunto ({current}/{limit}). Impossibile aggiungerne altri."
+
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Error fetching metadata for {}"
+msgstr "Errore nel recupero metadati per {}"
+
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "Protocollo non consentito o formato URL non valido"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "Corpo per tutte le notifiche — Puoi usare"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr ""
+
