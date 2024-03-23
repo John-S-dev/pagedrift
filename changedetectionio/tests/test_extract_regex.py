@@ -68,6 +68,9 @@ def set_multiline_response(datastore_path):
     return None
 
 
+# def test_setup(client, live_server, measure_memory_usage, datastore_path):
+   #  live_server_setup(live_server) # Setup on conftest per function
+
 def test_check_filter_and_regex_extract(client, live_server, measure_memory_usage, datastore_path):
     
     include_filters = ".changetext"
