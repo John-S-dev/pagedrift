@@ -327,6 +327,27 @@ def release_uuid_from_processing(uuid, worker_id):
             logger.warning(f"Worker {worker_id} tried to release UUID {uuid} but doesn't own it (owned by {currently_processing_uuids.get(uuid, 'nobody')})")
 
 
+def set_uuid_processing(uuid, worker_id=None, processing=True):
+    """
+    Mark a UUID as being processed or completed by a specific worker.
+
+    DEPRECATED: Use claim_uuid_for_processing() and release_uuid_from_processing() instead.
+    This function is kept for backward compatibility but doesn't provide atomic check-and-set.
+    """
+    if processing:
+        with _uuid_processing_lock:
+            currently_processing_uuids[uuid] = worker_id
+            logger.debug(f"Worker {worker_id} started processing UUID: {uuid}")
+    else:
+        release_uuid_from_processing(uuid, worker_id)
+
+
+def is_watch_running(watch_uuid):
+    """Check if a specific watch is currently being processed by any worker"""
+    with _uuid_processing_lock:
+        return watch_uuid in currently_processing_uuids
+
+
 def is_watch_running_by_another_worker(watch_uuid, current_worker_id):
     """Check if a specific watch is currently being processed by a different worker"""
     with _uuid_processing_lock:
