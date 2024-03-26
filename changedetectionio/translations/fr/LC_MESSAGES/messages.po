@@ -2640,3 +2640,47 @@ msgstr ""
 msgid "API access token security check enabled"
 msgstr "Contrôle de sécurité du jeton d'accès à l'API activé"
 
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "Considérer les pages vides comme un changement ?"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "Ignorer le texte"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "Ignorer les espaces"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Doit être compris entre 0 et 100"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Mot de passe"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Taille de la mémoire"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "Doit être au moins zéro (désactivé)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "Format du contenu RSS"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "RSS <description> corps construit à partir de"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "Ecraser le template RSS par défaut"
+
