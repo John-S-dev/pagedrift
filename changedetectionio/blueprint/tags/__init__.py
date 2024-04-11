@@ -156,3 +156,25 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         if uuid == 'first':
             uuid = list(datastore.data['settings']['application']['tags'].keys()).pop()
 
+        # Until then, validate the fields that must not be taken on trust - tag_colour is
+        # rendered into a <style> block, where anything but a hex colour is CSS injection
+        if not form.tag_colour.validate(form):
+            for message in form.tag_colour.errors:
+                flash(message, 'error')
+            return redirect(url_for('tags.form_tag_edit', uuid=uuid))
+
+        tag.update(form.data)
+        tag['processor'] = 'restock_diff'
+        tag.commit()
+
+        # Clear checksums for all watches using this tag to force reprocessing
+        # Tag changes affect inherited configuration
+        cleared_count = datastore.clear_checksums_for_tag(uuid)
+        logger.info(f"Tag {uuid} updated, cleared {cleared_count} watch checksums")
+
+        flash(gettext("Updated"))
+
+        return redirect(url_for('tags.tags_overview_page'))
+
+
+    return tags_blueprint
