@@ -117,3 +117,85 @@ Line 10"""
         # Test with 1 line of context
         output = diff.render_diff(before, after, include_equal=False, context_lines=1, word_diff=True)
         
+        lines = [l for l in output.split("\n") if l.strip()]
+        # Should show changed lines + 1 line before and after each
+        self.assertIn('Line 3', output)  # 1 line before first change
+        self.assertIn('Line 5', output)  # 1 line after first change
+        self.assertIn('Line 7', output)  # 1 line before second change
+        self.assertIn('Line 9', output)  # 1 line after second change
+        self.assertGreater(len(lines), 2)  # More than just the changed lines
+
+        # Test with 2 lines of context
+        output = diff.render_diff(before, after, include_equal=False, context_lines=2, word_diff=True)
+        
+        lines = [l for l in output.split("\n") if l.strip()]
+        # Should show changed lines + 2 lines before and after each
+        self.assertIn('Line 2', output)  # 2 lines before first change
+        self.assertIn('Line 6', output)  # 2 lines after first change
+        self.assertGreater(len(lines), 6)  # Even more context
+
+    def test_context_lines_with_include_equal(self):
+        """Test that context_lines is ignored when include_equal=True"""
+        before = """Line 1
+Line 2
+Changed line
+Line 4"""
+
+        after = """Line 1
+Line 2
+Modified line
+Line 4"""
+
+        # With include_equal=True, context_lines should be ignored
+        output_with_context = diff.render_diff(before, after, include_equal=True, context_lines=1)
+        output_without_context = diff.render_diff(before, after, include_equal=True, context_lines=0)
+
+        # Both should show all lines
+        self.assertIn('Line 1', output_with_context)
+        self.assertIn('Line 4', output_with_context)
+        self.assertIn('Line 1', output_without_context)
+        self.assertIn('Line 4', output_without_context)
+
+    def test_case_insensitive_comparison(self):
+        """Test case-insensitive diff comparison"""
+        before = "The Quick Brown Fox"
+        after = "The QUICK brown FOX"
+
+        # With case-sensitive (default), should detect changes
+        output = diff.render_diff(before, after, include_equal=False, case_insensitive=False, word_diff=False)
+        self.assertIn(f'{CHANGED_PLACEMARKER_OPEN}The Quick Brown Fox{CHANGED_PLACEMARKER_CLOSED}', output)
+
+        # With case-insensitive, should detect no changes
+        output = diff.render_diff(before, after, include_equal=False, case_insensitive=True)
+        
+
+        # Should be empty or minimal since texts are equal when ignoring case
+        lines = [l for l in output.split("\n") if l.strip()]
+        self.assertEqual(len(lines), 0, "Case-insensitive comparison should find no differences")
+
+    def test_case_insensitive_with_real_changes(self):
+        """Test case-insensitive comparison with actual content differences"""
+        before = "Hello World\nGoodbye WORLD to all my friends and family"
+        after = "HELLO world\nGoodbye Friend to all my friends and family"
+
+        # Case-insensitive should only detect the second line change
+        output = diff.render_diff(before, after, include_equal=False, case_insensitive=True, word_diff=True)
+        
+
+        # First line should not appear (same when ignoring case)
+        self.assertNotIn('Hello', output)
+        self.assertNotIn('HELLO', output)
+
+        # Second line should show the word change
+        self.assertIn(f'{REMOVED_PLACEMARKER_OPEN}WORLD{REMOVED_PLACEMARKER_CLOSED}', output)
+        self.assertIn(f'{ADDED_PLACEMARKER_OPEN}Friend{ADDED_PLACEMARKER_CLOSED}', output)
+
+    def test_case_insensitive_html_output(self):
+        """Test case-insensitive comparison with HTML output"""
+        before = "Price: $100"
+        after = "PRICE: $200"
+
+        # Case-insensitive should only highlight the price change
+        output = diff.render_diff(before, after, include_equal=False, case_insensitive=True, word_diff=True)
+        
+
