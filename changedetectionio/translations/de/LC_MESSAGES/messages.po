@@ -2008,6 +2008,54 @@ msgid "Read more here"
 msgstr "Lesen Sie hier mehr"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Wird vom Selenium-Browser nicht unterstützt"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Schalten Sie den Textfinder ein"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Bitte warten Sie, der erste Schritt des Browsers kann etwas Zeit zum Laden benötigen."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "Klicken Sie hier, um zu starten"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "Bitte warten Sie 10–15 Sekunden, bis der Browser eine Verbindung herstellt."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "Drücken Sie „Play“, um zu starten."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "Die Daten des visuellen Selektors sind noch nicht bereit, die Überwachung muss mindestens einmal überprüft werden."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr ""
+"Leider funktioniert diese Funktion nur mit Fetchern, die interaktives JavaScript unterstützen (bisher nur Playwright-"
+"basierte Fetcher)."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "zu einer, die interaktives Javascript unterstützt."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "Das musst du"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "Legen Sie die Fetch-Methode fest"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "when you're interested in new content."
 msgstr "wenn Sie an neuen Inhalten interessiert sind."
 
