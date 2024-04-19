@@ -2515,6 +2515,46 @@ msgid "in '%(title)s'"
 msgstr "em '%(title)s'"
 
 #: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "RSS Feed"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Invert"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Pause"
+msgstr "Pausar"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "UnPause"
+msgstr "Retomar"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Mute"
+msgstr "Silenciar"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "UnMute"
+msgstr "Reativar"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Tag"
+msgstr "Tag"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Set browser / fetch method for selected"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Apply"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Set proxy for selected"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
 msgid "Mark viewed"
 msgstr "Marcar como visualizado"
 
