@@ -202,3 +202,27 @@ def test_backup_restore(client, live_server, measure_memory_usage, datastore_pat
         f"Tag 2 not properly rehydrated, got {type(restored_tag2)}"
 
 
+def test_backup_restore_zip_slip_rejected(client, live_server, measure_memory_usage, datastore_path):
+    """Zip Slip path traversal entries in a restore zip must be rejected."""
+    import pytest
+    from changedetectionio.blueprint.backups.restore import import_from_zip
+
+    # Build a zip with a path traversal entry that would escape the extraction dir
+    malicious_zip = io.BytesIO()
+    with ZipFile(malicious_zip, 'w') as zf:
+        zf.writestr("../escaped.txt", "ATTACKER-CONTROLLED")
+    malicious_zip.seek(0)
+
+    datastore = live_server.app.config['DATASTORE']
+
+    with pytest.raises(ValueError, match="Zip Slip"):
+        import_from_zip(
+            zip_stream=malicious_zip,
+            datastore=datastore,
+            include_groups=True,
+            include_groups_replace=True,
+            include_watches=True,
+            include_watches_replace=True,
+        )
+
+
