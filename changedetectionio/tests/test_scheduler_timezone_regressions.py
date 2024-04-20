@@ -28,3 +28,59 @@ from flask import url_for
 from .util import live_server_setup, wait_for_all_checks, set_original_response
 
 
+DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+
+def _schedule_form(url, enabled_days=('monday',)):
+    data = {
+        "url": url,
+        "fetch_backend": "html_requests",
+        "time_between_check_use_default": "",
+        "time_between_check-seconds": 1,
+        "time_schedule_limit-enabled": 'y',
+    }
+    for day in DAYS:
+        data[f"time_schedule_limit-{day}-start_time"] = "00:00"
+        data[f"time_schedule_limit-{day}-duration-hours"] = 24
+        data[f"time_schedule_limit-{day}-duration-minutes"] = 0
+        if day in enabled_days:
+            data[f"time_schedule_limit-{day}-enabled"] = 'y'
+    return data
+
+
+def _full_schedule(enabled=True, timezone=None):
+    sched = {'enabled': True}
+    for day in DAYS:
+        sched[day] = {'enabled': enabled, 'start_time': '00:00',
+                      'duration': {'hours': '24', 'minutes': '00'}}
+    if timezone is not None:
+        sched['timezone'] = timezone
+    return sched
+
+
+def test_edit_page_saves_when_no_default_timezone_configured(client, live_server, measure_memory_usage, datastore_path):
+    """BUG 1: enabling the scheduler with scheduler_timezone_default unset 500'd."""
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+    datastore = live_server.app.config['DATASTORE']
+
+    # This is the default state from model/App.py - key present, value None.
+    datastore.data['settings']['application']['scheduler_timezone_default'] = None
+
+    uuid = datastore.add_watch(url=test_url)
+    wait_for_all_checks(client)
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid=uuid),
+        data=_schedule_form(test_url),
+        follow_redirects=True,
+    )
+
+    assert res.status_code == 200, f"expected 200, got {res.status_code}"
+    assert b"Internal Server Error" not in res.data
+    assert b"Updated watch." in res.data
+
+    # and the schedule really was saved
+    assert datastore.data['watching'][uuid]['time_schedule_limit']['enabled'] is True
+
+
