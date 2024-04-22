@@ -66,6 +66,53 @@ handle `<i>` (see CJK section below).
 <i>{{ _('check unique lines') }}</i>
 {{ _('below.') }}
 
+{# GOOD: one msgid, rendered with |safe #}
+{{ _('Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below.') | safe }}
+```
+
+### Pattern 2 — URL as kwarg
+
+Pass URLs via `%(name)s` so translators can freely reorder them.
+
+```jinja
+{# BAD: URL hardcoded between three fragments #}
+{{ _('Use') }}
+<a target="newwindow" href="https://github.com/caronc/apprise">{{ _('AppRise Notification URLs') }}</a>
+{{ _('for notification to just about any service!') }}
+
+{# GOOD: URL passed as kwarg, <a> embedded in the msgid #}
+{{ _('Use <a target="newwindow" href="%(url)s">AppRise Notification URLs</a> for notification to just about any service!',
+     url='https://github.com/caronc/apprise') | safe }}
+```
+
+### Pattern 3 — Literal `{{}}` escape as kwarg
+
+Jinja2 would double-interpolate `{{token}}` inside a `_()` call. Pass it as a kwarg instead.
+
+```jinja
+{# BAD: literal {{token}} in the middle forces splitting #}
+{{ _('Accepts the') }} <code>{{ '{{token}}' }}</code> {{ _('placeholders listed below') }}
+
+{# GOOD: literal passed as kwarg; msgid stays as an entire sentence #}
+{{ _('Accepts the <code>%(token)s</code> placeholders listed below', token='{{token}}') | safe }}
+```
+
+### Pattern 4 — `{% if %}` outside the `msgid`
+
+Move conditional branches outside `_()` so each branch is a complete sentence, not a fragment.
+
+```jinja
+{# BAD: three fragments; SOV languages can't reorder %(title)s relative to "URL or Title" #}
+{{ _('URL or Title') }}{% if active_tag_uuid %} {{ _('in') }} '{{ active_tag.title }}'{% endif %}
+
+{# GOOD: branch between two complete msgids; each language can freely reorder %(title)s #}
+{% if active_tag_uuid %}
+  {{ _("URL or Title in '%(title)s'", title=active_tag.title) }}
+{% else %}
+  {{ _('URL or Title') }}
+{% endif %}
+```
+
 ---
 
 ## CJK italic policy
