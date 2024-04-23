@@ -2720,6 +2720,46 @@ msgid "year"
 msgstr "年"
 
 #: changedetectionio/flask_app.py
+msgid "years"
+msgstr "年"
+
+#: changedetectionio/flask_app.py
+msgid "month"
+msgstr "ヶ月"
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr "ヶ月"
+
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr "週"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "週"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "日"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "日"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "時間"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "時間"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "分"
+
+#: changedetectionio/flask_app.py
 msgid "minutes"
 msgstr "分"
 
