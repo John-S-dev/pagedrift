@@ -397,6 +397,48 @@ window.initVisualSelector = function (opts) {
         // Save initial mode
         $selectionModeField.val(drawMode ? 'draw' : 'element');
 
+    function disableDrawMode() {
+        console.log('Disabling draw mode, switching to element mode...');
+
+        // Unbind draw handlers
+        $selectorCanvasElem.unbind('mousedown mousemove mouseup mouseleave');
+
+        // Reset cursor
+        $selectorCanvasElem.css('cursor', 'default');
+
+        // Clear drawn box
+        drawnBox = null;
+        $('#bounding_box').val('');
+
+        // Clear the canvases
+        if (ctx && xctx) {
+            ctx.clearRect(0, 0, c.width, c.height);
+            xctx.clearRect(0, 0, c.width, c.height);
+        }
+
+        // Restore element selections from include_filters
+        currentSelections = [];
+        if (selectorData && selectorData['size_pos']) {
+            let existingFilters = splitToList($includeFiltersElem.val());
+
+            selectorData['size_pos'].forEach(sel => {
+                if ((!runInClearMode && sel.highlight_as_custom_filter) || existingFilters.includes(sel.xpath)) {
+                    console.log("Restoring selection: " + sel.xpath);
+                    currentSelections.push(sel);
+                }
+            });
+        }
+
+        // Re-enable element selection handlers using stored references
+        if (elementHandlers.handleMouseMove) {
+            $selectorCanvasElem.bind('mousemove', elementHandlers.handleMouseMove);
+            $selectorCanvasElem.bind('mousedown', elementHandlers.handleMouseDown);
+            $selectorCanvasElem.bind('mouseleave', elementHandlers.handleMouseLeave);
+        }
+
+        // Restore the element selection display
+        $selectorCurrentXpathElem.html(i18nT('vsHover', 'Hover over elements to select'));
+
         // Highlight the restored selections
         highlightCurrentSelected();
     }
