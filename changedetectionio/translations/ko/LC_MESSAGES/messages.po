@@ -3112,3 +3112,45 @@ msgstr "스크린샷"
 msgid "This tool will extract text data from all of the watch history."
 msgstr "모든 모니터링 기록에서 텍스트 데이터를 추출합니다."
 
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "모니터링 프로토콜이 허용되지 않거나 URL 형식이 올바르지 않습니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "모든 알림 본문 — 다음을 사용할 수 있습니다:"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "알림 제목, 본문, URL에 아래 토큰과 함께 템플릿을 사용할 수 있습니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "토큰/자리표시자 보기"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "토큰"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "설명"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "현재 사용 중인 changedetection.io 인스턴스의 URL입니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "모니터링 중인 URL입니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
+"endpoint or RSS feed but you want to link to the real page."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The UUID of the watch."
+msgstr "모니터링 UUID입니다."
+
