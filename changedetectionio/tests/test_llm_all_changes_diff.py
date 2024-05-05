@@ -78,3 +78,72 @@ def test_all_changes_sends_multi_segment_diff_to_llm(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# Single-range diff (all_changes=0, the default)
+# ---------------------------------------------------------------------------
+
+def test_default_mode_sends_single_diff_to_llm(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    With all_changes=0 (or omitted) summarise_change receives a plain
+    unified diff between from_version and to_version only — no segment headers.
+    """
+    _configure_llm(client)
+    uuid, _ = _make_watch_with_three_snapshots(client)
+
+    captured_diff = {}
+
+    def fake_summarise(watch, datastore, diff, current_snapshot=None):
+        captured_diff['diff'] = diff
+        return 'Single-range summary.'
+
+    with patch('changedetectionio.llm.evaluator.summarise_change', side_effect=fake_summarise):
+        res = client.get(url_for(
+            'ui.ui_diff.diff_llm_summary', uuid=uuid,
+            from_version=TS1, to_version=TS3, all_changes=0,
+        ))
+
+    assert res.status_code == 200
+    diff_sent = captured_diff.get('diff', '')
+    assert '\u2192' not in diff_sent, "Segment headers should not appear in single-range mode"
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# Cache key separation: all_changes=1 and all_changes=0 don't share cache
+# ---------------------------------------------------------------------------
+
+def test_all_changes_and_direct_use_separate_cache_keys(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    A cached all_changes=1 summary must not be served for an all_changes=0
+    request on the same from/to pair, and vice-versa.
+    """
+    _configure_llm(client)
+    uuid, _ = _make_watch_with_three_snapshots(client)
+
+    call_count = {'n': 0}
+
+    def fake_summarise(watch, datastore, diff, current_snapshot=None):
+        call_count['n'] += 1
+        return f'Summary call #{call_count["n"]}'
+
+    with patch('changedetectionio.llm.evaluator.summarise_change', side_effect=fake_summarise):
+        # First call: all_changes=1
+        r1 = client.get(url_for(
+            'ui.ui_diff.diff_llm_summary', uuid=uuid,
+            from_version=TS1, to_version=TS3, all_changes=1,
+        ))
+        # Second call: all_changes=0 — must NOT hit the cache from above
+        r2 = client.get(url_for(
+            'ui.ui_diff.diff_llm_summary', uuid=uuid,
+            from_version=TS1, to_version=TS3, all_changes=0,
+        ))
+
+    assert call_count['n'] == 2, "LLM should be called twice (separate cache keys)"
+    assert r1.get_json()['summary'] != r2.get_json()['summary']
+
+    delete_all_watches(client)
+
+
