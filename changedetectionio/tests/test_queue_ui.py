@@ -62,3 +62,114 @@ def _push(update_q, worker_pool, qmeta, uuid, priority=1):
     assert ok, f"queue_item_async_safe returned falsy for {uuid}"
 
 
+def test_queue_state_full_lifecycle(client, live_server, measure_memory_usage, datastore_path):
+    """One consolidated test of pushed items, priority labels, deleted-watch handling, and Clear Queue.
+
+    Combined into one test deliberately — having separate tests revealed cross-test state leakage
+    (workers occasionally surviving teardown) that this single test avoids.
+    """
+    update_q, worker_pool, qmeta = _quiesce(live_server)
+
+    running_uuid = "11111111-1111-1111-1111-111111111111"
+    immediate_uuid = "22222222-2222-2222-2222-222222222222"
+    clone_uuid = "33333333-3333-3333-3333-333333333333"
+    scheduled_uuid = "44444444-4444-4444-4444-444444444444"
+
+    # Mark one synthetic UUID as currently running.
+    assert worker_pool.claim_uuid_for_processing(running_uuid, worker_id=999) is True
+
+    # Push at three different priority classes.
+    _push(update_q, worker_pool, qmeta, immediate_uuid, priority=1)
+    _push(update_q, worker_pool, qmeta, clone_uuid, priority=5)
+    _push(update_q, worker_pool, qmeta, scheduled_uuid, priority=99999)
+
+    # Local sanity check: items are actually in the queue object before the HTTP read.
+    queued_local = update_q.get_queued_uuids()
+    assert set(queued_local) == {immediate_uuid, clone_uuid, scheduled_uuid}, \
+        f"items missing from update_q after push: {queued_local}"
+
+    try:
+        # --- JSON view shows pushed state ---
+        data = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+        assert data["worker_count"] == 0
+        assert data["running_count"] == 1
+        assert data["queued_count"] == 3, f"unexpected queue state: {data!r}"
+        assert data["running"][0]["uuid"] == running_uuid
+        # Synthetic UUIDs aren't in the datastore — should be rendered as 'gone'
+        assert data["running"][0]["gone"] is True
+
+        # --- Priority labels map correctly ---
+        labels = {entry["uuid"]: entry["priority_label"] for entry in data["queued"]}
+        assert labels[immediate_uuid] == "immediate"
+        assert labels[clone_uuid] == "clone"
+        assert labels[scheduled_uuid] == "scheduled"
+        assert data["summary"]["immediate"] == 1
+        assert data["summary"]["clone"] == 1
+        assert data["summary"]["scheduled"] == 1
+
+        # --- Deleted-watch placeholder ---
+        for entry in data["queued"]:
+            assert entry["gone"] is True
+            assert entry.get("title") is None
+            assert entry.get("url") is None
+
+        # --- HTML view also surfaces the queued UUIDs ---
+        html = client.get(url_for("ui.ui_queue.queue_page")).data
+        for uuid in (immediate_uuid, clone_uuid, scheduled_uuid):
+            assert uuid.encode("utf-8") in html
+
+        # --- POST /queue/clear empties pending ---
+        res = client.post(
+            url_for("ui.ui_queue.queue_clear"),
+            data={"csrf_token": "test"},
+            follow_redirects=True,
+        )
+        assert res.status_code == 200
+        assert b"Queue cleared" in res.data
+
+        after = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+        assert after["queued_count"] == 0, f"queue should be empty after clear, got {after!r}"
+        # The synthetic 'running' claim is untouched by Clear Queue — running checks aren't queue items.
+        assert after["running_count"] == 1
+
+    finally:
+        worker_pool.release_uuid_from_processing(running_uuid, worker_id=999)
+        update_q.clear()
+
+
+def test_queue_includes_timestamps(client, live_server, measure_memory_usage, datastore_path):
+    """Queue items carry enqueued_at; running items carry started_at."""
+    update_q, worker_pool, qmeta = _quiesce(live_server)
+
+    # Push something — enqueued_at should be ~now
+    before = time.time()
+    queued_uuid = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+    _push(update_q, worker_pool, qmeta, queued_uuid, priority=1)
+    after = time.time()
+
+    snap = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+    assert len(snap["queued"]) == 1
+    ts_q = snap["queued"][0]["enqueued_at"]
+    assert isinstance(ts_q, float)
+    assert before <= ts_q <= after + 0.5, f"enqueued_at out of range: {ts_q!r}"
+
+    # Claim a synthetic running uuid — started_at should be ~now
+    running_uuid = "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"
+    before = time.time()
+    assert worker_pool.claim_uuid_for_processing(running_uuid, worker_id=999)
+    after = time.time()
+
+    snap = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+    running_entry = next((r for r in snap["running"] if r["uuid"] == running_uuid), None)
+    assert running_entry is not None
+    ts_r = running_entry["started_at"]
+    assert isinstance(ts_r, float)
+    assert before <= ts_r <= after + 0.5, f"started_at out of range: {ts_r!r}"
+
+    # Release clears the timestamp
+    worker_pool.release_uuid_from_processing(running_uuid, worker_id=999)
+    assert worker_pool.get_uuid_started_at(running_uuid) is None
+
+    update_q.clear()
+
+
