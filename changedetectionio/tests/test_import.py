@@ -34,6 +34,50 @@ https://example.com tag1, other tag"""
     res = client.get( url_for("watchlist.index"))
     res = client.get( url_for("watchlist.index"))
 
+def xtest_import_skip_url(client, live_server, measure_memory_usage, datastore_path):
+
+
+    # Give the endpoint time to spin up
+    time.sleep(1)
+
+    res = client.post(
+        url_for("imports.import_page"),
+        data={
+            "distill-io": "",
+            "urls": """https://example.com
+:ht000000broken
+"""
+        },
+        follow_redirects=True,
+    )
+    assert b"1 Imported" in res.data
+    assert b"ht000000broken" in res.data
+    assert b"1 Skipped" in res.data
+    delete_all_watches(client)
+    # Clear flask alerts
+    res = client.get( url_for("watchlist.index"))
+
+def test_import_distillio(client, live_server, measure_memory_usage, datastore_path):
+
+    distill_data='''
+{
+    "client": {
+        "local": 1
+    },
+    "data": [
+        {
+            "name": "Unraid | News",
+            "uri": "https://unraid.net/blog",
+            "config": "{\\"selections\\":[{\\"frames\\":[{\\"index\\":0,\\"excludes\\":[],\\"includes\\":[{\\"type\\":\\"xpath\\",\\"expr\\":\\"(//div[@id='App']/div[contains(@class,'flex')]/main[contains(@class,'relative')]/section[contains(@class,'relative')]/div[@class='container']/div[contains(@class,'flex')]/div[contains(@class,'w-full')])[1]\\"}]}],\\"dynamic\\":true,\\"delay\\":2}],\\"ignoreEmptyText\\":true,\\"includeStyle\\":false,\\"dataAttr\\":\\"text\\"}",
+            "tags": ["nice stuff", "nerd-news"],
+            "content_type": 2,
+            "state": 40,
+            "schedule": "{\\"type\\":\\"INTERVAL\\",\\"params\\":{\\"interval\\":4447}}",
+            "ts": "2022-03-27T15:51:15.667Z"
+        }
+    ]
+}		   
+
 '''
 
     # Give the endpoint time to spin up
