@@ -127,3 +127,12 @@ def wait_for_notification_endpoint_output(datastore_path):
 
     return False
 
+# kinda funky, but works for now
+def get_UUID_for_tag_name(client, name):
+    app_config = client.application.config.get('DATASTORE').data
+    for uuid, tag in app_config['settings']['application'].get('tags', {}).items():
+        if name == tag.get('title', '').lower().strip():
+            return uuid
+    return None
+
+
