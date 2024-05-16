@@ -371,6 +371,11 @@ def _jinja2_filter_regex_search(value, pattern):
     return re.search(pattern, str(value)) is not None
 
 
+@app.template_global('is_checking_now')
+def _watch_is_checking_now(watch_obj, format="%Y-%m-%d %H:%M:%S"):
+    return worker_pool.is_watch_running(watch_obj['uuid'])
+
+
 @app.template_global('get_worker_status_info')
 def _get_worker_status_info():
     """Get detailed worker status information for display"""
