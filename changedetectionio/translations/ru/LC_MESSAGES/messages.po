@@ -2986,3 +2986,43 @@ msgstr ""
 msgid "Append to the inherited prompt"
 msgstr ""
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "API-ключ"
+
+#: changedetectionio/forms.py
+msgid "API Base URL"
+msgstr "Базовый URL-адрес API"
+
+#: changedetectionio/forms.py
+msgid "Token multiplier for local reasoning models"
+msgstr "Множитель токена для локальных моделей рассуждений"
+
+#: changedetectionio/forms.py
+msgid "Default AI Change Summary prompt"
+msgstr "Подсказка сводки изменений AI по умолчанию"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/forms.py
+msgid "Max tokens per watch per period"
+msgstr "Максимальное количество токенов за просмотр за период"
+
+#: changedetectionio/forms.py
+msgid "Monthly token budget"
+msgstr "Ежемесячный бюджет токенов"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/forms.py
+msgid "Max input characters"
+msgstr "Максимальное количество входных символов"
+
+#: changedetectionio/forms.py
+msgid "Enable AI / LLM features"
+msgstr "Включить функции AI/LLM"
+
+#: changedetectionio/forms.py
+msgid "Replace {{diff}} notification token with AI summary"
+msgstr "Замените токен уведомления {{diff}} сводкой AI."
+
+#: changedetectionio/forms.py
+msgid "Use LLM as a fallback for extracting price and restock info"
+msgstr "Используйте LLM в качестве запасного варианта для получения информации о ценах и пополнении запасов."
+
