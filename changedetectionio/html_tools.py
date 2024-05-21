@@ -829,3 +829,26 @@ def html_to_text(html_content: str, render_anchor_tag_content=False, is_rss=Fals
         text_content = get_text(html_content, config=parser_config)
     return text_content
 
+# Does LD+JSON exist with a @type=='product' and a .price set anywhere?
+def has_ldjson_product_info(content):
+    try:
+        # Better than .lower() which can use a lot of ram
+        if (re.search(r'application/ld\+json', content, re.IGNORECASE) and
+            re.search(r'"price"', content, re.IGNORECASE) and
+            re.search(r'"pricecurrency"', content, re.IGNORECASE)):
+            return True
+
+#       On some pages this is really terribly expensive when they dont really need it
+#       (For example you never want price monitoring, but this runs on every watch to suggest it)
+#        for filter in LD_JSON_PRODUCT_OFFER_SELECTORS:
+#            pricing_data += extract_json_as_string(content=content,
+#                                                  json_filter=filter,
+#                                                  ensure_is_ldjson_info_type="product")
+    except Exception as e:
+        # OK too
+        return False
+
+    return False
+
+
+
