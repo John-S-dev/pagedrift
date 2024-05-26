@@ -174,6 +174,86 @@ class model(EntityPersistenceMixin, watch_base):
         # Usage: watch.resolved_restock_settings (automatic, type-safe, tested once)
         ```
 
+    Benefits of Pydantic migration:
+        1. Single source of truth for resolution logic (not scattered across processors)
+        2. Type safety + IDE autocomplete (watch.resolved_fetch_backend vs dict navigation)
+        3. Database backend abstraction (domain model separate from persistence)
+        4. Automatic validation at boundaries
+        5. Self-documenting via type hints
+        6. Easy to test resolution independently
+
+    Resolution chain examples that would benefit:
+        - fetch_backend: watch → tag → global (see get_fetch_backend property)
+        - notification_urls: watch → tag → global
+        - time_between_check: watch → global (see threshold_seconds)
+        - restock_settings: watch → tag (see processors/restock_diff/processor.py:184-192)
+        - history_snapshot_max_length: watch → global (see save_history_blob:550-556)
+        - All processor_config_* settings could use tag overrides
+
+    ## Database Backend Abstraction with Pydantic
+
+    Current: Watch inherits dict, tightly coupled to file-based JSON storage
+    Future: Domain model (Watch) separate from persistence layer
+
+        ```python
+        # Domain model (database-agnostic)
+        class Watch(BaseModel):
+            uuid: str
+            url: str
+            # ... validation, business logic
+
+        # Pluggable backends
+        class DataStoreBackend(ABC):
+            def save_watch(self, watch: Watch): ...
+            def load_watch(self, uuid: str) -> Watch: ...
+
+        # Implementations: FileBackend, MongoBackend, PostgresBackend, etc.
+        ```
+
+    This would enable:
+        - Easy migration between storage backends (file → postgres → mongodb)
+        - Pydantic handles serialization/deserialization automatically
+        - Domain logic stays clean (no storage concerns in Watch methods)
+
+    ## Migration Path
+
+    Given existing codebase, incremental migration recommended:
+        1. Create Pydantic models alongside existing dict-based models
+        2. Add .to_pydantic() / .from_pydantic() bridge methods
+        3. Gradually migrate code to use Pydantic models
+        4. Remove dict inheritance once migration complete
+
+    See: watch_base docstring for technical debt discussion
+    See: processors/restock_diff/processor.py:184-192 for manual resolution example
+    See: Watch.py:550-556 for nested dict navigation that would become watch.resolved_*
+    """
+    __newest_history_key = None
+    __history_n = 0
+    jitter_seconds = 0
+
+    def __init__(self, *arg, **kw):
+        # Validate __datastore before calling parent (Watch requires it)
+        if not kw.get('__datastore'):
+            raise ValueError("Watch object requires '__datastore' reference - cannot access global settings without it")
+
+        # Parent class (watch_base) handles __datastore and __datastore_path
+        super(model, self).__init__(*arg, **kw)
+
+        if kw.get('default'):
+            self.update(kw['default'])
+            del kw['default']
+
+        if self.get('default'):
+            del self['default']
+
+        # restock is persisted as a plain dict; rehydrate it into the Restock model
+        # so callers always get its helpers (get_price_change_percent, etc.) and
+        # never just a dict. Lazy import avoids a model<->processor import cycle.
+        if self.get('restock') is not None:
+            from changedetectionio.processors.restock_diff import Restock
+            if not isinstance(self['restock'], Restock):
+                self['restock'] = Restock(self['restock'])
+
     def clear_watch(self):
         import pathlib
 
