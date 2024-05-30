@@ -94,3 +94,17 @@ $watch-table-mobile-max: 767px;
     tbody {
       tr {
 
+@media (min-width: $watch-table-mobile-max + 1px) {
+  .watch-table thead tr th .hide-on-desktop {
+    display: none;
+  }
+  .watch-table {
+    td.last-checked, td.last-changed {
+      .innertext {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+
