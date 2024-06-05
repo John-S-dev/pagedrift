@@ -1957,6 +1957,46 @@ msgid "Run this code before performing change detection, handy for filling in fi
 msgstr "在執行變更檢測之前執行此程式碼，方便填寫欄位和其他動作"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "更多幫助和範例請見此處"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "請求內容中支援變數"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "請求標頭值支援變數"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "警報！找到額外的標頭檔案，將新增至此監測任務！"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "標頭也可以從您的資料目錄中的檔案讀取"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "在此閱讀更多內容"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Selenium 瀏覽器不支援"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "開啟文字尋找器"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "請稍候，第一個瀏覽器步驟可能需要一點時間載入 ..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "點擊此處開始"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Please allow 10-15 seconds for the browser to connect."
 msgstr "請等待 10-15 秒讓瀏覽器連線。"
 
