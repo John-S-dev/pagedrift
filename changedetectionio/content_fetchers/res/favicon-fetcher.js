@@ -87,3 +87,30 @@
 
         const blob = await resp.blob();
 
+        if (blob.size > MAX_BYTES) continue;
+
+        // Convert blob to base64
+        const reader = new FileReader();
+        return await new Promise(resolve => {
+          reader.onloadend = () => {
+            resolve({
+              url: icon.href,
+              mime_type: blob.type,
+              base64: reader.result.split(",")[1]
+            });
+          };
+          reader.readAsDataURL(blob);
+        });
+
+      } catch (e) {
+        continue;
+      }
+    }
+
+    // nothing found
+    return null;
+  };
+
+  // Auto-execute and return result for page.evaluate()
+  return await window.getFaviconAsBlob();
+})();
