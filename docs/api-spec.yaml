@@ -137,6 +137,25 @@ tags:
         -H "x-api-key: YOUR_API_KEY"
       ```
 
+      ```json
+      {
+        "uuid": "cc0cfffa-f449-477b-83ea-0caafd1dc091",
+        "url": "https://example.com/product/widget",
+        "processor": "restock_diff",
+        "processor_config_restock_diff": {
+          "in_stock_processing": "in_stock_only",
+          "follow_price_changes": true,
+          "price_change_threshold_percent": 5,
+          "price_change_min": null,
+          "price_change_max": null
+        }
+      }
+      ```
+
+      #### UPDATE — Change thresholds without recreating the monitor
+
+      Only fields included in the request body are updated; omitted fields are left unchanged.
+
       ---
 
       For the complete schema-validated documentation including all processor fields, fetch the live spec
