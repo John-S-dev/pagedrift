@@ -2483,6 +2483,50 @@ msgid "Not a valid timezone name"
 msgstr "Nom de fuseau horaire invalide"
 
 #: changedetectionio/forms.py
+msgid "not set"
+msgstr "non défini"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "Débute à"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "Durée d'exécution"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Utiliser le programmateur"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Fuseau horaire facultatif dans lequel exécuter"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Lundi"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Vendredi"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Samedi"
+
+#: changedetectionio/forms.py
 msgid "Sunday"
 msgstr "Dimanche"
 
