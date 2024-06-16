@@ -2910,6 +2910,50 @@ msgid "Use time scheduler"
 msgstr "Usar programador de tiempo"
 
 #: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Zona horaria opcional para ejecutar"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Lunes"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Martes"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Jueves"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Viernes"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Sábado"
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Domingo"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Semanas"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "Debe contener cero o más segundos"
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "Días"
+
+#: changedetectionio/forms.py
 msgid "Hours"
 msgstr "Horas"
 
