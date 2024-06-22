@@ -396,6 +396,10 @@ def test_api_concurrency_race_conditions(client, live_server, measure_memory_usa
     delete_all_watches(client)
 
 
+# ============================================================================
+# TIER 2: IMPORTANT FUNCTIONALITY TESTS
+# ============================================================================
+
 def test_api_time_validation_edge_cases(client, live_server, measure_memory_usage, datastore_path):
     """
     Test time_between_check validation edge cases.
