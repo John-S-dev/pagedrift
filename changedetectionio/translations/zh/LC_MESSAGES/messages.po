@@ -3089,3 +3089,45 @@ msgstr ""
 msgid "Previous version (second-last vs latest)"
 msgstr ""
 
+#: changedetectionio/processors/extract.py
+msgid "No matches found while scanning all of the watch history for that RegEx."
+msgstr "扫描全部监控历史未找到匹配该正则的内容。"
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+msgid "Not enough history to compare. Need at least 2 snapshots."
+msgstr "历史记录不足以比较，至少需要 2 个快照。"
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+#, python-brace-format
+msgid "Failed to load screenshots: {}"
+msgstr "加载截图失败：{}"
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+#, python-brace-format
+msgid "Failed to calculate diff: {}"
+msgstr "计算差异失败：{}"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box value is too long"
+msgstr "边界框值过长"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box must be in format: x,y,width,height (integers only)"
+msgstr "边界框格式必须为：x,y,width,height（仅限整数）"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values must be non-negative"
+msgstr "边界框值必须为非负数"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values are too large"
+msgstr "边界框值过大"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode must be either \"element\" or \"draw\""
+msgstr "选择模式必须为 “element” 或 “draw”"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Minimum Change Percentage"
+msgstr "最小变化百分比"
+
