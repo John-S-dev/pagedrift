@@ -311,3 +311,98 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, worker_pool, 
         from changedetectionio.blueprint.watchlist import filters as wl_filters
         uuid = request.args.get('uuid')
 
+        if uuid:
+            # Single watch - check if already queued or running
+            if worker_pool.is_watch_running(uuid) or uuid in update_q.get_queued_uuids():
+                flash(gettext("Watch is already queued or being checked."))
+            else:
+                worker_pool.queue_item_async_safe(update_q, queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': uuid}))
+                flash(gettext("Queued 1 watch for rechecking."))
+        else:
+            # Multiple watches - operate on the SAME set the watch list is showing
+            # (tag/processor/status/search) via the shared filter, skipping paused.
+            list_filters = wl_filters.list_filters_from_args(datastore, request.args)
+            watches_to_queue = []
+            for k in sorted(datastore.data['watching'].items(), key=lambda item: item[1].get('last_checked', 0)):
+                watch_uuid = k[0]
+                watch = k[1]
+                if not watch['paused'] and watch_uuid and wl_filters.watch_matches_filters(datastore, watch, list_filters):
+                    watches_to_queue.append(watch_uuid)
+
+            # If less than 20 watches, queue synchronously for immediate feedback
+            if len(watches_to_queue) < 20:
+                # Get already queued/running UUIDs once (efficient)
+                queued_uuids = set(update_q.get_queued_uuids())
+                running_uuids = set(worker_pool.get_running_uuids())
+
+                # Filter out watches that are already queued or running
+                watches_to_queue_filtered = []
+                for watch_uuid in watches_to_queue:
+                    if watch_uuid not in queued_uuids and watch_uuid not in running_uuids:
+                        watches_to_queue_filtered.append(watch_uuid)
+
+                # Queue only the filtered watches
+                for watch_uuid in watches_to_queue_filtered:
+                    worker_pool.queue_item_async_safe(update_q, queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': watch_uuid}))
+
+                # Provide feedback about skipped watches
+                skipped_count = len(watches_to_queue) - len(watches_to_queue_filtered)
+                if skipped_count > 0:
+                    flash(gettext("Queued {count} watches for rechecking ({skipped_count} already queued or running).").format(
+                        count=len(watches_to_queue_filtered), skipped_count=skipped_count))
+                else:
+                    if len(watches_to_queue_filtered) == 1:
+                        flash(gettext("Queued 1 watch for rechecking."))
+                    else:
+                        flash(gettext("Queued {} watches for rechecking.").format(len(watches_to_queue_filtered)))
+            else:
+                # 20+ watches - queue in background thread to avoid blocking HTTP response
+                # Capture queued/running state before background thread
+                queued_uuids = set(update_q.get_queued_uuids())
+                running_uuids = set(worker_pool.get_running_uuids())
+
+                def queue_watches_background():
+                    """Background thread to queue watches - discarded after completion."""
+                    try:
+                        queued_count = 0
+                        skipped_count = 0
+                        for watch_uuid in watches_to_queue:
+                            # Check if already queued or running (state captured at start)
+                            if watch_uuid not in queued_uuids and watch_uuid not in running_uuids:
+                                worker_pool.queue_item_async_safe(update_q, queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': watch_uuid}))
+                                queued_count += 1
+                            else:
+                                skipped_count += 1
+
+                        logger.info(f"Background queueing complete: {queued_count} watches queued, {skipped_count} skipped (already queued/running)")
+                    except Exception as e:
+                        logger.error(f"Error in background queueing: {e}")
+
+                # Start background thread and return immediately
+                thread = threading.Thread(target=queue_watches_background, daemon=True, name="QueueWatches-Background")
+                thread.start()
+
+                # Return immediately with approximate message
+                flash(gettext("Queueing watches for rechecking in background..."))
+
+        return redirect(url_for('watchlist.index', **wl_filters.filter_query_args(request.args)))
+
+    @ui_blueprint.route("/form/checkbox-operations", methods=['POST'])
+    @login_optionally_required
+    def form_watch_list_checkbox_operations():
+        op = request.form['op']
+        uuids = [u.strip() for u in request.form.getlist('uuids') if u]
+        extra_data = request.form.get('op_extradata', '').strip()
+        _handle_operations(
+            datastore=datastore,
+            extra_data=extra_data,
+            queuedWatchMetaData=queuedWatchMetaData,
+            uuids=uuids,
+            worker_pool=worker_pool,
+            update_q=update_q,
+            watch_check_update=watch_check_update,
+            op=op,
+        )
+
+        return redirect(url_for('watchlist.index'))
+

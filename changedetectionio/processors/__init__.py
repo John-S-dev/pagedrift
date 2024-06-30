@@ -342,3 +342,54 @@ def get_processor_descriptions():
     return descriptions
 
 
+def wcag_text_color(hex_bg: str) -> str:
+    """Return #000000 or #ffffff for maximum WCAG contrast against hex_bg."""
+    hex_bg = hex_bg.lstrip('#')
+    if len(hex_bg) != 6:
+        return '#000000'
+    r, g, b = (int(hex_bg[i:i+2], 16) / 255 for i in (0, 2, 4))
+    def lin(c):
+        return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+    L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+    return '#000000' if L > 0.179 else '#ffffff'
+
+
+def generate_processor_badge_colors(processor_name):
+    """
+    Generate consistent colors for a processor badge based on its name.
+    Uses a hash of the processor name to generate pleasing, accessible colors
+    for both light and dark modes.
+
+    :param processor_name: The processor name (e.g., 'text_json_diff')
+    :return: A dict with 'light' and 'dark' color schemes, each containing 'bg' and 'color'
+    """
+    import hashlib
+
+    # Generate a consistent hash from the processor name
+    hash_obj = hashlib.md5(processor_name.encode('utf-8'))
+    hash_int = int(hash_obj.hexdigest()[:8], 16)
+
+    # Generate hue from hash (0-360)
+    hue = hash_int % 360
+
+    # Light mode: pastel background with darker text
+    light_saturation = 60 + (hash_int % 25)  # 60-85%
+    light_lightness = 85 + (hash_int % 10)   # 85-95% - very light
+    text_lightness = 25 + (hash_int % 15)    # 25-40% - dark
+
+    # Dark mode: solid, vibrant colors with white text
+    dark_saturation = 55 + (hash_int % 20)   # 55-75%
+    dark_lightness = 45 + (hash_int % 15)    # 45-60%
+
+    return {
+        'light': {
+            'bg': f'hsl({hue}, {light_saturation}%, {light_lightness}%)',
+            'color': f'hsl({hue}, 50%, {text_lightness}%)'
+        },
+        'dark': {
+            'bg': f'hsl({hue}, {dark_saturation}%, {dark_lightness}%)',
+            'color': '#fff'
+        }
+    }
+
+
