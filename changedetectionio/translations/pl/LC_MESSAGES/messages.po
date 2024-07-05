@@ -3070,6 +3070,42 @@ msgid "not set"
 msgstr "nieustalone"
 
 #: changedetectionio/forms.py
+msgid "Start At"
+msgstr "Zacznij od"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "Czas trwania uruchomienia"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Skorzystaj z harmonogramu"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Opcjonalna strefa czasowa, w której ma działać program"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "poniedziałek"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "wtorek"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Środa"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "czwartek"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "piątek"
+
+#: changedetectionio/forms.py
 #, python-format
 msgid "'%s' is not a valid AppRise URL."
 msgstr "„%s” nie jest prawidłowym adresem URL serwisu AppRise."
