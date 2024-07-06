@@ -243,3 +243,28 @@
         const canvases = Array.prototype.slice.call(document.querySelectorAll("canvas.queue-spark"));
         if (!canvases.length) return;
 
+        loadLog();
+
+        // Seed current levels from the server-rendered numbers so the line starts at
+        // the right height before the first socket event arrives.
+        const qEl = document.querySelector(".queue-size-int");
+        const cEl = document.querySelector(".checking-now-int");
+        if (qEl) currentQueue = parseInt(qEl.textContent, 10) || 0;
+        if (cEl) currentChecking = parseInt(cEl.textContent, 10) || 0;
+        pushEvent(Date.now());
+
+        instances = canvases.map(function (c) { return new Spark(c); });
+
+        if (typeof ResizeObserver !== "undefined") {
+            const ro = new ResizeObserver(function () {
+                for (let i = 0; i < instances.length; i++) instances[i].resize();
+            });
+            canvases.forEach(function (c) { ro.observe(c); });
+        }
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) { saveLog(); stop(); }
+            else { start(); }
+        });
+        window.addEventListener("beforeunload", saveLog);
+
