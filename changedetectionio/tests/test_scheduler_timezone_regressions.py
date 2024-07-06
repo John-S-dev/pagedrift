@@ -84,3 +84,90 @@ def test_edit_page_saves_when_no_default_timezone_configured(client, live_server
     assert datastore.data['watching'][uuid]['time_schedule_limit']['enabled'] is True
 
 
+def test_edit_page_saves_with_unresolvable_timezone(client, live_server, measure_memory_usage, datastore_path):
+    """A garbage timezone must degrade to 'skip the recheck', not 500."""
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+    datastore = live_server.app.config['DATASTORE']
+    datastore.data['settings']['application']['scheduler_timezone_default'] = 'Not/ARealZone'
+
+    uuid = datastore.add_watch(url=test_url)
+    wait_for_all_checks(client)
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid=uuid),
+        data=_schedule_form(test_url),
+        follow_redirects=True,
+    )
+    assert res.status_code == 200, f"expected 200, got {res.status_code}"
+    assert b"Updated watch." in res.data
+
+
+def test_ticker_survives_a_watch_with_a_broken_timezone(client, live_server, measure_memory_usage, datastore_path):
+    """
+    BUG 2: one bad watch used to kill the ticker thread, stopping every other
+    watch. Prove a healthy watch still gets checked alongside a broken one.
+    """
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+    datastore = live_server.app.config['DATASTORE']
+    datastore.data['settings']['application']['scheduler_timezone_default'] = None
+
+    broken_uuid = datastore.add_watch(url=test_url)
+    healthy_uuid = datastore.add_watch(url=test_url)
+    wait_for_all_checks(client)
+
+    # Broken watch: scheduler on, timezone that arrow cannot resolve
+    datastore.data['watching'][broken_uuid]['time_between_check_use_default'] = False
+    datastore.data['watching'][broken_uuid]['time_schedule_limit'] = _full_schedule(
+        timezone='Not/ARealZone'
+    )
+
+    # Healthy watch: no schedule limit, short interval so the ticker must pick it up
+    datastore.data['watching'][healthy_uuid]['time_between_check_use_default'] = False
+    datastore.data['watching'][healthy_uuid]['time_between_check'] = {
+        'weeks': None, 'days': None, 'hours': None, 'minutes': None, 'seconds': 2
+    }
+    before = datastore.data['watching'][healthy_uuid]['last_checked']
+
+    # Give the ticker several passes over the broken watch
+    deadline = time.time() + 30
+    while time.time() < deadline:
+        if datastore.data['watching'][healthy_uuid]['last_checked'] != before:
+            break
+        time.sleep(0.5)
+
+    assert datastore.data['watching'][healthy_uuid]['last_checked'] != before, (
+        "the healthy watch was never rechecked - the ticker thread most likely "
+        "died on the broken watch's timezone"
+    )
+
+
+def test_api_rejects_invalid_timezone_on_update(client, live_server, measure_memory_usage, datastore_path):
+    """
+    The edit form runs validateTimeZoneName, but the API did not - the OpenAPI
+    schema for time_schedule_limit declares no `timezone` property and does not
+    set additionalProperties:false, so any string was accepted and stored.
+    A bogus zone makes arrow.now(tz) raise inside the scheduler.
+    """
+    import json
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+    datastore = live_server.app.config['DATASTORE']
+    api_key = datastore.data['settings']['application'].get('api_access_token')
+
+    uuid = datastore.add_watch(url=test_url)
+    wait_for_all_checks(client)
+
+    res = client.put(
+        url_for("watch", uuid=uuid),
+        headers={'x-api-key': api_key, 'content-type': 'application/json'},
+        data=json.dumps({'time_schedule_limit': _full_schedule(timezone='Not/ARealZone')}),
+    )
+    assert res.status_code == 400, f"expected 400, got {res.status_code}: {res.data}"
+    assert b'not a valid timezone' in res.data.lower()
+
+    stored = datastore.data['watching'][uuid]['time_schedule_limit']
+    assert stored.get('timezone') != 'Not/ARealZone', "invalid timezone was persisted anyway"
+
+
