@@ -130,6 +130,52 @@ msgstr ""
 msgid "'%s' is not a valid XPath expression. (%s)"
 msgstr ""
 
+#: changedetectionio/forms.py:657
+#, python-format
+msgid "'%s' is not a valid JSONPath expression. (%s)"
+msgstr ""
+
+#: changedetectionio/forms.py:679
+#, python-format
+msgid "'%s' is not a valid jq expression. (%s)"
+msgstr ""
+
+#: changedetectionio/forms.py:725
+msgid "Empty value not allowed."
+msgstr ""
+
+#: changedetectionio/forms.py:727
+msgid "Invalid value."
+msgstr ""
+
+#: changedetectionio/forms.py:730
+msgid "URL"
+msgstr ""
+
+#: changedetectionio/forms.py:731
+msgid "Group tag"
+msgstr ""
+
+#: changedetectionio/forms.py:732
+msgid "Watch"
+msgstr ""
+
+#: changedetectionio/forms.py:733 changedetectionio/forms.py:766
+msgid "Processor"
+msgstr ""
+
+#: changedetectionio/forms.py:734
+msgid "Edit > Watch"
+msgstr ""
+
+#: changedetectionio/forms.py:747 changedetectionio/forms.py:995
+msgid "Fetch Method"
+msgstr ""
+
+#: changedetectionio/forms.py:748
+msgid "Notification Body"
+msgstr ""
+
 #: changedetectionio/forms.py:749
 msgid "Notification format"
 msgstr ""
