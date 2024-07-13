@@ -2170,6 +2170,50 @@ msgid "Use the verify (✓) button to test if a condition passes against the cur
 msgstr "Gunakan tombol verifikasi (✓) untuk menguji apakah suatu kondisi terpenuhi terhadap snapshot saat ini."
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read a quick tutorial about"
+msgstr "Baca tutorial singkat tentang"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "using conditional web page changes here"
+msgstr "menggunakan perubahan halaman web bersyarat di sini"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "Aktifkan pratinjau"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "Kiat pro:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "Gunakan halaman pratinjau untuk melihat filter dan pemicu Anda disorot."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "Batasi pemicu/abaikan/blokir/ekstrak ke;"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Note: Depending on the length and similarity of the text on each line, the algorithm may consider an "
+"<strong>addition</strong> instead of <strong>replacement</strong> for example."
+msgstr ""
+"Catatan: Bergantung pada panjang dan kemiripan teks pada setiap baris, algoritme mungkin menganggapnya sebagai "
+"<strong>penambahan</strong> alih-alih <strong>penggantian</strong>, misalnya."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "So it's always better to select"
+msgstr "Jadi selalu lebih baik memilih"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "saat Anda tertarik pada konten baru."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "When content is merely moved in a list, it will also trigger an"
+msgstr "Saat konten hanya dipindahkan dalam daftar, hal itu juga akan memicu"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "addition"
 msgstr "penambahan"
 
