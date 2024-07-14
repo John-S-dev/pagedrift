@@ -2967,6 +2967,51 @@ msgid "Keyword triggers - Trigger/wait for text"
 msgstr "キーワードトリガー - テキストのトリガー/待機"
 
 #: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "テキストが一致している間は変更検知をブロック"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "変更検知前にJavaScriptを実行"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "プロキシ"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "フィルタがページで見つからなくなったときに通知を送信"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "オン"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "通知"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "ミュート済み"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "通知にスクリーンショットを添付（可能な場合）"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "一致条件"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "以下のすべてに一致"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "以下のいずれかに一致"
+
+#: changedetectionio/forms.py
 msgid "Use page <title> in list"
 msgstr "リストでページの <title> を使用"
 
