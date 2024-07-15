@@ -94,6 +94,84 @@ $watch-table-mobile-max: 767px;
     tbody {
       tr {
 
+        padding-inline: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+
+        display: grid;
+        grid-template-columns: $grid-col-checkbox 1fr $grid-col-watch;
+        grid-template-rows: auto auto auto auto;
+        gap: $grid-gap;
+
+        .counter-i {
+          display: none;
+        }
+
+        td.inline {
+          /* display: block !important;;*/
+        }
+
+        > td {
+          border-bottom: none;
+        }
+
+        // Empty state message - span full width on mobile
+        > td[colspan] {
+          grid-column: 1 / -1;
+        }
+
+        > td.title-col {
+          grid-column: 1 / -1;
+          grid-row: 1;
+          .watch-title {
+            font-size: 0.92rem;
+          }
+          .link-spread {
+            display: none;
+          }
+        }
+
+        > td.last-checked {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+
+        > td.last-changed {
+          grid-column: 1 / -1;
+          grid-row: 3;
+        }
+
+        > td.checkbox-uuid {
+          grid-column: 1;
+          grid-row: 4;
+        }
+
+        > td.buttons {
+          grid-column: 2;
+          grid-row: 4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        > td.watch-controls {
+          grid-column: 3;
+          grid-row: 4;
+          display: grid;
+          place-items: center;
+
+          a img {
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }
+  .pure-table td {
+    padding: 0 !important;
+  }
+}
+
 @media (min-width: $watch-table-mobile-max + 1px) {
   .watch-table thead tr th .hide-on-desktop {
     display: none;
