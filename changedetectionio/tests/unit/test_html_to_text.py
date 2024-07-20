@@ -11,6 +11,44 @@ from queue import Queue
 from changedetectionio.html_tools import html_to_text
 
 
+class TestHtmlToText(unittest.TestCase):
+    """Test html_to_text function for correctness and thread-safety."""
+
+    def test_basic_text_extraction(self):
+        """Test basic HTML to text conversion."""
+        html = '<html><body><h1>Title</h1><p>Paragraph text.</p></body></html>'
+        text = html_to_text(html)
+
+        assert 'Title' in text
+        assert 'Paragraph text.' in text
+        assert '<' not in text  # HTML tags should be stripped
+        assert '>' not in text
+
+    def test_empty_html(self):
+        """Test handling of empty HTML."""
+        html = '<html><body></body></html>'
+        text = html_to_text(html)
+
+        # Should return empty or whitespace only
+        assert text.strip() == ''
+
+    def test_nested_elements(self):
+        """Test extraction from nested HTML elements."""
+        html = '''
+        <html>
+            <body>
+                <div>
+                    <h1>Header</h1>
+                    <div>
+                        <p>First paragraph</p>
+                        <p>Second paragraph</p>
+                    </div>
+                </div>
+            </body>
+        </html>
+        '''
+        text = html_to_text(html)
+
         assert 'Header' in text
         assert 'First paragraph' in text
         assert 'Second paragraph' in text
