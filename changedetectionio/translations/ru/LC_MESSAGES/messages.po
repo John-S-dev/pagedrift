@@ -3029,6 +3029,46 @@ msgid "Append to the inherited prompt"
 msgstr ""
 
 #: changedetectionio/forms.py
+msgid "AI enabled for this watch?"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "CSS/JSONPath/JQ/XPath Filters"
+msgstr "Фильтры CSS/JSONPath/JQ/XPath"
+
+#: changedetectionio/forms.py
+msgid "Remove elements"
+msgstr "Удалить элементы"
+
+#: changedetectionio/forms.py
+msgid "Extract lines containing"
+msgstr "Извлечь строки, содержащие"
+
+#: changedetectionio/forms.py
+msgid "Extract text"
+msgstr "Извлечь текст"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "Title"
+msgstr "Заголовок"
+
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Игнорировать строки, содержащие"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Тело запроса"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Метод запроса"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Игнорировать коды состояния (обрабатывать коды состояния, отличные от 2xx, как обычно)"
+
+#: changedetectionio/forms.py
 msgid "Browser URLs must start with wss:// or ws://"
 msgstr "URL-адреса браузера должны начинаться с wss:// или ws://."
 
