@@ -358,3 +358,16 @@ def cleanup_error_artifacts(uuid, datastore):
         if os.path.isfile(full_path):
             os.unlink(full_path)
 
+async def send_content_changed_notification(watch_uuid, notification_q, datastore):
+    """Helper function to queue notifications using the new notification service"""
+    try:
+        from changedetectionio.notification_service import create_notification_service
+        
+        # Create notification service instance
+        notification_service = create_notification_service(datastore, notification_q)
+        
+        notification_service.send_content_changed_notification(watch_uuid)
+    except Exception as e:
+        logger.error(f"Error sending notification for {watch_uuid}: {e}")
+
+
