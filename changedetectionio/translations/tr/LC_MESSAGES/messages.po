@@ -2930,6 +2930,46 @@ msgstr "Yinelenen metin satırlarını kaldır"
 msgid "Sort text alphabetically"
 msgstr "Metni alfabetik olarak sırala"
 
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "0 ile 100 arasında olmalıdır"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Parola"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Sayfalayıcı boyutu"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "En az sıfır olmalıdır (devre dışı)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "RSS İçerik formatı"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "Şuradan oluşturulan RSS <description> gövdesi"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "RSS \"Sistem varsayılanı\" şablonunu geçersiz kılma"
+
+#: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "Parolayı kaldır"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "Bağlantı etiketi içeriğini oluştur"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "Parola etkinken izleme geçmişi sayfasına anonim erişime izin ver"
+
 #: changedetectionio/forms.py
 msgid "Hide muted watches from RSS feed"
 msgstr "Sessize alınan izleyicileri RSS akışından gizle"
