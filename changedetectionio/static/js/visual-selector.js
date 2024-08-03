@@ -397,6 +397,43 @@ window.initVisualSelector = function (opts) {
         // Save initial mode
         $selectionModeField.val(drawMode ? 'draw' : 'element');
 
+        if (drawMode) {
+            enableDrawMode();
+        }
+    }
+
+    function enableDrawMode() {
+        console.log('Enabling draw mode...');
+
+        // Unbind element selection handlers
+        $selectorCanvasElem.unbind('mousemove mousedown mouseleave');
+
+        // Set cursor to crosshair
+        $selectorCanvasElem.css('cursor', 'crosshair');
+
+        // Bind draw mode handlers
+        $selectorCanvasElem.on('mousedown', handleDrawMouseDown);
+        $selectorCanvasElem.on('mousemove', handleDrawMouseMove);
+        $selectorCanvasElem.on('mouseup', handleDrawMouseUp);
+        $selectorCanvasElem.on('mouseleave', handleDrawMouseUp);
+
+        // Clear element selections and xpath display
+        currentSelections = [];
+        $includeFiltersElem.val('');
+        $selectorCurrentXpathElem.html(i18nT('vsDrawMode', 'Draw mode - click and drag to select an area'));
+
+        // Clear the canvas
+        if (ctx && xctx) {
+            ctx.clearRect(0, 0, c.width, c.height);
+            xctx.clearRect(0, 0, c.width, c.height);
+        }
+
+        // Redraw if we have an existing box
+        if (drawnBox) {
+            drawBox();
+        }
+    }
+
     function disableDrawMode() {
         console.log('Disabling draw mode, switching to element mode...');
 
