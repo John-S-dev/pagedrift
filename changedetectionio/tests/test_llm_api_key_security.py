@@ -165,3 +165,55 @@ def test_tag_list_does_not_expose_llm_api_key(
     delete_all_watches(client)
 
 
+def test_settings_form_preserves_api_key_when_submitted_blank(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    When the settings form is saved with an empty llm_api_key (which happens
+    every time because PasswordField never pre-populates), the existing key
+    must be preserved rather than cleared.
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds, api_key='sk-should-be-kept')
+
+    res = client.post(
+        url_for('settings.settings_page'),
+        data={
+            'llm-model': 'gpt-4o',
+            'llm-api_key': '',           # blank — PasswordField behaviour
+            'llm-api_base': '',
+            'application-pager_size': '50',
+            'application-notification_format': 'System default',
+            'requests-time_between_check-days': '0',
+            'requests-time_between_check-hours': '0',
+            'requests-time_between_check-minutes': '5',
+            'requests-time_between_check-seconds': '0',
+            'requests-time_between_check-weeks': '0',
+            'requests-workers': '10',
+            'requests-timeout': '60',
+        },
+        follow_redirects=True,
+    )
+    assert res.status_code == 200
+
+    saved_key = ds.data['settings']['application'].get('llm', {}).get('api_key', '')
+    assert saved_key == 'sk-should-be-kept', \
+        f"Blank PasswordField submission must not clear the existing API key (got '{saved_key}')"
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# SSRF — api_base must reject private/loopback/reserved hosts (GHSA-jrxm-qjfh-g54f)
+# ---------------------------------------------------------------------------
+
+# Hosts that is_private_hostname() must classify as restricted.
+# 169.254.169.254 is the cloud metadata service (AWS/GCP IMDSv1).
+_SSRF_PRIVATE_HOSTS = [
+    'http://127.0.0.1:6379',
+    'http://localhost:11434',
+    'http://10.0.0.5:8080',
+    'http://192.168.1.1',
+    'http://169.254.169.254',
+]
+
+
