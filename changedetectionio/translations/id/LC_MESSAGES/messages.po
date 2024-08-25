@@ -3403,6 +3403,47 @@ msgstr "%sth lalu"
 msgid "in %syr"
 msgstr "dalam %sth"
 
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Stock status"
+msgstr "Status stok"
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Currency"
+msgstr "Mata uang"
+
+#: changedetectionio/processors/restock_diff/difference.py
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Price history"
+msgstr "Riwayat harga"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "Deteksi stok kembali"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "Hanya Tersedia (Stok Habis -> Tersedia saja)"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "Setiap perubahan ketersediaan"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "Nonaktif, jangan ikuti ketersediaan/stok kembali"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "Harga di bawah nilai ini untuk memicu notifikasi"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "Tanpa batas"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "Harga di atas nilai ini untuk memicu notifikasi"
+
 #: changedetectionio/processors/text_json_diff/processor.py
 msgid "Webpage Text/HTML, JSON and PDF changes"
 msgstr "Perubahan Teks/HTML Halaman Web, JSON, dan PDF"
