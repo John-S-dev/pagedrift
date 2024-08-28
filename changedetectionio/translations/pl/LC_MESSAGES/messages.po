@@ -3732,6 +3732,46 @@ msgstr "(lub użyj formatu zwykłego tekstu/Markdown)"
 msgid "for direct API calls (or omit the"
 msgstr "w przypadku bezpośrednich wywołań API (lub pomijając"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "For a complete reference of all Jinja2 built-in filters, users can refer to the"
+msgstr "Pełny spis wszystkich wbudowanych filtrów biblioteki Jinja2 można znaleźć w"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Format for all notifications"
+msgstr "Format wszystkich powiadomień"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Discord does not render HTML — switch to"
+msgstr "Discord nie wyświetla kodu HTML — przełącz się na"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Plain Text"
+msgstr "Zwykły tekst"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "format to avoid"
+msgstr "format, którego należy unikać"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr "oraz inne znaki HTML pojawiające się dosłownie w Twoich powiadomieniach."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "Wpis"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "Działania"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "Dodaj wiersz/linię po"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "Usuń ten wiersz/regułę"
+
 #: changedetectionio/templates/_helpers.html
 msgid "First confirm/save your Time Zone Settings"
 msgstr "Najpierw sprawdź i zapisz ustawienia strefy czasowej"
