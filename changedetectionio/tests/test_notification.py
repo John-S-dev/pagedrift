@@ -424,6 +424,72 @@ def test_global_send_test_notification(client, live_server, measure_memory_usage
     assert res.status_code != 400
     assert res.status_code != 500
 
+    with open(os.path.join(datastore_path, "notification.txt"), 'r') as f:
+        x = f.read()
+        assert 'change detection is cool 网站监测 内容更新了' in x
+        if 'html' in default_notification_format:
+            # this should come from default text when in global/system mode here changedetectionio/notification_service.py
+            assert 'title="Changed into">Example text:' in x
+        else:
+            assert 'title="Changed into">Example text:' not in x
+            assert 'span' not in x
+            assert 'Example text:' in x
+
+    os.unlink(os.path.join(datastore_path, "notification.txt"))
+
+    ######### Test group/tag settings
+    res = client.post(
+        url_for("ui.ui_notification.ajax_callback_send_notification_test")+"?mode=group-settings",
+        data={"notification_urls": test_notification_url},
+        follow_redirects=True
+    )
+
+    assert res.status_code != 400
+    assert res.status_code != 500
+
+    # Give apprise time to fire
+    wait_for_notification_endpoint_output(datastore_path=datastore_path)
+
+    with open(os.path.join(datastore_path, "notification.txt"), 'r') as f:
+        x = f.read()
+        # Should come from notification.py default handler when there is no notification body to pull from
+        assert 'change detection is cool 网站监测 内容更新了' in x
+
+    ## Check that 'test' catches errors
+    test_notification_url = 'post://akjsdfkjasdkfjasdkfjasdkjfas232323/should-error'
+
+    ######### Test global/system settings
+    res = client.post(
+        url_for("ui.ui_notification.ajax_callback_send_notification_test")+"?mode=global-settings",
+        data={"notification_urls": test_notification_url},
+        follow_redirects=True
+    )
+    assert res.status_code == 400
+    assert (
+        b"No address found" in res.data or
+        b"Name or service not known" in res.data or
+        b"nodename nor servname provided" in res.data or
+        b"Temporary failure in name resolution" in res.data or
+        b"Failed to establish a new connection" in res.data or
+        b"Connection error occurred" in res.data
+    )
+    
+    client.post(
+        url_for("ui.form_delete", uuid="all"),
+        follow_redirects=True
+    )
+
+    ######### Test global/system settings - When everything is deleted it should give a helpful error
+    # See #2727
+    res = client.post(
+        url_for("ui.ui_notification.ajax_callback_send_notification_test")+"?mode=global-settings",
+        data={"notification_urls": test_notification_url},
+        follow_redirects=True
+    )
+    assert res.status_code == 400
+    assert b"Error: You must have atleast one watch configured for 'test notification' to work" in res.data
+
+
 #2510
 def test_single_send_test_notification_on_watch(client, live_server, measure_memory_usage, datastore_path):
 
