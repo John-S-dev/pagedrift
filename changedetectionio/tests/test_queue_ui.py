@@ -62,6 +62,27 @@ def _push(update_q, worker_pool, qmeta, uuid, priority=1):
     assert ok, f"queue_item_async_safe returned falsy for {uuid}"
 
 
+def test_queue_page_renders_when_empty(client, live_server, measure_memory_usage, datastore_path):
+    """Empty queue: HTML 200, JSON shape matches contract."""
+    _quiesce(live_server)
+
+    res = client.get(url_for("ui.ui_queue.queue_page"))
+    assert res.status_code == 200
+    assert b"Check queue" in res.data
+    # Single combined "Workers & queue" table — replaces the old separate Running/Queue tables.
+    assert b"Workers" in res.data and b"queue" in res.data
+    assert b"Clear Queue" in res.data
+    assert b"Re-check Errored" not in res.data
+
+    data = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+    for key in ("worker_count", "running_count", "queued_count", "summary", "running", "queued"):
+        assert key in data
+    for sub in ("immediate", "clone", "scheduled", "priority_breakdown"):
+        assert sub in data["summary"]
+    assert data["queued_count"] == 0
+    assert data["running_count"] == 0
+
+
 def test_queue_state_full_lifecycle(client, live_server, measure_memory_usage, datastore_path):
     """One consolidated test of pushed items, priority labels, deleted-watch handling, and Clear Queue.
 
