@@ -2028,6 +2028,46 @@ msgid "Check/Scan all"
 msgstr "Verificar/Escanear todo"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Choose a proxy for this watch"
+msgstr "Elija un proxy para este monitor"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Using the current global default settings"
+msgstr "Uso de la configuración predeterminada global actual"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Show advanced options"
+msgstr "Mostrar opciones avanzadas"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Run this code before performing change detection, handy for filling in fields and other actions"
+msgstr "Ejecute este código antes de realizar la detección de cambios, útil para completar campos y otras acciones"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Más ayuda y ejemplos aquí"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "Las variables se admiten en el cuerpo de la solicitud"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "Las variables se admiten en los valores del encabezado de la solicitud"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "¡Alerta! ¡Se encontró un archivo de encabezados adicional que se agregará a este monitor!"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Los encabezados también se pueden leer desde un archivo en su directorio de datos"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Leer más aquí"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Not supported by Selenium browser"
 msgstr "No es compatible con el navegador Selenium"
 
