@@ -2864,6 +2864,46 @@ msgstr ""
 msgid "Replace the inherited prompt"
 msgstr ""
 
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Append to the inherited prompt"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "AI enabled for this watch?"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "CSS/JSONPath/JQ/XPath Filters"
+msgstr "Filtre CSS/JSONPath/JQ/XPath"
+
+#: changedetectionio/forms.py
+msgid "Remove elements"
+msgstr "Supprimer par élément"
+
+#: changedetectionio/forms.py
+msgid "Extract lines containing"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Extract text"
+msgstr "Extraire des données"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "Title"
+msgstr "Titre"
+
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Ignorer toutes les lignes correspondant"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Demande"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Demande"
+
 #: changedetectionio/forms.py
 msgid "Block change-detection while text matches"
 msgstr "Bloquer la détection des modifications lorsque le texte correspond"
