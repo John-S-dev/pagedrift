@@ -3905,3 +3905,47 @@ msgstr "Przykłady:"
 msgid "Only notify if the price drops below $200, or a limited-time deal is added"
 msgstr "Powiadom mnie tylko wtedy, gdy cena spadnie poniżej 200 dolarów lub pojawi się oferta ograniczona czasowo"
 
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "jq support not installed"
+msgstr "Brak zainstalowanego wsparcia dla jq"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid ""
+"Limit text to this XPath rule, simply start with a forward-slash. To specify XPath to be used explicitly or the XPath"
+" rule starts with an XPath function: Prefix with <code>xpath:</code>"
+msgstr ""
+"Aby ograniczyć tekst do tej reguły XPath, wystarczy rozpocząć od ukośnika. Aby jawnie określić regułę XPath, którą ma"
+" zostać zastosowana, lub gdy reguła XPath zaczyna się od funkcji XPath: należy dodać przedrostek <code>xpath:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your XPath here"
+msgstr "Sprawdź tutaj swój wyrażenie XPath"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Get all titles from an RSS feed <code>//title/text()</code>"
+msgstr "Pobierz wszystkie tytuły z kanału RSS <code>//title/text()</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "To use XPath1.0: Prefix with <code>xpath1:</code>"
+msgstr "Aby użyć XPath 1.0: Dodaj prefiks <code>xpath1:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "here for more CSS selector help"
+msgstr "Kliknij tutaj, aby uzyskać więcej informacji na temat selektorów CSS"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Text to wait for before triggering a change/notification, all text and regex are tested case-insensitive."
+msgstr ""
+"Tekst, na który należy poczekać przed wywołaniem zmiany/powiadomienia; wszystkie teksty i wyrażenia regularne są "
+"sprawdzane bez uwzględniania wielkości liter."
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr ""
+"Tekst wyzwalający jest przetwarzany na podstawie tekstu wynikowego pochodzącego z dowolnych filtrów CSS/JSON dla tej "
+"obserwacji"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Each line is processed separately (think of each line as \"OR\")"
+msgstr "Każdy wiersz jest przetwarzany osobno (każdy wiersz należy traktować jako „LUB”)"
+
