@@ -3272,6 +3272,50 @@ msgstr "Замените токен уведомления {{diff}} сводко
 msgid "Use LLM as a fallback for extracting price and restock info"
 msgstr "Используйте LLM в качестве запасного варианта для получения информации о ценах и пополнении запасов."
 
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "RegEx для извлечения"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Извлечь в формате CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sm"
+msgstr ""
+
 #: changedetectionio/processors/extract.py
 msgid "No matches found while scanning all of the watch history for that RegEx."
 msgstr "При сканировании всей истории просмотра для этого RegEx совпадений не обнаружено."
