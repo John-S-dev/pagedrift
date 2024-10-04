@@ -239,3 +239,45 @@ _SSRF_PRIVATE_HOSTS = [
 ]
 
 
+def test_llm_models_endpoint_blocks_private_api_base(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """GET /settings/llm/models must refuse api_base pointing at private/loopback
+    hosts and must never reach litellm."""
+    # Default state — protection ON
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+
+    for bad in _SSRF_PRIVATE_HOSTS:
+        res = client.get(
+            url_for('settings.llm.llm_get_models'),
+            query_string={'provider': 'openai_compatible', 'api_base': bad},
+        )
+        assert res.status_code == 400, \
+            f"api_base={bad!r} should have been rejected by SSRF guard"
+        body = res.get_json()
+        assert body['models'] == []
+        assert 'ALLOW_IANA_RESTRICTED_ADDRESSES' in body['error'], \
+            f"Error message should mention the env-var bypass: {body['error']!r}"
+        # The raw attacker-controlled api_base must never be reflected back
+        # (avoids XSS when JS renders the error into the DOM).
+        assert bad not in body['error']
+
+
+def test_llm_test_endpoint_blocks_private_api_base(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """POST /settings/llm/test must refuse api_base pointing at private/loopback
+    hosts and must never reach litellm.completion()."""
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+
+    for bad in _SSRF_PRIVATE_HOSTS:
+        res = client.post(
+            url_for('settings.llm.llm_test'),
+            query_string={'model': 'openai/gpt-4', 'api_base': bad},
+        )
+        assert res.status_code == 400, \
+            f"api_base={bad!r} should have been rejected by SSRF guard"
+        body = res.get_json()
+        assert body['ok'] is False
+        assert 'ALLOW_IANA_RESTRICTED_ADDRESSES' in body['error']
+        assert bad not in body['error']
+
+
