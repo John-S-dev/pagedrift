@@ -220,6 +220,186 @@ def main():
         # Must be absolute so that send_from_directory doesnt try to make it relative to backend/
         datastore_path = os.path.join(os.getcwd(), "../datastore")
 
+    # Pre-process arguments to extract -u, -u<N>, and -r options before getopt
+    # This allows unlimited -u0, -u1, -u2, ... options without predefining them
+    cleaned_argv = ['changedetection.py']  # Start with program name
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+
+        # Handle -u (add URL)
+        if arg == '-u' and i + 1 < len(sys.argv):
+            urls_to_add.append(sys.argv[i + 1])
+            i += 2
+            continue
+
+        # Handle -u<N> (set options for URL at index N)
+        if arg.startswith('-u') and len(arg) > 2 and arg[2:].isdigit():
+            idx = int(arg[2:])
+            if i + 1 < len(sys.argv):
+                try:
+                    import json
+                    url_options[idx] = json.loads(sys.argv[i + 1])
+                except json.JSONDecodeError as e:
+                    print(f'Error: Invalid JSON for {arg}: {sys.argv[i + 1]}')
+                    print(f'JSON decode error: {e}')
+                    sys.exit(2)
+                i += 2
+                continue
+
+        # Handle -r (recheck watches)
+        if arg == '-r' and i + 1 < len(sys.argv):
+            recheck_arg = sys.argv[i + 1]
+            if recheck_arg.lower() == 'all':
+                recheck_watches = 'all'
+            else:
+                # Parse comma-separated list of UUIDs
+                recheck_watches = [uuid.strip() for uuid in recheck_arg.split(',') if uuid.strip()]
+
+            # Check for optional repeat count as third argument
+            if i + 2 < len(sys.argv) and sys.argv[i + 2].isdigit():
+                recheck_repeat_count = int(sys.argv[i + 2])
+                if recheck_repeat_count < 1:
+                    print(f'Error: Repeat count must be at least 1, got {recheck_repeat_count}')
+                    sys.exit(2)
+                i += 3
+            else:
+                i += 2
+            continue
+
+        # Handle -b (batch mode - run once and exit)
+        if arg == '-b':
+            batch_mode = True
+            i += 1
+            continue
+
+        # Keep other arguments for getopt
+        cleaned_argv.append(arg)
+        i += 1
+
+    try:
+        opts, args = getopt.getopt(cleaned_argv[1:], "6Csd:h:p:l:P:", "port")
+    except getopt.GetoptError as e:
+        print_help()
+        print(f'Error: {e}')
+        sys.exit(2)
+
+    create_datastore_dir = False
+
+    # Set a logger level via shell env variable
+    # Used: Dockerfile for CICD
+    # To set logger level for pytest, see the app function in tests/conftest.py
+    if os.getenv("LOGGER_LEVEL"):
+        level = os.getenv("LOGGER_LEVEL")
+        logger_level = int(level) if level.isdigit() else level.upper()
+
+    for opt, arg in opts:
+        if opt == '-s':
+            ssl_mode = True
+
+        if opt == '-h':
+            host = arg
+
+        if opt == '-p':
+            port = int(arg)
+
+        if opt == '-d':
+            datastore_path = arg
+
+        # Create the datadir if it doesnt exist
+        if opt == '-C':
+            create_datastore_dir = True
+
+        if opt == '-l':
+            logger_level = int(arg) if arg.isdigit() else arg.upper()
+
+        if opt == '-P':
+            try:
+                all_paused = bool(strtobool(arg))
+            except ValueError:
+                print(f'Error: Invalid value for -P option: {arg}')
+                print('Expected: true, false, yes, no, 1, or 0')
+                sys.exit(2)
+
+    # If URLs are provided, don't include default watches
+    if urls_to_add:
+        include_default_watches = False
+
+
+    logger.success(f"changedetection.io version {get_version()} starting.")
+    # Launch using SocketIO run method for proper integration (if enabled)
+    ssl_cert_file = os.getenv("SSL_CERT_FILE", 'cert.pem')
+    ssl_privkey_file = os.getenv("SSL_PRIVKEY_FILE", 'privkey.pem')
+    if os.getenv("SSL_CERT_FILE") and os.getenv("SSL_PRIVKEY_FILE"):
+        ssl_mode = True
+
+    # SSL mode could have been set by -s too, therefor fallback to default values
+    if ssl_mode:
+        if not os.path.isfile(ssl_cert_file) or not os.path.isfile(ssl_privkey_file):
+            logger.critical(f"Cannot start SSL/HTTPS mode, Please be sure that {ssl_cert_file}' and '{ssl_privkey_file}' exist in in {os.getcwd()}")
+            os._exit(2)
+
+    # Without this, a logger will be duplicated
+    logger.remove()
+    try:
+        log_level_for_stdout = { 'TRACE', 'DEBUG', 'INFO', 'SUCCESS' }
+        logger.configure(handlers=[
+            {"sink": sys.stdout, "level": logger_level,
+             "filter" : lambda record: record['level'].name in log_level_for_stdout},
+            {"sink": sys.stderr, "level": logger_level,
+             "filter": lambda record: record['level'].name not in log_level_for_stdout},
+            ])
+    # Catch negative number or wrong log level name
+    except ValueError:
+        print("Available log level names: TRACE, DEBUG(default), INFO, SUCCESS,"
+              " WARNING, ERROR, CRITICAL")
+        sys.exit(2)
+
+    # Disable verbose pyppeteer logging to prevent memory leaks from large CDP messages
+    # Set both parent and child loggers since pyppeteer hardcodes DEBUG level
+    logging.getLogger('pyppeteer.connection').setLevel(logging.WARNING)
+    logging.getLogger('pyppeteer.connection.Connection').setLevel(logging.WARNING)
+
+    # isnt there some @thingy to attach to each route to tell it, that this route needs a datastore
+    app_config = {
+        'datastore_path': datastore_path,
+        'batch_mode': batch_mode,
+        'recheck_watches': recheck_watches,
+        'recheck_repeat_count': recheck_repeat_count
+    }
+
+    if not os.path.isdir(app_config['datastore_path']):
+        if create_datastore_dir:
+            os.makedirs(app_config['datastore_path'], exist_ok=True)
+        else:
+            logger.critical(
+                f"ERROR: Directory path for the datastore '{app_config['datastore_path']}'"
+                f" does not exist, cannot start, please make sure the"
+                f" directory exists or specify a directory with the -d option.\n"
+                f"Or use the -C parameter to create the directory.")
+            sys.exit(2)
+
+    try:
+        datastore = store.ChangeDetectionStore(datastore_path=app_config['datastore_path'], version_tag=__version__, include_default_watches=include_default_watches)
+    except JSONDecodeError as e:
+        # Dont' start if the JSON DB looks corrupt
+        logger.critical(f"ERROR: JSON DB or Proxy List JSON at '{app_config['datastore_path']}' appears to be corrupt, aborting.")
+        logger.critical(str(e))
+        sys.exit(1)
+
+    # Testing mode: Exit cleanly after datastore initialization (for CI/CD upgrade tests)
+    if os.environ.get('TESTING_SHUTDOWN_AFTER_DATASTORE_LOAD'):
+        logger.success(f"TESTING MODE: Datastore loaded successfully from {app_config['datastore_path']}")
+        logger.success(f"TESTING MODE: Schema version: {datastore.data['settings']['application'].get('schema_version', 'unknown')}")
+        logger.success(f"TESTING MODE: Loaded {len(datastore.data['watching'])} watches")
+        logger.success("TESTING MODE: Exiting cleanly (TESTING_SHUTDOWN_AFTER_DATASTORE_LOAD is set)")
+        sys.exit(0)
+
+    # Apply all_paused setting if specified via CLI
+    if all_paused is not None:
+        datastore.data['settings']['application']['all_paused'] = all_paused
+        logger.info(f"Setting all watches paused: {all_paused}")
+
         # Start monitor in background thread
         monitor_thread = threading.Thread(target=batch_mode_monitor, daemon=True, name="BatchModeMonitor")
         monitor_thread.start()
