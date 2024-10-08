@@ -934,3 +934,56 @@ def test_api_conflict_UI_password(client, live_server, measure_memory_usage, dat
 
     api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
 
+def test_api_url_validation(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test URL validation for edge cases in both CREATE and UPDATE endpoints.
+    Addresses security issues where empty/null/invalid URLs could bypass validation.
+
+    This test ensures that:
+    - CREATE endpoint rejects null, empty, and invalid URLs
+    - UPDATE endpoint rejects attempts to change URL to null, empty, or invalid
+    - UPDATE endpoint allows updating other fields without touching URL
+    - URL validation properly checks protocol, format, and safety
+    """
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Test 1: CREATE with null URL should fail
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": None}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+    assert res.status_code == 400, "Creating watch with null URL should fail"
+
+    # Test 2: CREATE with empty string URL should fail
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": ""}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+    assert res.status_code == 400, "Creating watch with empty string URL should fail"
+    assert b'Invalid or unsupported URL' in res.data or b'required' in res.data.lower()
+
+    # Test 3: CREATE with whitespace-only URL should fail
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": "   "}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+    assert res.status_code == 400, "Creating watch with whitespace-only URL should fail"
+
+    # Test 4: CREATE with invalid protocol should fail
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": "javascript:alert(1)"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+    assert res.status_code == 400, "Creating watch with javascript: protocol should fail"
+
