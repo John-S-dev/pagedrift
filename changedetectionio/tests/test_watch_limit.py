@@ -30,3 +30,47 @@ def test_watch_limit_absent_or_junk_means_unlimited(client, live_server, measure
     assert datastore.watch_limit_reached() is False
 
 
+def test_quick_watch_add_refused_at_limit(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    datastore = live_server.app.config['DATASTORE']
+    test_url = url_for('test_endpoint', _external=True)
+
+    monkeypatch.setenv('PAGE_WATCH_LIMIT', '1')
+
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, 'tags': ''},
+        follow_redirects=True
+    )
+    assert b'Watch added' in res.data
+
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": f"{test_url}?second=1", 'tags': ''},
+        follow_redirects=True
+    )
+    assert b'Watch limit reached (1/1 watches)' in res.data
+    assert b'Watch added' not in res.data
+    assert len(datastore.data['watching']) == 1
+
+    delete_all_watches(client)
+
+
+def test_ui_import_reports_limit_once_and_hands_back_the_rest(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """The importer stops at the limit instead of letting add_watch() flash per remaining row."""
+    datastore = live_server.app.config['DATASTORE']
+    test_url = url_for('test_endpoint', _external=True)
+
+    monkeypatch.setenv('PAGE_WATCH_LIMIT', '2')
+
+    urls = "\n".join(f"{test_url}?i={i}" for i in range(5))
+    res = client.post(url_for("imports.import_page"), data={"urls": urls}, follow_redirects=True)
+
+    assert res.data.count(b'Watch limit reached') == 1, "The limit should be reported once for the file, not once per row"
+    assert len(datastore.data['watching']) == 2
+    # 3 unprocessed URLs come back in the textarea to retry once there's room
+    assert b'3 Skipped' in res.data
+    assert b'i=4' in res.data
+
+    delete_all_watches(client)
+
+
