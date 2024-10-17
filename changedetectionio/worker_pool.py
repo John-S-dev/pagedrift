@@ -409,3 +409,59 @@ def queue_item_async_safe(update_q, item, silent=False):
         return False
 
 
+def check_worker_health(expected_count, update_q=None, notification_q=None, app=None, datastore=None):
+    """
+    Check if the expected number of async workers are running and restart any missing ones.
+
+    Args:
+        expected_count: Expected number of workers
+        update_q, notification_q, app, datastore: Required for restarting workers
+
+    Returns:
+        dict: Health check results
+    """
+    global worker_threads
+
+    current_count = get_worker_count()
+
+    # Check which workers are actually alive
+    alive_count = sum(1 for w in worker_threads if w.thread and w.thread.is_alive())
+
+    if alive_count == expected_count:
+        return {
+            'status': 'healthy',
+            'expected_count': expected_count,
+            'actual_count': alive_count,
+            'message': f'All {expected_count} async workers running'
+        }
+
+    # Find dead workers
+    dead_workers = []
+    for i, worker in enumerate(worker_threads[:]):
+        if not worker.thread or not worker.thread.is_alive():
+            dead_workers.append(i)
+            logger.warning(f"Async worker {worker.worker_id} thread is dead")
+
+    # Remove dead workers from tracking
+    for i in reversed(dead_workers):
+        if i < len(worker_threads):
+            worker_threads.pop(i)
+
+    missing_workers = expected_count - alive_count
+    restarted_count = 0
+
+    if missing_workers > 0 and all([update_q, notification_q, app, datastore]):
+        logger.info(f"Restarting {missing_workers} crashed async workers")
+
+        for i in range(missing_workers):
+            if add_worker(update_q, notification_q, app, datastore):
+                restarted_count += 1
+
+    return {
+        'status': 'repaired' if restarted_count > 0 else 'degraded',
+        'expected_count': expected_count,
+        'actual_count': alive_count,
+        'dead_workers': len(dead_workers),
+        'restarted_workers': restarted_count,
+        'message': f'Found {len(dead_workers)} dead workers, restarted {restarted_count}'
+    }
