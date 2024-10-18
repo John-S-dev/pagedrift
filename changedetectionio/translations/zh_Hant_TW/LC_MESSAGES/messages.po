@@ -3173,3 +3173,51 @@ msgstr "應介於 1 到 999 之間"
 msgid "Default User-Agent overrides"
 msgstr "預設 User-Agent 覆寫"
 
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "提取為 CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "剛剛"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "立刻"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "%s 秒前"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "%s 秒後"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "1 分鐘前"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "1 分鐘後"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "%s 分鐘前"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sm"
+msgstr "%s 分鐘後"
+
+#: changedetectionio/languages.py
+msgid "1h ago"
+msgstr "1 小時前"
+
+#: changedetectionio/languages.py
+msgid "in 1h"
+msgstr "1 小時後"
+
