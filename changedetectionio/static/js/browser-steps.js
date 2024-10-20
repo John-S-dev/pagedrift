@@ -292,3 +292,56 @@ $(document).ready(function () {
         // so you wanna remove the 2nd (3rd spot 0,1,2,...)
         var p = $("#browser_steps li").index($(this).closest('li'));
 
+        var elem_to_remove = $("#browser_steps li")[p];
+        $('.clear', elem_to_remove).click();
+        $("#browser_steps li").slice(p, 10).each(function (index) {
+            // get the next one's value from where we clicked
+            var next = $("#browser_steps li")[p + index + 1];
+            if (next) {
+                // and set THIS ones value from the next one
+                var n = $('input', next);
+                $("select", $(this)).val($('select', next).val());
+                $('input', this)[0].value = $(n)[0].value;
+                $('input', this)[1].value = $(n)[1].value;
+                // Triggers reconfiguring the field based on the system config
+                $("select", $(this)).change();
+            }
+
+        });
+
+        // Reset their hidden/empty states
+        set_greyed_state();
+    });
+
+    $('ul#browser_steps li .control .apply').click(function (event) {
+        if (apply_buttons_disabled) {
+            return;
+        }
+
+        var current_data = $(event.currentTarget).closest('li');
+        var step_n = $(event.currentTarget).data('step-index');
+
+        // Determine if this is the last configured step
+        var is_last_step = 0;
+        $('ul#browser_steps li select').each(function (i) {
+            if ($(this).val() !== 'Choose one') {
+                is_last_step += 1;
+            }
+        });
+        is_last_step = (is_last_step == (step_n + 1));
+
+        console.log("Requesting step via POST " + $("select[id$='operation']", current_data).first().val());
+
+        // Execute the browser step
+        executeBrowserStep(
+            browser_steps_sync_url + "&browsersteps_session_id=" + browsersteps_session_id,
+            {
+                'operation': $("select[id$='operation']", current_data).first().val(),
+                'selector': $("input[id$='selector']", current_data).first().val(),
+                'optional_value': $("input[id$='optional_value']", current_data).first().val(),
+                'step_n': step_n,
+                'is_last_step': is_last_step
+            }
+        );
+    });
+
