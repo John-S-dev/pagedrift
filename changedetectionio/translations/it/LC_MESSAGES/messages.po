@@ -3602,3 +3602,44 @@ msgstr "e"
 msgid "depend on how the difference algorithm perceives the change."
 msgstr ""
 
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Customise notifications"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Title for all notifications"
+msgstr "Titolo per tutte le notifiche"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For JSON payloads, use"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "without quotes for automatic escaping, for example -"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "URL encoding, use"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for example -"
+msgstr "per esempio -"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Regular-expression replace, use"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For a complete reference of all Jinja2 built-in filters, users can refer to the"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Format for all notifications"
+msgstr "Formato per tutte le notifiche"
+
