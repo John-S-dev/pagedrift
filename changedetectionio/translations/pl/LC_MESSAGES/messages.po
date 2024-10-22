@@ -3648,6 +3648,46 @@ msgstr "Prostokąt ograniczający"
 msgid "Selection Mode"
 msgstr "Tryb wyboru"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "Tylko w magazynie (Brak na stanie -> Tylko w magazynie)"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "Wszelkie zmiany dotyczące dostępności"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "Wyłącz, nie śledź dostępności/uzupełnień zapasów"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "Cena poniżej poziomu uruchamiającego powiadomienie"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "Bez ograniczeń"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "Cena powyżej tej wartości spowoduje wysłanie powiadomienia"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "Próg (%) zmian cen od ostatniej kontroli"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "Powinna wynosić od 0 do 100"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "Śledź zmiany cen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Restock & Price Detection"
+msgstr "Wykrywanie ponownej dostępności i zmian cen"
+
 #: changedetectionio/processors/restock_diff/processor.py
 msgid "Re-stock & Price detection for pages with a SINGLE product"
 msgstr "Wykrywanie uzupełnienia zapasów i zmian cen na stronach zawierających JEDEN produkt"
