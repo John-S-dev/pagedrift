@@ -3226,6 +3226,51 @@ msgid "Keyword triggers - Trigger/wait for text"
 msgstr "Ключові слова-тригери - Спрацювати/чекати текст"
 
 #: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Блокувати виявлення змін, поки текст збігається"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Виконати JavaScript перед виявленням змін"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Проксі"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Надіслати сповіщення, коли фільтр більше не може бути знайдений на сторінці"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "Увімк"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Сповіщення"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Заглушено"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Прикріпити скріншот до сповіщення (де можливо)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Збіг"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Збіг усіх наступних умов"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Збіг будь-якої з наступних умов"
+
+#: changedetectionio/forms.py
 msgid "Both a name, and a Proxy URL is required."
 msgstr "Потрібно вказати і ім'я, і URL проксі."
 
