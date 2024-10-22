@@ -280,6 +280,41 @@ def test_datastore_lock_protects_commit_snapshot(client, live_server):
 # 4. Processor Config Separation Tests
 # ==============================================================================
 
+def test_processor_config_never_in_watch_json(client, live_server):
+    """Test that processor_config_* fields are filtered out of watch.json"""
+    datastore = client.application.config.get('DATASTORE')
+
+    uuid = datastore.add_watch(
+        url='http://example.com',
+        extras={
+            'title': 'Test Watch',
+            'processor': 'restock_diff'
+        }
+    )
+
+    watch = datastore.data['watching'][uuid]
+
+    # Try to set processor config fields (these should be filtered during commit)
+    watch['processor_config_price_threshold'] = 10.0
+    watch['processor_config_some_setting'] = 'value'
+    watch['processor_config_another'] = {'nested': 'data'}
+    watch.commit()
+
+    # Read watch.json from disk
+    watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+    with open(watch_json_path, 'r') as f:
+        data = json.load(f)
+
+    # Verify processor_config_* fields are NOT in watch.json
+    for key in data.keys():
+        assert not key.startswith('processor_config_'), \
+            f"Found {key} in watch.json - processor configs should be in separate file!"
+
+    # Normal fields should still be there
+    assert data['title'] == 'Test Watch'
+    assert data['processor'] == 'restock_diff'
+
+
 def test_api_post_saves_processor_config_separately(client, live_server):
     """Test that API POST saves processor configs to {processor}.json"""
     import json
