@@ -243,3 +243,35 @@ tags:
       GET /api/v1/full-spec
       ```
 
+    SystemInfo:
+      type: object
+      properties:
+        watch_count:
+          type: integer
+          description: Total number of web page change monitors (watches)
+        tag_count:
+          type: integer
+          description: Total number of tags
+        uptime:
+          type: string
+          description: System uptime
+        version:
+          type: string
+          description: Application version
+
+    SearchResult:
+      type: object
+      properties:
+        watches:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Watch'
+          description: Dictionary of matching web page change monitors (watches) keyed by UUID
+
+    WatchHistory:
+      type: object
+      additionalProperties:
+        type: string
+        description: Path to snapshot file
+      description: Dictionary of timestamps and snapshot paths
+
