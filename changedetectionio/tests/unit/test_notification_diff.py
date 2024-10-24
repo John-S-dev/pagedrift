@@ -249,3 +249,85 @@ Line 4"""
         output = diff.render_diff(before, after, include_equal=False, case_insensitive=True, word_diff=True)
         
 
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
+        
+        # Should only highlight the actual value change
+        self.assertIn(f'{REMOVED_PLACEMARKER_OPEN}100{REMOVED_PLACEMARKER_CLOSED}', output)
+        self.assertIn(f'{ADDED_PLACEMARKER_OPEN}200{ADDED_PLACEMARKER_CLOSED}', output)
+        # Should not create separate spans for whitespace changes
+
+    def test_ignore_junk_case_insensitive_combination(self):
+        """Test ignore_junk combined with case_insensitive"""
+        before = "The  QUICK   Brown  Fox jumps over the lazy dog every day"
+        after = "The quick brown FOX jumps over the lazy dog every day"
+
+        # Both enabled: should ignore case and whitespace
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True,
+                                 case_insensitive=True, ignore_junk=True)
+        
+        lines = [l for l in output.split("\n") if l.strip()]
+        self.assertEqual(len(lines), 0, "Should ignore both case and whitespace differences")
+
+        # Only case_insensitive: should detect whitespace changes
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True,
+                                 case_insensitive=True, ignore_junk=False)
+        
+        self.assertTrue(len(output.strip()) > 0, "Should detect whitespace changes")
+
+        # Only ignore_junk: should detect case changes
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True,
+                                 case_insensitive=False, ignore_junk=True)
+        
+        # Should detect case differences
+        self.assertIn('QUICK', output)
+        self.assertIn('quick', output)
+        self.assertIn('Brown', output)
+        self.assertIn('brown', output)
+        # Should show changes (though may be grouped together)
+        # Check that placemarkers appear in the output
+        self.assertTrue(REMOVED_PLACEMARKER_OPEN in output, "Should show removed text")
+        self.assertTrue(ADDED_PLACEMARKER_OPEN in output, "Should show added text")
+
+    def test_ignore_junk_multiline(self):
+        """Test ignore_junk with multiple lines"""
+        before = """Line 1  with  spaces
+Line 2 unchanged
+Line 3  with  tabs	and  spaces"""
+
+        after = """Line 1 with spaces
+Line 2 unchanged
+Line 3 with tabs and spaces"""
+
+        # With ignore_junk, should only show unchanged line when include_equal=True
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
+        
+        lines = [l for l in output.split("\n") if l.strip()]
+        # Should be empty since only whitespace changed
+        self.assertEqual(len(lines), 0, "Should ignore whitespace changes across multiple lines")
+
+        # Verify Line 2 is not shown as changed
+        self.assertNotIn('[-Line 2-]', output)
+        self.assertNotIn('[+Line 2+]', output)
+
+    def test_diff_changed_from_to_word_level(self):
+        """Primary use case: extract just the old/new value from a changed line (e.g. price monitoring)"""
+        before = "Widget costs $99.99 per month"
+        after  = "Widget costs $109.99 per month"
+
+        raw = diff.render_diff(before, after, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "$99.99")
+        self.assertEqual(extract_changed_to(raw),   "$109.99")
+
+    def test_diff_changed_from_to_multiple_changes(self):
+        """Multiple changed fragments on different lines are joined with newline.
+        An unchanged line between the two changes ensures each is a 1-to-1 replace,
+        so word_diff fires per line rather than falling back to multi-line block mode."""
+        before = "Price $99\nunchanged\nTax $5"
+        after  = "Price $149\nunchanged\nTax $12"
+
+        raw = diff.render_diff(before, after, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "$99\n$5")
+        self.assertEqual(extract_changed_to(raw),   "$149\n$12")
+
