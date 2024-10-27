@@ -3125,6 +3125,46 @@ msgid "Browser connection URL"
 msgstr "브라우저 연결 URL"
 
 #: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "이름과 프록시 URL이 모두 필요합니다."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "새 탭에서 '기록' 페이지 열기"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "실시간 UI 업데이트 활성화"
+
+#: changedetectionio/forms.py
+msgid "Favicons Enabled"
+msgstr "파비콘 활성화"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in watch overview list"
+msgstr "모니터링 목록에 페이지 <title> 사용"
+
+#: changedetectionio/forms.py
+msgid "Relative time format"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Long (1 minute ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr "API 액세스 토큰 보안 확인 활성화"
+
+#: changedetectionio/forms.py
 msgid "AI thinking budget (tokens)"
 msgstr "AI 추론 예산 (토큰)"
 
