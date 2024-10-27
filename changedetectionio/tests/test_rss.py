@@ -160,6 +160,65 @@ def test_rss_xpath_filtering(client, live_server, measure_memory_usage, datastor
     delete_all_watches(client)
 
 
+def test_rss_bad_chars_breaking(client, live_server, measure_memory_usage, datastore_path):
+    """This should absolutely trigger the RSS builder to go into worst state mode
+
+    - source: prefix means no html conversion (which kinda filters out the bad stuff)
+    - Binary data
+    - Very long so that the saving is performed by Brotli (and decoded back to bytes)
+
+    Otherwise feedgen should support regular unicode
+    """
+    
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        ten_kb_string = "A" * 10_000
+        f.write(ten_kb_string)
+
+    test_url = url_for('test_endpoint', _external=True)
+    res = client.post(
+        url_for("imports.import_page"),
+        data={"urls": "source:"+test_url},
+        follow_redirects=True
+    )
+    assert b"1 Imported" in res.data
+    wait_for_all_checks(client)
+
+    # Set the bad content
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        jpeg_bytes = "\xff\xd8\xff\xe0\x00\x10XXXXXXXX\x00\x01\x02\x00\x00\x01\x00\x01\x00\x00"  # JPEG header
+        jpeg_bytes += "A" * 10_000
+
+        f.write(jpeg_bytes)
+
+    res = client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    assert b'Queued 1 watch for rechecking.' in res.data
+    wait_for_all_checks(client)
+    rss_token = extract_rss_token_from_UI(client)
+
+    uuid = next(iter(live_server.app.config['DATASTORE'].data['watching']))
+    i=0
+    from loguru import logger
+    # Because chardet could take a long time
+    while i<=10:
+        logger.debug(f"History was {live_server.app.config['DATASTORE'].data['watching'][uuid].history_n}..")
+        if live_server.app.config['DATASTORE'].data['watching'][uuid].history_n ==2:
+            break
+            i+=1
+        time.sleep(2)
+    assert live_server.app.config['DATASTORE'].data['watching'][uuid].history_n == 2
+
+    # Check RSS feed is still working
+    res = client.get(
+        url_for("rss.feed", uuid=uuid, token=rss_token),
+        follow_redirects=False # Important! leave this off! it should not redirect
+    )
+    assert res.status_code == 200
+
+    #assert live_server.app.config['DATASTORE'].data['watching'][uuid].history_n == 2
+    #assert live_server.app.config['DATASTORE'].data['watching'][uuid].history_n == 2
+
+
 def test_rss_single_watch_feed(client, live_server, measure_memory_usage, datastore_path):
 
     app_rss_token = live_server.app.config['DATASTORE'].data['settings']['application'].get('rss_access_token')
