@@ -2904,6 +2904,46 @@ msgid "seconds"
 msgstr "секунды"
 
 #: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Используйте планировщик времени"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Дополнительный часовой пояс для запуска"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Понедельник"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Среда"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Четверг"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Пятница"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Суббота"
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Недели"
+
+#: changedetectionio/forms.py
 msgid "Should contain zero or more seconds"
 msgstr "Должно содержать ноль или более секунд."
 
