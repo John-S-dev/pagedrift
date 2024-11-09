@@ -276,3 +276,65 @@ class TestHtmlToText(unittest.TestCase):
 
         assert 'With spaces' in text5, "Failed to handle 'display: none' with space"
 
+        # Test case 6: Body with other attributes (class, id)
+        html6 = '<html><body class="foo" style="display:none" id="bar"><p>With attributes</p></body></html>'
+        text6 = html_to_text(html6)
+
+        assert 'With attributes' in text6, "Failed to extract from body with multiple attributes"
+
+        # Test case 7: Should NOT affect opacity:0 (which doesn't hide from inscriptis)
+        html7 = '<html><body style="opacity:0"><p>Transparent content</p></body></html>'
+        text7 = html_to_text(html7)
+
+        # Opacity doesn't affect inscriptis text extraction, content should be there
+        assert 'Transparent content' in text7, "Incorrectly stripped opacity:0 style"
+
+        print("  ✓ All display:none body tag tests passed")
+
+    def test_style_tag_with_svg_data_uri(self):
+        """
+        Test that style tags containing SVG data URIs are properly stripped.
+
+        Some WordPress and modern sites embed SVG as data URIs in CSS, which contains
+        <svg> and </svg> tags within the style content. The regex must use backreferences
+        to ensure <style> matches </style> (not </svg> inside the CSS).
+
+        This was causing errors where the regex would match <style> and stop at the first
+        </svg> it encountered inside a CSS data URI, breaking the HTML structure.
+        """
+        # Real-world example from WordPress wp-block-image styles
+        html = '''<!DOCTYPE html>
+<html>
+<head>
+    <style id='wp-block-image-inline-css'>
+.wp-block-image>a,.wp-block-image>figure>a{display:inline-block}.wp-block-image img{box-sizing:border-box;height:auto;max-width:100%;vertical-align:bottom}@supports ((-webkit-mask-image:none) or (mask-image:none)) or (-webkit-mask-image:none){.wp-block-image.is-style-circle-mask img{border-radius:0;-webkit-mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-image:url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');mask-mode:alpha}}
+    </style>
+</head>
+<body>
+    <h1>Test Heading</h1>
+    <p>This is the actual content that should be extracted.</p>
+    <div class="wp-block-image">
+        <img src="test.jpg" alt="Test image">
+    </div>
+</body>
+</html>'''
+
+        # This should not crash and should extract the body content
+        text = html_to_text(html)
+
+        # Verify the actual body content was extracted
+        assert text is not None, "html_to_text returned None"
+        assert len(text) > 0, "html_to_text returned empty string"
+        assert 'Test Heading' in text, "Failed to extract heading"
+        assert 'actual content that should be extracted' in text, "Failed to extract paragraph"
+
+        # Verify CSS content was stripped (including the SVG data URI)
+        assert '.wp-block-image' not in text, "CSS class selector leaked into text"
+        assert 'mask-image' not in text, "CSS property leaked into text"
+        assert 'data:image/svg+xml' not in text, "SVG data URI leaked into text"
+        assert 'viewBox' not in text, "SVG attributes leaked into text"
+
+        # Verify no broken HTML structure
+        assert '<style' not in text, "Unclosed style tag in output"
+        assert '</svg>' not in text, "SVG closing tag leaked into text"
+
