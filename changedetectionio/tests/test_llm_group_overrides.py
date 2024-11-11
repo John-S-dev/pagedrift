@@ -389,6 +389,39 @@ def test_watch_edit_llm_change_summary_shows_own_value_not_group_placeholder(
 # No tag linked — fields are editable
 # ---------------------------------------------------------------------------
 
+def test_watch_edit_no_tag_fields_are_editable(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    A watch with no tags: both LLM textareas are editable (no readonly, no From group).
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+
+    watch_uuid = _create_watch(client, test_url, api_token)
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+
+    # Neither textarea should be readonly
+    for field in ('llm_intent', 'llm_change_summary'):
+        pos = body.find(f'name="{field}"')
+        assert pos != -1, f"{field} textarea missing from watch edit page"
+        snippet = body[max(0, pos - 50): pos + 300]
+        assert 'readonly' not in snippet, \
+            f"{field} textarea must not be readonly with no tags; snippet: {snippet!r}"
+
+    assert 'From group' not in body
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# Evaluator cascade — gated on the same checkbox as the UI
+# ---------------------------------------------------------------------------
+
 def test_resolve_llm_field_uses_tag_value_when_group_overrides_enabled(
         client, live_server, measure_memory_usage, datastore_path):
     """
