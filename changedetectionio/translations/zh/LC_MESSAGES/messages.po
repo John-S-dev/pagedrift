@@ -3090,6 +3090,50 @@ msgid "Muted"
 msgstr "静音"
 
 #: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr "已启用 API 访问令牌安全检查"
+
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "将空页面视为变更？"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "忽略文本"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "忽略空白"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "必须介于 0 到 100 之间"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "密码"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "分页大小"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "应至少为 0（表示禁用）"
+
+#: changedetectionio/forms.py
 msgid "Replace {{diff}} notification token with AI summary"
 msgstr ""
 
