@@ -104,3 +104,93 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
 
         sorted_tags = sorted(datastore.data['settings']['application'].get('tags').items(), key=lambda x: x[1]['title'])
 
+        from changedetectionio import content_fetchers
+        available_fetchers = content_fetchers.available_fetchers()
+
+        from changedetectionio.llm.evaluator import get_llm_config as _get_llm_config
+        from changedetectionio.llm.ui_strings import LLM_INTENT_WATCH_PLACEHOLDER
+        llm_configured = bool(_get_llm_config(datastore))
+
+        # Everything the row markup itself needs comes from here, shared with the Socket.IO
+        # row push so a live-updated row can't drift from the server-rendered one.
+        row_ctx = watch_row_context(datastore,
+                                    active_tag_uuid=active_tag_uuid,
+                                    queued_uuids=update_q.get_queued_uuids())
+
+        output = render_template(
+            "watch-overview.html",
+            **row_ctx,
+            active_tag=active_tag,
+            active_processor=active_processor,
+            checking_now_size=len(worker_pool.get_running_uuids()),
+            app_rss_token=datastore.data['settings']['application'].get('rss_access_token'),
+            errored_count=errored_count,
+            deals_count=deals_count,
+            unread_count=unread_count,
+            processor_counts=processor_counts,
+            # body classes for app-wide state; realtime.js keeps these in sync live
+            # (has-any-unviewed reveals the "Mark all viewed" button - see _watch_table.scss)
+            extra_classes=' '.join(filter(None, ['has-queue' if not update_q.empty() else '',
+                                                 'llm-configured' if llm_configured else '',
+                                                 'has-any-unviewed' if datastore.unread_changes_count else ''])),
+            form=form,
+            generate_tag_colors=processors.generate_processor_badge_colors,
+            wcag_text_color=processors.wcag_text_color,
+            guid=datastore.data['app_guid'],
+            available_fetchers=available_fetchers,
+            #header=_("todo - tag name etc"),
+            hosted_sticky=os.getenv("SALTED_PASS", False) == False,
+            now_time_server=round(time.time()),
+            pagination=pagination,
+            processor_badge_css=processors.get_processor_badge_css(),
+            processor_badge_texts=processors.get_processor_badge_texts(),
+            queue_size=update_q.qsize(),
+            # Active view filters (tag/processor/q/unread/...) so links (e.g. column sorting)
+            # can re-apply them and not drop the operator's current filtered view.
+            active_filters=wl_filters.filter_query_args(request.args),
+            search_q=request.args.get('q', '').strip(),
+            sort_attribute=request.args.get('sort') if request.args.get('sort') else request.cookies.get('sort'),
+            sort_order=request.args.get('order') if request.args.get('order') else request.cookies.get('order'),
+            tags=sorted_tags,
+            unread_changes_count=datastore.unread_changes_count,
+            watches=sorted_watches,
+            llm_configured=llm_configured,
+            llm_intent_watch_placeholder=LLM_INTENT_WATCH_PLACEHOLDER,
+        )
+
+        # Return freed template-building memory to the OS immediately.
+        # render_template allocates ~20MB of intermediate strings that are freed on return,
+        # but glibc keeps those pages mapped in its arenas as RSS. malloc_trim() forces
+        # glibc to release them, preventing RSS growth from concurrent Chrome connections.
+        try:
+            import ctypes
+            ctypes.CDLL('libc.so.6').malloc_trim(0)
+        except Exception:
+            pass
+
+        if session.get('share-link'):
+            del (session['share-link'])
+
+        resp = make_response(output)
+
+        # The template can run on cookie or url query info
+        if request.args.get('sort'):
+            resp.set_cookie('sort', request.args.get('sort'))
+        if request.args.get('order'):
+            resp.set_cookie('order', request.args.get('order'))
+
+        return resp
+
+    @watchlist_blueprint.route("/uuids", methods=['GET'])
+    @login_optionally_required
+    def uuids():
+        """All watch UUIDs matching the current filter (tag/search/status/processor).
+
+        Backs the client "select all matching" feature: the watchlist page only
+        renders one page of rows, so to select across pages the browser fetches the
+        full matching id list from here and holds it in its selection store.
+        """
+        from flask import jsonify
+        return jsonify({'uuids': wl_filters.matching_watch_uuids(datastore, request.args)})
+
+    return watchlist_blueprint
