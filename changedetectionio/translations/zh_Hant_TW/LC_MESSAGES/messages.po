@@ -3221,3 +3221,48 @@ msgstr "1 小時前"
 msgid "in 1h"
 msgstr "1 小時後"
 
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Unlink %(name)s?"
+msgstr "解除連結 %(name)s？"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid ""
+"<p>Are you sure you want to unlink all watches from <strong>%(name)s</strong>?</p><p>The tag will be kept but watches"
+" will be removed from it.</p>"
+msgstr "<p>您確定要從 <strong>%(name)s</strong> 解除所有監測任務的連結嗎？</p><p>標籤將被保留，但監測任務將從中移除。</p>"
+
+#: changedetectionio/templates/base.html
+msgid "There was an error communicating with the server."
+msgstr "與伺服器通訊時發生錯誤。"
+
+#: changedetectionio/templates/base.html
+msgid "There was a problem processing the request, please reload the page."
+msgstr "處理請求時發生問題，請重新載入網頁。"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "There was a problem processing the request: %(error)s"
+msgstr "處理請求時發生問題：%(error)s"
+
+#: changedetectionio/templates/base.html
+msgid "Existing filters under the 'Filters & Triggers' tab were cleared."
+msgstr "「過濾器與觸發器」分頁下的現有過濾器已清除。"
+
+#: changedetectionio/templates/base.html
+msgid "Fetching element data.."
+msgstr "正在抓取元素資料 ..."
+
+#: changedetectionio/templates/base.html
+msgid "Rendering.."
+msgstr "正在渲染 ..."
+
+#: changedetectionio/templates/base.html
+msgid "Draw mode - click and drag to select an area"
+msgstr "繪製模式 - 點擊並拖曳以選擇區域"
+
+#: changedetectionio/templates/base.html
+msgid "Hover over elements to select"
+msgstr "將滑鼠懸停在元素上以進行選擇"
+
