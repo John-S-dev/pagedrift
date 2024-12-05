@@ -2791,6 +2791,46 @@ msgstr "數值"
 msgid "Operator is required."
 msgstr "必須填寫運算子。"
 
+#: changedetectionio/conditions/form.py
+msgid "Field is required."
+msgstr "必須填寫欄位。"
+
+#: changedetectionio/conditions/form.py
+msgid "Value is required."
+msgstr "必須填寫數值。"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text similarity ratio"
+msgstr "Levenshtein - 文字相似度比例"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein - Text change distance"
+msgstr "Levenshtein - 文字變更距離"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Not enough history to calculate Levenshtein metrics"
+msgstr "歷史記錄不足，無法計算 Levenshtein 指標"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Snapshot too large for edit statistics, skipping."
+msgstr "快照太大，無法進行編輯統計，跳過。"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Unable to calculate Levenshtein metrics"
+msgstr "無法計算 Levenshtein 指標"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Levenshtein Text Similarity Details"
+msgstr "Levenshtein 文字相似度詳細資訊"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Raw distance (edits needed)"
+msgstr "原始距離（需要的編輯次數）"
+
+#: changedetectionio/conditions/plugins/levenshtein_plugin.py
+msgid "Similarity ratio"
+msgstr "相似度比例"
+
 #: changedetectionio/conditions/plugins/levenshtein_plugin.py
 msgid "Percent similar"
 msgstr "相似百分比"
