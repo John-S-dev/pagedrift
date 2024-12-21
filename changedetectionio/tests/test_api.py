@@ -1009,3 +1009,26 @@ def test_api_url_validation(client, live_server, measure_memory_usage, datastore
     )
     assert res.status_code == 400, "Creating watch with javascript: protocol should fail"
 
+def test_api_time_between_check_validation(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that time_between_check validation works correctly:
+    - When time_between_check_use_default is false, at least one time value must be > 0
+    - Values must be valid integers
+    """
+    import json
+    from flask import url_for
+    
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    
+    # Test 1: time_between_check_use_default=false with NO time_between_check should fail
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": "https://example.com",
+            "time_between_check_use_default": False
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    assert res.status_code == 400, "Should fail when time_between_check_use_default=false with no time_between_check"
+    assert b"At least one time interval" in res.data, "Error message should mention time interval requirement"
+    
