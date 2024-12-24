@@ -6,3 +6,33 @@ from .util import live_server_setup, wait_for_all_checks, wait_for_watch_history
 import os
 
 
+def set_original_response(datastore_path):
+    test_return_data = """<html>
+       <body>
+     Some initial text<br>
+     <p>Watch 1 content</p>
+     <p>Watch 2 content</p>
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
+def set_modified_response(datastore_path):
+    test_return_data = """<html>
+       <body>
+     Some initial text<br>
+     <p>Watch 1 content MODIFIED</p>
+     <p>Watch 2 content CHANGED</p>
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
