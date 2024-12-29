@@ -3402,3 +3402,43 @@ msgstr ""
 msgid "format to avoid"
 msgstr ""
 
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Atualizações em tempo real offline"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Selecionar Idioma"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Detectar automaticamente do navegador"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "O suporte a idiomas está em beta; ajude-nos a melhorar abrindo um PR no GitHub com quaisquer atualizações."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Pesquisar"
+
