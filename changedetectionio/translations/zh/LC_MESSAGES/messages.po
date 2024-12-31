@@ -3304,6 +3304,51 @@ msgstr "选择模式必须为 “element” 或 “draw”"
 msgid "Minimum Change Percentage"
 msgstr "最小变化百分比"
 
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Stock status"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Currency"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/difference.py
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Price history"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "补货检测"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "仅有库存（缺货 -> 有库存）"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "任何库存变化"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "关闭，不跟踪库存/补货"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "低于该价格时触发通知"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "不限"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "高于该价格时触发通知"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "相对上次检查的价格变动阈值（%）"
+
 #: changedetectionio/processors/restock_diff/forms.py
 msgid "Should be between 0 and 100"
 msgstr "应介于 0 到 100 之间"
