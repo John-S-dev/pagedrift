@@ -3611,3 +3611,52 @@ msgstr "Никакого обнаружения изменений не прои
 msgid "Settings sections"
 msgstr "Разделы настроек"
 
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Summarise what events were added or cancelled. Two sentences maximum."
+msgstr "Подведите итог, какие события были добавлены или отменены. Два предложения максимум."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Describe the price change: old price, new price, percentage difference."
+msgstr "Опишите изменение цены: старая цена, новая цена, процентная разница."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "AI"
+msgstr "ИИ"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid ""
+"Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI Change Intent and AI "
+"Change Summary."
+msgstr ""
+"Настройте поставщика AI / LLM в <a href=\"%(url)s\">Settings → AI / LLM</a>, чтобы включить намерение изменения AI и "
+"сводку изменений AI."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI features for this group."
+msgstr ""
+"Настройте поставщика AI / LLM в <a href=\"%(url)s\">Settings → AI / LLM</a>, чтобы включить функции AI для этой "
+"группы."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Note!: //text() function does not work where the <element> contains <![CDATA[]]>"
+msgstr "Примечание!: функция //text() не работает, если <element> содержит <![CDATA[]]>."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "One CSS, xPath 1 & 2, JSON Path/JQ selector per line, <i>any</i> rules that matches will be used."
+msgstr "Будет использоваться один CSS, xPath 1 и 2, селектор JSON Path/JQ на строку, соответствующие правила <i>any</i>."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Limit text to this CSS rule, only text matching this CSS rule is included."
+msgstr "Ограничьте текст этим правилом CSS, включается только текст, соответствующий этому правилу CSS."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Prefix with <code>json:</code>, use <code>json:$</code> to force re-formatting if required,"
+msgstr "Префикс <code>json:</code>, используйте <code>json:$</code> для принудительного переформатирования, если необходимо,"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your JSONPath here"
+msgstr "проверьте свой JSONPath здесь"
+

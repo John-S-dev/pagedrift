@@ -3389,6 +3389,48 @@ msgstr ""
 msgid "Not enough price data points yet to draw a graph - keep monitoring and the price history will appear here."
 msgstr ""
 
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Watch limit reached ({current}/{limit} watches). Cannot add more watches."
+msgstr "已达到监视器上限（{current}/{limit}）。无法添加更多。"
+
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Error fetching metadata for {}"
+msgstr "获取 {} 的元数据失败"
+
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "监控协议不允许或 URL 格式无效"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "所有通知的正文 — 您可以使用"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "可在通知标题、正文和 URL 中使用模板，并使用下方的令牌/占位符。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "显示令牌/占位符"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "令牌"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "描述"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "你正在运行的 changedetection.io 实例的 URL。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "被监控的 URL。"
+
 #: changedetectionio/templates/_common_fields.html
 msgid ""
 "The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
