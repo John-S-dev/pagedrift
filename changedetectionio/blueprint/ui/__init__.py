@@ -406,3 +406,50 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, worker_pool, 
 
         return redirect(url_for('watchlist.index'))
 
+
+    @ui_blueprint.route("/share-url/<uuid_str:uuid>", methods=['POST'])
+    @login_optionally_required
+    def form_share_put_watch(uuid):
+        """Given a watch UUID, upload the info and return a share-link
+           the share-link can be imported/added"""
+        import requests
+        import json
+        from copy import deepcopy
+
+
+        # copy it to memory as trim off what we dont need (history)
+        watch = deepcopy(datastore.data['watching'].get(uuid))
+        # For older versions that are not a @property
+        if (watch.get('history')):
+            del (watch['history'])
+
+        # for safety/privacy
+        for k in list(watch.keys()):
+            if k.startswith('notification_'):
+                del watch[k]
+
+        for r in['uuid', 'last_checked', 'last_changed']:
+            if watch.get(r):
+                del (watch[r])
+
+        # Add the global stuff which may have an impact
+        watch['ignore_text'] += datastore.data['settings']['application']['global_ignore_text']
+        watch['subtractive_selectors'] += datastore.data['settings']['application']['global_subtractive_selectors']
+
+        watch_json = json.dumps(watch)
+
+        try:
+            r = requests.request(method="POST",
+                                 data={'watch': watch_json},
+                                 url="https://changedetection.io/share/share",
+                                 headers={'App-Guid': datastore.data['app_guid']})
+            res = r.json()
+
+            # Add to the flask session
+            session['share-link'] = f"https://changedetection.io/share/{res['share_key']}"
+
+
+        except Exception as e:
+            logger.error(f"Error sharing -{str(e)}")
+            flash(gettext("Could not share, something went wrong while communicating with the share server - {}").format(str(e)), 'error')
+

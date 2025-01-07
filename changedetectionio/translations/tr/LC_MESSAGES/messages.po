@@ -3268,6 +3268,47 @@ msgstr ""
 msgid "in %sh"
 msgstr ""
 
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Screenshot Comparison"
+msgstr "Ekran Görüntüsü Karşılaştırması"
+
+#: changedetectionio/processors/image_ssim_diff/preview.py
+msgid "Preview unavailable - No snapshots captured yet"
+msgstr "Önizleme kullanılamıyor - Henüz anlık görüntü yakalanmadı"
+
+#: changedetectionio/processors/image_ssim_diff/processor.py
+msgid "Visual / Image screenshot change detection"
+msgstr "Görsel / Görüntü ekran görüntüsü değişiklik tespiti"
+
+#: changedetectionio/processors/image_ssim_diff/processor.py
+msgid "Compares screenshots using fast OpenCV algorithm, 10-100x faster than SSIM"
+msgstr "Ekran görüntülerini hızlı OpenCV algoritması kullanarak karşılaştırır, SSIM'den 10-100 kat daha hızlıdır"
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Date"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Stock status"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Currency"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/difference.py
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Price history"
+msgstr ""
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "Yeniden stok tespiti"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "Yalnızca Stokta (Stokta Yok -> Yalnızca Stokta)"
+
 #: changedetectionio/processors/restock_diff/forms.py
 msgid "Any availability changes"
 msgstr "Herhangi bir kullanılabilirlik değişikliği"
