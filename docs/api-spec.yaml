@@ -252,6 +252,68 @@ components:
       description: |
         API key for authentication. You can find your API key in the changedetection.io dashboard under Settings > API.
         
+    Tag:
+      allOf:
+        - $ref: '#/components/schemas/WatchBase'
+        - type: object
+          properties:
+            overrides_watch:
+              type: [boolean, 'null']
+              description: |
+                Whether this tag's settings override watch settings for all watches in this tag/group.
+                - true: Tag settings override watch settings
+                - false: Tag settings do not override (watches use their own settings)
+                - null: Not decided yet / inherit default behavior
+            url_match_pattern:
+              type: string
+              description: |
+                Automatically apply this tag to any watch whose URL matches this pattern.
+                Supports fnmatch wildcards (* and ?): e.g. *://example.com/* or github.com/myorg.
+                Plain strings are matched as case-insensitive substrings.
+                Leave empty to disable auto-matching.
+            tag_colour:
+              type: string
+              pattern: '^(#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}))?$'
+              description: |
+                Background colour for this tag's badge, as a hex colour (#rgb or #rrggbb), e.g. #4f8ef7.
+                Only hex colours are accepted - the value is rendered into a CSS stylesheet.
+                Leave empty to use the colour auto-generated from the tag name.
+            # Future: Aggregated statistics from all watches with this tag
+            # check_count:
+            #   type: integer
+            #   description: Sum of check_count from all watches with this tag
+            #   readOnly: true
+            #   x-computed: true
+            # last_checked:
+            #   type: integer
+            #   description: Most recent last_checked timestamp from all watches with this tag
+            #   readOnly: true
+            #   x-computed: true
+            # last_changed:
+            #   type: integer
+            #   description: Most recent last_changed timestamp from all watches with this tag
+            #   readOnly: true
+            #   x-computed: true
+
+    CreateTag:
+      allOf:
+        - $ref: '#/components/schemas/Tag'
+        - type: object
+          required:
+            - title
+
+    NotificationUrls:
+      type: object
+      properties:
+        notification_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: List of notification URLs
+      required:
+        - notification_urls
+
     SystemInfo:
       type: object
       properties:
