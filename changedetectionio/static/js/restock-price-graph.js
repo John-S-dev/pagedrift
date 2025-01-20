@@ -252,6 +252,63 @@
             .append('<span class="rg-legend-dot out"></span>').append(document.createTextNode(' ' + (i18n.out_of_stock || 'Out of stock'))));
         $container.append($legend);
 
+        // Header row above the graph: status pill (LOW / TYPICAL / HIGH, left) and the summary
+        // stats (right), on one line. The pill sub-text is phrased per status so it never reads
+        // awkwardly (e.g. "cheaper than 0%" when high).
+        const $header = $('<div class="rg-header"></div>');
+
+        let $pill = $('<span></span>');  // placeholder keeps the stats pushed to the right
+        if (showOverlays) {
+            $pill = $('<div class="rg-status rg-status-' + summary.status + '"></div>');
+            $pill.append($('<span class="rg-status-label"></span>').text(i18n['price_' + summary.status] || ''));
+            let sub;
+            if (summary.status === 'low') {
+                sub = (i18n.cheaper_than || '').replace('{pct}', summary.cheaper_than_pct + '%');
+            } else if (summary.status === 'high') {
+                sub = (i18n.pricier_than || '').replace('{pct}', summary.pricier_than_pct + '%');
+            } else {
+                sub = i18n.typical_note || '';
+            }
+            if (sub) $pill.append($('<span class="rg-status-sub"></span>').text(sub));
+        }
+
+        const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length;
+        const $stats = $('<div class="rg-stats"></div>')
+            .text((i18n.avg_price || 'Average price') + ' ' + fmtPrice(avgPrice, currency) +
+                  ', ' + (series ? series.length : data.length) + ' ' + (i18n.changes || 'Changes'));
+
+        $header.append($pill).append($stats);
+        $container.prepend($header);
+    }
+
+    function buildTable($table, series, currency, i18n) {
+        const $tbody = $table.find('tbody');
+        if (!$tbody.length) return;
+        $tbody.empty();
+        series.slice().reverse().forEach(p => {
+            let stock = '-';
+            if (p.in_stock === true) stock = $('<span class="restock-badge in-stock"></span>').text(i18n.in_stock);
+            else if (p.in_stock === false) stock = $('<span class="restock-badge out-of-stock"></span>').text(i18n.out_of_stock);
+            const price = (p.price !== null && p.price !== undefined) ? fmtPrice(p.price, currency) : '-';
+            $('<tr></tr>')
+                .append($('<td></td>').text(fmtDateTime(p.timestamp)))
+                .append($('<td></td>').append(stock))
+                .append($('<td></td>').text(price))
+                .appendTo($tbody);
+        });
+    }
+
+    // Redraw a graph only if its container width actually changed (skips redundant redraws and
+    // prevents ResizeObserver feedback loops).
+    function redraw($c) {
+        const ctx = $c.data('rg');
+        if (!ctx) return;
+        const w = Math.round($c.width());
+        if (w === ctx.lastWidth) return;
+        ctx.lastWidth = w;
+        draw($c, ctx.series, ctx.currency, ctx.i18n, ctx.summary, ctx.height);
+    }
+
     // Watch the container's own size, not just the window: the content area also changes width
     // when the action sidebar expands on hover (no window 'resize' event fires for that).
     const hasRO = typeof ResizeObserver !== 'undefined';
