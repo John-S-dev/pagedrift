@@ -37,3 +37,35 @@ def set_modified_swapped_lines(datastore_path):
     with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
         f.write(test_return_data)
 
+def set_modified_swapped_lines_with_extra_text_for_sorting(datastore_path):
+    test_return_data = """<html>
+     <body>
+     <p>&nbsp;Which is across multiple lines</p>     
+     <p>Some initial text</p>
+     <p>   So let's see what happens.</p>
+     <p>Z last</p>
+     <p>0 numerical</p>
+     <p>A uppercase</p>
+     <p>a lowercase</p>     
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+
+
+def set_modified_with_trigger_text_response(datastore_path):
+    test_return_data = """<html>
+     <body>
+     <p>Some initial text</p>
+     <p>So let's see what happens.</p>
+     <p>and a new line!</p>
+     <p>Which is across multiple lines</p>     
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+
