@@ -3354,6 +3354,46 @@ msgid "AI Change Summary"
 msgstr "Podsumowanie zmian AI"
 
 #: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Pomiń wiersze zawierające"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Treść żądania"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Metoda żądania"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Ignoruj kody stanu (kody stanu inne niż 2xx należy przetwarzać w zwykły sposób)"
+
+#: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "Uruchamiaj tylko wtedy, gdy we wszystkich danych historycznych pojawią się unikalne wiersze"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Usuń zduplikowane wiersze tekstu"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Posortuj tekst alfabetycznie"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Usuń ignorowane wiersze"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Usuń spacje przed i po tekście"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Dodane wiersze"
+
+#: changedetectionio/forms.py
 msgid "Replaced/changed lines"
 msgstr "Wymienione/zmienione linie"
 
