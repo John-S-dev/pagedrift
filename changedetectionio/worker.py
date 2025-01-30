@@ -182,6 +182,117 @@ async def async_update_worker(worker_id, q, notification_q, app, datastore, exec
                     # Allow plugins to modify/wrap the update_handler
                     update_handler = apply_update_handler_alter(update_handler, watch, datastore)
 
+                    set_watch_minitext_status(watch, "Fetching...")
+
+                    # All fetchers are now async, so call directly
+                    await update_handler.call_browser()
+
+                    # Run change detection in executor to avoid blocking event loop
+                    # This includes CPU-intensive operations like HTML parsing (lxml/inscriptis)
+                    # which can take 2-10ms and cause GIL contention across workers
+                    loop = asyncio.get_event_loop()
+                    changed_detected, update_obj, contents = await loop.run_in_executor(
+                        executor,
+                        lambda: update_handler.run_changedetection(watch=watch)
+                    )
+
+                except PermissionError as e:
+                    logger.critical(f"File permission error updating file, watch: {uuid}")
+                    logger.critical(str(e))
+                    process_changedetection_results = False
+
+                except ProcessorException as e:
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot)
+                        e.screenshot = None  # Free memory immediately
+                    if e.xpath_data:
+                        watch.save_xpath_data(data=e.xpath_data)
+                        e.xpath_data = None  # Free memory immediately
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': e.message})
+                    process_changedetection_results = False
+
+                except content_fetchers_exceptions.ReplyWithContentButNoText as e:
+                    extra_help = ""
+                    if e.has_filters:
+                        has_img = html_tools.include_filters(include_filters='img',
+                                                             html_content=e.html_content)
+                        if has_img:
+                            extra_help = ", it's possible that the filters you have give an empty result or contain only an image."
+                        else:
+                            extra_help = ", it's possible that the filters were found, but contained no usable text."
+
+                    datastore.update_watch(uuid=uuid, update_obj={
+                        'last_error': f"Got HTML content but no text found (With {e.status_code} reply code){extra_help}"
+                    })
+
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot, as_error=True)
+                        e.screenshot = None  # Free memory immediately
+
+                    if e.xpath_data:
+                        watch.save_xpath_data(data=e.xpath_data)
+                        e.xpath_data = None  # Free memory immediately
+                        
+                    process_changedetection_results = False
+
+                except content_fetchers_exceptions.Non200ErrorCodeReceived as e:
+                    if e.status_code == 403:
+                        err_text = "Error - 403 (Access denied) received"
+                    elif e.status_code == 404:
+                        err_text = "Error - 404 (Page not found) received"
+                    elif e.status_code == 407:
+                        err_text = "Error - 407 (Proxy authentication required) received, did you need a username and password for the proxy?"
+                    elif e.status_code == 500:
+                        err_text = "Error - 500 (Internal server error) received from the web site"
+                    else:
+                        extra = ' (Access denied or blocked)' if str(e.status_code).startswith('4') else ''
+                        err_text = f"Error - Request returned a HTTP error code {e.status_code}{extra}"
+
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot, as_error=True)
+                        e.screenshot = None  # Free memory immediately
+                    if e.xpath_data:
+                        watch.save_xpath_data(data=e.xpath_data, as_error=True)
+                        e.xpath_data = None  # Free memory immediately
+                    if e.page_text:
+                        watch.save_error_text(contents=e.page_text)
+
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text})
+                    process_changedetection_results = False
+
+                except FilterNotFoundInResponse as e:
+                    if not datastore.data['watching'].get(uuid):
+                        continue
+                    logger.debug(f"Received FilterNotFoundInResponse exception for {uuid}")
+
+                    err_text = "Warning, no filters were found, no change detection ran - Did the page change layout? update your Visual Filter if necessary."
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text})
+
+                    # Filter wasnt found, but we should still update the visual selector so that they can have a chance to set it up again
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot)
+                        e.screenshot = None  # Free memory immediately
+
+                    if e.xpath_data:
+                        watch.save_xpath_data(data=e.xpath_data)
+                        e.xpath_data = None  # Free memory immediately
+
+                    # Only when enabled, send the notification
+                    if watch.get('filter_failure_notification_send', False):
+                        c = watch.get('consecutive_filter_failures', 0)
+                        c += 1
+                        # Send notification if we reached the threshold?
+                        threshold = datastore.data['settings']['application'].get('filter_failure_notification_threshold_attempts', 0)
+                        logger.debug(f"FilterNotFoundInResponse - Filter for {uuid} not found, consecutive_filter_failures: {c} of threshold {threshold}")
+                        if c >= threshold:
+                            if not watch.get('notification_muted'):
+                                logger.debug(f"FilterNotFoundInResponse - Sending filter failed notification for {uuid}")
+                                await send_filter_failure_notification(uuid, notification_q, datastore)
+                            c = 0
+                            logger.debug(f"FilterNotFoundInResponse - Reset filter failure count back to zero")
+                        else:
+                            logger.debug(f"FilterNotFoundInResponse - {c} of threshold {threshold}..")
+
                     datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
                                                                 'last_check_status': e.status_code,
                                                                 'has_ldjson_price_data': None})
