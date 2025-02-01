@@ -97,3 +97,79 @@ def test_recheck_time_field_validation_single_watch(client, live_server, measure
     assert REQUIRE_ATLEAST_ONE_TIME_PART_WHEN_NOT_GLOBAL_DEFAULT.encode('utf-8') not in res.data
     delete_all_watches(client)
 
+def test_page_title_listing_behaviour(client, live_server, measure_memory_usage, datastore_path):
+
+    set_original_response(extra_title="custom html", datastore_path=datastore_path)
+
+    # either the manually entered title/description or the page link should be visible
+    res = client.post(
+        url_for("settings.settings_page"),
+        data={"application-ui-use_page_title_in_list": "",
+              "requests-time_between_check-minutes": 180,
+              'application-fetch_backend': "html_requests"},
+        follow_redirects=True
+    )
+    assert b"Settings updated." in res.data
+
+
+    # Add our URL to the import page
+    res = client.post(
+        url_for("imports.import_page"),
+        data={"urls": url_for('test_endpoint', _external=True)},
+        follow_redirects=True
+    )
+
+    assert b"1 Imported" in res.data
+    wait_for_all_checks(client)
+
+    # We see the URL only, no title/description was manually entered
+    res = client.get(url_for("watchlist.index"))
+    assert url_for('test_endpoint', _external=True).encode('utf-8') in res.data
+
+
+    # Now 'my title' should override
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={
+        "url": url_for('test_endpoint', _external=True),
+        "title": "my title",
+        "fetch_backend": "html_requests",
+        "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"Updated watch." in res.data
+    res = client.get(url_for("watchlist.index"))
+    assert b"my title" in res.data
+
+    # Now we enable page <title> and unset the override title/description
+    res = client.post(
+        url_for("settings.settings_page"),
+        data={"application-ui-use_page_title_in_list": "y",
+              "requests-time_between_check-minutes": 180,
+              'application-fetch_backend': "html_requests"},
+        follow_redirects=True
+    )
+    assert b"Settings updated." in res.data
+
+    # Page title description override should take precedence
+    res = client.get(url_for("watchlist.index"))
+    assert b"my title" in res.data
+
+    # Remove page title description override and it should fall back to title
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={
+        "url": url_for('test_endpoint', _external=True),
+        "title": "",
+        "fetch_backend": "html_requests",
+        "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"Updated watch." in res.data
+
+    # No page title description, and 'use_page_title_in_list' is on, it should show the <title>
+    res = client.get(url_for("watchlist.index"))
+    assert b"head titlecustom html" in res.data
+    delete_all_watches(client)
+
+
