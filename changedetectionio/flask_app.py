@@ -1316,6 +1316,113 @@ def changedetection_app(config=None, datastore_o=None):
     return app
 
 
+# Check for new version and anonymous stats
+def check_for_new_version():
+    import requests
+    import urllib3
+
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    session = requests.Session()
+    session.verify = False
+
+    while not app.config.exit.is_set():
+        try:
+            r = session.post(
+                "https://changedetection.io/check-ver.php",
+                data={
+                    'version': __version__,
+                    'app_guid': datastore.data['app_guid'],
+                    'watch_count': len(datastore.data['watching']),
+                },
+            )
+        except:
+            pass
+
+        try:
+            if "new_version" in r.text:
+                app.config['NEW_VERSION_AVAILABLE'] = True
+        except:
+            pass
+
+        # Check daily
+        app.config.exit.wait(86400)
+
+
+def notification_runner(worker_id=0):
+    global notification_debug_log
+    import json
+    from datetime import datetime
+
+    with app.app_context():
+        while not app.config.exit.is_set():
+            try:
+                # Multiple workers can run concurrently (configurable via NOTIFICATION_WORKERS)
+                n_object = notification_q.get(block=False)
+            except queue.Empty:
+                app.config.exit.wait(1)
+
+            else:
+                now = datetime.now()
+                sent_obj = None
+
+                try:
+                    from changedetectionio.notification.handler import process_notification
+
+                    # Fallback to system config if not set
+                    if not n_object.get('notification_body') and datastore.data['settings'][
+                        'application'
+                    ].get('notification_body'):
+                        n_object['notification_body'] = datastore.data['settings'][
+                            'application'
+                        ].get('notification_body')
+
+                    if not n_object.get('notification_title') and datastore.data['settings'][
+                        'application'
+                    ].get('notification_title'):
+                        n_object['notification_title'] = datastore.data['settings'][
+                            'application'
+                        ].get('notification_title')
+
+                    if not n_object.get('notification_format') and datastore.data['settings'][
+                        'application'
+                    ].get('notification_format'):
+                        n_object['notification_format'] = datastore.data['settings'][
+                            'application'
+                        ].get('notification_format')
+                    if n_object.get('notification_urls', {}):
+                        sent_obj = process_notification(n_object, datastore)
+
+                except Exception as e:
+                    logger.error(
+                        f"Notification worker {worker_id} - Watch URL: {n_object['watch_url']}  Error {str(e)}"
+                    )
+
+                    # UUID wont be present when we submit a 'test' from the global settings
+                    if 'uuid' in n_object:
+                        datastore.update_watch(
+                            uuid=n_object['uuid'],
+                            update_obj={
+                                'last_notification_error': "Notification error detected, goto notification log."
+                            },
+                        )
+
+                    log_lines = str(e).splitlines()
+                    notification_debug_log += log_lines
+
+                    with app.app_context():
+                        app.config['watch_check_update_SIGNAL'].send(
+                            app_context=app, watch_uuid=n_object.get('uuid')
+                        )
+
+                # Process notifications
+                notification_debug_log += [
+                    "{} - SENDING - {}".format(now.strftime("%c"), json.dumps(sent_obj))
+                ]
+                # Trim the log length
+                notification_debug_log = notification_debug_log[-100:]
+
+
 # Threaded runner, look for new watches to feed into the Queue.
 def ticker_thread_check_time_launch_checks():
     import random
