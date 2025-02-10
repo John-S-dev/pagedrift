@@ -48,6 +48,10 @@ def set_number_out_of_range_response(datastore_path, number="150"):
         f.write(test_return_data)
 
 
+# def test_setup(client, live_server, measure_memory_usage, datastore_path):
+    """Test that both text and number conditions work together with AND logic."""
+   #  live_server_setup(live_server) # Setup on conftest per function
+
 def test_conditions_with_text_and_number(client, live_server, measure_memory_usage, datastore_path):
     """Test that both text and number conditions work together with AND logic."""
     
