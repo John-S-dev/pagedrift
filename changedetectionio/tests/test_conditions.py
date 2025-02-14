@@ -193,3 +193,37 @@ def test_condition_validate_rule_row(client, live_server, measure_memory_usage, 
     delete_all_watches(client)
 
 
+# If there was only a change in the whitespacing, then we shouldnt have a change detected
+def test_wordcount_conditions_plugin(client, live_server, measure_memory_usage, datastore_path):
+    
+
+    test_return_data = """<html>
+       <body>
+     Some initial text<br>
+     <p>Which is across multiple lines</p>
+     <br>
+     So let's see what happens.  <br>
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # Check it saved
+    res = client.get(
+        url_for("ui.ui_edit.edit_page", uuid=uuid),
+    )
+
+    # Assert the word count is counted correctly
+    assert b'<td>13</td>' in res.data
+    delete_all_watches(client)
+
