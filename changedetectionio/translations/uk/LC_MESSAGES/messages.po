@@ -3854,3 +3854,43 @@ msgstr "Обмеження часу розкладу"
 msgid "Business hours"
 msgstr "Робочі години"
 
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Увімкнути сповіщення"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Сповіщення вимкнено - натисніть для увімкнення"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "РЕДАГУВАТИ"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Виявлення змін веб-сайтів та сповіщення."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Переключити Світлий/Темний режим"
+
