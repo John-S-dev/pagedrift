@@ -237,6 +237,20 @@ class TestDiffBuilder(unittest.TestCase):
             )
             mock_datastore['watching'][w['uuid']] = w
 
+        # Time how long deepcopy takes
+        watch = list(mock_datastore['watching'].values())[0]
+
+        start = time.time()
+        for _ in range(10):
+            _ = deepcopy(watch)
+        elapsed = time.time() - start
+
+        # Should be fast (< 0.1 seconds for 10 copies)
+        # If datastore was copied, it would take much longer
+        self.assertLess(elapsed, 0.5,
+                       f"Deepcopy too slow ({elapsed:.3f}s for 10 copies) - might be copying datastore")
+
+
 class TestFaviconFilenameCache(unittest.TestCase):
 
     def test_clear_watch_invalidates_cached_favicon_filename(self):
