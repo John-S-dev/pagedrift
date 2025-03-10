@@ -430,6 +430,95 @@ class fetcher(Fetcher):
         # Listen for first response to trigger frame handler setup
         self.page._client.on('Network.responseReceived', setup_frame_handlers_on_first_response)
 
+        response = None
+        attempt=0
+        while not response:
+            logger.debug(f"Attempting page fetch {url} attempt {attempt}")
+            asyncio.create_task(handle_frame_navigation())
+            response = await self.page.goto(url, timeout=0)
+            await asyncio.sleep(1 + extra_wait)
+            # Check if page still exists before sending command
+            if self.page and hasattr(self.page, '_client'):
+                await self.page._client.send('Page.stopLoading')
+
+            if response:
+                break
+            if not response:
+                logger.warning("Page did not fetch! trying again!")
+            if response is None and attempt>=2:
+                logger.warning(f"Content Fetcher > Response object was none (as in, the response from the browser was empty, not just the content) exiting attempt {attempt}")
+                raise EmptyReply(url=url, status_code=None)
+            attempt+=1
+
+        self.headers = response.headers
+
+        try:
+            if self.webdriver_js_execute_code is not None and len(self.webdriver_js_execute_code):
+                await self.page.evaluate(self.webdriver_js_execute_code)
+        except Exception as e:
+            logger.warning("Got exception when running evaluate on custom JS code")
+            logger.error(str(e))
+            # This can be ok, we will try to grab what we could retrieve
+            raise PageUnloadable(url=url, status_code=None, message=str(e))
+
+        try:
+            self.status_code = response.status
+        except Exception as e:
+            # https://github.com/dgtlmoon/changedetection.io/discussions/2122#discussioncomment-8241962
+            logger.critical(f"Response from the browser/Playwright did not have a status_code! Response follows.")
+            logger.critical(response)
+            raise PageUnloadable(url=url, status_code=None, message=str(e))
+
+        if fetch_favicon:
+            try:
+                self.favicon_blob = await self.page.evaluate(FAVICON_FETCHER_JS)
+            except Exception as e:
+                logger.error(f"Error fetching FavIcon info {str(e)}, continuing.")
+
+        if self.status_code != 200 and not ignore_status_codes:
+            screenshot = await capture_full_page(page=self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
+
+            raise Non200ErrorCodeReceived(url=url, status_code=self.status_code, screenshot=screenshot)
+
+        content = await self.page.content
+
+        if not empty_pages_are_a_change and len(content.strip()) == 0:
+            logger.error("Content Fetcher > Content was empty (empty_pages_are_a_change is False), closing browsers")
+            raise EmptyReply(url=url, status_code=response.status)
+
+        # Run Browser Steps here
+        # @todo not yet supported, we switch to playwright in this case
+        #            if self.browser_steps:
+        #                self.iterate_browser_steps()
+
+
+        # So we can find an element on the page where its selector was entered manually (maybe not xPath etc)
+        # Setup the xPath/VisualSelector scraper
+        if current_include_filters:
+            js = json.dumps(current_include_filters)
+            await self.page.evaluate(f"var include_filters={js}")
+        else:
+            await self.page.evaluate(f"var include_filters=''")
+
+        MAX_TOTAL_HEIGHT = int(os.getenv("SCREENSHOT_MAX_HEIGHT", SCREENSHOT_MAX_HEIGHT_DEFAULT))
+
+        self.content = await self.page.content
+
+        # Now take screenshot (scrolling may trigger layout changes, but measurements are already captured)
+        logger.debug(f"Screenshot format {self.screenshot_format}")
+        self.screenshot = await capture_full_page(page=self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
+
+        # Force garbage collection - pyppeteer base64 decode creates temporary buffers
+        import gc
+        gc.collect()
+        self.xpath_data = await self.page.evaluate(XPATH_ELEMENT_JS, {
+            "visualselector_xpath_selectors": visualselector_xpath_selectors,
+            "max_height": MAX_TOTAL_HEIGHT
+        })
+        if not self.xpath_data:
+            raise Exception(f"Content Fetcher > xPath scraper failed. Please report this URL so we can fix it :)")
+
+
         self.instock_data = await self.page.evaluate(INSTOCK_DATA_JS)
 
         # It's good to log here in the case that the browser crashes on shutting down but we still get the data we need
