@@ -57,6 +57,50 @@ def test_default_timezone_not_overridden(mocker):
     assert '2025' in output
 
 
+def test_datetime_format_override_like_safe_jinja(mocker):
+    """
+    Test that environment.datetime_format can be overridden after creation.
+    """
+    # Create environment (default format is '%a, %d %b %Y %H:%M:%S')
+    jinja2_env = ImmutableSandboxedEnvironment(extensions=[TimeExtension])
+
+    # Override the datetime format
+    jinja2_env.datetime_format = '%Y-%m-%d %H:%M:%S'
+
+    # Mock arrow.now
+    fixed_time = arrow.Arrow(2025, 1, 15, 14, 30, 45, tzinfo='UTC')
+    mocker.patch("arrow.now", return_value=fixed_time)
+
+    # Don't specify format - should use overridden default
+    template_str = "{% now 'UTC' %}"
+    output = jinja2_env.from_string(template_str).render()
+
+    # Should use custom format YYYY-MM-DD HH:MM:SS
+    assert output == '2025-01-15 14:30:45'
+
+
+def test_offset_with_overridden_timezone(mocker):
+    """
+    Test that offset operations also respect the overridden default_timezone.
+    """
+    jinja2_env = ImmutableSandboxedEnvironment(extensions=[TimeExtension])
+
+    # Override to use Europe/London
+    jinja2_env.default_timezone = 'Europe/London'
+
+    fixed_time = arrow.Arrow(2025, 1, 15, 10, 0, 0, tzinfo='Europe/London')
+    mock = mocker.patch("arrow.now", return_value=fixed_time)
+
+    # Use offset with empty timezone string
+    template_str = "{% now '' + 'hours=2', '%Y-%m-%d %H:%M:%S' %}"
+    output = jinja2_env.from_string(template_str).render()
+
+    # Should have called arrow.now with Europe/London
+    mock.assert_called_with('Europe/London')
+    # Should be 10:00 + 2 hours = 12:00
+    assert output == '2025-01-15 12:00:00'
+
+
 def test_weekday_parameter_converted_to_int(mocker):
     """
     Test that weekday parameter is properly converted from float to int.
