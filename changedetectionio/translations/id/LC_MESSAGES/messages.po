@@ -3915,3 +3915,51 @@ msgstr "Entri"
 msgid "Actions"
 msgstr "Tindakan"
 
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr "Konfirmasi Tindakan"
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr "Anda yakin?"
+
+#: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr "<p>Anda yakin ingin melanjutkan?</p>"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr "Konfirmasi"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr "Hapus %(name)s?"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p>Anda yakin ingin menghapus <strong>%(name)s</strong>?</p><p>Tindakan ini tidak dapat dibatalkan.</p>"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Unlink %(name)s?"
+msgstr "Lepas tautan %(name)s?"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid ""
+"<p>Are you sure you want to unlink all watches from <strong>%(name)s</strong>?</p><p>The tag will be kept but watches"
+" will be removed from it.</p>"
+msgstr ""
+"<p>Anda yakin ingin melepas semua monitor dari <strong>%(name)s</strong>?</p><p>Tag akan dipertahankan tetapi monitor"
+" akan dihapus dari tag tersebut.</p>"
+
+#: changedetectionio/templates/base.html
+msgid "There was an error communicating with the server."
+msgstr "Terjadi kesalahan saat berkomunikasi dengan server."
+
+#: changedetectionio/templates/base.html
+msgid "There was a problem processing the request, please reload the page."
+msgstr "Terjadi masalah saat memproses permintaan, silakan muat ulang halaman."
+
