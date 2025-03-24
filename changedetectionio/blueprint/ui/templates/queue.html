@@ -393,3 +393,26 @@ $(function () {
       .fail(function () { $link.removeClass('is-busy').text(I18N.cancel || 'cancel'); });
   });
 
+  if (window.cdioSocket) {
+    attach(window.cdioSocket);
+  } else {
+    document.addEventListener('cdio:socket-ready', function (e) {
+      attach(e.detail.socket);
+    }, { once: true });
+  }
+
+  // First load: get the JS-driven view up to date with what the server has.
+  refresh();
+
+  // Heartbeat: re-fetch periodically (catches scheduler-added items) and prune expired ghosts.
+  setInterval(refresh, 8000);
+  setInterval(function () { cleanupSlots(); renderWorkers(); renderQueued(); }, 2000);
+  // Tick "queued Ns ago" / "running Ns" labels every second.
+  setInterval(refreshTimeCells, 1000);
+  refreshTimeCells();
+
+  // Re-init feather icons for the action buttons (they're inline in the template)
+  if (window.feather) window.feather.replace();
+});
+</script>
+{%- endblock -%}
