@@ -334,6 +334,27 @@
 
   <div id="pure-menu-horizontal-spinner"></div>
 
+  <script>
+  (function() {
+      /* AUTOMATIC TAB COLUMN-IZER FOR WHEN TABS WRAP */
+    // Exit early if no tabs on page
+    if (!document.querySelector('.tab')) return;
+
+    const cache = new Map();
+
+    function checkWrapping(ul) {
+      const tabs = ul.querySelectorAll('.tab');
+      if (tabs.length < 2) return false;
+
+      // Init cache on first run
+      if (!cache.has(ul)) {
+        ul.style.setProperty('--tab-width', '');
+        void ul.offsetHeight;
+        let max = 0;
+        tabs.forEach(t => max = Math.max(max, t.offsetWidth));
+        cache.set(ul, max);
+      }
+
       // Temporarily use flex wrap to check if wrapping occurs
       ul.style.display = 'flex';
       ul.style.flexWrap = 'wrap';
