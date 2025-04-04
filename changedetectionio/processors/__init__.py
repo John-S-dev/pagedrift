@@ -393,3 +393,31 @@ def generate_processor_badge_colors(processor_name):
     }
 
 
+def extract_processor_config_from_form_data(form_data):
+    """
+    Extract processor_config_* fields from form data and return separate dicts.
+
+    This is a shared helper function used by both the UI edit form and API endpoints
+    to consistently handle processor configuration extraction.
+
+    IMPORTANT: This function modifies form_data in-place by removing processor_config_* fields.
+
+    Args:
+        form_data: Dictionary of form data (will be modified in-place)
+
+    Returns:
+        dict: Dictionary of processor config data (with processor_config_* prefix removed)
+    """
+    processor_config_data = {}
+
+    # Use list() to create a copy of keys since we're modifying the dict
+    for field_name in list(form_data.keys()):
+        if field_name.startswith('processor_config_'):
+            config_key = field_name.replace('processor_config_', '')
+            # Save all values (including empty strings) to allow explicit clearing of settings
+            processor_config_data[config_key] = form_data[field_name]
+            # Remove from form_data to prevent it from reaching datastore
+            del form_data[field_name]
+
+    return processor_config_data
+
