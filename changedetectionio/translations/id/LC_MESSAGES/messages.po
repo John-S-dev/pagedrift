@@ -3876,6 +3876,48 @@ msgid "The AI Change Intent that was evaluated."
 msgstr "Intent Perubahan AI yang dievaluasi."
 
 #: changedetectionio/templates/_common_fields.html
+msgid "Processing.."
+msgstr "Memproses.."
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Use <a target=\"newwindow\" href=\"%(url)s\">AppRise Notification URLs</a> for notification to just about any service!"
+msgstr "Gunakan <a target=\"newwindow\" href=\"%(url)s\">URL Notifikasi AppRise</a> untuk notifikasi ke hampir semua layanan!"
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/_common_fields.html
+msgid "<i>Please read the notification services wiki here for important configuration notes</i>"
+msgstr "<i>Harap baca wiki layanan notifikasi di sini untuk catatan konfigurasi penting</i>"
+
+#: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
+msgid "Show advanced help and tips"
+msgstr "Tampilkan bantuan dan kiat lanjutan"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "(atau"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "hanya mendukung maksimum"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2.000 karakter"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "teks notifikasi, termasuk judul."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "bot tidak dapat mengirim pesan ke bot lain, jadi Anda harus menentukan chat ID pengguna non-bot."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "hanya mendukung HTML yang sangat terbatas dan dapat gagal saat tag tambahan dikirim,"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "for example -"
 msgstr "misalnya -"
 

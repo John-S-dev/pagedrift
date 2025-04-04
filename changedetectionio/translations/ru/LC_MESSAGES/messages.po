@@ -3998,3 +3998,43 @@ msgstr "Префикс <code>json:</code>, используйте <code>json:$</
 msgid "test your JSONPath here"
 msgstr "проверьте свой JSONPath здесь"
 
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Уведомления отключены — нажмите, чтобы включить звук"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "РЕДАКТИРОВАТЬ"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Обнаружение и уведомление об изменениях на веб-сайте."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "Переключить режим ИИ"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "Переключить режим ИИ"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Переключить светлый/темный режим"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle light/dark mode"
+msgstr "Переключить светлый/темный режим"
+
