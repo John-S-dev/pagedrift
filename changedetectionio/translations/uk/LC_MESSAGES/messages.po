@@ -3763,6 +3763,50 @@ msgid "The UUID of the watch."
 msgstr "UUID завдання."
 
 #: changedetectionio/templates/_common_fields.html
+msgid "The diff output - only changes and additions"
+msgstr "Вивід diff - тільки зміни та додавання"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - only changes and additions —"
+msgstr "Вивід diff - тільки зміни та додавання —"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - only changes and removals"
+msgstr "Вивід diff - тільки зміни та видалення"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - only changes and removals —"
+msgstr "Вивід diff - тільки зміни та видалення —"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - full difference output"
+msgstr "Вивід diff - повний вивід різниці"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - full difference output —"
+msgstr "Вивід diff - повний вивід різниці —"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - patch in unified format"
+msgstr "Вивід diff - патч у форматі unified"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"Only the changed words/values from the previous version — e.g. the old price. Best when a single value changes per "
+"line; multiple changed fragments are joined by newline."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"Only the changed words/values from the new version — e.g. the new price. Best when a single value changes per line; "
+"multiple changed fragments are joined by newline."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The current snapshot text contents value, useful when combined with JSON or CSS filters"
+msgstr "Текстовий вміст поточного знімка, корисно при використанні JSON або CSS фільтрів"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "Text that tripped the trigger from filters"
 msgstr "Текст, що викликав спрацювання фільтрів"
 
