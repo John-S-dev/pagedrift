@@ -362,3 +362,71 @@ class TestIsWithinSchedule(unittest.TestCase):
             }
         }
 
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertFalse(result, "Disabled day should return False")
+
+    def test_schedule_enabled_within_time(self):
+        """Test schedule enabled and within time window."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 2, 'minutes': 0}
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Current time should be within schedule")
+
+    def test_schedule_enabled_outside_time(self):
+        """Test schedule enabled but outside time window."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        # Set time to 3 hours ago
+        past_time = now.shift(hours=-3).format('HH:mm')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': past_time,
+                'duration': {'hours': 1, 'minutes': 0}  # Only 1 hour duration
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertFalse(result, "3 hours ago with 1 hour duration should be False")
+
+    def test_schedule_with_default_timezone(self):
+        """Test schedule without timezone uses default."""
+        now = arrow.now('America/New_York')
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            # No timezone specified
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 2, 'minutes': 0}
+            }
+        }
+
+        # Should use default UTC, but since we're testing with NY time,
+        # the result depends on time difference
+        result = time_handler.is_within_schedule(
+            time_schedule_limit,
+            default_tz='America/New_York'
+        )
+        self.assertTrue(result, "Should work with default timezone")
+
