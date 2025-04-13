@@ -642,6 +642,20 @@ def test_plaintext_watch_custom_html_in_notification_body_not_escaped(client, li
     _test_custom_html_in_notification_body_not_escaped(client, datastore_path, content_type=None)
 
 
+    # Sanity: the snapshot really did contain the decoded markup (otherwise the test
+    # would pass for the wrong reason). The escaped form must appear somewhere.
+    assert '&lt;a href=' in body or '&amp;lt;a href=' in body, \
+        f"Expected escaped attacker markup in notification body, got: {body!r}"
+
+    # The bug: a live <a href="https://attacker..."> ends up in the HTML notification.
+    assert '<a href="https://attacker.example/payment"' not in body, \
+        f"Diff content from text/html page was NOT escaped — phishing link reached HTML notification: {body!r}"
+    assert '<img src="https://attacker.example/track"' not in body, \
+        f"Diff content from text/html page was NOT escaped — tracking pixel reached HTML notification: {body!r}"
+
+    client.post(url_for("ui.form_delete", uuid="all"), follow_redirects=True)
+
+
 def test_source_url_diff_content_escaped_in_html_notification(client, live_server, measure_memory_usage, datastore_path):
     """
     GHSA-q8xq-qg4x-wphg — companion to the inscriptis test. `source:`-prefixed
