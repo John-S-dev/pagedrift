@@ -2938,6 +2938,48 @@ msgid "day"
 msgstr "den"
 
 #: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified."
+msgstr "Je třeba zadat alespoň jeden časový interval (týdny, dny, hodiny, minuty nebo sekundy)."
+
+#: changedetectionio/forms.py
+msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified when not using global settings."
+msgstr ""
+"Je třeba zadat alespoň jeden časový interval (týdny, dny, hodiny, minuty nebo sekundy) pokud nejsou použita globální "
+"nastavení."
+
+#: changedetectionio/forms.py
+msgid "Invalid time format. Use HH:MM."
+msgstr "Neplatný formát času. Použijte HH:MM."
+
+#: changedetectionio/forms.py
+msgid "Not a valid timezone name"
+msgstr "Neplatný název časového pásma"
+
+#: changedetectionio/forms.py
+msgid "not set"
+msgstr "nenastaveno"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "Spustit v"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "Doba běhu"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "Použijte časový plánovač"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Volitelné časové pásmo pro spuštění"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "pondělí"
+
+#: changedetectionio/forms.py
 msgid "Tuesday"
 msgstr "úterý"
 
