@@ -3238,6 +3238,46 @@ msgstr "Edit > Monitor"
 msgid "Fetch Method"
 msgstr "Metode Pengambilan"
 
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr "Isi Notifikasi"
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr "Format notifikasi"
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr "Judul Notifikasi"
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr "Daftar URL Notifikasi"
+
+#: changedetectionio/forms.py
+msgid "Processor - What do you want to achieve?"
+msgstr "Prosesor - Apa yang ingin Anda capai?"
+
+#: changedetectionio/forms.py
+msgid "Default timezone for watch check scheduler"
+msgstr "Zona waktu default untuk penjadwal pemeriksaan monitor"
+
+#: changedetectionio/forms.py
+msgid "Wait seconds before extracting text"
+msgstr "Tunggu beberapa detik sebelum mengekstrak teks"
+
+#: changedetectionio/forms.py
+msgid "Should contain one or more seconds"
+msgstr "Harus berisi satu detik atau lebih"
+
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "Timpa URL dasar notifikasi"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr "Belum diatur"
+
 #: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
 #: changedetectionio/forms.py
 msgid "Save"
