@@ -3454,6 +3454,46 @@ msgstr ""
 msgid "Default AI Change Summary prompt"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "When monthly token budget is reached"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Skip AI summarisation only (watch still checks)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Skip the watch check entirely"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Watchlist \"Summary\" link compares"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Previous version (second-last vs latest)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "RegEx para extraer"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Extraer como CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr ""
+
 #: changedetectionio/processors/image_ssim_diff/forms.py
 msgid "Bounding box must be in format: x,y,width,height (integers only)"
 msgstr "El cuadro delimitador debe tener el formato: x,y,ancho,alto (solo números enteros)"
