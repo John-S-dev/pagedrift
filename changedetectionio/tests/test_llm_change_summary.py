@@ -199,6 +199,34 @@ def test_llm_summary_ajax_surfaces_rate_limit_error(
     delete_all_watches(client)
 
 
+def _set_global_default(ds, prompt):
+    llm = ds.data['settings']['application'].get('llm') or {}
+    llm['change_summary_default'] = prompt
+    ds.data['settings']['application']['llm'] = llm
+
+
+def test_global_default_used_when_watch_and_tag_have_none(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    get_effective_summary_prompt returns the global default when neither the
+    watch nor any of its tags have llm_change_summary set.
+    """
+    from changedetectionio.llm.evaluator import get_effective_summary_prompt
+
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(client)
+
+    uuid = ds.add_watch(url='https://example.com')
+    watch = ds.data['watching'][uuid]
+    watch['llm_change_summary'] = ''
+
+    _set_global_default(ds, 'Global: summarise as one sentence.')
+
+    assert get_effective_summary_prompt(watch, ds) == 'Global: summarise as one sentence.'
+
+    delete_all_watches(client)
+
+
 def test_tag_prompt_overrides_global_default(
         client, live_server, measure_memory_usage, datastore_path):
     """
