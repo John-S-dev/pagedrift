@@ -3426,6 +3426,48 @@ msgstr "1 小時前"
 msgid "in 1h"
 msgstr "1 小時後"
 
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "計算變更時忽略，但仍會顯示。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr "阻擋文字"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr "當文字符合時，阻擋變更檢測"
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr "設定區段"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr "確認操作"
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr "您確定嗎？"
+
+#: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr "<p>您確定要繼續嗎？</p>"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr "確認"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr "刪除 %(name)s？"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p>您確定要刪除 <strong>%(name)s</strong> 嗎？</p><p>此動作無法復原。</p>"
+
 #: changedetectionio/templates/base.html
 #, python-format
 msgid "Unlink %(name)s?"
