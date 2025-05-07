@@ -3557,6 +3557,47 @@ msgstr "Domyślny prompt podsumowania zmian AI"
 msgid "Max tokens per watch per period"
 msgstr "Maksymalna liczba tokenów na obserwację w danym okresie"
 
+#: changedetectionio/forms.py
+msgid "Skip AI summarisation only (watch still checks)"
+msgstr "Pomiń tylko tworzenie podsumowania przez AI (obserwacja nadal będzie sprawdzana)"
+
+#: changedetectionio/forms.py
+msgid "Skip the watch check entirely"
+msgstr "Całkowicie pomiń sprawdzanie obserwacji"
+
+#: changedetectionio/forms.py
+msgid "Watchlist \"Summary\" link compares"
+msgstr "Link „Podsumowanie” na liście obserwacji porównuje"
+
+#: changedetectionio/forms.py
+msgid "Previous version (second-last vs latest)"
+msgstr "Poprzednia wersja (przedostatnia a najnowsza)"
+
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr "Zmiany od czasu ostatniego wyświetlenia obserwacji"
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "Wyrażenie regularne do wyodrębniania"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Wyeksportuj jako plik CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "właśnie teraz"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "w tej chwili"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "%ss temu"
+
 #: changedetectionio/languages.py
 #, python-format
 msgid "in %ss"
