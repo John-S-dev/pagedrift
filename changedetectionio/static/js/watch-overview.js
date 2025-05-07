@@ -386,3 +386,33 @@ $(function () {
         nowtimeserver = nowtimeserver + time_check_step_size_seconds;
     }, time_check_step_size_seconds * 1000);
 
+    // LLM / AI features — only active when the server has LLM configured
+    if ($('body').hasClass('llm-configured')) {
+        var i18n = window.watchOverviewI18n || {};
+        var msgGenerating = i18n.generatingSummary || 'Generating change summary…';
+        var msgHistory    = i18n.gotoHistory     || 'Goto full history';
+
+        // Reveal intent textarea on first keydown in the quick-add URL field
+        var $intentWrap = $('#quick-watch-llm-intent');
+        if ($intentWrap.length) {
+            $('#new-watch-form input[name="url"]').one('keydown', function () {
+                $intentWrap.slideDown(200);
+            });
+        }
+
+        // Inline AI summary — clicking the Summary button inserts a row below with AJAX content
+        $(document).on('click', '.ai-history-btn', function (e) {
+            // restock_diff rows have their own graph roll-down handler (above) - never LLM here.
+            if ($(this).closest('tr').hasClass('processor-restock_diff')) return;
+            if ($('html').attr('data-ai-mode') !== 'true') return; // normal navigation when AI mode is off
+
+            e.preventDefault();
+
+            var $btn   = $(this);
+            var uuid   = $btn.data('uuid');
+            var url    = $btn.data('summary-url');
+            var $row   = $btn.closest('tr');
+            var rowId  = 'ai-summary-row-' + uuid;
+            var cols   = $row.find('td').length;
+            var $tbody = $row.closest('tbody');
+
