@@ -590,3 +590,7 @@ def test_api_queue_manipulation(client, live_server, measure_memory_usage, datas
     delete_all_watches(client)
 
 
+# ============================================================================
+# TIER 3: EDGE CASES & POLISH
+# ============================================================================
+
