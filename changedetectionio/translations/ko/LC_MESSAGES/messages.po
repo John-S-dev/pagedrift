@@ -2911,6 +2911,47 @@ msgid "Not a valid timezone name"
 msgstr "유효한 시간대 이름이 아닙니다."
 
 #: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "일요일"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "주"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "0초 이상을 포함해야 합니다."
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "일"
+
+#: changedetectionio/forms.py
+msgid "Hours"
+msgstr "시간"
+
+#: changedetectionio/forms.py
+msgid "Minutes"
+msgstr "분"
+
+#: changedetectionio/forms.py
+msgid "Seconds"
+msgstr "초"
+
+#: changedetectionio/forms.py
+msgid "Unknown fetch method."
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr "알림 URL을 사용하는 경우 알림 본문 및 제목이 필요합니다."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr "'%s'은(는) 유효한 AppRise URL이 아닙니다."
+
+#: changedetectionio/forms.py
 msgid "Edit > Watch"
 msgstr "편집 > 모니터링"
 
