@@ -675,6 +675,114 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
             if watch['url'].lower() == url.lower():
                 return True
 
+        return False
+
+    # Remove a watchs data but keep the entry (URL etc)
+    def clear_watch_history(self, uuid):
+        self.__data['watching'][uuid].clear_watch()
+        self.__data['watching'][uuid].commit()
+
+    @property
+    def watch_limit(self):
+        """Total watches allowed by PAGE_WATCH_LIMIT, or None when there is no limit.
+
+        None means "unlimited" and is the normal case - the env var being absent, empty or
+        unparseable all leave the limit switched off entirely. There is no default.
+        """
+        limit = os.getenv('PAGE_WATCH_LIMIT')
+        if not limit:
+            return None
+        try:
+            return int(limit)
+        except ValueError:
+            logger.warning(f"Invalid PAGE_WATCH_LIMIT value: {limit}, ignoring limit check")
+            return None
+
+    def watch_limit_reached(self):
+        """True when the limit is set and leaves no room for another watch.
+
+        add_watch() enforces this on its own, but it can only return None. Callers that can
+        report something better - a 429 in the API, one flash instead of one per row in the
+        importers - should check this first.
+        """
+        limit = self.watch_limit
+        return limit is not None and len(self.__data['watching']) >= limit
+
+    def watch_limit_message(self):
+        """The single wording for a blocked add, so every UI surface says the same thing."""
+        return gettext("Watch limit reached ({current}/{limit} watches). Cannot add more watches.").format(
+            current=len(self.__data['watching']), limit=self.watch_limit
+        )
+
+    def add_watch(self, url, tag='', extras=None, tag_uuids=None, save_immediately=True, seed_data_dir=None):
+        """
+        seed_data_dir: optional path to an existing directory (already in the watch's
+        on-disk format, e.g. last-screenshot.png + elements.deflate) that becomes this
+        watch's data_dir via a single rename(). Used to "promote" a temporary add-watch
+        snapshot into a real watch without re-fetching. See make_temporary_watch_active_watch().
+        """
+
+        if extras is None:
+            extras = {}
+
+        # Incase these are copied across, assume it's a reference and deepcopy()
+        apply_extras = deepcopy(extras)
+        apply_extras['tags'] = [] if not apply_extras.get('tags') else apply_extras.get('tags')
+
+        # Was it a share link? try to fetch the data
+        if (url.startswith("https://changedetection.io/share/")):
+            import requests
+
+            try:
+                r = requests.request(method="GET",
+                                     url=url,
+                                     # So we know to return the JSON instead of the human-friendly "help" page
+                                     headers={'App-Guid': self.__data['app_guid']},
+                                     timeout=5.0)  # 5 second timeout to prevent blocking
+                res = r.json()
+
+                # List of permissible attributes we accept from the wild internet
+                for k in [
+                    'body',
+                    'browser_steps',
+                    'css_filter',
+                    'extract_text',
+                    'headers',
+                    'ignore_text',
+                    'include_filters',
+                    'method',
+                    'paused',
+                    'previous_md5',
+                    'processor',
+                    'subtractive_selectors',
+                    'tag',
+                    'tags',
+                    'text_should_not_be_present',
+                    'title',
+                    'trigger_text',
+                    'url',
+                    'use_page_title_in_list',
+                    'webdriver_js_execute_code',
+                ]:
+                    if res.get(k):
+                        if k != 'css_filter':
+                            apply_extras[k] = res[k]
+                        else:
+                            # We renamed the field and made it a list
+                            apply_extras['include_filters'] = [res['css_filter']]
+
+            except Exception as e:
+                logger.error(f"Error fetching metadata for shared watch link {url} {str(e)}")
+                flash(gettext("Error fetching metadata for {}").format(url), 'error')
+                return False
+
+        if not is_safe_valid_url(url):
+            if has_request_context():
+                flash(gettext('Watch protocol is not permitted or invalid URL format'), 'error')
+            else:
+                logger.error(f"add_watch: URL '{url}' is not permitted or invalid, skipping.")
+            return None
+
         Returns:
             bool: True if resource exists
         """
