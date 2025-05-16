@@ -165,6 +165,44 @@ Recommendation: per-processor sub-models. Matches the file split already done in
 
 ## Gotchas discovered
 
+These cost real debugging time in the LLMSettings PR. Worth knowing before the next slice.
+
+### `extra='forbid'` is the right default
+
+`extra='ignore'` silently drops unknowns and hides developer mistakes (add a form field,
+forget to declare it on the model, your feature appears to work until you reload). `forbid`
+fails loudly. `allow` defeats the purpose entirely — it's how injection succeeds.
+
+### Don't use Field aliases unless you actually need them
+
+The LLMSettings PR originally used `alias='llm_X'` to bridge llm_-prefixed WTForms
+names to stripped storage names. That created a documented gotcha: with
+`extra='forbid'`, having both `model` and `llm_model` in the same input dict is a
+`ValidationError`, and merging existing-storage-dump with form input required
+`by_alias=True` to keep both sides on the alias shape. We fixed it by renaming the
+form fields to match the storage field names. **Match the form to the model
+upfront and you avoid the whole class of merge bugs.**
+
+### Round-trip counters through the model, don't mutate the dict
+
+If runtime code (e.g. a token accumulator) writes to the storage dict directly, the
+schema is bypassed. Load → mutate instance attributes → `model_dump()` → write back.
+This re-validates on every write and prevents drift.
+
+### Per-call validation needs strict + tolerant modes? Don't.
+
+You might be tempted to validate form input strictly but allow extras in storage
+hydration. Don't — `extra='forbid'` everywhere means storage drift is impossible. If
+something put unknown keys in storage, you want loud failure, not silent acceptance.
+
+### Migrations are convention-based by accident if you let them be
+
+`for k in list(d) if k.startswith('llm_')` is shorter than an explicit list but
+silently catches any future flat `llm_*` key. Migrations are forever — prefer an
+explicit allowlist of keys to move, even if it's verbose.
+
+## What NOT to do
+
 - Don't add custom helper methods (`dump_without_connection()`, `clear_X()`) when stock
   `model_dump(exclude=set(FIELDS))` works. The standard idiom is more readable and
   zero-line.
