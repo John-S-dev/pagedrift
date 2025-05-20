@@ -90,3 +90,5 @@ class TestJqExpressionSecurity(unittest.TestCase):
                 validate_jq_expression('env')
 
 
+if __name__ == '__main__':
+    unittest.main()
