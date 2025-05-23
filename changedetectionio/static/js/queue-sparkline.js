@@ -268,3 +268,13 @@
         });
         window.addEventListener("beforeunload", saveLog);
 
+        // realtime.js exposes the socket either already on window or via this event.
+        if (window.cdioSocket) attach(window.cdioSocket);
+        else document.addEventListener("cdio:socket-ready", function (e) { attach(e.detail && e.detail.socket); });
+
+        start();
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+    else init();
+})();
