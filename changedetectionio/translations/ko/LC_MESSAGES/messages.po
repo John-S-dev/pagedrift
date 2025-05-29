@@ -3804,3 +3804,43 @@ msgstr "차단 텍스트는 이 모니터링에 적용된 CSS/JSON 필터 결과
 msgid "All lines here must not exist (think of each line as \"OR\")"
 msgstr "여기에 입력한 줄은 하나라도 존재하면 안 됩니다. (각 줄은 \"OR\" 조건)"
 
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "알림 음소거 해제"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "알림이 음소거되어 있습니다. 클릭해 해제하세요."
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "편집"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "웹사이트 변경 감지 및 알림."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "AI 모드 전환"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "AI 모드 전환"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "밝은/어두운 모드 전환"
+
