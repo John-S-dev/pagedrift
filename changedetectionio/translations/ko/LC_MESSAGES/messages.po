@@ -3246,6 +3246,50 @@ msgid "API access token security check enabled"
 msgstr "API 액세스 토큰 보안 확인 활성화"
 
 #: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "빈 페이지를 변경 사항으로 처리할까요?"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "텍스트 무시"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "공백 무시"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr "스크린샷: 최소 변경 비율"
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "0에서 100 사이여야 합니다."
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "비밀번호"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "페이지당 항목 수"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "0 이상이어야 합니다. (0은 비활성화)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "RSS 콘텐츠 형식"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "RSS <description> 본문 생성 기준"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "RSS \"System default\" 템플릿 재정의"
+
+#: changedetectionio/forms.py
 msgid "Remove password"
 msgstr "비밀번호 제거"
 
