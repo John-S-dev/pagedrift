@@ -4181,3 +4181,47 @@ msgstr ""
 msgid "List each new item added with its name and price. Translate to English."
 msgstr "Cantumkan setiap item baru yang ditambahkan beserta nama dan harganya. Terjemahkan ke bahasa Inggris."
 
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Prefix <code>jqraw:</code> outputs the results as text instead of a JSON list."
+msgstr "Awalan <code>jqraw:</code> menghasilkan hasil sebagai teks alih-alih daftar JSON."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "jq support not installed"
+msgstr "dukungan jq tidak terinstal"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid ""
+"Limit text to this XPath rule, simply start with a forward-slash. To specify XPath to be used explicitly or the XPath"
+" rule starts with an XPath function: Prefix with <code>xpath:</code>"
+msgstr ""
+"Batasi teks dengan aturan XPath ini, cukup mulai dengan garis miring. Untuk menentukan XPath secara eksplisit atau "
+"jika aturan XPath dimulai dengan fungsi XPath: awali dengan <code>xpath:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your XPath here"
+msgstr "uji XPath Anda di sini"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Get all titles from an RSS feed <code>//title/text()</code>"
+msgstr "Dapatkan semua judul dari feed RSS <code>//title/text()</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "To use XPath1.0: Prefix with <code>xpath1:</code>"
+msgstr "Untuk menggunakan XPath1.0: awali dengan <code>xpath1:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "here for more CSS selector help"
+msgstr "di sini untuk bantuan selektor CSS lainnya"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Text to wait for before triggering a change/notification, all text and regex are tested case-insensitive."
+msgstr "Teks yang ditunggu sebelum memicu perubahan/notifikasi, semua teks dan regex diuji tanpa membedakan huruf besar-kecil."
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr "Teks pemicu diproses dari teks hasil yang keluar dari Filter CSS/JSON apa pun untuk monitor ini"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Each line is processed separately (think of each line as \"OR\")"
+msgstr "Setiap baris diproses secara terpisah (anggap setiap baris sebagai \"OR\")"
+
