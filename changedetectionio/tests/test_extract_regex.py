@@ -199,6 +199,29 @@ def test_check_filter_and_regex_extract(client, live_server, measure_memory_usag
 
 
 
+def test_regex_error_handling(client, live_server, measure_memory_usage, datastore_path):
+
+    
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    time.sleep(0.2)
+    ### test regex error handling
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid=uuid),
+        data={"extract_text": '/something bad\d{3/XYZ',
+              "url": test_url,
+              "fetch_backend": "html_requests",
+              "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+
+    assert b'is not a valid regular expression.' in res.data
+
+    delete_all_watches(client)
+
+
 def test_extract_lines_containing(client, live_server, measure_memory_usage, datastore_path):
     """Test the 'extract_lines_containing' filter keeps only lines with matching substrings."""
 
