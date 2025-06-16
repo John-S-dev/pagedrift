@@ -2486,3 +2486,47 @@ msgstr "Помилка - Це завдання потребує Chrome (playwrig
 msgid "Alternatively try our"
 msgstr "Альтернативно спробуйте наш"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Скидання"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Увага, один або кілька ваших 'днів' мають тривалість, що переходить на наступний день."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Це може призвести до непередбачених наслідків."
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Більше довідки та прикладів використання планувальника"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Хочете використовувати розклад за часом?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Спочатку підтвердіть/збережіть налаштування часового поясу"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Викликає зміну, якщо цей текст з'являється І щось змінилося в документі."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Тригерний текст"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Ігнорується при розрахунку змін, але все ще відображається."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Ігнорований текст"
+
+#: changedetectionio/templates/_helpers.html
+msgid "No change-detection will occur because this text exists."
+msgstr "Виявлення змін не відбудеться, оскільки цей текст існує."
+
