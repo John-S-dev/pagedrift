@@ -249,6 +249,80 @@ Line 4"""
         output = diff.render_diff(before, after, include_equal=False, case_insensitive=True, word_diff=True)
         
 
+        # Inner spans show the changes within the line
+        self.assertIn(CHANGED_PLACEMARKER_OPEN, output)
+        self.assertIn(CHANGED_INTO_PLACEMARKER_OPEN, output)
+        self.assertIn('00', output)  # Common suffix unchanged
+
+    def test_ignore_junk_word_diff_enabled(self):
+        """Test ignore_junk with word_diff=True"""
+        before = "The quick  brown   fox"
+        after = "The quick brown fox"
+
+        # Without ignore_junk, should detect whitespace changes
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=False)
+        
+        # Should show some difference (whitespace changes)
+        self.assertTrue(len(output.strip()) > 0, "Should detect whitespace changes when ignore_junk=False")
+
+        # With ignore_junk, should ignore whitespace-only changes
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
+        
+        lines = [l for l in output.split("\n") if l.strip()]
+        self.assertEqual(len(lines), 0, "Should ignore whitespace-only changes when ignore_junk=True")
+
+    def test_ignore_junk_word_diff_disabled(self):
+        """Test ignore_junk with word_diff=False"""
+        before = "Hello  World"
+        after = "Hello World"
+
+        # Without ignore_junk, should detect line change
+        output = diff.render_diff(before, after, include_equal=False, word_diff=False, ignore_junk=False)
+        
+        self.assertIn(f'{CHANGED_PLACEMARKER_OPEN}Hello  World{CHANGED_PLACEMARKER_CLOSED}', output)
+        self.assertIn(f'{CHANGED_INTO_PLACEMARKER_OPEN}Hello World{CHANGED_INTO_PLACEMARKER_CLOSED}', output)
+
+        # With ignore_junk enabled and word_diff disabled
+        # When ignore_junk is enabled, whitespace is normalized at line level so lines match
+        output = diff.render_diff(before, after, include_equal=False, word_diff=False, ignore_junk=True)
+        
+        # Lines should be treated as equal
+        lines = [l for l in output.split("\n") if l.strip()]
+        self.assertEqual(len(lines), 0, "Should ignore whitespace differences at line level")
+
+    def test_ignore_junk_with_real_changes(self):
+        """Test ignore_junk doesn't ignore actual word changes"""
+        before = "The  quick   brown  fox"
+        after = "The quick brown cat"
+
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
+        
+        # Should still detect the word change (fox -> cat)
+        self.assertIn(f'{REMOVED_PLACEMARKER_OPEN}fox{REMOVED_PLACEMARKER_CLOSED}', output)
+        self.assertIn(f'{ADDED_PLACEMARKER_OPEN}cat{ADDED_PLACEMARKER_CLOSED}', output)
+        # But shouldn't highlight whitespace differences
+
+    def test_ignore_junk_tabs_vs_spaces(self):
+        """Test ignore_junk treats tabs and spaces as equivalent"""
+        before = "Column1\tColumn2\tColumn3"
+        after = "Column1    Column2    Column3"
+
+        # Without ignore_junk, should detect difference
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=False)
+        
+        self.assertTrue(len(output.strip()) > 0, "Should detect tab vs space differences")
+
+        # With ignore_junk, should ignore tab/space differences
+        output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
+        
+        lines = [l for l in output.split("\n") if l.strip()]
+        self.assertEqual(len(lines), 0, "Should ignore tab vs space differences when ignore_junk=True")
+
+    def test_ignore_junk_html_output(self):
+        """Test ignore_junk with placemarkers for value changes"""
+        before = "Value:  100  points"
+        after = "Value: 200 points"
+
         output = diff.render_diff(before, after, include_equal=False, word_diff=True, ignore_junk=True)
         
         # Should only highlight the actual value change
