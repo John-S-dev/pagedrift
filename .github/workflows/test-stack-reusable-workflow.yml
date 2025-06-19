@@ -284,6 +284,42 @@ jobs:
       - name: Specific tests for headers and requests checks with Selenium
         run: |
 
+          docker run --name "changedet" --hostname changedet --rm -e "FLASK_SERVER_NAME=changedet" -e "WEBDRIVER_URL=http://selenium:4444/wd/hub" --network changedet-network test-changedetectionio bash -c 'cd changedetectionio; pytest --live-server-host=0.0.0.0 --live-server-port=5004 tests/test_request.py'
+
+      - name: Specific tests in built container for Selenium
+        run: |
+          docker run --rm -e "WEBDRIVER_URL=http://selenium:4444/wd/hub" --network changedet-network test-changedetectionio bash -c 'cd changedetectionio;pytest tests/fetchers/test_content.py && pytest tests/test_errorhandling.py'
+
+
+  # SMTP tests
+  smtp-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 10
+    env:
+      PYTHON_VERSION: ${{ inputs.python-version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: test-changedetectionio-${{ env.PYTHON_VERSION }}
+          path: /tmp
+
+      - name: Load Docker image
+        run: |
+          docker load -i /tmp/test-changedetectionio.tar
+
+      - name: Spin up SMTP test server
+        run: |
+          docker network create changedet-network
+          docker run --network changedet-network -d -p 11025:11025 -p 11080:11080 --hostname mailserver test-changedetectionio bash -c 'pip3 install aiosmtpd && python changedetectionio/tests/smtp/smtp-test-server.py'
+
+      - name: Test SMTP notification mime types
+        run: |
+          docker run --rm --network changedet-network test-changedetectionio bash -c 'cd changedetectionio;pytest tests/smtp/test_notification_smtp.py'
+
           # Check for watchlist content
           if grep -q -i "watch" /tmp/nginx-test-root.html; then
             echo "✓ Found watch/watchlist content in response"
