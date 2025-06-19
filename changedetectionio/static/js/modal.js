@@ -169,3 +169,6 @@ const ModalDialog = {
   }
 };
 
+// Make available globally
+window.ModalDialog = ModalDialog;
+
