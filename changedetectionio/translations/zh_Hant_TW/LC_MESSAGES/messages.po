@@ -3556,6 +3556,46 @@ msgstr "排程時間限制"
 msgid "Business hours"
 msgstr "營業時間"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "週末"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "重設"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "警告，您設定的一個或多個「天」持續時間將延伸至隔天。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "這可能會產生非預期的後果。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "更多幫助和範例請見此處"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "使用時間排程器"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "請先確認 / 儲存您的時區設定"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "觸發文字"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "如果出現此文字，且文件中有些內容變更，則觸發變更。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "忽略文字"
+
 #: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
 msgid "Ignored for calculating changes, but still shown."
 msgstr "計算變更時忽略，但仍會顯示。"
