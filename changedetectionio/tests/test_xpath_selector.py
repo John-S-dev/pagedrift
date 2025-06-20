@@ -413,6 +413,40 @@ def test_various_rules(client, live_server, measure_memory_usage, datastore_path
     delete_all_watches(client)
 
 
+def test_xpath_20(client, live_server, measure_memory_usage, datastore_path):
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    set_original_response(datastore_path=datastore_path)
+
+    test_url = url_for('test_endpoint', _external=True)
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid=uuid),
+        data={"include_filters": "//*[contains(@class, 'sametext')]|//*[contains(@class, 'changetext')]",
+              "url": test_url,
+              "tags": "",
+              "headers": "",
+              'fetch_backend': "html_requests",
+              "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+
+    assert b"Updated watch." in res.data
+    wait_for_all_checks(client)
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid=uuid),
+        follow_redirects=True
+    )
+
+    assert b"Some text thats the same" in res.data  # in selector
+    assert b"Some text that will change" in res.data  # in selector
+
+    delete_all_watches(client)
+
+
 def test_xpath_20_function_string_join_matches(client, live_server, measure_memory_usage, datastore_path):
     set_original_response(datastore_path=datastore_path)
 
