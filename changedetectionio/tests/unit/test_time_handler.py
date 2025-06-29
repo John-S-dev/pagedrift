@@ -519,3 +519,81 @@ class TestIsWithinSchedule(unittest.TestCase):
         )
         self.assertTrue(result, "Should work with default timezone")
 
+    def test_schedule_different_timezones(self):
+        """Test schedule works correctly across different timezones."""
+        # Test with Tokyo timezone
+        timezone_str = 'Asia/Tokyo'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 1, 'minutes': 30}
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result)
+
+    def test_schedule_with_minutes_in_duration(self):
+        """Test schedule with minutes specified in duration."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_time = now.format('HH:mm')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_time,
+                'duration': {'hours': 0, 'minutes': 45}
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should handle minutes in duration")
+
+    def test_schedule_with_timezone_whitespace(self):
+        """Test that timezone with whitespace is handled."""
+        timezone_str = '  UTC  '
+        now = arrow.now('UTC')
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 1, 'minutes': 0}
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should handle timezone with whitespace")
+
+    def test_schedule_with_60_minutes(self):
+        """Test schedule with duration of 0 hours and 60 minutes."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 0, 'minutes': 60}  # 60 minutes
+            }
+        }
+
