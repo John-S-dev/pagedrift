@@ -3909,6 +3909,48 @@ msgstr ""
 msgid "Detects all text changes where possible"
 msgstr ""
 
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Watch limit reached ({current}/{limit} watches). Cannot add more watches."
+msgstr ""
+
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Error fetching metadata for {}"
+msgstr ""
+
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr ""
+
 #: changedetectionio/templates/_common_fields.html
 msgid ""
 "The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
