@@ -3597,6 +3597,47 @@ msgid "More Here"
 msgstr "更多資訊"
 
 #: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "僅支援最大"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2,000 個字元"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "的通知文字，包含標題。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "聊天機器人（Bots）無法向其他機器人發送訊息，因此您應該指定非機器人使用者的聊天 ID（Chat ID）。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "僅支援非常有限的 HTML，且在發送額外標籤時可能會失敗，"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "（或使用純文字 / Markdown 格式）"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "用於直接 API 呼喚（或省略"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "用於非 SSL 即"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "更多幫助和範例請見此處"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "接受下方列出的 <code>%(token)s</code> 預留位置"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "Plain Text"
 msgstr "純文字"
 
