@@ -79,6 +79,76 @@ def test_settings_change_forces_reprocess(client, live_server, measure_memory_us
     print("✓ Settings change forces reprocessing of all watches")
 
 
+def test_tag_change_forces_reprocess(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that changing a tag configuration clears checksums only for watches with that tag.
+    """
+
+    # Setup test content
+    test_html = """<html>
+     <body>
+     <p>Test content that stays the same</p>
+     </body>
+     </html>
+    """
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_html)
+
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Create a tag
+    datastore = client.application.config.get('DATASTORE')
+    tag_uuid = datastore.add_tag('Test Tag')
+
+    # Add watches - one with tag, one without
+    uuid_with_tag = datastore.add_watch(url=test_url, extras={'title': 'Watch With Tag', 'tags': [tag_uuid]})
+    uuid_without_tag = datastore.add_watch(url=test_url, extras={'title': 'Watch Without Tag'})
+
+    # Unpause watches
+    datastore.data['watching'][uuid_with_tag]['paused'] = False
+    datastore.data['watching'][uuid_without_tag]['paused'] = False
+
+    # First check - establishes baseline
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    # Verify checksum files were created
+    checksum_with = os.path.join(datastore_path, uuid_with_tag, 'last-checksum.txt')
+    checksum_without = os.path.join(datastore_path, uuid_without_tag, 'last-checksum.txt')
+    assert os.path.isfile(checksum_with), "First check should create checksum for tagged watch"
+    assert os.path.isfile(checksum_without), "First check should create checksum for untagged watch"
+
+    # Edit the tag (change notification_muted as an example)
+    tag = datastore.data['settings']['application']['tags'][tag_uuid]
+    res = client.post(
+        url_for("tags.form_tag_edit_submit", uuid=tag_uuid),
+        data={
+            'title': 'Test Tag',
+            'notification_muted': 'y',
+            'overrides_watch': 'n'
+        },
+        follow_redirects=True
+    )
+    assert b"Updated" in res.data
+
+    # Give it a moment to process
+    time.sleep(0.5)
+
+    # Verify ONLY the tagged watch's checksum was deleted
+    assert not os.path.isfile(checksum_with), "Tag change should delete checksum for watch WITH tag"
+    assert os.path.isfile(checksum_without), "Tag change should NOT delete checksum for watch WITHOUT tag"
+
+    # Next check should reprocess tagged watch and recreate its checksum
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    # Verify tagged watch's checksum was recreated
+    assert os.path.isfile(checksum_with), "Reprocessing should recreate checksum for tagged watch"
+    assert os.path.isfile(checksum_without), "Untagged watch should still have its checksum"
+
+    print("✓ Tag change forces reprocessing only for watches with that tag")
+
+
 def test_tag_change_via_api_forces_reprocess(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that updating a tag via API also clears checksums for affected watches.
