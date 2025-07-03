@@ -409,6 +409,74 @@ class TestHtmlToText(unittest.TestCase):
         assert '<style' not in text, "Unclosed style tag in output"
         assert '</svg>' not in text, "SVG closing tag leaked into text"
 
+        print("  ✓ Style tag with SVG data URI test passed")
+
+    def test_style_tag_closes_correctly(self):
+        """
+        Test that each tag type (style, script, svg) closes with the correct closing tag.
+
+        Before the fix, the regex used (?:style|script|svg|noscript) for both opening and
+        closing tags, which meant <style> could incorrectly match </svg> as its closing tag.
+        With backreferences, <style> must close with </style>, <svg> with </svg>, etc.
+        """
+        # Test nested tags where incorrect matching would break
+        html = '''<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: url('data:image/svg+xml,<svg><rect/></svg>'); }
+    </style>
+    <script>
+        const svg = '<svg><path d="M0,0"/></svg>';
+    </script>
+</head>
+<body>
+    <h1>Content</h1>
+    <svg><circle cx="50" cy="50" r="40"/></svg>
+    <p>After SVG</p>
+</body>
+</html>'''
+
+        text = html_to_text(html)
+
+        # Should extract body content
+        assert 'Content' in text, "Failed to extract heading"
+        assert 'After SVG' in text, "Failed to extract content after SVG"
+
+        # Should strip all style/script/svg content
+        assert 'background:' not in text, "Style content leaked"
+        assert 'const svg' not in text, "Script content leaked"
+        assert '<circle' not in text, "SVG element leaked"
+        assert 'data:image/svg+xml' not in text, "Data URI leaked"
+
+        print("  ✓ Tag closing validation test passed")
+
+
+
+    def test_script_with_closing_tag_in_string_does_not_eat_content(self):
+        """
+        Script tag containing </script> inside a JS string must not prematurely end the block.
+
+        This is the classic regex failure mode: the old pattern would find the first </script>
+        inside the JS string literal and stop there, leaving the tail of the script block
+        (plus any following content) exposed as raw text. BS4 parses the HTML correctly.
+        """
+        html = '''<html><body>
+<p>Before script</p>
+<script>
+var html = "<div>foo<\\/script><p>bar</p>";
+var also = 1;
+</script>
+<p>AFTER SCRIPT</p>
+</body></html>'''
+
+        text = html_to_text(html)
+        assert 'Before script' in text
+        assert 'AFTER SCRIPT' in text
+        # Script internals must not leak
+        assert 'var html' not in text
+        assert 'var also' not in text
+
     def test_content_sandwiched_between_multiple_body_scripts(self):
         """Content between multiple script/style blocks in the body must all survive."""
         html = '''<html><body>
