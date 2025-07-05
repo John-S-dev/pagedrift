@@ -3554,6 +3554,46 @@ msgstr "Nieprawidłowa składnia szablonu: %(error)s"
 msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
 msgstr "Nieprawidłowa składnia szablonu w nagłówku „%(header)s”: %(error)s"
 
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 50"
+msgstr "Powinna wynosić od 1 do 50"
+
+#: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Limit czasu oczekiwania na żądania w sekundach"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "Powinna wynosić od 1 do 999"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Domyślne nadpisywanie wartości User-Agent"
+
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "Wymagane jest zarówno podanie nazwy, jak i adresu URL serwera proxy."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "Otwórz stronę „Historia” w nowej karcie"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "Włączono aktualizacje interfejsu użytkownika w czasie rzeczywistym"
+
+#: changedetectionio/forms.py
+msgid "Favicons Enabled"
+msgstr "Włączono favikony"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in watch overview list"
+msgstr "Użyj elementu <title> strony na liście obserwacji"
+
+#: changedetectionio/forms.py
+msgid "Relative time format"
+msgstr "Format czasu względnego"
+
 #: changedetectionio/forms.py changedetectionio/templates/login.html
 msgid "Password"
 msgstr "Hasło"
