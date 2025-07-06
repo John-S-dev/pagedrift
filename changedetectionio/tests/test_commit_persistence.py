@@ -395,6 +395,38 @@ def test_api_put_saves_processor_config_separately(client, live_server):
     assert config.get('min_stock') == 5, "Should have min_stock"
 
 
+def test_ui_edit_saves_processor_config_separately(client, live_server):
+    """Test that processor_config_* fields never appear in watch.json (even from UI)"""
+    datastore = client.application.config.get('DATASTORE')
+
+    # Create watch
+    uuid = datastore.add_watch(
+        url='http://example.com',
+        extras={'processor': 'text_json_diff', 'title': 'Test'}
+    )
+
+    watch = datastore.data['watching'][uuid]
+
+    # Simulate someone accidentally trying to set processor_config fields directly
+    watch['processor_config_should_not_save'] = 'test_value'
+    watch['processor_config_another_field'] = 123
+    watch['normal_field'] = 'this_should_save'
+    watch.commit()
+
+    # Check watch.json has NO processor_config_* fields (main point of this test)
+    watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+    with open(watch_json_path, 'r') as f:
+        watch_data = json.load(f)
+
+    for key in watch_data.keys():
+        assert not key.startswith('processor_config_'), \
+            f"Found {key} in watch.json - processor configs should be filtered during commit"
+
+    # Verify normal fields still save
+    assert watch_data['normal_field'] == 'this_should_save', "Normal fields should save"
+    assert watch_data['title'] == 'Test', "Original fields should still be there"
+
+
 def test_browser_steps_normalized_to_empty_list(client, live_server):
     """Test that meaningless browser_steps are normalized to [] during commit"""
     datastore = client.application.config.get('DATASTORE')
