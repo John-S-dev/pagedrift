@@ -2918,6 +2918,46 @@ msgid "year"
 msgstr "년"
 
 #: changedetectionio/flask_app.py
+msgid "years"
+msgstr "년"
+
+#: changedetectionio/flask_app.py
+msgid "month"
+msgstr "개월"
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr "개월"
+
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr "주"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "주"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "일"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "일"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "시간"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "시간"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "분"
+
+#: changedetectionio/flask_app.py
 msgid "minutes"
 msgstr "분"
 
