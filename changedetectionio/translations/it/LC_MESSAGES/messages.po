@@ -3865,6 +3865,50 @@ msgstr ""
 msgid "Format for all notifications"
 msgstr "Formato per tutte le notifiche"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Limiti orari"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Fine settimana"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Ripristina"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Vuoi usare una pianificazione oraria?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Testo trigger"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr ""
+
 #: changedetectionio/templates/base.html
 msgid "Hover over elements to select"
 msgstr ""
