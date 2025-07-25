@@ -3444,6 +3444,46 @@ msgid "Browser connection URL"
 msgstr "URL koneksi browser"
 
 #: changedetectionio/forms.py
+msgid "Browser URLs must start with wss:// or ws://"
+msgstr "URL browser harus diawali dengan wss:// atau ws://"
+
+#: changedetectionio/forms.py
+msgid "Plaintext requests"
+msgstr "Permintaan plaintext"
+
+#: changedetectionio/forms.py
+msgid "Chrome requests"
+msgstr "Permintaan Chrome"
+
+#: changedetectionio/forms.py
+msgid "Default proxy"
+msgstr "Proksi default"
+
+#: changedetectionio/forms.py
+msgid "Random jitter seconds ± check"
+msgstr "Detik jitter acak ± pemeriksaan"
+
+#: changedetectionio/forms.py
+msgid "Number of fetch workers"
+msgstr "Jumlah worker pengambilan"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 50"
+msgstr "Harus antara 1 dan 50"
+
+#: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Timeout permintaan dalam detik"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "Harus antara 1 dan 999"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Penimpaan User-Agent default"
+
+#: changedetectionio/forms.py
 msgid "Both a name, and a Proxy URL is required."
 msgstr "Nama dan URL Proksi wajib diisi."
 
