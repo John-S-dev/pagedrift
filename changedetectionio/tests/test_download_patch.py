@@ -66,3 +66,41 @@ def test_download_patch_returns_unified_diff(client, live_server, measure_memory
     assert '-line two' in patch
 
 
+def test_download_patch_link_present_in_diff_page(client, live_server, measure_memory_usage, datastore_path):
+    """
+    The diff history page HTML should contain a 'Download difference patch' link
+    pointing to the download-patch route when from_version and to_version are set.
+    """
+    live_server_setup(live_server)
+    delete_all_watches(client)
+
+    app = client.application
+    test_url = url_for('test_endpoint', content_type='text/html', content='initial content', _external=True)
+
+    uuid = _add_watch_with_history(app, test_url, 'initial content\n', 'updated content\n')
+
+    # Load the diff page without explicit versions — should default to last two
+    res = client.get(
+        url_for('ui.ui_diff.diff_history_page', uuid=uuid),
+        follow_redirects=True,
+    )
+
+    assert res.status_code == 200
+    html = res.data.decode('utf-8')
+    assert 'Download difference patch' in html
+    assert 'download-patch' in html
+
+
+def test_download_patch_unknown_uuid_returns_404(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Requesting a patch for a non-existent watch should return 404.
+    """
+    live_server_setup(live_server)
+    delete_all_watches(client)
+
+    res = client.get(
+        url_for('ui.ui_diff.download_patch', uuid='00000000-0000-0000-0000-000000000000',
+                from_version='1000000000', to_version='1000000001'),
+    )
+
+    assert res.status_code == 404
