@@ -2531,6 +2531,46 @@ msgid "Alternatively try our"
 msgstr "Альтернативно спробуйте наш"
 
 #: changedetectionio/templates/_helpers.html
+msgid "very affordable subscription based service which has all this setup for you"
+msgstr "дуже доступний сервіс за передплатою, де все це вже налаштовано для вас"
+
+#: changedetectionio/templates/_helpers.html
+msgid "You may need to"
+msgstr "Вам може знадобитися"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Enable playwright environment variable"
+msgstr "Увімкнути змінну оточення playwright"
+
+#: changedetectionio/templates/_helpers.html
+msgid "and uncomment the"
+msgstr "та розкоментувати"
+
+#: changedetectionio/templates/_helpers.html
+msgid "in the"
+msgstr "у"
+
+#: changedetectionio/templates/_helpers.html
+msgid "file"
+msgstr "файлі"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "Встановити розклад по годинах/днях тижня"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Обмеження часу розкладу"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "Робочі години"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Вихідні"
+
+#: changedetectionio/templates/_helpers.html
 msgid "Reset"
 msgstr "Скидання"
 
