@@ -377,6 +377,14 @@ def check_json_filter(json_filter, client, live_server, datastore_path):
 def test_check_jsonpath_filter(client, live_server, measure_memory_usage, datastore_path):
     check_json_filter('json:boss.name', client, live_server, datastore_path=datastore_path)
 
+def test_check_jq_filter(client, live_server, measure_memory_usage, datastore_path):
+    if jq_support:
+        check_json_filter('jq:.boss.name', client, live_server, datastore_path=datastore_path)
+
+def test_check_jqraw_filter(client, live_server, measure_memory_usage, datastore_path):
+    if jq_support:
+        check_json_filter('jqraw:.boss.name', client, live_server, datastore_path=datastore_path)
+
 def check_json_filter_bool_val(json_filter, client, live_server, datastore_path):
     set_original_response(datastore_path=datastore_path)
 
