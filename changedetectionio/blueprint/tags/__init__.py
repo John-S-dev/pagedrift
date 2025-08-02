@@ -156,6 +156,107 @@ def construct_blueprint(datastore: ChangeDetectionStore):
         if uuid == 'first':
             uuid = list(datastore.data['settings']['application']['tags'].keys()).pop()
 
+        default = datastore.data['settings']['application']['tags'].get(uuid)
+        if not default:
+            flash(gettext("Tag not found"), "error")
+            return redirect(url_for('watchlist.index'))
+
+        form = group_restock_settings_form(
+                                       formdata=request.form if request.method == 'POST' else None,
+                                       data=default,
+                                       extra_notification_tokens=datastore.get_unique_notification_tokens_available(),
+                                       default_system_settings = datastore.data['settings'],
+                                       )
+
+        # Bridge API-stored processor_config_* values into the form's FormField sub-forms.
+        # The API stores processor_config_restock_diff in the tag dict; find the matching
+        # FormField by checking which one's sub-fields cover the config keys.
+        from wtforms.fields.form import FormField as WTFormField
+        for key, value in default.items():
+            if not key.startswith('processor_config_') or not isinstance(value, dict):
+                continue
+            for form_field in form:
+                if isinstance(form_field, WTFormField) and all(k in form_field.form._fields for k in value):
+                    for sub_key, sub_value in value.items():
+                        sub_field = form_field.form._fields.get(sub_key)
+                        if sub_field is not None:
+                            sub_field.data = sub_value
+                    break
+
+        template_args = {
+            'data': default,
+            'form': form,
+            'watch': default,
+            'extra_notification_token_placeholder_info': datastore.get_unique_notification_token_placeholders_available(),
+            'llm_configured': bool(_get_llm_config(datastore)),
+            # Tells the shared AI include it is rendering a group, not a watch — `watch` above
+            # is this tag, so it cannot be used to tell the two apart.
+            'llm_group_edit': True,
+        }
+
+        included_content = {}
+        if form.extra_form_content():
+            # So that the extra panels can access _helpers.html etc, we set the environment to load from templates/
+            # And then render the code from the module
+            from jinja2 import Environment, FileSystemLoader
+            import importlib.resources
+            templates_dir = str(importlib.resources.files("changedetectionio").joinpath('templates'))
+            env = Environment(loader=FileSystemLoader(templates_dir))
+            template_str = """{% from '_helpers.html' import render_field, render_checkbox_field, render_button %}
+        <script>        
+            $(document).ready(function () {
+                toggleOpacity('#overrides_watch', '#restock-fieldset-price-group', true);
+            });
+        </script>            
+                <fieldset>
+                    <div class="pure-control-group">
+                        <fieldset class="pure-group">
+                        {{ render_checkbox_field(form.overrides_watch) }}
+                        <span class="pure-form-message-inline">Used for watches in "Restock & Price detection" mode</span>
+                        </fieldset>
+                </fieldset>
+                """
+            template_str += form.extra_form_content()
+            template = env.from_string(template_str)
+            included_content = template.render(**template_args)
+
+        # Watches whose URL currently matches this tag's pattern
+        matching_watches = {
+            w_uuid: watch
+            for w_uuid, watch in datastore.data['watching'].items()
+            if default.matches_url(watch.get('url', ''))
+        }
+
+        output = render_template("edit-tag.html",
+                                 extra_form_content=included_content,
+                                 extra_tab_content=form.extra_tab_content() if form.extra_tab_content() else None,
+                                 matching_watches=matching_watches,
+                                 settings_application=datastore.data['settings']['application'],
+                                 **template_args
+                                 )
+
+        return output
+
+
+    @tags_blueprint.route("/edit/<uuid_str:uuid>", methods=['POST'])
+    @login_optionally_required
+    def form_tag_edit_submit(uuid):
+        from changedetectionio.blueprint.tags.form import group_restock_settings_form
+        if uuid == 'first':
+            uuid = list(datastore.data['settings']['application']['tags'].keys()).pop()
+
+        tag = datastore.data['settings']['application']['tags'].get(uuid)
+
+        form = group_restock_settings_form(formdata=request.form if request.method == 'POST' else None,
+                               data=tag,
+                               extra_notification_tokens=datastore.get_unique_notification_tokens_available()
+                               )
+        # @todo subclass form so validation works
+        #if not form.validate():
+#            for widget, l in form.errors.items():
+#                flash(','.join(l), 'error')
+#           return redirect(url_for('tags.form_tag_edit_submit', uuid=uuid))
+
         # Until then, validate the fields that must not be taken on trust - tag_colour is
         # rendered into a <style> block, where anything but a hex colour is CSS injection
         if not form.tag_colour.validate(form):
