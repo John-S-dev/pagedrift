@@ -2998,6 +2998,50 @@ msgid "Not a valid timezone name"
 msgstr "유효한 시간대 이름이 아닙니다."
 
 #: changedetectionio/forms.py
+msgid "not set"
+msgstr "설정 안 됨"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "시작 시간"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "실행 시간"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "시간 예약 사용"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "기준 시간대 (선택 사항)"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "월요일"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "화요일"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "수요일"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "목요일"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "금요일"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "토요일"
+
+#: changedetectionio/forms.py
 msgid "Sunday"
 msgstr "일요일"
 
