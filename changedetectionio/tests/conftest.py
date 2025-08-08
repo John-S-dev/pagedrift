@@ -221,6 +221,48 @@ def pytest_configure(config):
             # Already set, not available on this platform, or context already created
             pass
 
+def pytest_addoption(parser):
+    """Add custom command-line options for pytest.
+
+    Provides --datastore-path option for specifying custom datastore location.
+    Note: Cannot use -d short option as it's reserved by pytest for debug mode.
+    """
+    parser.addoption(
+        "--datastore-path",
+        action="store",
+        default=None,
+        help="Custom datastore path for tests"
+    )
+
+@pytest.fixture(scope='session')
+def datastore_path(tmp_path_factory, request):
+    """Provide datastore path unique to this worker.
+
+    Supports custom path via --datastore-path/-d flag (mirrors main app).
+
+    CRITICAL for xdist isolation:
+    - Each WORKER gets its own directory
+    - Tests on same worker run SEQUENTIALLY and cleanup between tests
+    - No subdirectories needed since tests don't overlap on same worker
+    - Example: /tmp/test-datastore-gw0/ for worker gw0
+    """
+    # Check for custom path first (mirrors main app's -d flag)
+    custom_path = request.config.getoption("--datastore-path")
+    if custom_path:
+        # Ensure the directory exists
+        os.makedirs(custom_path, exist_ok=True)
+        logger.info(f"Using custom datastore path: {custom_path}")
+        return custom_path
+
+    # Otherwise use default tmp_path_factory logic
+    worker_id = getattr(request.config, 'workerinput', {}).get('workerid', 'master')
+    if worker_id == 'master':
+        path = tmp_path_factory.mktemp("test-datastore")
+    else:
+        path = tmp_path_factory.mktemp(f"test-datastore-{worker_id}")
+    return str(path)
+
+
 @pytest.fixture(scope='function', autouse=True)
 def prepare_test_function(live_server, datastore_path):
     """Prepare each test with complete isolation.
