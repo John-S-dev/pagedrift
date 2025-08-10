@@ -2937,6 +2937,46 @@ msgstr "týdny"
 msgid "day"
 msgstr "den"
 
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "dny"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "hodina"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "hodiny"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "minuta"
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "minut"
+
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "sekunda"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "sekundy"
+
+#: changedetectionio/flask_app.py
+msgid "Already logged in"
+msgstr "Již přihlášen(a)"
+
+#: changedetectionio/flask_app.py
+msgid "You must be logged in, please log in."
+msgstr "Je třeba být přihlášen(a), přihlas se."
+
+#: changedetectionio/flask_app.py
+msgid "Incorrect password"
+msgstr "Nesprávné heslo"
+
 #: changedetectionio/forms.py
 msgid "At least one time interval (weeks, days, hours, minutes, or seconds) must be specified."
 msgstr "Je třeba zadat alespoň jeden časový interval (týdny, dny, hodiny, minuty nebo sekundy)."
