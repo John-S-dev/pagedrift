@@ -597,3 +597,66 @@ class TestIsWithinSchedule(unittest.TestCase):
             }
         }
 
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should accept 60 minutes as valid duration")
+
+    def test_schedule_with_24_hours(self):
+        """Test schedule with duration of 24 hours and 0 minutes."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        start_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': start_hour,
+                'duration': {'hours': 24, 'minutes': 0}  # Full 24 hours
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should accept 24 hours as valid duration")
+
+    def test_schedule_with_90_minutes(self):
+        """Test schedule with duration of 0 hours and 90 minutes."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 0, 'minutes': 90}  # 90 minutes = 1.5 hours
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should accept 90 minutes as valid duration")
+
+    def test_schedule_24_hours_from_midnight(self):
+        """Test 24-hour schedule from midnight using is_within_schedule."""
+        timezone_str = 'UTC'
+        test_time = arrow.get('2024-01-01 12:00:00', 'YYYY-MM-DD HH:mm:ss').replace(tzinfo=timezone_str)
+        current_day = test_time.format('dddd').lower()  # monday
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': '00:00',
+                'duration': {'hours': 24, 'minutes': 0}
+            }
+        }
+
+        with unittest.mock.patch('arrow.now', return_value=test_time):
+            result = time_handler.is_within_schedule(time_schedule_limit)
+            self.assertTrue(result, "24-hour schedule from midnight should cover entire day")
+
