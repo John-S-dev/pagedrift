@@ -3882,6 +3882,50 @@ msgstr "모든 알림 형식"
 msgid "Discord does not render HTML — switch to"
 msgstr "Discord는 HTML을 렌더링하지 않으므로"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "Plain Text"
+msgstr "일반 텍스트"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "format to avoid"
+msgstr "형식으로 전환해"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr "알림에 &nbsp; 및 다른 HTML 엔티티가 그대로 표시되지 않게 하세요."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "항목"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "작업"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "뒤에 행/규칙 추가"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "이 행/규칙 삭제"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "현재 스냅샷으로 이 규칙 검증"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "시간/요일별 예약 설정"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "예약 실행 시간대"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "평일 낮"
+
 #: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
 msgid "Ignored for calculating changes, but still shown."
 msgstr "변경 계산에서는 무시하지만 화면에는 표시합니다."

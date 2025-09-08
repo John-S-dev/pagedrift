@@ -745,6 +745,40 @@ def test_api_watch_PUT_update(client, live_server, measure_memory_usage, datasto
     delete_all_watches(client)
 
 
+def test_api_import(client, live_server, measure_memory_usage, datastore_path):
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Test 1: Basic import with tag
+    res = client.post(
+        url_for("import") + "?tag=import-test",
+        data='https://website1.com\r\nhttps://website2.com',
+        # We removed  'content-type': 'text/plain', the Import API should assume this if none is set #3547 #3542
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+    assert len(res.json) == 2
+    res = client.get(url_for("watchlist.index"))
+    assert b"https://website1.com" in res.data
+    assert b"https://website2.com" in res.data
+
+    # Should see the new tag in the tag/groups list
+    res = client.get(url_for('tags.tags_overview_page'))
+    assert b'import-test' in res.data
+
+    # Test 2: Import with watch configuration fields (issue #3845)
+    # Test string field (include_filters), boolean (paused), and processor
+    import urllib.parse
+    params = urllib.parse.urlencode({
+        'tag': 'config-test',
+        'include_filters': 'div.content',
+        'paused': 'true',
+        'processor': 'text_json_diff',
+        'title': 'Imported with Config'
+    })
+
     assert res.status_code == 200, "Should accept browser_steps array"
     uuid = res.json[0]
     watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
