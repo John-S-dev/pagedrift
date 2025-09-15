@@ -3105,6 +3105,51 @@ msgid "'%s' is not a valid AppRise URL."
 msgstr "'%s' не є допустимим URL AppRise."
 
 #: changedetectionio/forms.py
+#, python-format
+msgid "RegEx '%s' is not a valid regular expression."
+msgstr "RegEx '%s' не є допустимим регулярним виразом."
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid XPath expression. (%(error)s)"
+msgstr "'%(expression)s' не є допустимим виразом XPath. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid JSONPath expression. (%(error)s)"
+msgstr "'%(expression)s' не є допустимим виразом JSONPath. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
+msgstr "'%(expression)s' не є допустимим виразом jq. (%(error)s)"
+
+#: changedetectionio/forms.py
+msgid "Empty value not allowed."
+msgstr "Порожнє значення неприпустиме."
+
+#: changedetectionio/forms.py
+msgid "Invalid value."
+msgstr "Неприпустиме значення."
+
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "Тег групи"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "Завдання"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "Процесор"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Edit > Watch"
 msgstr "Редагувати > Завдання"
 
