@@ -3103,6 +3103,47 @@ msgid "Invalid value."
 msgstr "Valore non valido."
 
 #: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "Gruppo / Etichetta"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "Monitora"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "Processore"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr "Modifica > Monitora"
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr "Metodo di recupero"
+
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr "Corpo notifica"
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr "Formato notifica"
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr "Titolo notifica"
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr "Lista URL notifiche"
+
+#: changedetectionio/forms.py
 msgid "Processor - What do you want to achieve?"
 msgstr "Processore - Cosa vuoi ottenere?"
 
