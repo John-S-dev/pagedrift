@@ -3358,6 +3358,46 @@ msgstr "Öffnen Sie die Seite „Verlauf“ in einem neuen Tab"
 msgid "Realtime UI Updates Enabled"
 msgstr "Echtzeit-UI-Updates aktiviert"
 
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Muss zwischen 0 und 100 liegen"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Passwort"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Pagergröße"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "Sollte mindestens Null sein (deaktiviert)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "RSS-Inhaltsformat"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "RSS-<description>-Körper erstellt aus"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "RSS-Vorlage „Systemstandard“ überschreiben"
+
+#: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "Passwort entfernen"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "Rendern Sie den Inhalt des Ankertags"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "Erlauben Sie anonymen Zugriff auf die Seite mit dem Wiedergabeverlauf, wenn das Passwort aktiviert ist"
+
 #: changedetectionio/forms.py
 msgid "When monthly token budget is reached"
 msgstr ""
