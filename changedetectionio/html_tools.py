@@ -852,6 +852,37 @@ def has_ldjson_product_info(content):
 
 
 
+def workarounds_for_obfuscations(content):
+    """
+    Some sites are using sneaky tactics to make prices and other information un-renderable by Inscriptis
+    This could go into its own Pip package in the future, for faster updates
+    """
+
+    # HomeDepot.com style <span>$<!-- -->90<!-- -->.<!-- -->74</span>
+    # https://github.com/weblyzard/inscriptis/issues/45
+    if not content:
+        return content
+
+    content = re.sub('<!--\s+-->', '', content)
+
+    return content
+
+
+def get_triggered_text(content, trigger_text):
+    triggered_text = []
+    result = strip_ignore_text(content=content,
+                               wordlist=trigger_text,
+                               mode="line numbers")
+
+    i = 1
+    for p in content.splitlines():
+        if i in result:
+            triggered_text.append(p)
+        i += 1
+
+    return triggered_text
+
+
 def extract_title(data: bytes | str, sniff_bytes: int = 2048, scan_chars: int = 8192) -> str | None:
     """Extract the <title> from an HTML document.
 
