@@ -3295,6 +3295,51 @@ msgid "Request method"
 msgstr "請求方式"
 
 #: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "當文字符合時，阻擋變更檢測"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "在變更檢測前執行 JavaScript"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "代理伺服器"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "當頁面上找不到過濾器時發送通知"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "開啟"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "通知"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "已靜音"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "將截圖附加到通知中（如果支援）"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "符合"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "符合以下所有條件"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "符合以下任一條件"
+
+#: changedetectionio/forms.py
 msgid "Browser URLs must start with wss:// or ws://"
 msgstr "瀏覽器 URL 必須以 wss:// 或 ws:// 開頭"
 
