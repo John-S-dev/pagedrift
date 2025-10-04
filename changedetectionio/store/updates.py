@@ -360,6 +360,69 @@ class DatastoreUpdatesMixin:
                     for i, url in enumerate(n_urls):
                         watch['notification_urls'][i] = re.sub(r, r'{{\1}}', url)
 
+    def update_17(self):
+        """Migrate old 'in_stock' values to the new Restock."""
+        for uuid, watch in self.data['watching'].items():
+            if 'in_stock' in watch:
+                watch['restock'] = Restock({'in_stock': watch.get('in_stock')})
+                del watch['in_stock']
+
+    def update_18(self):
+        """Migrate old restock settings."""
+        for uuid, watch in self.data['watching'].items():
+            if not watch.get('restock_settings'):
+                # So we enable price following by default
+                self.data['watching'][uuid]['restock_settings'] = {'follow_price_changes': True}
+
+            # Migrate and cleanoff old value
+            self.data['watching'][uuid]['restock_settings']['in_stock_processing'] = 'in_stock_only' if watch.get(
+                'in_stock_only') else 'all_changes'
+
+            if self.data['watching'][uuid].get('in_stock_only'):
+                del (self.data['watching'][uuid]['in_stock_only'])
+
+    def update_19(self):
+        """Compress old elements.json to elements.deflate, saving disk, this compression is pretty fast."""
+        import zlib
+
+        for uuid, watch in self.data['watching'].items():
+            json_path = os.path.join(self.datastore_path, uuid, "elements.json")
+            deflate_path = os.path.join(self.datastore_path, uuid, "elements.deflate")
+
+            if os.path.exists(json_path):
+                with open(json_path, "rb") as f_j:
+                    with open(deflate_path, "wb") as f_d:
+                        logger.debug(f"Compressing {str(json_path)} to {str(deflate_path)}..")
+                        f_d.write(zlib.compress(f_j.read()))
+                        os.unlink(json_path)
+
+    def update_20(self):
+        """Migrate extract_title_as_title to use_page_title_in_list."""
+        for uuid, watch in self.data['watching'].items():
+            if self.data['watching'][uuid].get('extract_title_as_title'):
+                self.data['watching'][uuid]['use_page_title_in_list'] = self.data['watching'][uuid].get('extract_title_as_title')
+                del self.data['watching'][uuid]['extract_title_as_title']
+
+        if self.data['settings']['application'].get('extract_title_as_title'):
+            # Ensure 'ui' key exists (defensive for edge cases where base_config merge didn't happen)
+            if 'ui' not in self.data['settings']['application']:
+                self.data['settings']['application']['ui'] = {
+                    'use_page_title_in_list': True,
+                    'open_diff_in_new_tab': True,
+                    'socket_io_enabled': True,
+                    'favicons_enabled': True
+                }
+            self.data['settings']['application']['ui']['use_page_title_in_list'] = self.data['settings']['application'].get('extract_title_as_title')
+
+    def update_21(self):
+        """Migrate timezone to scheduler_timezone_default."""
+        if self.data['settings']['application'].get('timezone'):
+            self.data['settings']['application']['scheduler_timezone_default'] = self.data['settings']['application'].get('timezone')
+            del self.data['settings']['application']['timezone']
+
+    def update_23(self):
+        """Some notification formats got the wrong name type."""
+
         saved_count = 0
         for uuid, watch in self.data['watching'].items():
             try:
