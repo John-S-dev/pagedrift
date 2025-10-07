@@ -3883,6 +3883,46 @@ msgid "Destination email"
 msgstr ""
 
 #: changedetectionio/templates/base.html
+msgid "Content after filters"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "实时更新离线"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "选择语言"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "从浏览器自动检测"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "语言支持仍在测试阶段，欢迎在 GitHub 提交 PR 帮助改进。"
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
 msgid "Go to AI / LLM Settings"
 msgstr ""
 
