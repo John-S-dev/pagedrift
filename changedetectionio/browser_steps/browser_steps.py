@@ -401,6 +401,78 @@ class browsersteps_live_ui(steppable_browser_interface):
             
         logger.debug("Cleaning up browser steps resources")
         
+        # Clean up page
+        if hasattr(self, 'page') and self.page is not None:
+            try:
+                # Force garbage collection before closing
+                await self.page.request_gc()
+            except Exception as e:
+                logger.debug(f"Error during page garbage collection: {str(e)}")
+                
+            try:
+                # Remove event listeners before closing
+                self.page.remove_listener("close", self.mark_as_closed)
+            except Exception as e:
+                logger.debug(f"Error removing event listeners: {str(e)}")
+                
+            try:
+                await self.page.close()
+            except Exception as e:
+                logger.debug(f"Error closing page: {str(e)}")
+            
+            self.page = None
+
+        # Clean up context
+        if hasattr(self, 'context') and self.context is not None:
+            try:
+                await self.context.close()
+            except Exception as e:
+                logger.debug(f"Error closing context: {str(e)}")
+            
+            self.context = None
+            
+        self._is_cleaned_up = True
+        logger.debug("Browser steps resources cleanup complete")
+
+    @property
+    def has_expired(self):
+        if not self.page or self._is_cleaned_up:
+            return True
+        
+        # Check if session has expired based on age
+        max_age_seconds = int(os.getenv("BROWSER_STEPS_MAX_AGE_SECONDS", 60 * 10))  # Default 10 minutes
+        if (time.time() - self.age_start) > max_age_seconds:
+            logger.debug(f"Browser steps session expired after {max_age_seconds} seconds")
+            return True
+            
+        return False
+
+    async def get_current_state(self):
+        """Return the screenshot and interactive elements mapping, generally always called after action_()"""
+        import importlib.resources
+        import json
+        # because we for now only run browser steps in playwright mode (not puppeteer mode)
+        from changedetectionio.content_fetchers.playwright import capture_full_page_async
+
+        # Safety check - don't proceed if resources are cleaned up
+        if self._is_cleaned_up or self.page is None:
+            logger.warning("Attempted to get current state after cleanup")
+            return (None, None)
+
+        xpath_element_js = importlib.resources.files("changedetectionio.content_fetchers.res").joinpath('xpath_element_scraper.js').read_text(encoding="utf-8")
+
+        now = time.time()
+        await self.page.wait_for_timeout(1 * 1000)
+
+        screenshot = None
+        xpath_data = None
+        
+        try:
+            # Get screenshot first
+            screenshot = await capture_full_page_async(page=self.page)
+            if not screenshot:
+                logger.error("No screenshot was retrieved :((")
+
             logger.debug(f"Time to get screenshot from browser {time.time() - now:.2f}s")
 
             # Then get interactive elements
