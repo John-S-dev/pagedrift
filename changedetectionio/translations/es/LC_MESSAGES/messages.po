@@ -3454,6 +3454,49 @@ msgid "Body must be empty when Request Method is set to GET"
 msgstr "El cuerpo debe estar vacío cuando el método de solicitud está configurado en GET"
 
 #: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax configuration: %(error)s"
+msgstr "Configuración de sintaxis de plantilla no válida:%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax: %(error)s"
+msgstr "Sintaxis de plantilla no válida:%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
+msgstr "Sintaxis de plantilla no válida en \"%(header)s\"encabezado:%(error)s"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Name"
+msgstr "Nombre"
+
+#: changedetectionio/forms.py
+msgid "Proxy URL"
+msgstr "URL de proxy"
+
+#: changedetectionio/forms.py
+msgid "Proxy URLs must start with http://, https:// or socks5://"
+msgstr "Las URL de proxy deben comenzar con http://, https:// o socks5://"
+
+#: changedetectionio/forms.py
+msgid "Browser connection URL"
+msgstr "URL de conexión del navegador"
+
+#: changedetectionio/forms.py
+msgid "Browser URLs must start with wss:// or ws://"
+msgstr "Las URL del navegador deben comenzar con wss:// o ws://"
+
+#: changedetectionio/forms.py
+msgid "Plaintext requests"
+msgstr "Solicitudes de texto sin formato"
+
+#: changedetectionio/forms.py
+msgid "Chrome requests"
+msgstr "Solicitudes de Chrome"
+
+#: changedetectionio/forms.py
 msgid "Default proxy"
 msgstr "Proxy predeterminado"
 
