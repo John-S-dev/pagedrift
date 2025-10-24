@@ -4119,3 +4119,46 @@ msgstr ""
 "El texto de activación se procesa a partir del texto de resultado que surge de cualquier filtro CSS/JSON para este "
 "monitor"
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "Keep only lines that contain any of these words or phrases (plain text, case-insensitive)"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One entry per line — any line in the page text that contains a match is kept"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Simpler alternative to regex — use this when you just want lines about a specific topic"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "enter <code>celsius</code> to keep only lines mentioning temperature readings"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Extracts text in the final output (line by line) after other filters using regular expressions or string match:"
+msgstr ""
+"Extrae texto en la salida final (línea por línea) después de otros filtros usando expresiones regulares o "
+"coincidencia de cadenas:"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Regular expression - example"
+msgstr "Expresión regular - ejemplo"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Don't forget to consider the white-space at the start of a line"
+msgstr "No olvides considerar el espacio en blanco al comienzo de una línea"
+
+#: changedetectionio/templates/edit/text-options.html
+#, python-format
+msgid "Use <code>//(?aiLmsux))</code> type flags (more <a href=\"%(url)s\">information here</a>)"
+msgstr "Usar banderas de tipo <code>//(?aiLmsux))</code> (más <a href=\"%(url)s\">información aquí</a>)"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Keyword example - example: <code>Out of stock</code>"
+msgstr "Ejemplo de palabra clave - ejemplo: <code>Agotado</code>"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Use groups to extract just that text - example"
+msgstr "Utilice grupos para extraer solo ese texto: ejemplo"
+
