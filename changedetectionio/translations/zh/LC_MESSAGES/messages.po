@@ -3747,6 +3747,50 @@ msgstr "和"
 msgid "depend on how the difference algorithm perceives the change."
 msgstr "取决于差异算法对变更的判断。"
 
+#: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
+msgid "Show advanced help and tips"
+msgstr "显示高级帮助和提示"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "（或"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "最多仅支持"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2,000 个字符"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "通知文本,包括标题。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "机器人无法向其他机器人发送消息，因此应指定非机器人用户的聊天 ID。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "仅支持非常有限的 HTML，发送额外标签可能失败，"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "（或使用纯文本/Markdown 格式）"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "用于直接 API 调用（或省略"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "用于非 SSL，例如"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "更多帮助"
+
 #: changedetectionio/templates/_helpers.html
 msgid "Schedule time limits"
 msgstr "计划时间限制"
