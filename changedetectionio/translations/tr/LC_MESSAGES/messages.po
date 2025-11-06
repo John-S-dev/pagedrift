@@ -3857,6 +3857,51 @@ msgid "Add email notification:"
 msgstr ""
 
 #: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2.000 karakter"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "başlık da dahil olmak üzere bildirim metni."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "botlar diğer botlara mesaj gönderemez, bu nedenle bot olmayan kullanıcının sohbet kimliğini belirtmelisiniz."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "yalnızca çok sınırlı HTML'yi destekler ve ekstra etiketler gönderildiğinde başarısız olabilir,"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(veya düz metin/markdown biçimini kullanın)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "doğrudan API çağrıları için (veya şunu atlayın"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "SSL olmayan için, yani"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "daha fazla yardım burada"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "Aşağıda listelenen <code>%(token)s</code> yer tutucularını kabul eder"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Customise notifications"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Title for all notifications"
+msgstr "Tüm bildirimler için başlık"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "and other HTML entities appearing literally in your notifications."
 msgstr ""
 
