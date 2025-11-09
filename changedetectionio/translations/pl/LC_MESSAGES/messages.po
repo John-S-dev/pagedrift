@@ -3751,6 +3751,46 @@ msgid "Max tokens per watch per period"
 msgstr "Maksymalna liczba tokenów na obserwację w danym okresie"
 
 #: changedetectionio/forms.py
+msgid "Monthly token budget"
+msgstr "Miesięczny budżet na tokeny"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/forms.py
+msgid "Max input characters"
+msgstr "Maksymalna liczba znaków w polu wprowadzania danych"
+
+#: changedetectionio/forms.py
+msgid "Enable AI / LLM features"
+msgstr "Włącz funkcje AI / LLM"
+
+#: changedetectionio/forms.py
+msgid "Replace {{diff}} notification token with AI summary"
+msgstr "Zastąp token powiadomienia {{diff}} podsumowaniem wygenerowanym przez sztuczną inteligencję"
+
+#: changedetectionio/forms.py
+msgid "Use LLM as a fallback for extracting price and restock info"
+msgstr "Wykorzystaj model LLM jako rozwiązanie awaryjne do pozyskiwania informacji o cenach i uzupełnianiu zapasów"
+
+#: changedetectionio/forms.py
+msgid "Enable LLM debug logging"
+msgstr "Włącz rejestrowanie błędów w LLM"
+
+#: changedetectionio/forms.py
+msgid "AI thinking budget (tokens)"
+msgstr "Budżet tokenów na rozumowanie AI"
+
+#: changedetectionio/forms.py
+msgid "Off (no thinking)"
+msgstr "Wyłączone (bez myślenia)"
+
+#: changedetectionio/forms.py
+msgid "Max AI summary length (tokens)"
+msgstr "Maksymalna długość streszczenia generowanego przez AI (tokenów)"
+
+#: changedetectionio/forms.py
+msgid "When monthly token budget is reached"
+msgstr "Gdy zostanie osiągnięty miesięczny limit tokenów"
+
+#: changedetectionio/forms.py
 msgid "Skip AI summarisation only (watch still checks)"
 msgstr "Pomiń tylko tworzenie podsumowania przez AI (obserwacja nadal będzie sprawdzana)"
 
