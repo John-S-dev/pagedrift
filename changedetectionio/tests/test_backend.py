@@ -364,3 +364,31 @@ got it\r\n
 
     delete_all_watches(client)
 
+# Server says its plaintext, we should always treat it as plaintext
+def test_plaintext_even_if_xml_content(client, live_server, measure_memory_usage, datastore_path):
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write("""<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Activity and fragment titles-->
+    <string name="feed_update_receiver_name">Abonnementen bijwerken</string>
+</resources>
+""")
+
+    test_url = url_for('test_endpoint', content_type="text/plain", _external=True)
+
+    # Add our URL to the import page
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    wait_for_all_checks(client)
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+
+    assert b'&lt;string name=&#34;feed_update_receiver_name&#34;' in res.data
+
+    delete_all_watches(client)
+
