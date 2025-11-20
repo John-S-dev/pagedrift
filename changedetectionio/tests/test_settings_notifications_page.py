@@ -168,3 +168,60 @@ def test_main_settings_save_does_not_clobber_notification_config(
     delete_all_watches(client)
 
 
+def test_notifications_page_save_does_not_clobber_other_settings(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    Inverse of the above — saving notifications must NOT reach over and zero
+    out unrelated application settings (pager_size, fetch_backend, etc.).
+
+    The notifications-page handler explicitly writes a known list of five
+    notification fields rather than doing app.update(form.data) — this test
+    pins that behaviour so a refactor that switches to .update() (which would
+    silently zero out every non-notification key) fails loudly here.
+    """
+    ds = client.application.config.get('DATASTORE')
+    app = ds.data['settings']['application']
+    # Plant a representative mix of application-level fields: ints, lists,
+    # strings, bools, nested dicts. If the notifications save ever does a
+    # blanket .update(form.data) it'll wipe these to WTForms defaults and
+    # the per-field asserts below will catch it.
+    untouched_snapshot = {
+        'pager_size': 73,
+        'fetch_backend': 'html_requests',
+        'rss_diff_length': 9,
+        'filter_failure_notification_threshold_attempts': 4,
+        'global_ignore_text': ['SENTINEL-IGNORE-LINE'],
+        'global_subtractive_selectors': ['nav.SENTINEL-SUB'],
+        'ignore_whitespace': True,
+        'render_anchor_tag_content': True,
+        'shared_diff_access': True,
+        'api_access_token_enabled': False,
+        'scheduler_timezone_default': 'Europe/Berlin',
+    }
+    for k, v in untouched_snapshot.items():
+        app[k] = v
+
+    res = client.post(
+        url_for('settings.notifications.apprise'),
+        data={
+            'notification_urls': 'json://example.invalid/only-this',
+            'notification_title': '',
+            'notification_body': '',
+            'notification_format': 'html',
+            'base_url': '',
+        },
+        follow_redirects=True,
+    )
+    assert res.status_code == 200
+    assert b'Settings updated.' in res.data, \
+        "Notification save did not reach the success branch — test setup is wrong"
+
+    # Every planted field must have survived the notifications save bit-for-bit.
+    for k, expected in untouched_snapshot.items():
+        actual = ds.data['settings']['application'].get(k)
+        assert actual == expected, \
+            f"Notification save clobbered unrelated setting {k!r}: expected {expected!r}, got {actual!r}"
+
+    # And the notification field we DID submit was actually written.
+    assert ds.data['settings']['application'].get('notification_urls') == \
+        ['json://example.invalid/only-this']
