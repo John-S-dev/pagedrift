@@ -149,3 +149,27 @@ class TestApiTimezoneValidation(unittest.TestCase):
                                default_tz='UTC')
 
 
+class TestApiSpecDocumentsTimezone(unittest.TestCase):
+    """The field is real and settable; the published contract must say so."""
+
+    def test_timezone_is_declared_in_the_openapi_spec(self):
+        import os
+        import yaml
+
+        here = os.path.dirname(__file__)
+        spec_path = os.path.join(here, '..', '..', '..', 'docs', 'api-spec.yaml')
+        if not os.path.isfile(spec_path):
+            self.skipTest("api-spec.yaml not present in this layout")
+
+        with open(spec_path) as f:
+            spec = yaml.safe_load(f)
+
+        schedule = spec['components']['schemas']['WatchBase']['properties']['time_schedule_limit']
+        self.assertIn('timezone', schedule['properties'],
+                      "time_schedule_limit.timezone is settable via the form and the "
+                      "API but is missing from the OpenAPI spec")
+        self.assertEqual(schedule['properties']['timezone']['type'], 'string')
+
+
+if __name__ == '__main__':
+    unittest.main()
