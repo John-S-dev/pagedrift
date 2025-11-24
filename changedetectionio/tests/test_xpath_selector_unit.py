@@ -205,3 +205,45 @@ def test_trips(html_content, xpath, answer):
     assert answer in html_content
 
 
+@pytest.mark.parametrize("html_content", [polish_html])
+@pytest.mark.parametrize("xpath, expected_text", [
+    # Test Polish characters in xpath1_filter
+    ('//a[(contains(@class,"index--s-headline-link"))]', 'Naukowcy potwierdzają'),
+    ('//a[(contains(@class,"index--s-headline-link"))]', 'mózgu'),
+    ('//a[@class="other-class"]', 'żółć ąę śń'),
+
+    # Test various Unicode scripts with xpath1
+    ('//p[@class="unicode-test" and contains(text(), "Cyrillic")]', 'Привет мир'),
+    ('//p[@class="unicode-test" and contains(text(), "Greek")]', 'Γειά σου'),
+    ('//p[@class="unicode-test" and contains(text(), "Chinese")]', '你好世界'),
+])
+def test_xpath1_utf8_encoding(html_content, xpath, expected_text):
+    """Test that XPath1 filters preserve UTF-8 characters correctly"""
+    result = html_tools.xpath1_filter(xpath, html_content, append_pretty_line_formatting=False)
+    assert type(result) == str
+    assert expected_text in result
+    # Ensure characters are NOT HTML-entity encoded
+    assert '&#' not in result or expected_text in result
+
+
+# Test with real-world example from wyborcza.pl (issue #3658)
+wyborcza_style_html = """<!DOCTYPE html>
+<html lang="pl">
+<head><meta charset="utf-8"></head>
+<body>
+<div class="article-list">
+    <a class="index--s-headline-link" href="/article1">
+        Naukowcy potwierdzają: oglądanie krótkich filmików prowadzi do "zgnilizny mózgu"
+    </a>
+    <a class="index--s-headline-link" href="/article2">
+        Zmiany klimatyczne wpływają na życie w miastach
+    </a>
+    <a class="index--s-headline-link" href="/article3">
+        Łódź: Nowe inwestycje w infrastrukturę miejską
+    </a>
+</div>
+</body>
+</html>
+"""
+
+
