@@ -3225,6 +3225,46 @@ msgid "URLs"
 msgstr "URLs"
 
 #: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Enviar arquivo .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Deve ser um arquivo .xlsx!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Mapeamento de arquivo"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Operação"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Seletor"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "valor"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Group Tag"
 msgstr ""
 
