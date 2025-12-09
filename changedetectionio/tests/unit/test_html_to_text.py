@@ -571,3 +571,6 @@ var also = 1;
         inside JSON data attributes like data-slider-atts. The HTML inside is JS-escaped, so
         closing tags appear as <\\/svg> rather than </svg>.
 
+if __name__ == '__main__':
+    # Can run this file directly for quick testing
+    unittest.main()

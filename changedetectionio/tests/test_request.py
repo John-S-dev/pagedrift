@@ -365,6 +365,48 @@ def test_headers_textfile_in_request(client, live_server, measure_memory_usage, 
     with open(os.path.join(datastore_path, uuid, 'headers.txt'), 'w') as f:
         f.write("watch-header: nice\r\nurl-header-watch: http://example.com/watch")
 
+    wait_for_all_checks(client)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up, this actually is not super reliable and pytest can terminate before the check is ran
+    wait_for_all_checks(client)
+
+    # WARNING - pytest and 'wait_for_all_checks' shuts down before it has actually stopped processing when using pyppeteer fetcher
+    # so adding more time here
+    if os.getenv('FAST_PUPPETEER_CHROME_FETCHER'):
+        time.sleep(6)
+
+    res = client.get(url_for("ui.ui_edit.edit_page", uuid="first"))
+    assert b"Extra headers file found and will be added to this watch" in res.data
+
+    # Not needed anymore
+    os.unlink(os.path.join(datastore_path, 'headers.txt'))
+    os.unlink(os.path.join(datastore_path, 'headers-testtag.txt'))
+
+    # The service should echo back the request verb
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+
+    assert b"Global-Header:nice" in res.data
+    assert b"Next-Global-Header:nice" in res.data
+    assert b"Xxx:ooo" in res.data
+    assert b"Watch-Header:nice" in res.data
+    assert b"Tag-Header:test" in res.data
+    assert b"Url-Header:http://example.com" in res.data
+    assert b"Url-Header-Global:http://example.com/global" in res.data
+    assert b"Url-Header-Watch:http://example.com/watch" in res.data
+
+    # Check the custom UA from system settings page made it through
+    if os.getenv('PLAYWRIGHT_DRIVER_URL'):
+        assert "User-Agent:".encode('utf-8') + webdriver_ua.encode('utf-8') in res.data
+    else:
+        assert "User-Agent:".encode('utf-8') + requests_ua.encode('utf-8') in res.data
+
+    # unlink headers.txt on start/stop
+    delete_all_watches(client)
+
 def test_headers_validation(client, live_server, measure_memory_usage, datastore_path):
     
 
