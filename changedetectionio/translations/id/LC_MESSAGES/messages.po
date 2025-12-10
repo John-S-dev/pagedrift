@@ -3725,6 +3725,46 @@ msgid "Use LLM as a fallback for extracting price and restock info"
 msgstr "Gunakan LLM sebagai fallback untuk mengekstrak info harga dan stok kembali"
 
 #: changedetectionio/forms.py
+msgid "Enable LLM debug logging"
+msgstr "Aktifkan logging debug LLM"
+
+#: changedetectionio/forms.py
+msgid "AI thinking budget (tokens)"
+msgstr "Anggaran thinking AI (token)"
+
+#: changedetectionio/forms.py
+msgid "Off (no thinking)"
+msgstr "Nonaktif (tanpa thinking)"
+
+#: changedetectionio/forms.py
+msgid "Max AI summary length (tokens)"
+msgstr "Panjang ringkasan AI maks. (token)"
+
+#: changedetectionio/forms.py
+msgid "When monthly token budget is reached"
+msgstr "Saat anggaran token bulanan tercapai"
+
+#: changedetectionio/forms.py
+msgid "Skip AI summarisation only (watch still checks)"
+msgstr "Lewati hanya ringkasan AI (monitor tetap diperiksa)"
+
+#: changedetectionio/forms.py
+msgid "Skip the watch check entirely"
+msgstr "Lewati seluruh pemeriksaan monitor"
+
+#: changedetectionio/forms.py
+msgid "Watchlist \"Summary\" link compares"
+msgstr "Tautan \"Ringkasan\" daftar monitor membandingkan"
+
+#: changedetectionio/forms.py
+msgid "Previous version (second-last vs latest)"
+msgstr "Versi sebelumnya (kedua terakhir vs terbaru)"
+
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr "Perubahan sejak terakhir Anda melihat monitor"
+
+#: changedetectionio/forms.py
 msgid "RegEx to extract"
 msgstr "RegEx untuk diekstrak"
 
