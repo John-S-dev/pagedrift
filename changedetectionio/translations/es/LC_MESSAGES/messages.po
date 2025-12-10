@@ -4127,6 +4127,46 @@ msgstr ""
 msgid "Title for all notifications"
 msgstr "Título para todas las notificaciones"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "Entrada"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "Acciones"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "Agregar una fila/regla después"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "Eliminar esta fila/regla"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "Verifique esta regla con la instantánea actual"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "Establecer un horario por horas/días de la semana"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Programar límites de tiempo"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "Horario comercial"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Fines de semana"
+
 #: changedetectionio/templates/_helpers.html
 msgid "Reset"
 msgstr "Reiniciar"
