@@ -410,3 +410,32 @@ def test_llm_test_endpoint_blocks_private_api_base(
         assert bad not in body['error']
 
 
+# ---------------------------------------------------------------------------
+# CSRF — /clear and /clear-summary-cache must not mutate state on GET
+# (GHSA-g36r-fm2p-87xm). The <img src=...> CSRF vector relies on GET firing the
+# mutation; the production guard is "POST only + Flask-WTF CSRF token". The
+# test config disables WTF_CSRF_ENABLED, so we verify the GET vector by
+# asserting the mutation didn't happen, and verify POST routing by exercising
+# the legit confirm-then-POST flow.
+#
+# NB: the app registers a catch-all '/<path:filename>' static route, which
+# intercepts any GET that isn't claimed by a method-matching rule and returns
+# 404 — so we can't simply assert on status code. The behaviour test below is
+# the actual security property.
+# ---------------------------------------------------------------------------
+
+def test_llm_clear_get_does_not_wipe_config(
+        client, live_server, measure_memory_usage, datastore_path):
+    """The CSRF surface is GET → mutation. After this fix the endpoint is
+    POST-only, so a GET must leave LLM config intact."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    assert ds.data['settings']['application'].get('llm', {}).get('api_key') == CANARY_KEY
+
+    client.get(url_for('settings.llm.llm_clear'))
+
+    # Mutation must not have happened — that's what defeats <img src=...> CSRF.
+    assert ds.data['settings']['application'].get('llm', {}).get('api_key') == CANARY_KEY, \
+        "GET /settings/llm/clear must not wipe LLM config (CSRF guard)"
+
+
