@@ -194,3 +194,62 @@ def test_queue_includes_timestamps(client, live_server, measure_memory_usage, da
     update_q.clear()
 
 
+def test_queue_pagination(client, live_server, measure_memory_usage, datastore_path):
+    """Page math: per_page from settings.pager_size, total_pages, page slicing."""
+    update_q, worker_pool, qmeta = _quiesce(live_server)
+
+    # Override pager_size for this test so we don't have to push 50+ items
+    live_server.app.config['DATASTORE'].data['settings']['application']['pager_size'] = 2
+
+    uuids = [f"{i:08d}-2222-3333-4444-555555555555" for i in range(5)]
+    for u in uuids:
+        _push(update_q, worker_pool, qmeta, u, priority=1)
+
+    snap1 = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+    assert snap1["per_page"] == 2
+    assert snap1["queued_count"] == 5
+    assert snap1["total_pages"] == 3
+    assert snap1["page"] == 1
+    assert len(snap1["queued"]) == 2
+
+    snap2 = client.get(url_for("ui.ui_queue.queue_json") + "?page=2").get_json()
+    assert snap2["page"] == 2
+    assert len(snap2["queued"]) == 2
+
+    snap3 = client.get(url_for("ui.ui_queue.queue_json") + "?page=3").get_json()
+    assert snap3["page"] == 3
+    assert len(snap3["queued"]) == 1, f"last page should be partial: {snap3!r}"
+
+    # Pages cover every uuid exactly once
+    all_uuids = [w["uuid"] for w in snap1["queued"] + snap2["queued"] + snap3["queued"]]
+    assert sorted(all_uuids) == sorted(uuids)
+
+    # Restore + drain
+    live_server.app.config['DATASTORE'].data['settings']['application']['pager_size'] = 50
+    update_q.clear()
+
+
+def test_cancel_running_uuid_helper(client, live_server, measure_memory_usage, datastore_path):
+    """worker_pool.cancel_running_uuid() drops tracking and returns cancelled flag."""
+    update_q, worker_pool, qmeta = _quiesce(live_server)
+
+    synth = "cccccccc-cccc-cccc-cccc-cccccccccccc"
+    assert worker_pool.claim_uuid_for_processing(synth, worker_id=999) is True
+    assert worker_pool.get_uuid_started_at(synth) is not None
+
+    # No worker_id=999 actually exists in worker_threads — the stop/remove path is
+    # a no-op — but tracking still gets dropped.
+    result = worker_pool.cancel_running_uuid(synth)
+    assert result["cancelled"] is True
+    assert result["worker_id"] == 999
+    assert result["replaced"] is False  # no replacement params provided
+
+    assert synth not in worker_pool.get_running_uuids()
+    assert worker_pool.get_uuid_started_at(synth) is None
+
+    # Cancelling something that was never running returns cancelled=False
+    result2 = worker_pool.cancel_running_uuid("never-claimed")
+    assert result2["cancelled"] is False
+    assert result2["worker_id"] is None
+
+
