@@ -4262,6 +4262,55 @@ msgstr ""
 msgid "Describe how changes should be summarised in notifications for all watches in this group."
 msgstr ""
 
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Appending keeps the prompt inherited from the group or from global settings and adds your text after it, so later "
+"edits to that prompt still reach this watch."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Appending keeps the prompt inherited from global settings and adds your text after it, so later edits to that prompt "
+"still reach this group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "List each new item added with its name and price. Translate to English."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Summarise what events were added or cancelled. Two sentences maximum."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Describe the price change: old price, new price, percentage difference."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "AI"
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid ""
+"Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI Change Intent and AI "
+"Change Summary."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI features for this group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Note!: //text() function does not work where the <element> contains <![CDATA[]]>"
+msgstr ""
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "One CSS, xPath 1 & 2, JSON Path/JQ selector per line, <i>any</i> rules that matches will be used."
+msgstr ""
+
 #: changedetectionio/templates/edit/text-options.html
 msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
 msgstr ""
