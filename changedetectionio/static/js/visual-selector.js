@@ -581,6 +581,41 @@ window.initVisualSelector = function (opts) {
 
             $('#bounding_box').val(`${naturalX},${naturalY},${naturalWidth},${naturalHeight}`);
 
+            drawBox();
+        }
+    }
+
+    function drawBox() {
+        if (!drawnBox) return;
+
+        // Clear and redraw
+        ctx.clearRect(0, 0, c.width, c.height);
+        xctx.clearRect(0, 0, c.width, c.height);
+
+        // Draw box
+        ctx.strokeStyle = STROKE_STYLE_REDLINE;
+        ctx.fillStyle = FILL_STYLE_REDLINE;
+        ctx.lineWidth = 3;
+
+        const drawX = drawnBox.width >= 0 ? drawnBox.x : drawnBox.x + drawnBox.width;
+        const drawY = drawnBox.height >= 0 ? drawnBox.y : drawnBox.y + drawnBox.height;
+        const drawW = Math.abs(drawnBox.width);
+        const drawH = Math.abs(drawnBox.height);
+
+        ctx.strokeRect(drawX, drawY, drawW, drawH);
+        ctx.fillRect(drawX, drawY, drawW, drawH);
+
+        // Draw resize handles
+        if (!isDrawing) {
+            drawResizeHandles(drawX, drawY, drawW, drawH);
+        }
+    }
+
+    function drawResizeHandles(x, y, w, h) {
+        ctx.fillStyle = '#fff';
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 1;
+
     const isImageProcessor = $('input[value="image_ssim_diff"]').is(':checked');
 
     const vs = window.initVisualSelector({
