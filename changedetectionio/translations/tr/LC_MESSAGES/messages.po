@@ -3982,6 +3982,50 @@ msgid "Add email notification:"
 msgstr ""
 
 #: changedetectionio/templates/_common_fields.html
+msgid "Add to list"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add an email address"
+msgstr "Bir e-posta adresi ekle"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Send test notification"
+msgstr "Test bildirimi gönder"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Notification debug logs"
+msgstr "Bildirim hata ayıklama günlükleri"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Processing.."
+msgstr "İşleniyor.."
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Use <a target=\"newwindow\" href=\"%(url)s\">AppRise Notification URLs</a> for notification to just about any service!"
+msgstr ""
+"<a target=\"newwindow\" href=\"%(url)s\">AppRise Bildirim URL'leri</a> ile hemen hemen her hizmete bildirim "
+"gönderebilirsiniz!"
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/_common_fields.html
+msgid "<i>Please read the notification services wiki here for important configuration notes</i>"
+msgstr "<i>Önemli yapılandırma notları için lütfen buradaki bildirim hizmetleri wiki'sini okuyun</i>"
+
+#: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
+msgid "Show advanced help and tips"
+msgstr "Gelişmiş yardım ve ipuçlarını göster"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "(veya"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "yalnızca maksimum şunu destekler"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "2,000 characters"
 msgstr "2.000 karakter"
 
