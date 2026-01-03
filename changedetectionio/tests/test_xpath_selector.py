@@ -549,3 +549,40 @@ def test_xpath_20_function_string_join_matches(client, live_server, measure_memo
     delete_all_watches(client)
 
 
+def _subtest_xpath_rss(client, datastore_path, content_type='text/html'):
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', content_type=content_type, _external=True)
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "tags": '', 'edit_and_watch_submit_button': 'Edit > Watch'},
+        follow_redirects=True
+    )
+
+    assert b"Watch added in Paused state, saving will unpause" in res.data
+
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first", unpause_on_save=1),
+        data={
+            "url": test_url,
+            "include_filters": "xpath://item",
+            "tags": '',
+            "fetch_backend": "html_requests",
+            "time_between_check_use_default": "y",
+        },
+        follow_redirects=True
+    )
+
+    assert b"unpaused" in res.data
+    wait_for_all_checks(client)
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+
+    assert b"Lets go discount" in res.data, f"When testing for Lets go discount called with content type '{content_type}'"
+    assert b"Events and Announcements" not in res.data, f"When testing for Lets go discount called with content type '{content_type}'" # It should not be here because thats not our selector target
+
+    delete_all_watches(client)
+
