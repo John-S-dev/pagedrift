@@ -410,6 +410,80 @@ def test_llm_test_endpoint_blocks_private_api_base(
         assert bad not in body['error']
 
 
+def test_llm_endpoints_allow_api_base_when_iana_bypass_enabled(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """When ALLOW_IANA_RESTRICTED_ADDRESSES=true the SSRF guard is bypassed so
+    operators can intentionally point at a local Ollama / vLLM endpoint.
+    We patch litellm so the test doesn't actually need a live model server —
+    we only need to confirm the guard didn't short-circuit."""
+    monkeypatch.setenv('ALLOW_IANA_RESTRICTED_ADDRESSES', 'true')
+
+    # Stub get_valid_models so the call returns successfully without network.
+    import litellm
+    monkeypatch.setattr(litellm, 'get_valid_models',
+                        lambda **kwargs: ['llama3.2'])
+
+    # Supply api_key explicitly so we aren't tripped by the credential-exfil
+    # guard (which refuses to substitute the stored key for a non-stored api_base).
+    res = client.get(
+        url_for('settings.llm.llm_get_models'),
+        query_string={'provider': 'openai_compatible',
+                      'api_base': 'http://127.0.0.1:11434',
+                      'api_key': 'sk-test-explicit'},
+    )
+    assert res.status_code == 200, \
+        "With ALLOW_IANA_RESTRICTED_ADDRESSES=true, private api_base must be allowed"
+    body = res.get_json()
+    assert body['error'] is None
+    assert body['models'], "Stubbed model list should be returned"
+
+
+def test_settings_form_rejects_private_api_base(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """The globalSettingsLLMForm validator must block private api_base values
+    when ALLOW_IANA_RESTRICTED_ADDRESSES is not set, and must NOT persist them
+    to the datastore."""
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+
+    ds = client.application.config.get('DATASTORE')
+    # Make sure no stale api_base exists from previous tests.
+    ds.data['settings']['application'].pop('llm', None)
+
+    res = client.post(
+        url_for('settings.settings_page'),
+        data={
+            'llm-model':    'gpt-4o',
+            'llm-api_key':  '',
+            'llm-api_base': 'http://127.0.0.1:11434',
+            'application-pager_size': '50',
+            'application-notification_format': 'System default',
+            'requests-time_between_check-days': '0',
+            'requests-time_between_check-hours': '0',
+            'requests-time_between_check-minutes': '5',
+            'requests-time_between_check-seconds': '0',
+            'requests-time_between_check-weeks': '0',
+            'requests-workers': '10',
+            'requests-timeout': '60',
+        },
+        follow_redirects=True,
+    )
+    # Form re-renders with the validation error — page itself returns 200.
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+    assert 'ALLOW_IANA_RESTRICTED_ADDRESSES' in body, \
+        "Settings page should surface the SSRF guard's bypass-env-var hint"
+
+    saved = ds.data['settings']['application'].get('llm', {}).get('api_base', '')
+    assert saved != 'http://127.0.0.1:11434', \
+        f"Private api_base must not have been persisted (got {saved!r})"
+
+
+# ---------------------------------------------------------------------------
+# Credential exfiltration — stored api_key must NOT be auto-substituted when
+# the caller points api_base at a different (potentially attacker-controlled)
+# endpoint. GHSA-g36r-fm2p-87xm.
+# ---------------------------------------------------------------------------
+
 # ---------------------------------------------------------------------------
 # CSRF — /clear and /clear-summary-cache must not mutate state on GET
 # (GHSA-g36r-fm2p-87xm). The <img src=...> CSRF vector relies on GET firing the
