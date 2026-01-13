@@ -136,6 +136,29 @@ def get_UUID_for_tag_name(client, name):
     return None
 
 
+# kinda funky, but works for now
+def extract_rss_token_from_UI(client):
+    return client.application.config.get('DATASTORE').data['settings']['application'].get('rss_access_token')
+#    import re
+#    res = client.get(
+#        url_for("watchlist.index"),
+#    )
+#    m = re.search('token=(.+?)"', str(res.data))
+#    token_key = m.group(1)
+#    return token_key.strip()
+
+# kinda funky, but works for now
+def extract_UUID_from_client(client):
+    import re
+    res = client.get(
+        url_for("watchlist.index"),
+    )
+    # <span id="api-key">{{api_key}}</span>
+
+    m = re.search('edit/(.+?)[#"]', str(res.data))
+    uuid = m.group(1)
+    return uuid.strip()
+
 def wait_for_watch_history(client, min_history_count=2, timeout=10):
     """
     Wait for watches to have sufficient history entries.
