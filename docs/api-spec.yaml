@@ -1846,6 +1846,19 @@ paths:
           source: |
             import requests
             
+  /import:
+    post:
+      operationId: importWatches
+      tags: [Import]
+      summary: Import watch URLs with configuration
+      description: |
+        Import a list of URLs to monitor with optional watch configuration. Accepts line-separated URLs in request body.
+
+        **Configuration via Query Parameters:**
+
+        You can pass ANY watch configuration field as query parameters to apply settings to all imported watches.
+        All parameters from the Watch schema are supported (processor, fetch_backend, notification_urls, etc.).
+
         **Special Parameters:**
         - `tag` / `tag_uuids` - Assign tags to imported watches
         - `proxy` - Use specific proxy for imported watches
