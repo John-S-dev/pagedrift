@@ -622,3 +622,35 @@ def test_ssrf_private_ip_blocked(client, live_server, monkeypatch, measure_memor
                 )
 
 
+def test_unresolvable_hostname_is_allowed(client, live_server, monkeypatch):
+    """
+    Unresolvable hostnames must NOT be blocked at add-time when ALLOW_IANA_RESTRICTED_ADDRESSES=false.
+
+    DNS failure (gaierror) at add-time does not mean the URL resolves to a private IP —
+    the domain may simply be offline or not yet live. Blocking it would be a false positive.
+    The real DNS-rebinding protection happens at fetch-time in call_browser().
+    """
+    from changedetectionio.validate_url import is_safe_valid_url
+
+    monkeypatch.setenv('ALLOW_IANA_RESTRICTED_ADDRESSES', 'false')
+
+    url = 'http://this-host-does-not-exist-xyz987.invalid/some/path'
+
+    # Should pass URL validation despite being unresolvable
+    assert is_safe_valid_url(url), \
+        "Unresolvable hostname should pass is_safe_valid_url — DNS failure is not a private-IP signal"
+
+    # Should be accepted via the UI form and appear in the watch list
+    res = client.post(
+        url_for('ui.ui_views.form_quick_watch_add'),
+        data={'url': url, 'tags': ''},
+        follow_redirects=True
+    )
+    assert b'Watch protocol is not permitted or invalid URL format' not in res.data, \
+        "UI should not reject a URL just because its hostname is unresolvable"
+
+    res = client.get(url_for('watchlist.index'))
+    assert b'this-host-does-not-exist-xyz987.invalid' in res.data, \
+        "Unresolvable hostname watch should appear in the watch overview list"
+
+
