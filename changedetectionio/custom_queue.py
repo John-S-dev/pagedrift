@@ -446,6 +446,61 @@ class AsyncSignalPriorityQueue(asyncio.PriorityQueue):
                     isinstance(item.item, dict) and 
                     'uuid' in item.item):
                     
+                    result.append({
+                        'uuid': item.item['uuid'],
+                        'position': position,
+                        'priority': item.priority
+                    })
+            
+            return {
+                'items': result,
+                'total_items': total_items,
+                'returned_items': len(result),
+                'has_more': (offset + len(result)) < total_items
+            }
+        else:
+            # Fast approximate positions for large queues
+            result = []
+            processed = 0
+            skipped = 0
+            
+            for item in queue_list:
+                if (hasattr(item, 'item') and 
+                    isinstance(item.item, dict) and 
+                    'uuid' in item.item):
+                    
+                    if skipped < offset:
+                        skipped += 1
+                        continue
+                    
+                    if limit and processed >= limit:
+                        break
+                    
+                    approx_position = sum(1 for other in queue_list if other.priority < item.priority)
+                    
+                    result.append({
+                        'uuid': item.item['uuid'],
+                        'position': approx_position,
+                        'priority': item.priority
+                    })
+                    processed += 1
+            
+            return {
+                'items': result,
+                'total_items': total_items,
+                'returned_items': len(result),
+                'has_more': (offset + len(result)) < total_items,
+                'note': 'Positions are approximate for performance with large queues'
+            }
+    
+    def get_queue_summary(self):
+        """
+        Get a quick summary of async queue state.
+        O(n) complexity - fast even for large queues.
+        """
+        queue_list = list(self._queue)
+        total_items = len(queue_list)
+        
         if total_items == 0:
             return {
                 'total_items': 0,
