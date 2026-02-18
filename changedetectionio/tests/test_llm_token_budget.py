@@ -271,6 +271,54 @@ def test_settings_form_blank_llm_integer_fields_preserve_stored_values(
     delete_all_watches(client)
 
 
+def test_settings_form_cannot_inject_fake_token_counts(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    Even if a form POST includes hidden fields for token counters,
+    those values must be ignored and the real counters must remain intact.
+    """
+    ds = client.application.config.get('DATASTORE')
+    _seed_token_counters(ds, this_month=1500, total=4000)
+
+    # Attempt to inject inflated or zeroed counters via form POST
+    res = client.post(
+        url_for('settings.settings_page'),
+        data={
+            'llm-model': 'gpt-4o-mini',
+            'llm-api_key': 'sk-test',
+            'llm-api_base': '',
+            # Attempted injection of token counter fields
+            'llm-tokens_this_month': '0',
+            'llm-tokens_total_cumulative': '0',
+            'llm-tokens_month_key': '1970-01',
+            # Minimal required fields
+            'application-pager_size': '50',
+            'application-notification_format': 'System default',
+            'requests-time_between_check-days': '0',
+            'requests-time_between_check-hours': '0',
+            'requests-time_between_check-minutes': '5',
+            'requests-time_between_check-seconds': '0',
+            'requests-time_between_check-weeks': '0',
+            'requests-workers': '10',
+            'requests-timeout': '60',
+        },
+        follow_redirects=True,
+    )
+    assert res.status_code == 200
+
+    after = _get_counters(ds)
+    assert after['tokens_this_month'] == 1500, \
+        f"Form injection must not alter tokens_this_month (got {after['tokens_this_month']})"
+    assert after['tokens_total_cumulative'] == 4000, \
+        f"Form injection must not alter tokens_total_cumulative (got {after['tokens_total_cumulative']})"
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# accumulate_global_tokens unit tests
+# ---------------------------------------------------------------------------
+
 def test_accumulate_global_tokens_month_rollover(
         client, live_server, measure_memory_usage, datastore_path):
     """
