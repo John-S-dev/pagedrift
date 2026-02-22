@@ -13,3 +13,11 @@ from changedetectionio.blueprint import plaintext_response
 from changedetectionio.auth_decorator import login_optionally_required
 
 
+def construct_blueprint(datastore: ChangeDetectionStore):
+    diff_blueprint = Blueprint('ui_diff', __name__, template_folder="../ui/templates")
+
+    @diff_blueprint.app_template_filter('diff_unescape_difference_spans')
+    def diff_unescape_difference_spans(content):
+        """Emulate Jinja2's auto-escape, then selectively unescape our diff spans."""
+        from markupsafe import escape
+
