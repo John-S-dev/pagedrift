@@ -3380,6 +3380,49 @@ msgid "Match any of the following"
 msgstr "符合以下任一條件"
 
 #: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "在列表中使用頁面 <title>"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr "每個監測任務要保留的歷史項目數量"
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "當請求方法設為 GET 時，內容必須為空"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax configuration: %(error)s"
+msgstr "範本語法設定無效：%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax: %(error)s"
+msgstr "無效的範本語法：%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
+msgstr "「%(header)s」標頭中的範本語法無效：%(error)s"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Name"
+msgstr "名稱"
+
+#: changedetectionio/forms.py
+msgid "Proxy URL"
+msgstr "代理伺服器 URL"
+
+#: changedetectionio/forms.py
+msgid "Proxy URLs must start with http://, https:// or socks5://"
+msgstr "代理伺服器 URL 必須以 http://、https:// 或 socks5:// 開頭"
+
+#: changedetectionio/forms.py
+msgid "Browser connection URL"
+msgstr "瀏覽器連線 URL"
+
+#: changedetectionio/forms.py
 msgid "Browser URLs must start with wss:// or ws://"
 msgstr "瀏覽器 URL 必須以 wss:// 或 ws:// 開頭"
 
