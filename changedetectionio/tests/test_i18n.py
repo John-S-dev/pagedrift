@@ -406,6 +406,28 @@ def test_time_unit_translations(client, live_server, measure_memory_usage, datas
     assert "使用預設通知".encode() not in res.data, "Should not have incorrect '使用預設通知' (Use default notification)"
 
 
+def test_accept_language_header_en_variants(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that browsers sending en-GB and en-US in Accept-Language header get the correct English variant.
+    This ensures the locale selector works properly for English variants.
+    """
+    from flask import url_for
+
+    # Test 1: British English (en-GB)
+    with client.session_transaction() as sess:
+        sess.clear()
+
+    res = client.get(
+        url_for("watchlist.index"),
+        headers={'Accept-Language': 'en-GB,en;q=0.9'},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Should get English content
+    assert b"Select Language" in res.data, "Expected English text 'Select Language'"
+
 def test_accept_language_header_zh_simplified(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that browsers sending zh or zh-CN in Accept-Language header get Simplified Chinese.
