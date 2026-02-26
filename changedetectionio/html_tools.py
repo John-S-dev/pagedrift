@@ -16,6 +16,14 @@ def lxml_html_parser():
 
 # ---------------------------------------------------------------------------------------
 
+# HTML added to be sure each result matching a filter (.example) gets converted to a new line by Inscriptis
+TEXT_FILTER_LIST_LINE_SUFFIX = "<br>"
+TRANSLATE_WHITESPACE_TABLE = str.maketrans('', '', '\r\n\t ')
+PERL_STYLE_REGEX = r'^/(.*?)/([a-z]*)?$'
+
+TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
+META_CS  = re.compile(r'<meta[^>]+charset=["\']?\s*([a-z0-9_\-:+.]+)', re.I)
+
 META_CT  = re.compile(r'<meta[^>]+http-equiv=["\']?content-type["\']?[^>]*content=["\'][^>]*charset=([a-z0-9_\-:+.]+)', re.I)
 
 # 'price' , 'lowPrice', 'highPrice' are usually under here
