@@ -65,3 +65,8 @@ from changedetectionio.languages import (
     get_timeago_locale,
 )
 
+app = Flask(__name__, static_url_path="", static_folder="static", template_folder="templates")
+
+# Will be initialized in changedetection_app
+socketio_server = None
+
