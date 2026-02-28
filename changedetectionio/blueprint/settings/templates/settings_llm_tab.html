@@ -54,3 +54,41 @@
     </div>
   </div>
 
+  <div class="pure-control-group">
+    {{ render_field(form.llm.form.api_key) }}
+    <span class="pure-form-message-inline" id="llm-key-hint"></span>
+  </div>
+  <div class="pure-control-group" id="llm-base-group" style="display:none">
+    {{ render_field(form.llm.form.api_base) }}
+    <span class="pure-form-message-inline">{{ _('Only needed for Ollama or custom/self-hosted endpoints. Leave blank for cloud providers.') }}</span>
+  </div>
+
+  {# Hidden field carrying the dropdown selection so the backend knows when to apply
+     reasoning-friendly token caps (Ollama and OpenAI-compatible endpoints, which commonly
+     serve reasoning models that need headroom for chain-of-thought to complete). #}
+  {{ form.llm.form.provider_kind() }}
+
+  <div class="pure-control-group" id="llm-local-advanced-group" style="display:none">
+    <label for="{{ form.llm.form.local_token_multiplier.id }}">{{ form.llm.form.local_token_multiplier.label.text }}</label>
+    {{ form.llm.form.local_token_multiplier() }}
+    <span class="pure-form-message-inline">
+      {{ _('Reasoning models (Qwen3, DeepSeek-R1, Gemma 3, etc.) emit chain-of-thought before the final answer. This multiplier scales every <code>max_tokens</code> cap for this endpoint to leave reasoning room. Defaults to %(default)s; raise it if responses come back truncated or empty, lower it (down to 1x) if you want tighter limits on a paid endpoint. Applied to Ollama and OpenAI-compatible endpoints — other cloud providers (OpenAI, Anthropic, Gemini) keep their original tight caps.', default='5x') | safe }}
+    </span>
+  </div>
+
+  <div class="pure-control-group" id="llm-fetch-group" style="display:none">
+    <label></label>
+    <button type="button" id="llm-fetch-btn" class="pure-button button-xsmall" onclick="llmFetchModels()"
+            style="background:#27ae60;color:#fff;border:none;">
+      &#8635; {{ _('Load available models') }}
+    </button>
+    <span id="llm-fetch-status" style="margin-left:.6em;font-size:.85em;color:#888;"></span>
+  </div>
+
+  <div class="pure-control-group" id="llm-model-select-group" style="display:none">
+    <label for="llm-model-select">{{ _('Available models') }}</label>
+    <select id="llm-model-select" class="pure-input-1-2" onchange="llmOnModelPick(this.value)">
+      <option value="">— {{ _('choose a model') }} —</option>
+    </select>
+  </div>
+
