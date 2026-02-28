@@ -4248,6 +4248,48 @@ msgid "Failed to copy image. Your browser may not support this feature."
 msgstr ""
 
 #: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Gerçek zamanlı güncellemeler çevrimdışı"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Dil Seçin"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Tarayıcıdan otomatik algıla"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr ""
+"Dil desteği beta aşamasındadır, lütfen herhangi bir güncellemeyle GitHub'da bir PR açarak geliştirmemize yardımcı "
+"olun."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Ara"
+
+#: changedetectionio/templates/base.html
 #, python-format
 msgid "URL or Title in '%(title)s'"
 msgstr "'%(title)s' içinde URL veya Başlık"
