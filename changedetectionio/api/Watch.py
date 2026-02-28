@@ -425,6 +425,66 @@ class WatchHistoryDiff(Resource):
         # Get the word_diff parameter (default to False - line-level mode)
         word_diff = strtobool(request.args.get('word_diff', 'false'))
 
+        # Get the no_markup parameter (default to False)
+        no_markup = strtobool(request.args.get('no_markup', 'false'))
+
+        # Retrieve snapshot contents
+        from_version_file_contents = watch.get_history_snapshot(from_timestamp)
+        to_version_file_contents = watch.get_history_snapshot(to_timestamp)
+
+        # Get diff preferences from query parameters (matching UI preferences in DIFF_PREFERENCES_CONFIG)
+        # Support both 'type' (UI parameter) and 'word_diff' (API parameter) for backward compatibility
+        diff_type = request.args.get('type', 'diffLines')
+        if diff_type == 'diffWords':
+            word_diff = True
+
+        # Get boolean diff preferences with defaults from DIFF_PREFERENCES_CONFIG
+        changes_only = strtobool(request.args.get('changesOnly', 'false'))
+        ignore_whitespace = strtobool(request.args.get('ignoreWhitespace', 'false'))
+        include_removed = strtobool(request.args.get('removed', 'true'))
+        include_added = strtobool(request.args.get('added', 'true'))
+        include_replaced = strtobool(request.args.get('replaced', 'true'))
+
+        # Generate the diff with all preferences
+        content = diff.render_diff(
+            previous_version_file_contents=from_version_file_contents,
+            newest_version_file_contents=to_version_file_contents,
+            ignore_junk=ignore_whitespace,
+            include_equal=not changes_only,
+            include_removed=include_removed,
+            include_added=include_added,
+            include_replaced=include_replaced,
+            word_diff=word_diff,
+        )
+
+        # Skip formatting if no_markup is set
+        if no_markup:
+            mimetype = "text/plain"
+        else:
+            # Apply formatting based on the requested format
+            if output_format == 'htmlcolor':
+                from changedetectionio.notification.handler import apply_html_color_to_body
+                content = apply_html_color_to_body(n_body=content)
+                mimetype = "text/html"
+            else:
+                # Apply service tweaks for text/html formats
+                # Pass empty URL and title as they're not used for the placeholder replacement we need
+                _, content, _ = apply_service_tweaks(
+                    url='',
+                    n_body=content,
+                    n_title='',
+                    requested_output_format=output_format
+                )
+                mimetype = "text/html" if output_format == 'html' else "text/plain"
+
+            if 'html' in output_format:
+                content = newline_re.sub('<br>\r\n', content)
+
+        response = make_response(content, 200)
+        response.mimetype = mimetype
+        return response
+
+
 class WatchFavicon(Resource):
     def __init__(self, **kwargs):
         # datastore is a black box dependency
