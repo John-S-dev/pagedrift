@@ -93,3 +93,6 @@ if strtobool(os.getenv("FLASK_ENABLE_COMPRESSION")):
     compress = FlaskCompress()
     compress.init_app(app)
 
+app.config['TEMPLATES_AUTO_RELOAD'] = False
+
+
