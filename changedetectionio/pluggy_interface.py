@@ -227,3 +227,9 @@ class ChangeDetectionSpec:
         pass
 
 
+# Set up Plugin Manager
+plugin_manager = pluggy.PluginManager(PLUGIN_NAMESPACE)
+
+# Register hookspecs
+plugin_manager.add_hookspecs(ChangeDetectionSpec)
+
