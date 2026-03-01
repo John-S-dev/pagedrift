@@ -5,6 +5,13 @@ import heapq
 import queue
 import threading
 
+# Janus is no longer required - we use pure threading.Queue for multi-loop support
+# try:
+#     import janus
+# except ImportError:
+#     pass  # Not needed anymore
+
+
 class RecheckPriorityQueue:
     """
     Thread-safe priority queue supporting multiple async event loops.
