@@ -6,3 +6,5 @@ import os
 import re
 import urllib3
 
+from changedetectionio.processors.magic import guess_stream_type
+
