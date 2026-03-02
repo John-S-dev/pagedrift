@@ -3655,6 +3655,46 @@ msgstr "选择模式必须为 “element” 或 “draw”"
 msgid "Minimum Change Percentage"
 msgstr "最小变化百分比"
 
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Pixel Difference Sensitivity"
+msgstr "像素差异灵敏度"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Use global default"
+msgstr "使用全局默认"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding Box"
+msgstr "边界框"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection Mode"
+msgstr "选择模式"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode value is too long"
+msgstr "选择模式值过长"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Screenshot Comparison"
+msgstr "截图对比"
+
+#: changedetectionio/processors/image_ssim_diff/preview.py
+msgid "Preview unavailable - No snapshots captured yet"
+msgstr "无法预览 - 仍未捕获任何快照"
+
+#: changedetectionio/processors/image_ssim_diff/processor.py
+msgid "Visual / Image screenshot change detection"
+msgstr "视觉/截图变更检测"
+
+#: changedetectionio/processors/image_ssim_diff/processor.py
+msgid "Compares screenshots using fast OpenCV algorithm, 10-100x faster than SSIM"
+msgstr "使用快速的 OpenCV 算法对比截图，比 SSIM 快 10-100 倍"
+
+#: changedetectionio/processors/restock_diff/difference.py
+msgid "Date"
+msgstr ""
+
 #: changedetectionio/processors/restock_diff/difference.py
 msgid "Stock status"
 msgstr ""
