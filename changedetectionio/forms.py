@@ -71,6 +71,44 @@ class LabelAfterInputTableWidget(widgets.TableWidget):
         return Markup("".join(html))
 
 
+class TimeStringField(Field):
+    """
+    A WTForms field for time inputs (HH:MM) that stores the value as a string.
+    """
+    widget = TimeInput()  # Use the built-in time input widget
+
+    def _value(self):
+        """
+        Returns the value for rendering in the form.
+        """
+        return self.data if self.data is not None else ""
+
+    def process_formdata(self, valuelist):
+        """
+        Processes the raw input from the form and stores it as a string.
+        """
+        if valuelist:
+            time_str = valuelist[0]
+            # Simple validation for HH:MM format
+            if not time_str or len(time_str.split(":")) != 2:
+                raise ValidationError(_l("Invalid time format. Use HH:MM."))
+            self.data = time_str
+
+
+class validateTimeZoneName(object):
+    """
+       Flask wtform validators wont work with basic auth
+    """
+
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        from zoneinfo import available_timezones
+        python_timezones = available_timezones()
+        if field.data and field.data not in python_timezones:
+            raise ValidationError(_l("Not a valid timezone name"))
+
 class ScheduleLimitDaySubForm(Form):
     enabled = BooleanField(_l("not set"), default=True)
     start_time = TimeStringField(_l("Start At"), default="00:00", validators=[validators.Optional()])
