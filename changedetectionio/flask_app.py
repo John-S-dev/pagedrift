@@ -65,6 +65,11 @@ from changedetectionio.languages import (
     get_timeago_locale,
 )
 
+from .thread_supervisor import start_supervised_thread
+from .time_handler import default_timezone_name, is_within_schedule
+
+IN_PYTEST = "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ
+
 app = Flask(__name__, static_url_path="", static_folder="static", template_folder="templates")
 
 # Will be initialized in changedetection_app
