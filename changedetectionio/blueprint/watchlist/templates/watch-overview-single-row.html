@@ -47,3 +47,57 @@
                     </div>
                 </td>
 
+                <td class="title-col inline">
+                    <div class="grid-wrapper">
+                    {% if 'favicons_enabled' not in ui_settings or ui_settings['favicons_enabled'] %}
+                        <div class="favicon">
+                            <a target="_blank" rel="noopener" href="{{ open_link }}">
+                                {# Intersection Observer lazy loading: store real URL in data-src, load only when visible in viewport #}
+                                <img alt="Favicon thumbnail"
+                                     class="favicon lazy-favicon"
+                                     loading="lazy"
+                                     decoding="async"
+                                     title="{{ _('Goto web page') }}"
+                                     alt="{{ _('Goto web page') }}"
+                                     fetchpriority="low"
+                                     {% if favicon %}
+                                     data-src="{{url_for('static_content', group='favicon', filename=watch.uuid)}}"
+                                     {% endif %}
+                                     src='data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="7.087" height="7.087" viewBox="0 0 7.087 7.087"%3E%3Ccircle cx="3.543" cy="3.543" r="3.279" stroke="%23e1e1e1" stroke-width="0.45" fill="none" opacity="0.74"/%3E%3C/svg%3E'>
+                            </a>
+                        </div>
+                    {%  endif %}
+                        <div class="watch-text-info">
+                            {%- if watch['processor'] and watch['processor'] in processor_badge_texts -%}
+                                <a href="{{ url_for('watchlist.index', tag=active_tag_uuid, processor=watch['processor']) }}" class="processor-badge processor-badge-{{ watch['processor'] }}{{ ' active' if active_processor == watch['processor'] else '' }}" title="{{ processor_descriptions.get(watch['processor'], watch['processor']) }}">{{ processor_badge_texts[watch['processor']] }}</a>
+                            {%- endif -%}
+                            <span class="watch-title">
+                                {% if system_use_url_watchlist or watch.get('use_page_title_in_list') %}
+                                    {{ watch.label }}
+                                {% else %}
+                                    {{ watch.get('title') or watch.link }}
+                                {% endif %}
+                                <a class="external" target="_blank" rel="noopener" href="{{ open_link }}" title="{{ open_link }}">&nbsp;</a>
+                            </span>
+
+                            {%- for watch_tag_uuid, watch_tag in datastore.get_all_tags_for_watch(watch['uuid']).items() -%}
+                              <a href="{{url_for('watchlist.index', tag=watch_tag_uuid) }}" class="watch-tag-list tag-{{ watch_tag.title|sanitize_tag_class }}">{{ watch_tag.title }}</a>
+                            {%- endfor -%}
+                            <div class="error-text" style="display:none;">{{ error_texts|safe }}</div>
+                            {%- if watch['processor'] == 'text_json_diff'  -%}
+                                {%- if watch['has_ldjson_price_data'] and not watch['track_ldjson_price_data']  -%}
+                                <div class="ldjson-price-track-offer">Switch to Restock & Price watch mode? <button type="submit" formmethod="post" formaction="{{url_for('price_data_follower.accept', uuid=watch.uuid)}}" class="pure-button button-xsmall">Yes</button> <button type="submit" formmethod="post" formaction="{{url_for('price_data_follower.reject', uuid=watch.uuid)}}" class="bare-btn bare-btn--link">No</button></div>
+                                {%- endif -%}
+                            {%- endif -%}
+
+                        </div>
+                    <div class="status-icons">
+                            <button type="submit" formmethod="post" formaction="{{url_for('ui.form_share_put_watch', uuid=watch.uuid)}}" class="bare-btn link-spread"><img src="{{url_for('static_content', group='images', filename='spread.svg')}}" class="status-icon icon icon-spread" title="{{ _('Create a link to share watch config with others') }}" ></button>
+                            {%- set effective_fetcher = watch.get_fetch_backend if watch.get_fetch_backend != "system" else system_default_fetcher -%}
+                            {%- if effective_fetcher and ("html_webdriver" in effective_fetcher or "html_" in effective_fetcher or "extra_browser_" in effective_fetcher) -%}
+                                {{ effective_fetcher|fetcher_status_icons }}
+                            {%- endif -%}
+                            {%- if watch.is_pdf  -%}<img class="status-icon" src="{{url_for('static_content', group='images', filename='pdf-icon.svg')}}" title="Converting PDF to text" alt="Converting PDF to text" >{%- endif -%}
+                            {%- if watch.has_browser_steps -%}<img class="status-icon status-browsersteps" src="{{url_for('static_content', group='images', filename='steps.svg')}}" alt="Browser Steps is enabled" >{%- endif -%}
+                    </div>
+
