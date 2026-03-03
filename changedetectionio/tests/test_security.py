@@ -377,6 +377,84 @@ def test_login_redirect_safe_urls(client, live_server, measure_memory_usage, dat
     assert b'value="////evil.com"' not in res.data
 
 
+def test_login_redirect_with_password(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that redirect functionality works correctly when a password is set.
+    This ensures that notifications can always link to /login and users will
+    be redirected to the correct page after authentication.
+    """
+
+    # Set a password
+    from changedetectionio import store
+    import base64
+    import hashlib
+
+    # Generate a test password
+    password = "test123"
+    salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    salted_pass = base64.b64encode(salt + key).decode('ascii')
+
+    # Set the password in the datastore
+    client.application.config['DATASTORE'].data['settings']['application']['password'] = salted_pass
+
+    # Test 1: Try to access /login?redirect=/settings without being logged in
+    # Should show login form and preserve redirect parameter
+    res = client.get(
+        url_for("login", redirect="/settings"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    assert b"Password" in res.data
+    # Check that redirect parameter is preserved in the form
+    assert b'name="redirect"' in res.data
+    assert b'value="/settings"' in res.data
+
+    # Test 2: Submit correct password with redirect parameter
+    # Should redirect to /settings after successful login
+    res = client.post(
+        url_for("login"),
+        data={"password": password, "redirect": "/settings"},
+        follow_redirects=True
+    )
+    assert res.status_code == 200
+    # Should be on settings page
+    assert b"Settings" in res.data or b"settings" in res.data
+
+    # Test 3: Now that we're logged in, accessing /login?redirect=/settings
+    # should redirect immediately without showing login form
+    res = client.get(
+        url_for("login", redirect="/"),
+        follow_redirects=True
+    )
+    assert res.status_code == 200
+    assert b"Already logged in" in res.data
+
+    # Test 4: Malicious redirect should be blocked even with correct password
+    res = client.post(
+        url_for("login"),
+        data={"password": password, "redirect": "https://evil.com"},
+        follow_redirects=True
+    )
+    # Should redirect to watchlist index instead of evil.com
+    assert b"evil.com" not in res.data
+
+    # Logout for cleanup
+    client.post(url_for("logout"))
+
+    # Test 5: Incorrect password with redirect should stay on login page
+    res = client.post(
+        url_for("login"),
+        data={"password": "wrongpassword", "redirect": "/settings"},
+        follow_redirects=True
+    )
+    assert res.status_code == 200
+    assert b"Incorrect password" in res.data or b"password" in res.data
+
+    # Clear the password
+    del client.application.config['DATASTORE'].data['settings']['application']['password']
+
+
     # Set a password
     password = "test123"
     salt = os.urandom(32)
