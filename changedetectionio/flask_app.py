@@ -79,6 +79,29 @@ socketio_server = None
 CORS(app)
 from uuid import UUID
 
+from werkzeug.routing import BaseConverter, ValidationError
+
+
+class StrictUUIDConverter(BaseConverter):
+    # Special sentinel values allowed in addition to strict UUIDs
+    _ALLOWED_SENTINELS = frozenset({'first'})
+
+    def to_python(self, value: str) -> str:
+        if value in self._ALLOWED_SENTINELS:
+            return value
+        try:
+            u = UUID(value)
+        except ValueError as e:
+            raise ValidationError() from e
+        # Reject non-standard formats (braces, URNs, no-hyphens)
+        if str(u) != value.lower():
+            raise ValidationError()
+        return str(u)
+
+    def to_url(self, value) -> str:
+        return str(value)
+
+
 # app setup (once)
 app.url_map.converters["uuid_str"] = StrictUUIDConverter
 
