@@ -16,6 +16,49 @@ doesn't.
 
 ## Prefer a migration over permanent complexity
 
+If you're about to add a compatibility shim, an alias, a backward-compat fallback, or a
+"handle both old and new shape" branch — stop and ask whether a one-time `update_N`
+migration solves the same problem by *renaming the stored data*. A migration runs once
+per install; the shim lives in the code forever and every future contributor has to
+understand it.
+
+Concrete example from this PR: the original design used `Field(alias='llm_X')` so
+Pydantic could accept both the legacy form-field name (`llm_model`) and the new
+storage name (`model`). That alias survived every read/write for the life of the app
+and introduced a subtle `model_dump(by_alias=True)` merge bug. The simpler answer was
+to rename the form fields to match the storage names (an in-PR rename, no migration
+needed since storage was new), drop the aliases entirely, and delete ~25 lines of
+plumbing. **Pay once with a migration; don't pay forever with complexity.**
+
+Same principle applies the moment you find yourself writing `dict.get(new_key) or
+dict.get(old_key)`. That's a migration in disguise — write the migration instead.
+
+## Architecture choice: validator at the boundary, not domain model
+
+There are two ways to use Pydantic. Pick one per slice — they are not interchangeable.
+
+**Pydantic-as-validator (what we do).** Storage stays a plain dict. A `BaseModel`
+validates input at the boundary, dumps back to a dict. No call-site changes; the
+existing `watch['x']` dict access keeps working everywhere.
+
+**Pydantic-as-domain-model.** Replace `dict` inheritance with `BaseModel`. ~190 call
+sites switch from `watch['x']` to `watch.x`. Much bigger blast radius, defers the
+security win. Not what we're doing right now.
+
+The CWE-915 fix only needs the validator pattern. Domain-model replacement is a
+separate, later project.
+
+## The template (LLMSettings)
+
+The first migrated slice. Use as the reference for the next one.
+
+**Match the WTForms field names to the storage / Pydantic field names** so the
+form-input dict and the storage dict have the same key shape. No aliases, no
+`populate_by_name=True`, no `by_alias=True` merge gymnastics. Only reach for
+`Field(alias=…)` if you genuinely cannot rename the form field (rare).
+
+`model/LLMSettings.py`:
+
 ```python
 class LLMSettings(BaseModel):
     model_config = ConfigDict(extra='forbid')
