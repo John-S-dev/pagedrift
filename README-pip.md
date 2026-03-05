@@ -84,3 +84,25 @@ _Need an actual Chrome runner with Javascript support? We support fetching via W
 - Configurable [proxy per watch](https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration)
 - Send a screenshot with the notification when a change is detected in the web page
 
+We [recommend and use Bright Data](https://brightdata.grsm.io/n0r16zf7eivq) global proxy services, Bright Data will match any first deposit up to $100 using our signup link.
+
+[Oxylabs](https://oxylabs.go2cloud.org/SH2d) is also an excellent proxy provider and well worth using, they offer Residential, ISP, Rotating and many other proxy types to suit your project.
+
+Please :star: star :star: this project and help it grow! https://github.com/dgtlmoon/changedetection.io/
+
+
+
+```bash
+$ pip3 install changedetection.io
+```
+
+Specify a target for the *datastore path* with `-d` (required) and a *listening port* with `-p` (defaults to `5000`)
+
+```bash
+$ changedetection.io -d /path/to/empty/data/dir -p 5000
+```
+
+
+Then visit http://127.0.0.1:5000 , You should now be able to access the UI.
+
+See https://changedetection.io for more information.
