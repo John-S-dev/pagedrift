@@ -19,3 +19,18 @@ from ..notification.handler import newline_re
 
 
 
+        # Check for unknown fields
+        unknown_fields = set(json_data.keys()) - valid_fields
+        if unknown_fields:
+            return f"Unknown field(s): {', '.join(sorted(unknown_fields))}", 400
+
+        # Update watch with regular (non-processor-config) fields
+        watch.update(json_data)
+        watch.commit()
+
+        # Save processor config to JSON file
+        processors.save_processor_config(self.datastore, uuid, processor_config_data)
+
+        return "OK", 200
+
+
