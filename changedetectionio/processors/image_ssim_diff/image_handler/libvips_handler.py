@@ -5,3 +5,6 @@ Uses pyvips for high-performance image processing with streaming architecture
 and low memory footprint. Ideal for large screenshots (8000px+).
 """
 
+if TYPE_CHECKING:
+    import pyvips
+
