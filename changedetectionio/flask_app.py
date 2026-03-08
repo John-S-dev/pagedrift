@@ -128,3 +128,10 @@ if strtobool(os.getenv("FLASK_ENABLE_COMPRESSION")):
 app.config['TEMPLATES_AUTO_RELOAD'] = False
 
 
+# Session configuration
+# NOTE: Flask session (for locale, etc.) is separate from Flask-Login's remember-me cookie
+# - Flask session stores data like session['locale'] in a signed cookie
+# - Flask-Login's remember=True creates a separate authentication cookie
+# - Setting PERMANENT_SESSION_LIFETIME controls how long the Flask session cookie lasts
+from datetime import timedelta
+
