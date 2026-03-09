@@ -909,6 +909,92 @@ class model(EntityPersistenceMixin, watch_base):
 
             return thumbnail_path
 
+        except Exception as e:
+            logger.error(f"Error creating thumbnail for {self.get('uuid')}: {str(e)}")
+            return None
+
+    def __get_file_ctime(self, filename):
+        fname = os.path.join(self.data_dir, filename)
+        if os.path.isfile(fname):
+            return int(os.path.getmtime(fname))
+        return False
+
+    @property
+    def error_text_ctime(self):
+        return self.__get_file_ctime('last-error.txt')
+
+    @property
+    def snapshot_text_ctime(self):
+        if self.history_n==0:
+            return False
+
+        timestamp = list(self.history.keys())[-1]
+        return int(timestamp)
+
+    @property
+    def snapshot_screenshot_ctime(self):
+        return self.__get_file_ctime('last-screenshot.png')
+
+    @property
+    def snapshot_error_screenshot_ctime(self):
+        return self.__get_file_ctime('last-error-screenshot.png')
+
+    def get_error_text(self):
+        """Return the text saved from a previous request that resulted in a non-200 error"""
+        fname = os.path.join(self.data_dir, "last-error.txt")
+        if os.path.isfile(fname):
+            with open(fname, 'r', encoding='utf-8') as f:
+                return f.read()
+        return False
+
+    def get_error_snapshot(self):
+        """Return path to the screenshot that resulted in a non-200 error"""
+        fname = os.path.join(self.data_dir, "last-error-screenshot.png")
+        if os.path.isfile(fname):
+            return fname
+        return False
+
+
+    @staticmethod
+    def _llm_summary_prompt_hash(prompt: str) -> str:
+        """8-char hex hash of the prompt — used to detect when the prompt changes."""
+        import hashlib
+        return hashlib.md5(prompt.encode('utf-8', errors='replace')).hexdigest()[:8]
+
+    def get_llm_diff_summary(self, from_version, to_version, prompt: str = '') -> str:
+        """Return the cached AI Change Summary for this from→to + prompt combination, or ''.
+
+        The prompt hash is embedded in the filename so that a changed prompt
+        automatically produces a cache miss and triggers regeneration.
+        """
+        prompt_hash = self._llm_summary_prompt_hash(prompt)
+        fname = os.path.join(self.data_dir, f'change-summary-{from_version}-to-{to_version}-{prompt_hash}.txt')
+        if not os.path.isfile(fname):
+            logger.debug(f"LLM cached diff summary '{fname}' NOT found")
+            return ''
+        with open(fname, 'r', encoding='utf-8') as f:
+            logger.debug(f"LLM cached diff summary '{fname}' FOUND")
+            return f.read().strip()
+
+    def save_llm_diff_summary(self, summary: str, from_version, to_version, prompt: str = ''):
+        """Persist the AI Change Summary keyed by version pair + prompt hash."""
+        self.ensure_data_dir_exists()
+        prompt_hash = self._llm_summary_prompt_hash(prompt)
+        fname = os.path.join(self.data_dir, f'change-summary-{from_version}-to-{to_version}-{prompt_hash}.txt')
+        tmp = fname + '.tmp'
+        try:
+            with open(tmp, 'w', encoding='utf-8') as f:
+                f.write(summary)
+            os.replace(tmp, fname)
+        except OSError as e:
+            logger.warning(f"Could not write LLM summary cache {fname}: {e}")
+
+    def pause(self):
+        self['paused'] = True
+
+    def unpause(self):
+        self['paused'] = False
+
         self.ensure_data_dir_exists()
 
         with open(target_path, 'wb') as f:
