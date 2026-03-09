@@ -191,6 +191,31 @@ def test_regex_replace_count_parameter():
     finalRender = render("{{ 'foo bar foo baz' | regex_replace('foo', 'qux', 1) }}")
     assert finalRender == "qux bar foo baz"
 
+def test_regex_replace_empty_replacement():
+    """Test regex_replace with empty replacement (removal)."""
+
+    finalRender = render("{{ 'hello world 123' | regex_replace('[0-9]+', '') }}")
+    assert finalRender == "hello world "
+
+def test_regex_replace_no_match():
+    """Test regex_replace when pattern doesn't match."""
+
+    finalRender = render("{{ 'hello world' | regex_replace('xyz', 'abc') }}")
+    assert finalRender == "hello world"
+
+def test_regex_replace_invalid_regex():
+    """Test regex_replace with invalid regex pattern returns original value."""
+
+    # Invalid regex (unmatched parenthesis)
+    finalRender = render("{{ 'hello world' | regex_replace('(invalid', 'replacement') }}")
+    assert finalRender == "hello world"
+
+def test_regex_replace_special_characters():
+    """Test regex_replace with special regex characters."""
+
+    finalRender = render("{{ 'Price: $50.00' | regex_replace('\\\\$([0-9.]+)', 'USD \\\\1') }}")
+    assert finalRender == "Price: USD 50.00"
+
 def test_regex_replace_multiline():
     """Test regex_replace on multiline text."""
 
