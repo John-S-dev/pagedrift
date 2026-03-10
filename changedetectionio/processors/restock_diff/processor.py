@@ -4,6 +4,9 @@ from . import Restock
 from loguru import logger
 from changedetectionio.content_fetchers.exceptions import checksumFromPreviousCheckWasTheSame
 
+import urllib3
+import time
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # Translatable strings - extracted by pybabel, translated at runtime in __init__.py
 # Use a marker function so pybabel can extract these strings
