@@ -7,3 +7,14 @@ This module provides functionality to safely validate redirect URLs, ensuring th
 3. Match registered Flask routes (no fake/non-existent pages)
 4. Are fully logged for security monitoring
 
+References:
+- https://flask-login.readthedocs.io/ (safe redirect patterns)
+- https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
+- https://www.pythonkitchen.com/how-prevent-open-redirect-vulnerab-flask/
+"""
+
+from urllib.parse import urlparse, urljoin
+from flask import request
+from loguru import logger
+
+
