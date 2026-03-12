@@ -17,3 +17,9 @@ del _  # Remove marker function
 processor_weight = 1
 list_badge_text = "Restock"  # _()
 
+def _search_prop_by_value(matches, value):
+    for properties in matches:
+        for prop in properties:
+            if value in prop[0]:
+                return prop[1]  # Yield the desired value and exit the function
+
