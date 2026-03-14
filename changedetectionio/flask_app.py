@@ -135,3 +135,8 @@ app.config['TEMPLATES_AUTO_RELOAD'] = False
 # - Setting PERMANENT_SESSION_LIFETIME controls how long the Flask session cookie lasts
 from datetime import timedelta
 
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=3650)  # ~10 years (effectively unlimited)
+
+# app.config["EXPLAIN_TEMPLATE_LOADING"] = True
+
+
