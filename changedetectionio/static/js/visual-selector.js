@@ -616,6 +616,62 @@ window.initVisualSelector = function (opts) {
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 1;
 
+        return null;
+    }
+
+    function getHandleCursor(handle) {
+        const cursors = {
+            'tl': 'nw-resize',
+            'tr': 'ne-resize',
+            'bl': 'sw-resize',
+            'br': 'se-resize'
+        };
+        return cursors[handle] || 'crosshair';
+    }
+
+    function resizeBox(x, y) {
+        const dx = x - drawStartX;
+        const dy = y - drawStartY;
+
+        const originalBox = { ...drawnBox };
+
+        switch (resizeHandle) {
+            case 'tl':
+                drawnBox.x = x;
+                drawnBox.y = y;
+                drawnBox.width = originalBox.x + originalBox.width - x;
+                drawnBox.height = originalBox.y + originalBox.height - y;
+                break;
+            case 'tr':
+                drawnBox.y = y;
+                drawnBox.width = x - originalBox.x;
+                drawnBox.height = originalBox.y + originalBox.height - y;
+                break;
+            case 'bl':
+                drawnBox.x = x;
+                drawnBox.width = originalBox.x + originalBox.width - x;
+                drawnBox.height = y - originalBox.y;
+                break;
+            case 'br':
+                drawnBox.width = x - originalBox.x;
+                drawnBox.height = y - originalBox.y;
+                break;
+        }
+
+        drawStartX = x;
+        drawStartY = y;
+    }
+
+    // ---- public API ----
+    return {
+        load: load,
+        clear: clearReset,
+        setSelectionEnabled: setSelectionEnabled,
+        markClearMode: function () { runInClearMode = true; }
+    };
+};
+
+
     const isImageProcessor = $('input[value="image_ssim_diff"]').is(':checked');
 
     const vs = window.initVisualSelector({
