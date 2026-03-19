@@ -52,6 +52,8 @@ from changedetectionio.notification import (
 
 from wtforms.fields import FormField
 
+dictfilt = lambda x, y: dict([ (i,x[i]) for i in x if i in set(y) ])
+
 valid_method = {
     'GET',
     'POST',
