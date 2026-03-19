@@ -130,6 +130,12 @@ if strtobool(os.getenv("FLASK_ENABLE_COMPRESSION")):
 app.config['TEMPLATES_AUTO_RELOAD'] = False
 
 
+# Stop browser caching of assets
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config.exit = Event()
+
+app.config['NEW_VERSION_AVAILABLE'] = False
+
 # Session configuration
 # NOTE: Flask session (for locale, etc.) is separate from Flask-Login's remember-me cookie
 # - Flask session stores data like session['locale'] in a signed cookie
