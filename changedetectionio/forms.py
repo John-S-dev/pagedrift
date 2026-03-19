@@ -46,6 +46,12 @@ from changedetectionio.browser_steps.browser_steps import browser_step_ui_config
 
 from changedetectionio import html_tools, content_fetchers
 
+from changedetectionio.notification import (
+    valid_notification_formats,
+)
+
+from wtforms.fields import FormField
+
 valid_method = {
     'GET',
     'POST',
