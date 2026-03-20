@@ -12,3 +12,36 @@ from changedetectionio.blueprint.ui.views import construct_blueprint as construc
 from changedetectionio.blueprint.ui.queue import construct_blueprint as construct_queue_blueprint
 from changedetectionio.blueprint.ui import diff, preview
 
+def _handle_operations(op, uuids, datastore, worker_pool, update_q, queuedWatchMetaData, watch_check_update, extra_data=None, emit_flash=True):
+    """Apply a bulk operation to the given watch uuids.
+
+    Returns a {'message': str, 'type': 'success'|'error'} result describing the outcome so callers
+    (e.g. the socket.io handler) can surface server-driven feedback. When emit_flash is True the same
+    message is also flashed for the classic form-POST + redirect path.
+    """
+    from flask import flash
+
+    # Result feedback - 'success' unless a branch overrides it (e.g. invalid input)
+    result_message = None
+    result_type = 'success'
+
+    if op == 'delete':
+        for uuid in uuids:
+            if datastore.data['watching'].get(uuid):
+                datastore.delete(uuid)
+        result_message = gettext("{} watches deleted").format(len(uuids))
+
+    elif op == 'pause':
+        for uuid in uuids:
+            if datastore.data['watching'].get(uuid):
+                datastore.data['watching'][uuid]['paused'] = True
+                datastore.data['watching'][uuid].commit()
+        result_message = gettext("{} watches paused").format(len(uuids))
+
+    elif op == 'unpause':
+        for uuid in uuids:
+            if datastore.data['watching'].get(uuid):
+                datastore.data['watching'][uuid.strip()]['paused'] = False
+                datastore.data['watching'][uuid].commit()
+        result_message = gettext("{} watches unpaused").format(len(uuids))
+
