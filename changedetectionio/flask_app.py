@@ -72,6 +72,15 @@ IN_PYTEST = "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ
 
 datastore = None
 
+# Local
+ticker_thread = None
+extra_stylesheets = []
+
+# Use bulletproof janus-based queues for sync/async reliability
+update_q = RecheckPriorityQueue()
+notification_q = NotificationQueue()
+MAX_QUEUE_SIZE = 5000
+
 app = Flask(__name__, static_url_path="", static_folder="static", template_folder="templates")
 
 # Will be initialized in changedetection_app
