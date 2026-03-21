@@ -158,6 +158,84 @@ _CHROME_PATTERNS = re.compile(
 )
 
 
+def _remove_chrome(html_content: str) -> str:
+    """Use BS4 to strip navigation, header, footer and recommendation noise.
+
+    Uses html.parser (built-in, no lxml) to avoid memory leak issues.
+    Falls back to the original HTML string if BS4 fails for any reason.
+    """
+    try:
+        from bs4 import BeautifulSoup, Tag
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Snapshot the full tag list before any decompositions so we don't
+        # mutate the tree while iterating it.  After a parent is decomposed
+        # its children become orphans (parent=None) — skip those.
+        for tag in list(soup.find_all(True)):
+            if not isinstance(tag, Tag) or tag.parent is None:
+                continue
+            name = tag.name or ''
+            if name in _CHROME_TAGS:
+                tag.decompose()
+                continue
+            try:
+                cls_list = tag.get('class') or []
+                cls_str = ' '.join(cls_list) if isinstance(cls_list, list) else str(cls_list)
+                id_str = tag.get('id') or ''
+            except Exception:
+                continue
+            if _CHROME_PATTERNS.search(cls_str + ' ' + id_str):
+                tag.decompose()
+
+        return str(soup)
+    except Exception as e:
+        logger.debug(f"BS4 chrome removal failed ({e}), using raw HTML")
+        return html_content
+
+
+def _strip_html(html_content: str, max_chars: int = _MAX_CONTENT_CHARS) -> str:
+    """HTML-to-text for LLM consumption.
+
+    1. Extracts JSON-LD (structured product data) to prepend.
+    2. Strips nav/header/footer/recommendation blocks via BS4.
+    3. Removes all remaining tags and collapses whitespace.
+    JSON-LD is prepended so reliable price/availability data is always visible
+    to the LLM regardless of how deep it sits in the page.
+
+    `max_chars` caps the total returned length — callers pass the app's
+    configured `max_input_chars` setting so the prompt size obeys the UI.
+    """
+    jsonld = _extract_jsonld(html_content)
+
+    # Remove site-chrome before generic tag stripping
+    cleaned = _remove_chrome(html_content)
+
+    # Drop HTML comments (can contain large disabled markup blocks)
+    text = re.sub(r'<!--.*?-->', ' ', cleaned, flags=re.DOTALL)
+    # Drop all <script> and <style> blocks
+    text = re.sub(r'<(script|style)[^>]*>.*?</(script|style)>', ' ', text, flags=re.DOTALL | re.IGNORECASE)
+    # Strip remaining tags
+    text = re.sub(r'<[^>]+>', ' ', text)
+    # Decode common entities
+    text = (text
+            .replace('&nbsp;', ' ')
+            .replace('&amp;', '&')
+            .replace('&lt;', '<')
+            .replace('&gt;', '>')
+            .replace('&quot;', '"')
+            .replace('&#39;', "'"))
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    if jsonld:
+        # The structured metadata is extra CONTEXT, not a replacement for the page text — the
+        # real/visible price often isn't in JSON-LD (e.g. JSON-LD price "0" placeholder). So cap
+        # the metadata to at most half the budget and always leave room for the visible text.
+        jsonld = jsonld[: max(1, max_chars // 2)]
+        budget = max_chars - len(jsonld) - 1
+        return (jsonld + ' ' + text[:budget]).strip()
+    return text[:max_chars]
+
+
 @hookimpl
 def get_itemprop_availability_override(content, fetcher_name, fetcher_instance, url, llm_intent=None):
     """Use an LLM as a last-resort fallback for price and restock extraction."""
