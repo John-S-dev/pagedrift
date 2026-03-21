@@ -282,3 +282,51 @@ class EnhancedFormField(FormField):
         return base_valid
 
 
+# Separated by  key:value
+class StringDictKeyValue(StringField):
+    widget = widgets.TextArea()
+
+    def _value(self):
+        if self.data:
+            output = ''
+            for k, v in self.data.items():
+                output += f"{k}: {v}\r\n"
+            return output
+        else:
+            return ''
+
+    # incoming data processing + validation
+    def process_formdata(self, valuelist):
+        self.data = {}
+        errors = []
+        if valuelist:
+            # Remove empty strings (blank lines)
+            cleaned = [line.strip() for line in valuelist[0].split("\n") if line.strip()]
+            for idx, s in enumerate(cleaned, start=1):
+                if ':' not in s:
+                    errors.append(f"Line {idx} is missing a ':' separator.")
+                    continue
+                parts = s.split(':', 1)
+                key = parts[0].strip()
+                value = parts[1].strip()
+
+                if not key:
+                    errors.append(f"Line {idx} has an empty key.")
+                if not value:
+                    errors.append(f"Line {idx} has an empty value.")
+
+                self.data[key] = value
+
+        if errors:
+            raise ValidationError("Invalid input:\n" + "\n".join(errors))
+
+class ValidateContentFetcherIsReady(object):
+    """
+    Validates that anything that looks like a regex passes as a regex
+    """
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        return
+
