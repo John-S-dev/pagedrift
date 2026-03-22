@@ -270,6 +270,12 @@ def load_plugins_from_directories():
                 except (ImportError, AttributeError) as e:
                     print(f"Error loading plugin {module_name}: {e}")
 
+# Load plugins
+load_plugins_from_directories()
+
+# Discover installed plugins from external packages (if any)
+plugin_manager.load_setuptools_entrypoints(PLUGIN_NAMESPACE)
+
 # Function to register built-in fetchers - called later from content_fetchers/__init__.py
 def register_builtin_fetchers():
     """Register built-in content fetchers as internal plugins
