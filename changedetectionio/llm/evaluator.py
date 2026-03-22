@@ -37,6 +37,19 @@ from .prompt_builder import (
 )
 from .response_parser import parse_eval_response, parse_preview_response, parse_setup_response
 
+from changedetectionio.model.LLMSettings import (
+    LLMSettings,
+    LLM_DEFAULT_MAX_INPUT_CHARS as _DEFAULT_MAX_INPUT_CHARS,
+    LLM_DEFAULT_MAX_SUMMARY_TOKENS,
+    LLM_DEFAULT_THINKING_BUDGET,
+)
+
+
+def is_llm_features_disabled() -> bool:
+    """True when the LLM_FEATURES_DISABLED env var is set to a truthy value."""
+    return bool(strtobool(os.getenv('LLM_FEATURES_DISABLED', '')))
+
+
 def get_llm_settings(datastore) -> LLMSettings:
     """Hydrate the LLM config dict at settings.application.llm into a validated model.
 
