@@ -23,6 +23,10 @@ class UnableToExtractRestockData(Exception):
         self.status_code = status_code
         return
 
+class MoreThanOnePriceFound(Exception):
+    def __init__(self):
+        return
+
 def _search_prop_by_value(matches, value):
     for properties in matches:
         for prop in properties:
