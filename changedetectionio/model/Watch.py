@@ -771,6 +771,103 @@ class model(EntityPersistenceMixin, watch_base):
         # @todo bump static cache of the last timestamp so we dont need to examine the file to set a proper ''viewed'' status
         return snapshot_fname
 
+    @property
+    def has_empty_checktime(self):
+        # using all() + dictionary comprehension
+        # Check if all values are 0 in dictionary
+        res = all(x == None or x == False or x==0 for x in self.get('time_between_check', {}).values())
+        return res
+
+    def threshold_seconds(self):
+        seconds = 0
+        for m, n in mtable.items():
+            x = self.get('time_between_check', {}).get(m, None)
+            if x:
+                seconds += x * n
+        return seconds
+
+    # Iterate over all history texts and see if something new exists
+    # Always applying .strip() to start/end but optionally replace any other whitespace
+    def lines_contain_something_unique_compared_to_history(self, lines: list, ignore_whitespace=False):
+        local_lines = set([])
+        if lines:
+            if ignore_whitespace:
+                if isinstance(lines[0], str): # Can be either str or bytes depending on what was on the disk
+                    local_lines = set([l.translate(TRANSLATE_WHITESPACE_TABLE).lower() for l in lines])
+                else:
+                    local_lines = set([l.decode('utf-8').translate(TRANSLATE_WHITESPACE_TABLE).lower() for l in lines])
+            else:
+                if isinstance(lines[0], str): # Can be either str or bytes depending on what was on the disk
+                    local_lines = set([l.strip().lower() for l in lines])
+                else:
+                    local_lines = set([l.decode('utf-8').strip().lower() for l in lines])
+
+
+        # Compare each lines (set) against each history text file (set) looking for something new..
+        existing_history = set({})
+        for k, v in self.history.items():
+            content = self.get_history_snapshot(filepath=v)
+
+            if ignore_whitespace:
+                alist = set([line.translate(TRANSLATE_WHITESPACE_TABLE).lower() for line in content.splitlines()])
+            else:
+                alist = set([line.strip().lower() for line in content.splitlines()])
+
+            existing_history = existing_history.union(alist)
+
+        # Check that everything in local_lines(new stuff) already exists in existing_history - it should
+        # if not, something new happened
+        return not local_lines.issubset(existing_history)
+
+    def get_screenshot(self):
+        fname = os.path.join(self.data_dir, "last-screenshot.png")
+        if os.path.isfile(fname):
+            return fname
+
+        # False is not an option for AppRise, must be type None
+        return None
+
+    def favicon_is_expired(self):
+        favicon_fname = self.get_favicon_filename()
+        import glob
+        import time
+
+        if not favicon_fname:
+            return True
+        try:
+            fname = next(iter(glob.glob(os.path.join(self.data_dir, "favicon.*"))), None)
+            logger.trace(f"Favicon file maybe found at {fname}")
+            if os.path.isfile(fname):
+                file_age = int(time.time() - os.path.getmtime(fname))
+                logger.trace(f"Favicon file age is {file_age}s")
+                if file_age < FAVICON_RESAVE_THRESHOLD_SECONDS:
+                    return False
+        except Exception as e:
+            logger.critical(f"Exception checking Favicon age {str(e)}")
+            return True
+
+        # Also in the case that the file didnt exist
+        return True
+
+    def bump_favicon(self, url, favicon_base_64: str, mime_type: str = None) -> None:
+        from urllib.parse import urlparse
+        import base64
+        import binascii
+        import re
+
+        MAX_FAVICON_BYTES = 1 * 1024 * 1024  # 1 MB
+
+        MIME_TO_EXT = {
+            'image/png': 'png',
+            'image/x-icon': 'ico',
+            'image/vnd.microsoft.icon': 'ico',
+            'image/jpeg': 'jpg',
+            'image/gif': 'gif',
+            'image/svg+xml': 'svg',
+            'image/webp': 'webp',
+            'image/bmp': 'bmp',
+        }
+
         extension = None
 
         # If the caller already resolved the MIME type (e.g. from blob.type or a data URI),
