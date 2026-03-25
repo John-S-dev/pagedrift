@@ -142,3 +142,51 @@ META_CT  = re.compile(r'<meta[^>]+http-equiv=["\']?content-type["\']?[^>]*conten
 # All of those may or may not appear on different websites - I didnt find a way todo case-insensitive searching here
 LD_JSON_PRODUCT_OFFER_SELECTORS = ["json:$..offers", "json:$..Offers"]
 
+def get_safe_xpath3_parser():
+    """Return an XPath3Parser subclass with filesystem/environment access functions removed.
+
+    XPath 3.0 includes functions that can read arbitrary files or environment variables:
+      - unparsed-text / unparsed-text-lines / unparsed-text-available  (file read)
+      - doc / doc-available                                             (XML fetch from URI)
+      - environment-variable / available-environment-variables         (env var leakage)
+
+    Subclassing gives us an independent symbol_table copy (not shared with the parent class),
+    so removing entries here does not affect XPath3Parser itself.
+
+    Override the blocked list via the XPATH_BLOCKED_FUNCTIONS environment variable
+    (comma-separated, e.g. "unparsed-text,doc,environment-variable").
+    """
+    import os
+    from elementpath.xpath3 import XPath3Parser
+
+    class SafeXPath3Parser(XPath3Parser):
+        pass
+
+    env_override = os.getenv('XPATH_BLOCKED_FUNCTIONS')
+    if env_override is not None:
+        blocked = [f.strip() for f in env_override.split(',') if f.strip()]
+    else:
+        blocked = _DEFAULT_UNSAFE_XPATH3_FUNCTIONS
+
+    for _fn in blocked:
+        SafeXPath3Parser.symbol_table.pop(_fn, None)
+
+    return SafeXPath3Parser
+
+
+# Doesn't look like python supports forward slash auto enclosure in re.findall
+# So convert it to inline flag "(?i)foobar" type configuration
+@lru_cache(maxsize=100)
+def perl_style_slash_enclosed_regex_to_options(regex):
+
+    res = re.search(PERL_STYLE_REGEX, regex, re.IGNORECASE)
+
+    if res:
+        flags = res.group(2) if res.group(2) else 'i'
+        regex = f"(?{flags}){res.group(1)}"
+    else:
+        # Fall back to just ignorecase as an option
+        regex = f"(?i){regex}"
+
+    return regex
+
