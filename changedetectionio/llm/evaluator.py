@@ -78,6 +78,39 @@ class LLMInputTooLargeError(Exception):
     pass
 
 
+def _check_input_size(text: str, max_chars: int) -> None:
+    """Raise LLMInputTooLargeError if text exceeds max_chars."""
+    if len(text) > max_chars:
+        raise LLMInputTooLargeError(
+            f"Change too large for AI summary ({len(text):,} chars, limit {max_chars:,})"
+        )
+
+
+def _thinking_extra_body(model: str, budget: int) -> dict | None:
+    """Return litellm extra_body to control thinking for models that support it.
+
+    The `thinkingConfig.thinkingBudget` payload is Gemini-specific (Anthropic and
+    OpenAI reasoning models use different parameters), so we gate on the gemini/
+    provider prefix first, then defer to litellm's model registry for the actual
+    "does this model think?" decision. That picks up new Gemini variants and
+    rolling aliases (`gemini-flash-latest`, etc.) as litellm's registry tracks
+    them, without us hardcoding model names here.
+    """
+    if not model.startswith('gemini/'):
+        return None
+    if 'flash-lite' in model.lower():
+        return None
+    try:
+        import litellm
+        if not litellm.get_model_info(model).get('supports_reasoning'):
+            return None
+    except Exception:
+        # Unknown model or registry lookup failed — skip the thinking config
+        # rather than guess. Worst case: thinking stays at the provider default.
+        return None
+    return {'generationConfig': {'thinkingConfig': {'thinkingBudget': budget}}}
+
+
 # Default prompt used when the user hasn't configured llm_change_summary.
 # This owns the OUTPUT FORMAT (structure, sections, style, language). The system prompt
 # in prompt_builder.build_change_summary_system_prompt() only covers how to READ the diff.
