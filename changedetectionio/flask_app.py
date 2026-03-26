@@ -177,3 +177,22 @@ def get_css_version():
     return hashlib.sha256(f"{salt}{__version__}".encode()).hexdigest()[:10]
 
 
+@app.template_global('filtered_action_url')
+def _filtered_action_url(endpoint, **overrides):
+    """Build a URL to `endpoint` carrying the CURRENT watch-list filters (query args)
+    with `overrides` merged in. Used so filter links compose AND so list actions
+    (mark-all-viewed, recheck-all) act on exactly the filtered view, not everything.
+    Keys set to None/''/0 are dropped, and pagination always resets."""
+    args = request.args.to_dict()
+    args.pop('page', None)
+    args.update(overrides)
+    args = {k: v for k, v in args.items() if v not in (None, '', 0, '0')}
+    return url_for(endpoint, **args)
+
+
+@app.template_global('filter_url')
+def _filter_url(**overrides):
+    """Watch-list filter link (shorthand for filtered_action_url('watchlist.index'))."""
+    return _filtered_action_url('watchlist.index', **overrides)
+
+
