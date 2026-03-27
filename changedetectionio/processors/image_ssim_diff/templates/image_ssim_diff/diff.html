@@ -84,3 +84,9 @@ if (document.readyState === 'loading') {
     syncComparisonWidth();
 }
 
+// Re-sync on window resize
+window.addEventListener('resize', syncComparisonWidth);
+</script>
+
+<script src="{{ url_for('static_content', group='js', filename='comparison-slider.js') }}" defer></script>
+
