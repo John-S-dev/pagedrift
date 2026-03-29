@@ -26,3 +26,21 @@ RSS_XML_CONTENT_TYPES = [
     "application/x-atom+xml",  # legacy (older Atom)
 ]
 
+# JSON Content-types
+JSON_CONTENT_TYPES = [
+    "application/activity+json",
+    "application/feed+json",
+    "application/json",
+    "application/ld+json",
+    "application/vnd.api+json",
+]
+
+
+# Generic XML Content-types (non-RSS/Atom)
+XML_CONTENT_TYPES = [
+    "text/xml",
+    "application/xml",
+]
+
+HTML_PATTERNS = ['<!doctype html', '<html', '<head', '<body', '<script', '<iframe', '<div']
+
