@@ -5,6 +5,12 @@ All image operations now use ImageDiffHandler abstraction for clean separation
 of concerns and easy backend swapping (LibVIPS, OpenCV, PIL, etc.).
 """
 
+import os
+import json
+import time
+from flask_babel import gettext
+from loguru import logger
+
 # All image operations now use OpenCV via isolated_opencv subprocess handler
 # No direct handler imports needed - subprocess isolation handles everything
 
