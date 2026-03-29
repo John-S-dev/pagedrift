@@ -25,3 +25,22 @@ def validate_tag_colour(json_data):
     return None
 
 
+class Tags(Resource):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+
+    @auth.check_token
+    @validate_openapi_request('listTags')
+    def get(self):
+        """List tags/groups."""
+        result = {}
+        for uuid, tag in self.datastore.data['settings']['application']['tags'].items():
+            result[uuid] = {
+                'date_created': tag.get('date_created', 0),
+                'notification_muted': tag.get('notification_muted', False),
+                'title': tag.get('title', ''),
+                'uuid': tag.get('uuid')
+            }
+
+        return result, 200
