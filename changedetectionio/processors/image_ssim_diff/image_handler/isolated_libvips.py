@@ -11,3 +11,10 @@ complete memory isolation without code duplication.
 Research: https://github.com/libvips/pyvips/issues/234
 """
 
+import multiprocessing
+
+# CRITICAL: Use 'spawn' context instead of 'fork' to avoid inheriting parent's
+# LibVIPS threading state which can cause hangs in gaussblur operations
+# https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods
+
+
