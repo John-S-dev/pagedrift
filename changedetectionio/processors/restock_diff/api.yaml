@@ -70,3 +70,42 @@ paths:
                                      headers=headers, json=data)
             print(response.json())
 
+  /watch/{uuid}:
+    put:
+      x-code-samples:
+        - lang: 'curl'
+          label: 'Update restock config'
+          source: |
+            curl -X PUT "http://localhost:5000/api/v1/watch/YOUR-UUID" \
+              -H "x-api-key: YOUR_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "processor_config_restock_diff": {
+                  "in_stock_processing": "all_changes",
+                  "follow_price_changes": true,
+                  "price_change_min": 10.00,
+                  "price_change_max": 500.00
+                }
+              }'
+        - lang: 'Python'
+          label: 'Update restock config'
+          source: |
+            import requests
+
+            headers = {
+                'x-api-key': 'YOUR_API_KEY',
+                'Content-Type': 'application/json'
+            }
+            uuid = 'YOUR-UUID'
+            data = {
+                'processor_config_restock_diff': {
+                    'in_stock_processing': 'all_changes',
+                    'follow_price_changes': True,
+                    'price_change_min': 10.00,
+                    'price_change_max': 500.00,
+                }
+            }
+            response = requests.put(f'http://localhost:5000/api/v1/watch/{uuid}',
+                                    headers=headers, json=data)
+            print(response.text)
+
