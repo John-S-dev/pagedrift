@@ -157,6 +157,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=3650)  # ~10 years (ef
 # app.config["EXPLAIN_TEMPLATE_LOADING"] = True
 
 
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
+
 @app.template_global()
 def get_darkmode_state():
     css_dark_mode = request.cookies.get('css_dark_mode', 'false')
