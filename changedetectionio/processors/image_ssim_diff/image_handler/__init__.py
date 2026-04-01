@@ -9,3 +9,51 @@ from abc import ABC, abstractmethod
 from typing import Tuple, Optional, Any
 
 
+class ImageDiffHandler(ABC):
+    """
+    Abstract base class for image processing operations.
+
+    Implementations must handle all image operations needed for screenshot
+    comparison including loading, cropping, resizing, diffing, and overlays.
+    """
+
+    @abstractmethod
+    def load_from_bytes(self, img_bytes: bytes) -> Any:
+        """
+        Load image from bytes.
+
+        Args:
+            img_bytes: Image data as bytes (PNG, JPEG, etc.)
+
+        Returns:
+            Handler-specific image object
+        """
+        pass
+
+    @abstractmethod
+    def save_to_bytes(self, img: Any, format: str = 'png', quality: int = 85) -> bytes:
+        """
+        Save image to bytes.
+
+        Args:
+            img: Handler-specific image object
+            format: Output format ('png' or 'jpeg')
+            quality: Quality for JPEG (1-100)
+
+        Returns:
+            Image data as bytes
+        """
+        pass
+
+    @abstractmethod
+    def crop(self, img: Any, left: int, top: int, right: int, bottom: int) -> Any:
+        """
+        Crop image to specified region.
+
+        Args:
+            img: Handler-specific image object
+            left: Left coordinate
+            top: Top coordinate
+            right: Right coordinate
+            bottom: Bottom coordinate
+
