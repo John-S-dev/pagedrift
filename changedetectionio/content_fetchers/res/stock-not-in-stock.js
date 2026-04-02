@@ -152,3 +152,29 @@ async () => {
             return true;
         }
 
+            if (!elementIsInEyeBallRange(element)) {
+                continue
+            }
+            elementText = "";
+            if (element.tagName.toLowerCase() === "input") {
+                elementText = element.value.toLowerCase().trim();
+            } else {
+                elementText = getElementBaseText(element);
+            }
+
+            if (elementText.length) {
+                // and these mean its out of stock
+                for (const outOfStockText of outOfStockTexts) {
+                    if (elementText.includes(outOfStockText)) {
+                        console.log(`Selected 'Out of Stock' - found text "${outOfStockText}" - "${elementText}" - offset top ${element.getBoundingClientRect().top}, page height is ${vh}`)
+                        element.style.border = "2px solid red"; // highlight the element that was detected as out of stock
+                        return outOfStockText; // item is out of stock
+                    }
+                }
+            }
+        }
+
+        console.log(`Returning 'Possibly in stock' - cant' find any useful matching text`)
+        return 'Possibly in stock'; // possibly in stock, cant decide otherwise.
+    }
+
