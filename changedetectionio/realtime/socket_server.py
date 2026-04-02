@@ -6,6 +6,9 @@ import os
 from loguru import logger
 from blinker import signal
 
+from changedetectionio import strtobool
+
+
 class SignalHandler:
     """A standalone class to receive signals"""
 
