@@ -96,3 +96,13 @@ def _worker_compare(conn, img_bytes_from, img_bytes_to, pixel_difference_thresho
         # Return only the score - let the caller decide if it's a "change"
         conn.send(float(change_percentage))
 
+    except Exception as e:
+        print(f"[{time.time():.3f}] [Worker] Error: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        # Send error info as dict so parent can re-raise
+        conn.send({'error': str(e), 'traceback': traceback.format_exc()})
+    finally:
+        conn.close()
+
+
