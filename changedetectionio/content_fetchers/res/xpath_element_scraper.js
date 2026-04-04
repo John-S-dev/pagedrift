@@ -276,3 +276,7 @@ async (options) => {
         }
     }
 
+// Sort the elements so we find the smallest one first, in other words, we find the smallest one matching in that area
+// so that we dont select the wrapping element by mistake and be unable to select what we want
+    size_pos.sort((a, b) => (a.width * a.height > b.width * b.height) ? 1 : -1)
+
