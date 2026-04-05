@@ -151,3 +151,66 @@ class RecheckPriorityQueue:
             logger.trace(f"RecheckQueue.async_get() successfully retrieved item: {self._get_item_uuid(item)}")
             return item
 
+        except queue.Empty:
+            logger.trace(f"RecheckQueue.async_get() timed out - queue is empty")
+            raise
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to async get item from queue: {type(e).__name__}: {str(e)}")
+            raise
+    
+    # UTILITY METHODS
+    def qsize(self) -> int:
+        """Get current queue size"""
+        try:
+            with self._lock:
+                return len(self._priority_items)
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get queue size: {str(e)}")
+            return 0
+    
+    def empty(self) -> bool:
+        """Check if queue is empty"""
+        return self.qsize() == 0
+
+    def get_queued_uuids(self) -> list:
+        """Get list of all queued UUIDs efficiently with single lock"""
+        try:
+            with self._lock:
+                return [item.item['uuid'] for item in self._priority_items if hasattr(item, 'item') and 'uuid' in item.item]
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get queued UUIDs: {str(e)}")
+            return []
+
+    def clear(self):
+        """Clear all items from both priority storage and notification queue"""
+        try:
+            with self._lock:
+                # Clear priority items
+                self._priority_items.clear()
+
+                # Drain all notifications to prevent stale notifications
+                # This is critical for test cleanup to prevent queue desynchronization
+                drained = 0
+                while not self._notification_queue.empty():
+                    try:
+                        self._notification_queue.get_nowait()
+                        drained += 1
+                    except queue.Empty:
+                        break
+
+                if drained > 0:
+                    logger.debug(f"Cleared queue: removed {drained} notifications")
+
+            return True
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to clear queue: {str(e)}")
+            return False
+
+    def close(self):
+        """Close the queue"""
+        try:
+            # Nothing to close for threading.Queue
+            logger.debug("RecheckPriorityQueue closed successfully")
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to close RecheckPriorityQueue: {str(e)}")
+    
