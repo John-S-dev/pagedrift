@@ -122,3 +122,27 @@ MAX_DIFF_WIDTH=900  # Default
 
 Use the "Include filters" field with CSS selectors or XPath to compare only specific page regions:
 
+## Migration from SSIM
+
+If you're upgrading from the old SSIM-based processor:
+
+1. **Thresholds are different**: SSIM used 0-1 scale (higher = more similar), OpenCV uses 0-255 pixel difference (lower = more similar)
+2. **Default threshold**: Start with 30 for OpenCV, adjust based on your needs
+3. **Performance**: Expect dramatically faster comparisons, especially for large screenshots
+4. **Accuracy**: OpenCV is more sensitive to pixel-level changes; increase `OPENCV_BLUR_SIGMA` if you're getting false positives
+
+## Future Enhancements
+
+Potential features for future consideration:
+
+- **Change region detection**: Highlight specific areas that changed with bounding boxes
+- **Perceptual hashing**: Pre-screening filter for even faster checks
+- **Ignore regions**: Exclude specific page areas (ads, timestamps) from comparison
+- **Text extraction**: OCR-based text comparison for semantic changes
+- **Adaptive thresholds**: Different sensitivity for different page regions
+
+## Resources
+
+- [OpenCV Documentation](https://docs.opencv.org/)
+- [pybind11-pixelmatch GitHub](https://github.com/whtsky/pybind11-pixelmatch)
+- [Pixelmatch (original JS library)](https://github.com/mapbox/pixelmatch)
