@@ -616,6 +616,51 @@ window.initVisualSelector = function (opts) {
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 1;
 
+        const handles = [
+            { x: x, y: y },                    // top-left
+            { x: x + w, y: y },                // top-right
+            { x: x, y: y + h },                // bottom-left
+            { x: x + w, y: y + h }             // bottom-right
+        ];
+
+        handles.forEach(handle => {
+            ctx.fillRect(handle.x - HANDLE_SIZE/2, handle.y - HANDLE_SIZE/2, HANDLE_SIZE, HANDLE_SIZE);
+            ctx.strokeRect(handle.x - HANDLE_SIZE/2, handle.y - HANDLE_SIZE/2, HANDLE_SIZE, HANDLE_SIZE);
+        });
+    }
+
+    function isInsideBox(x, y) {
+        if (!drawnBox) return false;
+
+        const drawX = drawnBox.width >= 0 ? drawnBox.x : drawnBox.x + drawnBox.width;
+        const drawY = drawnBox.height >= 0 ? drawnBox.y : drawnBox.y + drawnBox.height;
+        const drawW = Math.abs(drawnBox.width);
+        const drawH = Math.abs(drawnBox.height);
+
+        return x >= drawX && x <= drawX + drawW && y >= drawY && y <= drawY + drawH;
+    }
+
+    function getResizeHandle(x, y) {
+        if (!drawnBox) return null;
+
+        const drawX = drawnBox.width >= 0 ? drawnBox.x : drawnBox.x + drawnBox.width;
+        const drawY = drawnBox.height >= 0 ? drawnBox.y : drawnBox.y + drawnBox.height;
+        const drawW = Math.abs(drawnBox.width);
+        const drawH = Math.abs(drawnBox.height);
+
+        const handles = {
+            'tl': { x: drawX, y: drawY },
+            'tr': { x: drawX + drawW, y: drawY },
+            'bl': { x: drawX, y: drawY + drawH },
+            'br': { x: drawX + drawW, y: drawY + drawH }
+        };
+
+        for (const [key, handle] of Object.entries(handles)) {
+            if (Math.abs(x - handle.x) <= HANDLE_SIZE && Math.abs(y - handle.y) <= HANDLE_SIZE) {
+                return key;
+            }
+        }
+
         return null;
     }
 
