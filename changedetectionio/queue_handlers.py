@@ -94,6 +94,59 @@ class RecheckPriorityQueue:
                     heapq.heapify(self._priority_items)
                     raise  # Re-raise to be caught by outer exception handler
 
+            # Signal emission after successful queue - log but don't fail the operation
+            # Item is already safely queued, so signal failure shouldn't affect queue state
+            try:
+                self._emit_put_signals(item)
+            except Exception as signal_e:
+                logger.error(f"Failed to emit put signals but item queued successfully: {signal_e}")
+
+            logger.trace(f"Successfully queued item: {self._get_item_uuid(item)}")
+            return True
+
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to put item {self._get_item_uuid(item)}: {type(e).__name__}: {str(e)}")
+            # Item should have been cleaned up in the inner try/except if notification failed
+            return False
+    
+    def get(self, block: bool = True, timeout: Optional[float] = None):
+        """Thread-safe sync get with priority ordering"""
+        logger.trace(f"RecheckQueue.get() called, block={block}, timeout={timeout}")
+        import queue as queue_module
+        try:
+            # Wait for notification (this doesn't return the actual item, just signals availability)
+            self._notification_queue.get(block=block, timeout=timeout)
+
+            # Get highest priority item
+            with self._lock:
+                if not self._priority_items:
+                    logger.critical(f"CRITICAL: Queue notification received but no priority items available")
+                    raise Exception("Priority queue inconsistency")
+                item = heapq.heappop(self._priority_items)
+
+            # Signal emission after successful retrieval - log but don't lose the item
+            # Item is already retrieved, so signal failure shouldn't affect queue state
+            try:
+                self._emit_get_signals()
+            except Exception as signal_e:
+                logger.error(f"Failed to emit get signals but item retrieved successfully: {signal_e}")
+
+            logger.trace(f"RecheckQueue.get() successfully retrieved item: {self._get_item_uuid(item)}")
+            return item
+
+        except queue_module.Empty:
+            # Queue is empty with timeout - expected behavior
+            logger.trace(f"RecheckQueue.get() timed out - queue is empty (timeout={timeout})")
+            raise  # noqa
+        except Exception as e:
+            # Re-raise without logging - caller (worker) will handle and log appropriately
+            logger.trace(f"RecheckQueue.get() failed with exception: {type(e).__name__}: {str(e)}")
+            raise
+    
+    # ASYNC INTERFACE (for workers)
+    async def async_put(self, item, executor=None):
+        """Async put with priority ordering - uses thread pool to avoid blocking
+
         Args:
             item: Item to add to queue
             executor: Optional ThreadPoolExecutor. If None, uses default pool.
