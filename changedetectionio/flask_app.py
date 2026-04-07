@@ -188,6 +188,34 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=3650)  # ~10 years (ef
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 
+# Configure Jinja2 to search for templates in plugin directories
+def _configure_plugin_templates():
+    """Configure Jinja2 loader to include plugin template directories."""
+    from jinja2 import ChoiceLoader, FileSystemLoader
+
+    from changedetectionio.pluggy_interface import get_plugin_template_paths
+
+    # Get plugin template paths
+    plugin_template_paths = get_plugin_template_paths()
+
+    if plugin_template_paths:
+        # Create a ChoiceLoader that searches app templates first, then plugin templates
+        loaders = [app.jinja_loader]  # Keep the default app loader first
+        for path in plugin_template_paths:
+            loaders.append(FileSystemLoader(path))
+
+        app.jinja_loader = ChoiceLoader(loaders)
+        logger.info(
+            f"Configured Jinja2 to search {len(plugin_template_paths)} plugin template directories"
+        )
+
+
+# Configure plugin templates (called after plugins are loaded)
+_configure_plugin_templates()
+csrf = CSRFProtect()
+csrf.init_app(app)
+notification_debug_log = []
+
 @app.template_global()
 def get_darkmode_state():
     css_dark_mode = request.cookies.get('css_dark_mode', 'false')
