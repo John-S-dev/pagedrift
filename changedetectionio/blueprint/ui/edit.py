@@ -188,3 +188,29 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
             except Exception as e:
                 logger.warning(f"Failed to load processor config: {e}")
 
+        for p in datastore.extra_browsers:
+            form.fetch_backend.choices.append(p)
+
+        form.fetch_backend.choices.append(("system", gettext('System settings default')))
+
+        # form.browser_steps[0] can be assumed that we 'goto url' first
+
+        if datastore.proxy_list is None:
+            # @todo - Couldn't get setattr() etc dynamic addition working, so remove it instead
+            del form.proxy
+        else:
+            form.proxy.choices = [('', gettext('Default'))]
+            for p in datastore.proxy_list:
+                form.proxy.choices.append(tuple((p, datastore.proxy_list[p]['label'])))
+
+
+        if request.method == 'POST' and form.validate():
+
+            extra_update_obj = {
+                'consecutive_filter_failures': 0,
+                'last_error' : False
+            }
+
+            if request.args.get('unpause_on_save'):
+                extra_update_obj['paused'] = False
+
