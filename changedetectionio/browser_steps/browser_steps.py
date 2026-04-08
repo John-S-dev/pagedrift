@@ -60,3 +60,63 @@ browser_step_ui_config = {'Choose one': '0 0',
                           }
 
 
+        elem = self.page.get_by_text(value)
+        count = await elem.count()
+        logger.debug(f"Clicking element containing text - {count} elements found")
+        if count:
+            await elem.first.click(delay=randint(200, 500), timeout=self.action_timeout)
+                
+
+    async def action_enter_text_in_field(self, selector, value):
+        if not selector or not len(selector.strip()):
+            return
+
+        await self.page.fill(selector, value, timeout=self.action_timeout)
+
+    async def action_execute_js(self, selector, value):
+        if not value:
+            return None
+            
+        return await self.page.evaluate(value)
+
+    async def action_click_element(self, selector, value):
+        logger.debug("Clicking element")
+        if not selector or not len(selector.strip()):
+            return
+
+        await self.page.click(selector=selector, timeout=self.action_timeout + 20 * 1000, delay=randint(200, 500))
+
+    async def action_click_element_if_exists(self, selector, value):
+        import playwright._impl._errors as _api_types
+        logger.debug("Clicking element if exists")
+        if not selector or not len(selector.strip()):
+            return
+            
+        try:
+            await self.page.click(selector, timeout=self.action_timeout, delay=randint(200, 500))
+        except _api_types.TimeoutError:
+            return
+        except _api_types.Error:
+            # Element was there, but page redrew and now its long long gone
+            return
+                
+
+    async def action_click_x_y(self, selector, value):
+        if not value or not re.match(r'^\s?\d+\s?,\s?\d+\s?$', value):
+            logger.warning("'Click X,Y' step should be in the format of '100 , 90'")
+            return
+
+        try:
+            x, y = value.strip().split(',')
+            x = int(float(x.strip()))
+            y = int(float(y.strip()))
+            
+            await self.page.mouse.click(x=x, y=y, delay=randint(200, 500))
+                
+        except Exception as e:
+            logger.error(f"Error parsing x,y coordinates: {str(e)}")
+
+    async def action__select_by_option_text(self, selector, value):
+        if not selector or not len(selector.strip()):
+            return
+
