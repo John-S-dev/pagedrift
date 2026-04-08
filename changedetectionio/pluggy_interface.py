@@ -351,3 +351,83 @@ def get_itemprop_availability_from_plugin(content, fetcher_name, fetcher_instanc
     return None
 
 
+def get_active_plugins():
+    """Get a list of active plugins with their descriptions.
+
+    Returns:
+        list: List of dictionaries with plugin information:
+            [
+                {'name': 'plugin_name', 'description': 'Plugin description'},
+                ...
+            ]
+    """
+    active_plugins = []
+
+    # Get all registered plugins
+    for plugin_name, plugin_obj in plugin_manager.list_name_plugin():
+        # Skip built-in plugins (they start with 'builtin_')
+        if plugin_name.startswith('builtin_'):
+            continue
+
+        # Get plugin description if available
+        description = None
+        if hasattr(plugin_obj, '__doc__') and plugin_obj.__doc__:
+            description = plugin_obj.__doc__.strip().split('\n')[0]  # First line only
+        elif hasattr(plugin_obj, 'description'):
+            description = plugin_obj.description
+
+        # Try to get a friendly name from the plugin
+        friendly_name = plugin_name
+        if hasattr(plugin_obj, 'name'):
+            friendly_name = plugin_obj.name
+
+        active_plugins.append({
+            'name': friendly_name,
+            'description': description or 'No description available'
+        })
+
+    return active_plugins
+
+
+def get_fetcher_capabilities(watch, datastore):
+    """Get capability flags for a watch's fetcher.
+
+    Args:
+        watch: The watch object/dict
+        datastore: The datastore to resolve 'system' fetcher
+
+    Returns:
+        dict: Dictionary with capability flags:
+            {
+                'supports_browser_steps': bool,
+                'supports_screenshots': bool,
+                'supports_xpath_element_data': bool
+            }
+    """
+    # Get the fetcher name from watch
+    fetcher_name = watch.get('fetch_backend', 'system')
+
+    # Resolve 'system' to actual fetcher
+    if fetcher_name == 'system':
+        fetcher_name = datastore.data['settings']['application'].get('fetch_backend', 'html_requests')
+
+    # Get the fetcher class
+    from changedetectionio import content_fetchers
+
+    # Try built-in fetchers first, then plugin-provided fetchers
+    fetcher_class = None
+    if hasattr(content_fetchers, fetcher_name):
+        fetcher_class = getattr(content_fetchers, fetcher_name)
+    else:
+        # Query all plugins for registered fetchers
+        for fetcher_registration in plugin_manager.hook.register_content_fetcher():
+            if fetcher_registration and fetcher_registration[0] == fetcher_name:
+                fetcher_class = fetcher_registration[1]
+                break
+
+    # Log + build from the shared FetcherCapabilities model. Return a plain dict so
+    # callers (e.g. blueprint/ui/edit.py) can still add their own extra capability keys.
+    caps = content_fetchers._log_fetcher_capabilities(fetcher_class, fetcher_name, uuid=watch.get('uuid'))
+    return caps.model_dump()
+
+
