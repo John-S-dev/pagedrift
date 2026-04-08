@@ -8,6 +8,10 @@ __all__ = ['EntityPersistenceMixin', 'watch_base']
 
 from ..browser_steps.browser_steps import browser_steps_get_valid_steps
 
+USE_SYSTEM_DEFAULT_NOTIFICATION_FORMAT_FOR_WATCH = 'System default'
+CONDITIONS_MATCH_LOGIC_DEFAULT = 'ALL'
+
+
 class watch_base(dict):
     """
     Base watch domain model (inherits from dict for backward compatibility).
