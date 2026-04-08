@@ -190,3 +190,75 @@ def perl_style_slash_enclosed_regex_to_options(regex):
 
     return regex
 
+# Return str Utf-8 of matched rules
+# 'xpath1:'
+@lxml_guarded
+def xpath1_filter(xpath_filter, html_content, append_pretty_line_formatting=False, is_xml=False):
+    from lxml import etree, html
+
+    # Own parser, not lxml's process-global default (which parser=None would select).
+    parser = lxml_html_parser()
+    tree = None
+    try:
+        if is_xml:
+            # So that we can keep CDATA for cdata_in_document_to_text() to process
+            parser = etree.XMLParser(strip_cdata=False, resolve_entities=False, no_network=True)
+            # For XML/RSS content, use etree.fromstring to properly handle XML declarations
+            tree = etree.fromstring(html_content.encode('utf-8') if isinstance(html_content, str) else html_content, parser=parser)
+        else:
+            tree = html.fromstring(html_content, parser=parser)
+        html_block = ""
+
+        # Build namespace map for XPath queries
+        namespaces = {'re': 'http://exslt.org/regular-expressions'}
+
+        # NOTE: lxml's native xpath() does NOT support empty string prefix for default namespace
+        # For documents with default namespace (RSS/Atom feeds), users must use:
+        #   - local-name(): //*[local-name()='title']/text()
+        #   - Or use xpath_filter (not xpath1_filter) which supports default namespaces
+        # XPath spec: unprefixed element names have no namespace, not the default namespace
+
+        r = tree.xpath(xpath_filter.strip(), namespaces=namespaces)
+        #@note: xpath1 (lxml) does NOT automatically handle default namespaces
+        #@note: Use //*[local-name()='element'] or switch to xpath_filter for default namespace support
+        #@note: //title/text() wont work where <title>CDATA.. (use cdata_in_document_to_text first)
+
+        for element in r:
+            # When there's more than 1 match, then add the suffix to separate each line
+            # And where the matched result doesn't include something that will cause Inscriptis to add a newline
+            # (This way each 'match' reliably has a new-line in the diff)
+            # Divs are converted to 4 whitespaces by inscriptis
+            if append_pretty_line_formatting and len(html_block) and (not hasattr(element, 'tag') or not element.tag in (['br', 'hr', 'div', 'p'])):
+                html_block += TEXT_FILTER_LIST_LINE_SUFFIX
+
+            # Some kind of text, UTF-8 or other
+            if isinstance(element, (str, bytes)):
+                html_block += element
+            else:
+                # Return the HTML/XML which will get parsed as text
+                # Use 'xml' method for RSS/XML content, 'html' for HTML content
+                # parser will be XMLParser if we detected XML content
+                method = 'xml' if (is_xml or isinstance(parser, etree.XMLParser)) else 'html'
+                html_block += etree.tostring(element, pretty_print=True, method=method, encoding='unicode')
+
+        return html_block
+    finally:
+        # Explicitly clear the tree to free memory
+        # lxml trees can hold significant memory, especially with large documents
+        if tree is not None:
+            tree.clear()
+
+# Extract/find element
+def extract_element(find='title', html_content=''):
+    from bs4 import BeautifulSoup
+
+    #Re #106, be sure to handle when its not found
+    element_text = None
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+    result = soup.find(find)
+    if result and result.string:
+        element_text = result.string.strip()
+
+    return element_text
+
