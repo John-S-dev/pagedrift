@@ -2830,3 +2830,43 @@ msgstr "Регулярний вираз - приклад"
 msgid "Don't forget to consider the white-space at the start of a line"
 msgstr "Не забудьте врахувати пробіли на початку рядка"
 
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr "Відновити авто-планування"
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr "Призупинити авто-чергу завдань"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling is paused - click to resume"
+msgstr "Планування на паузі - натисніть для відновлення"
+
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Увімкнути сповіщення"
+
+#: changedetectionio/templates/menu.html
+msgid "Mute notifications"
+msgstr "Вимкнути сповіщення"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Сповіщення вимкнено - натисніть для увімкнення"
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "РЕДАГУВАТИ"
+
+#: changedetectionio/templates/menu.html
+msgid "LOG OUT"
+msgstr "ВИЙТИ"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Виявлення змін веб-сайтів та сповіщення."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Переключити Світлий/Темний режим"
+
