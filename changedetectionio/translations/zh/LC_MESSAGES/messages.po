@@ -4309,3 +4309,43 @@ msgstr "阻止文本来自该监控项的 CSS/JSON 过滤结果"
 msgid "All lines here must not exist (think of each line as \"OR\")"
 msgstr "此处所有行必须不存在（每行视为“或”）"
 
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "取消静音通知"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "通知已静音 - 点击取消静音"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "编辑"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "网站变更检测与通知。"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "切换亮/暗模式"
+
