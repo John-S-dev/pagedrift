@@ -111,6 +111,22 @@ def _thinking_extra_body(model: str, budget: int) -> dict | None:
     return {'generationConfig': {'thinkingConfig': {'thinkingBudget': budget}}}
 
 
+def _cached_system(text: str, model: str = '') -> dict:
+    """Wrap a system prompt, adding Anthropic prompt-caching headers only for Anthropic models.
+    Gemini and other providers have their own caching APIs that break when they receive
+    cache_control, so we only apply it where it's supported.
+    """
+    is_anthropic = model.startswith('claude') or model.startswith('anthropic/')
+    if is_anthropic:
+        return {'role': 'system', 'content': [{'type': 'text', 'text': text, 'cache_control': {'type': 'ephemeral'}}]}
+    return {'role': 'system', 'content': text}
+
+
+# Output-token cap for the JSON-returning calls (intent eval, preview, setup/prefilter).
+# Mirrors client.py's _MAX_COMPLETION_TOKENS so the multiplier helper has a base value
+# to scale; cloud-LLM users hit this default unmodified, preserving prior cost defaults.
+JSON_RESPONSE_MAX_TOKENS = 400
+
 # Default prompt used when the user hasn't configured llm_change_summary.
 # This owns the OUTPUT FORMAT (structure, sections, style, language). The system prompt
 # in prompt_builder.build_change_summary_system_prompt() only covers how to READ the diff.
