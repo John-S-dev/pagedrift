@@ -202,3 +202,20 @@ def _available_processors_cached(locale_str):
     # Return as tuples without weight (for backwards compatibility)
     return [(name, desc) for name, desc, weight in available]
 
+def available_processors():
+    """
+    Get a list of processors by name and description for the UI elements.
+    Can be filtered via DISABLED_PROCESSORS environment variable (comma-separated list).
+
+    This function delegates to a locale-aware cached version to ensure translations
+    are cached per-language instead of globally.
+
+    :return: A list of tuples (processor_name, translated_description)
+    """
+    # Get current locale and use it as cache key
+    # Convert Babel Locale object to string for use as cache key
+    locale = get_locale()
+    locale_str = str(locale) if locale else 'en'
+    return _available_processors_cached(locale_str)
+
+
