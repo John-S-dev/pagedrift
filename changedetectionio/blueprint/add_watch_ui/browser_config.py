@@ -53,3 +53,35 @@ def is_visual_capable(fetch_backend, datastore):
     return not missing
 
 
+def system_default_description(datastore):
+    """Label for whatever backend 'system' currently points at."""
+    from changedetectionio import content_fetchers
+
+    system_backend = datastore.data['settings']['application'].get('fetch_backend') or 'html_requests'
+    return str(dict(content_fetchers.available_fetchers()).get(system_backend, system_backend))
+
+
+def radio_choices(datastore):
+    """(value, label) for the Add-Watch browser radio list, system default first.
+
+    'System settings default' is always listed - with the reason in its own label when
+    the global default cannot render a preview, because greying it out explains why it
+    is unavailable where silently dropping it does not. Which entries are unusable is
+    reported separately by unusable_values(); WTForms cannot carry per-option render_kw
+    through a RadioField, so the disabled attribute is applied when rendering.
+    """
+    from flask_babel import gettext
+
+    described = system_default_description(datastore)
+
+    if is_visual_capable(SYSTEM_DEFAULT, datastore):
+        system_label = gettext('System settings default (%(browser)s)', browser=described)
+    else:
+        system_label = gettext('System settings default (%(browser)s - no live preview)', browser=described)
+
+    return [(SYSTEM_DEFAULT, system_label)] + list_visual_browser_choices(datastore)
+
+
+def unusable_values(datastore):
+    """Values that are listed for explanation only and must render disabled."""
+    return set() if is_visual_capable(SYSTEM_DEFAULT, datastore) else {SYSTEM_DEFAULT}
