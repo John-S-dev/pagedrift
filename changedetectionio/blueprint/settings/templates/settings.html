@@ -253,3 +253,49 @@ nav
                 </div>
                 <br>
 
+
+            </div>
+                <div class="tab-pane-inner" id="timedate">
+                <div class="pure-control-group">
+                    {{ _('Ensure the settings below are correct, they are used to manage the time schedule for checking your web page watches.') }}
+                </div>
+                <div class="pure-control-group">
+                    <p><strong>{{ _('UTC Time & Date from Server:') }}</strong> <span id="utc-time" >{{ utc_time }}</span></p>
+                    <p><strong>{{ _('Local Time & Date in Browser:') }}</strong> <span class="local-time" data-utc="{{ utc_time }}"></span></p>
+                    <div>
+                       {{ render_field(form.application.form.scheduler_timezone_default) }}
+                        <datalist id="timezones" style="display: none;">
+                            {%- for timezone in available_timezones -%}<option value="{{ timezone }}">{{ timezone }}</option>{%- endfor -%}
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane-inner" id="ui-options">
+                <div class="pure-control-group">
+                    {{ render_checkbox_field(form.application.form.ui.form.open_diff_in_new_tab, class="open_diff_in_new_tab") }}
+                    <span class="pure-form-message-inline">{{ _('Enable this setting to open the diff page in a new tab. If disabled, the diff page will open in the current tab.') }}</span>
+                </div>
+                <div class="pure-control-group">
+                    {{ render_checkbox_field(form.application.form.ui.form.socket_io_enabled, class="socket_io_enabled") }}
+                    <span class="pure-form-message-inline">{{ _('Realtime UI Updates Enabled - (Restart required if this is changed)') }}</span>
+                </div>
+                <div class="pure-control-group">
+                    {{ render_checkbox_field(form.application.form.ui.form.favicons_enabled, class="") }}
+                    <span class="pure-form-message-inline">{{ _('Enable or Disable Favicons next to the watch list') }}</span>
+                </div>
+                <div class="pure-control-group">
+                    {{ render_checkbox_field(form.application.form.ui.use_page_title_in_list) }}
+                </div>
+                <div class="pure-control-group">
+                    {{ render_field(form.application.form.pager_size) }}
+                    <span class="pure-form-message-inline">{{ _('Number of items per page in the watch overview list, 0 to disable.') }}</span>
+                </div>
+                <div class="pure-control-group">
+                    {{ render_field(form.application.form.ui.form.timeago_format) }}
+                    <span class="pure-form-message-inline">{{ _('How "Checked" and "Changed" times are shown in the watch overview list.') }}</span>
+                </div>
+                <div class="pure-control-group">
+                    {{ render_field(form.application.form.ui.form.sidebar_mode) }}
+                    <span class="pure-form-message-inline">{{ _('"Collapsed icon rail" keeps the left navigation slim and reveals labels on mouse-over; "Always expanded" keeps labels visible.') }}</span>
+                </div>
+
