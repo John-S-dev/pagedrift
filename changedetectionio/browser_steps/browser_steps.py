@@ -60,6 +60,34 @@ browser_step_ui_config = {'Choose one': '0 0',
                           }
 
 
+# Good reference - https://playwright.dev/python/docs/input
+#                  https://pythonmana.com/2021/12/202112162236307035.html
+#
+# ONLY Works in Playwright because we need the fullscreen screenshot
+class steppable_browser_interface():
+    page = None
+    start_url = None
+    action_timeout = 10 * 1000
+
+    def __init__(self, start_url):
+        self.start_url = start_url
+
+    # Convert and perform "Click Button" for example
+    async def call_action(self, action_name, selector=None, optional_value=None):
+        if self.page is None:
+            logger.warning("Cannot call action on None page object")
+            return
+            
+        now = time.time()
+        call_action_name = re.sub('[^0-9a-zA-Z]+', '_', action_name.lower())
+        if call_action_name == 'choose_one':
+            return
+
+        logger.debug(f"> Action calling '{call_action_name}'")
+        # https://playwright.dev/python/docs/selectors#xpath-selectors
+        if selector and selector.startswith('/') and not selector.startswith('//'):
+            selector = "xpath=" + selector
+
         elem = self.page.get_by_text(value)
         count = await elem.count()
         logger.debug(f"Clicking element containing text - {count} elements found")
