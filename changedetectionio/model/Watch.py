@@ -34,6 +34,11 @@ import re
 from pathlib import Path
 from loguru import logger
 
+# Module-level favicon filename cache: data_dir → basename (or None)
+# Keyed by data_dir so it survives Watch object recreation, deepcopy, and concurrent requests.
+# Invalidated explicitly when the favicon is saved or the watch history is cleared.
+_FAVICON_FILENAME_CACHE: dict = {}
+
 minimum_seconds_recheck_time = int(os.getenv('MINIMUM_SECONDS_RECHECK_TIME', 3))
 mtable = {'seconds': 1, 'minutes': 60, 'hours': 3600, 'days': 86400, 'weeks': 86400 * 7}
 
