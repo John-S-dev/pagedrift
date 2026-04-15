@@ -28,6 +28,16 @@ class FetcherCapabilities(BaseModel):
         })
 
 
+def get_playwright_bypass_csp():
+    """Return whether Playwright-compatible browser contexts should bypass CSP.
+
+    Bypassing CSP remains enabled by default for backward compatibility. Some
+    remote CDP implementations do not support ``Page.setBypassCSP``; operators
+    can disable the option by setting ``PLAYWRIGHT_BYPASS_CSP=false``.
+    """
+    return strtobool(os.getenv('PLAYWRIGHT_BYPASS_CSP', 'true'))
+
+
 def manage_user_agent(headers, current_ua=''):
     """
     Basic setting of user-agent
