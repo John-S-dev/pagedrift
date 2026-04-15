@@ -256,6 +256,36 @@ def _filter_url(**overrides):
 
 
 @app.template_global()
+def get_sidebar_mode_class():
+    """Body class(es) that drive the left-rail behaviour (see parts/_action_sidebar.scss).
+
+    Only the modes offered by MENU_SIDEBAR_ACTIONMODES are honoured - anything else in the
+    datastore (a stale value from an older release, hand-edited JSON) falls back to
+    MENU_SIDEBAR_ACTIONMODES_DEFAULT rather than leaking through as a body class.
+
+    'expandable'      -> icon-only rail, rolls out over the content on hover/focus
+    'pinned-expanded' -> rail always expanded, labels visible at rest
+    'minimal'         -> icon-only rail that never expands
+    """
+
+    # 'actionsidebar-minimal'   - collapsed icon rail (hover-to-expand lives in CSS + static/js/sidebar.js)
+    # 'actionsidebar-no-expand' - opts that rail out of hover-to-expand
+    # 'actionside-bar-on'       - always-open rail
+    # 'action-side-bar-expanded'- expanded logo/stats block
+    body_classes = {
+        'expandable': 'actionsidebar-minimal',
+        'pinned-expanded': 'actionside-bar-on action-side-bar-expanded',
+        'minimal': 'actionsidebar-minimal actionsidebar-no-expand',
+    }
+
+    mode = datastore.data['settings']['application'].get('ui', {}).get('sidebar_mode')
+    if mode not in {choice for choice, _label in MENU_SIDEBAR_ACTIONMODES} or mode not in body_classes:
+        mode = MENU_SIDEBAR_ACTIONMODES_DEFAULT
+
+    return body_classes[mode]
+
+
+@app.template_global()
 def get_blueprint_class():
     """Body class for the currently-executing blueprint, e.g. 'blueprint-watchlist'
     or 'blueprint-ui-ui_queue' (dots → dashes), so CSS can target a section. Empty
