@@ -81,3 +81,54 @@ def construct_blueprint(datastore: ChangeDetectionStore):
             else:
                 n_object['notification_format'] = datastore.data['settings']['application'].get('notification_format')
 
+            if 'notification_title' in request.form and request.form['notification_title'].strip():
+                n_object['notification_title'] = request.form.get('notification_title', '').strip()
+            elif datastore.data['settings']['application'].get('notification_title'):
+                n_object['notification_title'] = datastore.data['settings']['application'].get('notification_title')
+            else:
+                n_object['notification_title'] = "Test title"
+
+            if 'notification_body' in request.form and request.form['notification_body'].strip():
+                n_object['notification_body'] = request.form.get('notification_body', '').strip()
+            elif datastore.data['settings']['application'].get('notification_body'):
+                n_object['notification_body'] = datastore.data['settings']['application'].get('notification_body')
+            else:
+                n_object['notification_body'] = "Test body"
+
+            n_object['as_async'] = False
+
+            #  Same like in notification service, should be refactored
+            dates = list(watch.history.keys())
+            trigger_text = ''
+            snapshot_contents = ''
+
+            # Could be called as a 'test notification' with only 1 snapshot available
+            prev_snapshot = "Example text: example test\nExample text: change detection is cool\nExample text: some more examples\n"
+            current_snapshot = "Example text: example test\nExample text: change detection is fantastic\nExample text: even more examples\nExample text: a lot more examples"
+
+            if len(dates) > 1:
+                prev_snapshot = watch.get_history_snapshot(timestamp=dates[-2])
+                current_snapshot = watch.get_history_snapshot(timestamp=dates[-1])
+
+            n_object.update(set_basic_notification_vars(current_snapshot=current_snapshot,
+                                                        prev_snapshot=prev_snapshot,
+                                                        watch=watch,
+                                                        triggered_text=trigger_text,
+                                                        timestamp_changed=dates[-1] if dates else None))
+
+
+            sent_obj = process_notification(n_object, datastore)
+
+        except Exception as e:
+            logger.error(e)
+            e_str = str(e)
+            # Remove this text which is not important and floods the container
+            e_str = e_str.replace(
+                "DEBUG - <class 'apprise.decorators.base.CustomNotifyPlugin.instantiate_plugin.<locals>.CustomNotifyPluginWrapper'>",
+                '')
+
+            return make_response(e_str, 400)
+
+        return 'OK - Sent test notifications'
+
+    return notification_blueprint
