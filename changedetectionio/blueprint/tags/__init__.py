@@ -27,3 +27,68 @@ def construct_blueprint(datastore: ChangeDetectionStore):
 
         tag_count = Counter(tag for watch in datastore.data['watching'].values() if watch.get('tags') for tag in watch['tags'])
 
+        from changedetectionio import processors
+        output = render_template("groups-overview.html",
+                                 app_rss_token=datastore.data['settings']['application'].get('rss_access_token'),
+                                 available_tags=sorted_tags,
+                                 form=add_form,
+                                 generate_tag_colors=processors.generate_processor_badge_colors,
+                                 tag_count=tag_count,
+                                 wcag_text_color=processors.wcag_text_color,
+                                 )
+
+        return output
+
+    @tags_blueprint.route("/add", methods=['POST'])
+    @login_optionally_required
+    def form_tag_add():
+        from .form import SingleTag
+        add_form = SingleTag(request.form)
+
+        if not add_form.validate():
+            for widget, l in add_form.errors.items():
+                flash(','.join(l), 'error')
+            return redirect(url_for('tags.tags_overview_page'))
+
+        title = request.form.get('name').strip()
+
+        if datastore.tag_exists_by_name(title):
+            flash(gettext('The tag "{}" already exists').format(title), "error")
+            return redirect(url_for('tags.tags_overview_page'))
+
+        datastore.add_tag(title)
+        flash(gettext("Tag added"))
+
+
+        return redirect(url_for('tags.tags_overview_page'))
+
+    @tags_blueprint.route("/mute/<uuid_str:uuid>", methods=['POST'])
+    @login_optionally_required
+    def mute(uuid):
+        tag = datastore.data['settings']['application']['tags'].get(uuid)
+        if tag:
+            tag['notification_muted'] = not tag['notification_muted']
+            tag.commit()
+        return redirect(url_for('tags.tags_overview_page'))
+
+    @tags_blueprint.route("/delete/<uuid_str:uuid>", methods=['POST'])
+    @login_optionally_required
+    def delete(uuid):
+        # Delete the tag from settings immediately
+        if datastore.data['settings']['application']['tags'].get(uuid):
+            del datastore.data['settings']['application']['tags'][uuid]
+
+        # Remove tag from all watches in background thread to avoid blocking
+        def remove_tag_background(tag_uuid):
+            """Background thread to remove tag from watches - discarded after completion."""
+            removed_count = 0
+            try:
+                for watch_uuid, watch in datastore.data['watching'].items():
+                    if watch.get('tags') and tag_uuid in watch['tags']:
+                        watch['tags'].remove(tag_uuid)
+                        watch.commit()
+                        removed_count += 1
+                logger.info(f"Background: Tag {tag_uuid} removed from {removed_count} watches")
+            except Exception as e:
+                logger.error(f"Error removing tag from watches: {e}")
+
