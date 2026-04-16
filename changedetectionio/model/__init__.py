@@ -34,6 +34,70 @@ class watch_base(dict):
         The dream is a 3-level override hierarchy:
             Watch settings → Tag/Group settings → Global settings
 
+    Restock Detection:
+        in_stock_only (bool): Only trigger on in-stock transitions
+        follow_price_changes (bool): Monitor price changes
+        has_ldjson_price_data (bool|None): Whether page has LD-JSON price data
+        track_ldjson_price_data (str|None): Track LD-JSON price data ('ACCEPT', 'REJECT', None)
+        price_change_threshold_percent (float|None): Minimum price change % to trigger
+
+    Notifications:
+        notification_urls (List[str]): Apprise URLs for notifications
+        notification_title (str|None): Custom notification title template
+        notification_body (str|None): Custom notification body template
+        notification_format (str): Notification format (e.g., 'System default', 'Text', 'HTML')
+        notification_muted (bool): Disable notifications for this watch
+        notification_screenshot (bool): Include screenshot in notifications
+        notification_alert_count (int): Number of notifications sent
+        last_notification_error (str|None): Last notification error message
+        body (str|None): DEPRECATED? Legacy notification body field
+        filter_failure_notification_send (bool): Send notification on filter failures
+
+    History & State:
+        date_created (int|None): Unix timestamp of watch creation
+        last_checked (int): Unix timestamp of last check
+        last_viewed (int): History snapshot key of last user view
+        last_error (str|bool): Last error message or False if no error
+        check_count (int): Total number of checks performed
+        fetch_time (float): Duration of last fetch in seconds
+        consecutive_filter_failures (int): Counter for consecutive filter match failures
+        previous_md5 (str|bool): MD5 hash of previous content
+        history_snapshot_max_length (int|None): Max history snapshots to keep (None = use global)
+
+    Conditions:
+        conditions (dict): Custom conditions for change detection logic
+        conditions_match_logic (str): Logic operator ('ALL', 'ANY') for conditions
+
+    Metadata:
+        content-type (str|None): Content-Type from last fetch
+        remote_server_reply (str|None): Server header from last response
+        ignore_status_codes (List[int]|None): HTTP status codes to ignore
+        use_page_title_in_list (bool|None): Display page title in watch list (None = use system default)
+
+    Instance Attributes (not serialized):
+        __datastore: Reference to parent DataStore (set externally after creation)
+        data_dir: Filesystem path for this watch's data directory
+
+    Notes:
+        - Many fields default to None to distinguish "not set" from "set to default"
+        - When field is None, system-level defaults are used
+        - Processor-specific configs (e.g., processor_config_*) are NOT stored in watch.json
+          They are stored in separate {processor_name}.json files
+        - This class is used for both Watch and Tag objects (tags reuse the structure)
+    """
+
+    def __init__(self, *arg, **kw):
+        # Store datastore reference (common to Watch and Tag)
+        # Use single underscore to avoid name mangling issues in subclasses
+        self._datastore = kw.get('__datastore')
+        if kw.get('__datastore'):
+            del kw['__datastore']
+
+        # Store datastore_path (common to Watch and Tag)
+        self._datastore_path = kw.get('datastore_path')
+        if kw.get('datastore_path'):
+            del kw['datastore_path']
+
         # IMPORTANT: Don't initialize __watch_was_edited yet!
         # We'll initialize it AFTER the initial update() call below
         # This prevents marking the watch as edited during initialization
