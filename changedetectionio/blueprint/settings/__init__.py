@@ -105,3 +105,57 @@ def construct_blueprint(datastore: ChangeDetectionStore):
 
                 datastore.data['settings']['application'].update(app_update)
 
+                # LLM config lives under settings.application.llm.* (post update_31).
+                # Hydrate the stored dict into LLMSettings, then merge form input over it.
+                # WTForms field names match LLMSettings field names exactly, so both sides
+                # of the merge use the same key shape.
+                existing_llm = LLMSettings.model_validate(
+                    datastore.data['settings']['application'].get('llm') or {}
+                )
+
+                llm_form_input = dict(form.data.get('llm') or {})
+
+                # Empty IntegerField submissions come back as None from WTForms;
+                # the schema declares those fields as strict `int`, so passing
+                # them through would fail validation. Treat None like the
+                # absent-key case: keep the stored value, don't merge.
+                llm_form_input = {k: v for k, v in llm_form_input.items() if v is not None}
+
+                # PasswordField never re-renders, so a blank submitted value means
+                # "keep stored key" — drop it from the merge.
+                if not (llm_form_input.get('api_key') or '').strip():
+                    llm_form_input.pop('api_key', None)
+
+                # Env-var overrides make these fields read-only in the UI — ignore form input.
+                if os.getenv('LLM_TOKEN_BUDGET_MONTH', '').strip():
+                    llm_form_input.pop('token_budget_month', None)
+                if os.getenv('LLM_MAX_INPUT_CHARS', '').strip():
+                    llm_form_input.pop('max_input_chars', None)
+
+                # System-managed counters must never come from the form.
+                for protected in LLMSettings.PROTECTED_FIELDS:
+                    llm_form_input.pop(protected, None)
+
+                merged = LLMSettings.model_validate({**existing_llm.model_dump(), **llm_form_input})
+
+                # Clearing the model field strips only the provider-connection fields.
+                # User toggles, budgets, prompts and system counters survive (matches /llm/clear).
+                exclude = set(LLMSettings.CONNECTION_FIELDS) if not merged.model.strip() else None
+                datastore.data['settings']['application']['llm'] = merged.model_dump(exclude=exclude)
+
+                # Handle dynamic worker count adjustment
+                old_worker_count = datastore.data['settings']['requests'].get('workers', 1)
+                new_worker_count = form.data['requests'].get('workers', 1)
+
+                datastore.data['settings']['requests'].update(form.data['requests'])
+                datastore.commit()
+
+                # Clear all checksums to force reprocessing with new settings
+                # Global settings can affect watch behavior (filters, rendering, etc.)
+                datastore.clear_all_last_checksums()
+
+                # Adjust worker count if it changed
+                if new_worker_count != old_worker_count:
+                    from changedetectionio import worker_pool
+                    from changedetectionio.flask_app import update_q, notification_q, app, datastore as ds
+
