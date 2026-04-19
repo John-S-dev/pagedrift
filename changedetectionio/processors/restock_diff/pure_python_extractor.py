@@ -107,3 +107,56 @@ class MicrodataExtractor(HTMLParser):
         self.current_itemprop = None
 
 
+def extract_metadata_pure_python(html_content):
+    """
+    Extract structured metadata from HTML using pure Python parsers.
+
+    Returns a dict with three keys:
+    - 'json-ld': List of parsed JSON-LD objects
+    - 'opengraph': Dict of OpenGraph properties
+    - 'microdata': Dict of microdata properties
+
+    Args:
+        html_content: HTML string to parse
+
+    Returns:
+        dict: Extracted metadata in three formats
+    """
+    result = {
+        'json-ld': [],
+        'opengraph': {},
+        'microdata': {}
+    }
+
+    # Extract JSON-LD
+    try:
+        jsonld_extractor = JSONLDExtractor()
+        jsonld_extractor.feed(html_content)
+        result['json-ld'] = jsonld_extractor.data
+        logger.trace(f"Pure Python: Found {len(jsonld_extractor.data)} JSON-LD blocks")
+    except Exception as e:
+        logger.debug(f"JSON-LD extraction failed: {e}")
+
+    # Extract OpenGraph
+    try:
+        og_extractor = OpenGraphExtractor()
+        og_extractor.feed(html_content)
+        result['opengraph'] = og_extractor.og_data
+        if result['opengraph']:
+            logger.trace(f"Pure Python: Found {len(og_extractor.og_data)} OpenGraph tags")
+    except Exception as e:
+        logger.debug(f"OpenGraph extraction failed: {e}")
+
+    # Extract Microdata
+    try:
+        microdata_extractor = MicrodataExtractor()
+        microdata_extractor.feed(html_content)
+        result['microdata'] = microdata_extractor.microdata
+        if result['microdata']:
+            logger.trace(f"Pure Python: Found microdata: {result['microdata']}")
+    except Exception as e:
+        logger.debug(f"Microdata extraction failed: {e}")
+
+    return result
+
+
