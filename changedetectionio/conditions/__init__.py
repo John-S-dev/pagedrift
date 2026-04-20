@@ -17,3 +17,12 @@ operator_choices = [
     ("in", _l("Contains")),
 ]
 
+# Fields available in the rules
+field_choices = [
+    (None, _l("Choose one - Field")),
+]
+
+# The data we will feed the JSON Rules to see if it passes the test/conditions or not
+EXECUTE_DATA = {}
+
+
