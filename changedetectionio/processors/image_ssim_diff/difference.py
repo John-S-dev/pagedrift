@@ -182,6 +182,44 @@ def _detect_mime_type(img_bytes):
         return 'image/png'
 
 
+def _draw_bounding_box_if_configured(img_bytes, watch, datastore):
+    """
+    Draw blue bounding box on image if configured in processor settings.
+    Uses isolated subprocess to prevent memory leaks from large images.
+
+    Supports two modes:
+    - "Select by element": Use include_filter to find xpath element bbox
+    - "Draw area": Use manually drawn bounding_box from config
+
+    Args:
+        img_bytes: Image bytes (PNG)
+        watch: Watch object
+        datastore: Datastore object
+
+    Returns:
+        Image bytes (possibly with bounding box drawn)
+    """
+    try:
+        # Get processor configuration
+        from changedetectionio import processors
+        processor_instance = processors.difference_detection_processor(datastore, watch.get('uuid'))
+        processor_name = watch.get('processor', 'default')
+        config_filename = f'{processor_name}.json'
+        processor_config = processor_instance.get_extra_watch_config(config_filename)
+
+        if not processor_config:
+            return img_bytes
+
+        selection_mode = processor_config.get('selection_mode', 'draw')
+        x, y, width, height = None, None, None, None
+
+        # Mode 1: Select by element (use include_filter + xpath_data)
+        if selection_mode == 'element':
+            include_filters = watch.get('include_filters', [])
+
+            if include_filters and len(include_filters) > 0:
+                first_filter = include_filters[0].strip()
+
                 # Get xpath_data from watch history
                 history_keys = list(watch.history.keys())
                 if history_keys:
