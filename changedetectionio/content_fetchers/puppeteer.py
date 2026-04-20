@@ -24,6 +24,42 @@ async def _configure_puppeteer_csp(page):
 # Bug 3 in Playwright screenshot handling
 # Some bug where it gives the wrong screenshot size, but making a request with the clip set first seems to solve it
 
+# Screenshots also travel via the ws:// (websocket) meaning that the binary data is base64 encoded
+# which will significantly increase the IO size between the server and client, it's recommended to use the lowest
+# acceptable screenshot quality here
+async def capture_full_page(page, screenshot_format='JPEG', watch_uuid=None, lock_viewport_elements=False):
+    import os
+    import time
+
+    start = time.time()
+    watch_info = f"[{watch_uuid}] " if watch_uuid else ""
+
+    setup_start = time.time()
+    page_height = await page.evaluate("document.documentElement.scrollHeight")
+    page_width = await page.evaluate("document.documentElement.scrollWidth")
+    original_viewport = page.viewport
+    dimensions_time = time.time() - setup_start
+
+    logger.debug(f"{watch_info}Puppeteer viewport size {page.viewport} page height {page_height} page width {page_width} (got dimensions in {dimensions_time:.2f}s)")
+
+    # Bug 3 in Playwright screenshot handling
+    # Some bug where it gives the wrong screenshot size, but making a request with the clip set first seems to solve it
+    # JPEG is better here because the screenshots can be very very large
+
+    # Screenshots also travel via the ws:// (websocket) meaning that the binary data is base64 encoded
+    # which will significantly increase the IO size between the server and client, it's recommended to use the lowest
+    # acceptable screenshot quality here
+
+    # Use PNG for better quality (no compression artifacts), JPEG for smaller size
+    screenshot_type = screenshot_format.lower() if screenshot_format else 'jpeg'
+    # PNG should use quality 100, JPEG uses configurable quality
+    screenshot_quality = 100 if screenshot_type == 'png' else int(os.getenv("SCREENSHOT_QUALITY", 72))
+
+    step_size = SCREENSHOT_SIZE_STITCH_THRESHOLD # Something that will not cause the GPU to overflow when taking the screenshot
+    screenshot_chunks = []
+    y = 0
+    elements_locked = False
+
     # Only lock viewport elements if explicitly enabled (for image_ssim_diff processor)
     # This prevents headers/ads from resizing when viewport changes
     if lock_viewport_elements and page_height > page.viewport['height']:
