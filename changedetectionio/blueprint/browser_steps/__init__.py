@@ -93,6 +93,17 @@ def _ensure_browser_steps_loop():
 
             logger.debug("Browser steps event loop thread started and ready")
 
+def run_async_in_browser_loop(coro):
+    """Run async coroutine using the dedicated browser steps event loop"""
+    _ensure_browser_steps_loop()
+
+    if _browser_steps_loop and not _browser_steps_loop.is_closed():
+        logger.debug("Browser steps using dedicated event loop")
+        future = asyncio.run_coroutine_threadsafe(coro, _browser_steps_loop)
+        return future.result()
+    else:
+        raise RuntimeError("Browser steps event loop is not available")
+
 async def acquire_browser_for_fetcher(fetcher_name, proxy=None, keepalive_ms=None):
     """Acquire a Playwright browser for the given fetcher backend.
 
