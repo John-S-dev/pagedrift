@@ -77,6 +77,10 @@ if 'MALLOC_ARENA_MAX' not in os.environ:
     except Exception:
         pass
 
+# Only global so we can access it in the signal handler
+app = None
+datastore = None
+
 # Parent wrapper or OS sends us a SIGTERM/SIGINT, do everything required for a clean shutdown
 def sigshutdown_handler(_signo, _stack_frame):
     name = signal.Signals(_signo).name
