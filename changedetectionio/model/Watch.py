@@ -96,3 +96,37 @@ def _brotli_save(contents, filepath, mode=None, fallback_uncompressed=False):
                     total_compressed_size += len(compressed_chunk)
                 offset += chunk_size
 
+            # Finalize compression - critical for proper cleanup
+            final_chunk = compressor.finish()
+            if final_chunk:
+                f.write(final_chunk)
+                total_compressed_size += len(final_chunk)
+
+        logger.debug(f"Finished brotli compression - From {original_size} to {total_compressed_size} bytes.")
+
+        # Cleanup: Delete compressor, force Python GC, then force C-level memory release
+        del compressor
+        gc.collect()
+
+        # Force release of C-level memory back to OS (since brotli is a C library)
+        try:
+            ctypes.CDLL('libc.so.6').malloc_trim(0)
+        except Exception:
+            pass  # malloc_trim not available on all systems (e.g., macOS)
+
+        return filepath
+
+    except Exception as e:
+        logger.error(f"Brotli compression error: {e}")
+
+        # Compression failed
+        if fallback_uncompressed:
+            logger.warning(f"Brotli compression failed for {filepath}, saving uncompressed")
+            fallback_path = filepath.replace('.br', '')
+            with open(fallback_path, 'wb') as f:
+                f.write(contents)
+            return fallback_path
+        else:
+            raise Exception(f"Brotli compression failed for {filepath}: {e}")
+
+
