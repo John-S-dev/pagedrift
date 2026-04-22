@@ -118,3 +118,50 @@ field shape — match the spec.
 
 ### Plugin / processor_config_* extensibility
 
+`processor_config_restock_diff` (and future processor configs) are written by
+plugins, not the core. `extra='forbid'` on a Watch input model would reject them.
+
+Options:
+- **Per-processor sub-models.** Each plugin owns its `<Processor>Settings` Pydantic
+  model; Watch input validates only core fields, processor configs validate
+  separately at their own boundary (the per-watch `restock_diff.json`, etc.).
+- **Opaque pass-through.** Watch input model treats `processor_config_*` as a
+  declared dict-typed field. Loses per-key validation but preserves the
+  plugin-extensibility contract.
+
+Recommendation: per-processor sub-models. Matches the file split already done in
+`update_30` (separate `restock_diff.json` per watch).
+
+## Migration order
+
+| Target | Difficulty | Value | Status |
+|---|---|---|---|
+| `LLMSettings` | low | medium | done (this PR) |
+| `App.py` → `AppSettings` (nested) | low | medium | next |
+| `WatchInput` (form/API validator) | medium | **HIGH — closes [GHSA-h3x5-5j56-hm2j][advisory]** | next-next |
+| `TagInput` (form/API validator) | medium | medium | after Watch |
+| `watch_base(dict)` → `BaseModel` | very high | high | separate multi-PR project, much later |
+
+`Tags.py` (TagsDict), `persistence.py`, `schema_utils.py` are not data models — leave alone.
+
+### Concrete next steps
+
+1. **`App.py`.** Pure dict tree under `settings.{application,requests,headers}`. Define
+   nested `BaseModel`s; `LLMSettings` slots in as the existing sub-tree. No call-site
+   churn — just the global settings POST handler. Sets the pattern for nested models.
+
+2. **`WatchInput` BaseModel** for `blueprint/ui/edit.py:225` and `api/Watch.py`. Replace:
+   ```python
+   datastore.data['watching'][uuid].update(form.data)  # CWE-915
+   ```
+   with:
+   ```python
+   validated = WatchInput.model_validate(form.data)
+   datastore.data['watching'][uuid].update(validated.model_dump())
+   ```
+   Closes the unpatched advisory. Should be a security-tagged commit referencing the GHSA.
+
+3. **`TagInput` BaseModel** — same pattern, smaller.
+
+## Gotchas discovered
+
