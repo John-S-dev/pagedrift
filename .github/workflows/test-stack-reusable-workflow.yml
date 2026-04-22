@@ -719,3 +719,48 @@ jobs:
               pkg-config \
               zlib1g-dev
           
+          # Checkout old version and create datastore
+          git checkout 0.49.1
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+          pip install 'pyOpenSSL>=23.2.0'
+
+          echo "=== Running version 0.49.1 to create datastore ==="
+          ALLOW_IANA_RESTRICTED_ADDRESSES=true python3 ./changedetection.py -C -d /tmp/data &
+          APP_PID=$!
+
+          # Wait for app to be ready
+          echo "Waiting for 0.49.1 to be ready..."
+          sleep 6
+
+          # Extract API key from datastore (0.49.1 uses url-watches.json)
+          API_KEY=$(jq -r '.settings.application.api_access_token // empty' /tmp/data/url-watches.json)
+          echo "API Key: ${API_KEY:0:8}..."
+
+          # Create a watch with tag "github-group-test" via API
+          echo "Creating test watch with tag via API..."
+          curl -X POST "http://127.0.0.1:5000/api/v1/watch" \
+            -H "x-api-key: ${API_KEY}" \
+            -H "Content-Type: application/json" \
+            --show-error --fail \
+            --retry 6 --retry-delay 1 --retry-connrefused \
+            -d '{
+              "url": "https://example.com/upgrade-test",
+              "tag": "github-group-test"
+            }'
+
+          echo "✓ Created watch with tag 'github-group-test'"
+
+          # Create a specific test URL watch
+          echo "Creating test URL watch via API..."
+          curl -X POST "http://127.0.0.1:5000/api/v1/watch" \
+            -H "x-api-key: ${API_KEY}" \
+            -H "Content-Type: application/json" \
+            --show-error --fail \
+            -d '{
+              "url": "http://localhost/test.txt"
+            }'
+
+          echo "✓ Created watch for 'http://localhost/test.txt' in version 0.49.1"
+
