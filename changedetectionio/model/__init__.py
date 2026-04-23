@@ -34,6 +34,75 @@ class watch_base(dict):
         The dream is a 3-level override hierarchy:
             Watch settings → Tag/Group settings → Global settings
 
+        Current implementation: MANUAL resolution scattered across codebase
+        - Processors manually check watch.get('field')
+        - Loop through tags to find overrides_watch=True
+        - Fall back to datastore['settings']['application']['field']
+
+        Pydantic implementation: AUTOMATIC resolution via @computed_field
+        - Single source of truth for each setting's resolution logic
+        - Type-safe, testable, self-documenting
+        - Example: watch.resolved_fetch_backend (instead of nested dict navigation)
+
+        See: Watch.py model docstring for detailed Pydantic architecture plan
+        See: Tag.py model docstring for tag override explanation
+        See: processors/restock_diff/processor.py:184-192 for current manual example
+
+    Core Fields:
+        uuid (str): Unique identifier for this watch (auto-generated)
+        url (str): Target URL to monitor for changes
+        title (str|None): Custom display name (overrides page_title if set)
+        page_title (str|None): Title extracted from <title> tag of monitored page
+        tags (List[str]): List of tag UUIDs for categorization
+        tag (str): DEPRECATED - Old single-tag system, use tags instead
+
+    Check Configuration:
+        processor (str): Processor type ('text_json_diff', 'restock_diff', etc.)
+        fetch_backend (str): Fetcher to use ('system', 'html_requests', 'playwright', etc.)
+        method (str): HTTP method ('GET', 'POST', etc.)
+        headers (dict): Custom HTTP headers to send
+        proxy (str|None): Preferred proxy server
+        paused (bool): Whether change detection is paused
+
+    Scheduling:
+        time_between_check (dict): Check interval {'weeks': int, 'days': int, 'hours': int, 'minutes': int, 'seconds': int}
+        time_between_check_use_default (bool): Use global default interval if True
+        time_schedule_limit (dict): Weekly schedule limiting when checks can run
+            Structure: {
+                'enabled': bool,
+                'monday/tuesday/.../sunday': {
+                    'enabled': bool,
+                    'start_time': str ('HH:MM'),
+                    'duration': {'hours': str, 'minutes': str}
+                }
+            }
+
+    Content Filtering:
+        include_filters (List[str]): CSS/XPath selectors to extract content
+        subtractive_selectors (List[str]): Selectors to remove from content
+        ignore_text (List[str]): Text patterns to ignore in change detection
+        trigger_text (List[str]): Text/regex that must be present to trigger change
+        text_should_not_be_present (List[str]): Text that should NOT be present
+        extract_text (List[str]): Regex patterns to extract specific text after filtering
+
+    Text Processing:
+        trim_text_whitespace (bool): Strip leading/trailing whitespace
+        sort_text_alphabetically (bool): Sort lines alphabetically before comparison
+        remove_duplicate_lines (bool): Remove duplicate lines
+        check_unique_lines (bool): Compare against all history for unique lines
+        strip_ignored_lines (bool|None): Remove lines matching ignore patterns
+
+    Change Detection Filters:
+        filter_text_added (bool): Include added text in change detection
+        filter_text_removed (bool): Include removed text in change detection
+        filter_text_replaced (bool): Include replaced text in change detection
+
+    Browser Automation:
+        browser_steps (List[dict]): Browser automation steps for JS-heavy sites
+        browser_steps_last_error_step (int|None): Last step that caused error
+        webdriver_delay (int|None): Seconds to wait after page load
+        webdriver_js_execute_code (str|None): JavaScript to execute before extraction
+
     Restock Detection:
         in_stock_only (bool): Only trigger on in-stock transitions
         follow_price_changes (bool): Monitor price changes
