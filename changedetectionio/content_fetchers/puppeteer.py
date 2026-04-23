@@ -173,3 +173,4 @@ async def capture_full_page(page, screenshot_format='JPEG', watch_uuid=None, loc
         f"Setup: {setup_time:.2f}s, Single chunk: {capture_time:.2f}s, Total: {total_time:.2f}s")
     return screenshot_chunks[0]
 
+
