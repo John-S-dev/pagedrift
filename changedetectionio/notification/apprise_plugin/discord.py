@@ -65,3 +65,69 @@ class NotifyDiscordCustom(NotifyDiscord):
         if self.avatar and (image_url or self.avatar_url):
             payload["avatar_url"] = self.avatar_url if self.avatar_url else image_url
 
+        while position < len(body):
+            # Find the next marker
+            next_removed = body.find(REMOVED_PLACEMARKER_OPEN, position)
+            next_added = body.find(ADDED_PLACEMARKER_OPEN, position)
+            next_changed = body.find(CHANGED_PLACEMARKER_OPEN, position)
+            next_changed_into = body.find(CHANGED_INTO_PLACEMARKER_OPEN, position)
+
+            # Determine which marker comes first
+            if next_removed == -1 and next_added == -1 and next_changed == -1 and next_changed_into == -1:
+                # No more markers, rest is unchanged
+                if position < len(body):
+                    chunks.append(("unchanged", body[position:]))
+                break
+
+            # Find the earliest marker
+            next_marker_pos = None
+            next_marker_type = None
+
+            # Compare all marker positions to find the earliest
+            markers = []
+            if next_removed != -1:
+                markers.append((next_removed, "removed"))
+            if next_added != -1:
+                markers.append((next_added, "added"))
+            if next_changed != -1:
+                markers.append((next_changed, "changed"))
+            if next_changed_into != -1:
+                markers.append((next_changed_into, "changed_into"))
+
+            if markers:
+                next_marker_pos, next_marker_type = min(markers, key=lambda x: x[0])
+
+            # Add unchanged content before the marker
+            if next_marker_pos > position:
+                chunks.append(("unchanged", body[position:next_marker_pos]))
+
+            # Find the closing marker
+            if next_marker_type == "removed":
+                open_marker = REMOVED_PLACEMARKER_OPEN
+                close_marker = REMOVED_PLACEMARKER_CLOSED
+            elif next_marker_type == "added":
+                open_marker = ADDED_PLACEMARKER_OPEN
+                close_marker = ADDED_PLACEMARKER_CLOSED
+            elif next_marker_type == "changed":
+                open_marker = CHANGED_PLACEMARKER_OPEN
+                close_marker = CHANGED_PLACEMARKER_CLOSED
+            else:  # changed_into
+                open_marker = CHANGED_INTO_PLACEMARKER_OPEN
+                close_marker = CHANGED_INTO_PLACEMARKER_CLOSED
+
+            close_pos = body.find(close_marker, next_marker_pos)
+
+            if close_pos == -1:
+                # No closing marker, take rest as this type
+                content = body[next_marker_pos + len(open_marker):]
+                chunks.append((next_marker_type, content))
+                break
+            else:
+                # Extract content between markers
+                content = body[next_marker_pos + len(open_marker):close_pos]
+                chunks.append((next_marker_type, content))
+                position = close_pos + len(close_marker)
+
+        return chunks
+
+
