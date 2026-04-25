@@ -58,3 +58,33 @@ function describeNotificationUrl(url) {
     return {type: scheme || 'other', icon: '🔔', label: names[scheme] || (scheme || u)};
 }
 
+function notificationLines() {
+    return ($('textarea.notification-urls').val() || '')
+        .split('\n').map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
+}
+
+// Re-render the recipient chips from the textarea (the textarea stays the source of truth).
+function renderNotificationRecipients() {
+    var $container = $('#notification-recipients');
+    if (!$container.length) return;
+    var lines = notificationLines();
+    $container.empty();
+    if (!lines.length) { $container.hide(); return; }
+    $container.show();
+
+    lines.forEach(function (line) {
+        var d = describeNotificationUrl(line);
+        if (!d) return;
+        var $chip = $('<span class="notification-chip"></span>').attr('data-url', line);
+        $chip.append($('<span class="notification-chip-icon"></span>').text(d.icon));
+        $chip.append($('<span class="notification-chip-label"></span>').text(d.label).attr('title', line));
+        var $x = $('<a class="notification-chip-remove" title="Remove">✕</a>');
+        $x.on('click', function (e) {
+            e.preventDefault();
+            removeNotificationLine(line);
+        });
+        $chip.append($x);
+        $container.append($chip);
+    });
+}
+
