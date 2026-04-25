@@ -313,3 +313,6 @@ def _is_safe_valid_url(test_url):
     return is_safe_valid_url(test_url)
 
 
+_RE_SANITIZE_TAG = re.compile(r'[^a-zA-Z0-9]')
+
+
