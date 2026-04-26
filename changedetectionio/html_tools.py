@@ -340,6 +340,21 @@ def extract_element(find='title', html_content=''):
 
     return element_text
 
+# Any surrogate still present after json.loads() is a lone one - the decoder already folds
+# well-formed pairs (😀 -> a single emoji character) before we see them. Lone ones
+# come from escapes like \uD800 in the source document, which travel as plain ASCII and so
+# pass straight through the fetched-content sanitizer in processors/base.py.
+_LONE_SURROGATE_RE = re.compile(r'[\ud800-\udfff]')
+
+def _has_lone_surrogate(value):
+    if isinstance(value, str):
+        return bool(_LONE_SURROGATE_RE.search(value))
+    if isinstance(value, dict):
+        return any(_has_lone_surrogate(k) or _has_lone_surrogate(v) for k, v in value.items())
+    if isinstance(value, list):
+        return any(_has_lone_surrogate(v) for v in value)
+    return False
+
 # Mode     - "content" return the content without the matches (default)
 #          - "line numbers" return a list of line numbers that match (int list)
 #
