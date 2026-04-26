@@ -57,6 +57,40 @@ def get_timeago_locale(flask_locale, short=False):
     return locale_map.get(flask_locale, flask_locale)
 
 
+# --- Short ("1m ago") timeago locales -------------------------------------------------
+#
+# timeago only ships 'en_short' and resolves a locale by name via
+# __import__('timeago.locales.<name>'), which checks sys.modules first. So we register a table
+# at runtime per locale. Rather than hard-code a table per language, the short strings are
+# routed through the normal gettext (.po/.mo) workflow: the rows below are wrapped in
+# lazy_gettext (_l) so `python setup.py extract_messages` picks them up, and they resolve to
+# the active locale when rendered. Translators maintain the short forms in messages.po just
+# like every other string.
+#
+# 14 rows of (past, future) following timeago's index order:
+#   now, Ns, 1m, Nm, 1h, Nh, 1d, Nd, 1w, Nw, 1mo, Nmo, 1yr, Nyr   ('%s' = the number)
+# The English source strings double as the gettext msgids.
+
+def _build_short_timeago_rows():
+    from flask_babel import lazy_gettext as _l
+    return [
+        (_l('just now'), _l('right now')),
+        (_l('%ss ago'),  _l('in %ss')),
+        (_l('1m ago'),   _l('in 1m')),
+        (_l('%sm ago'),  _l('in %sm')),
+        (_l('1h ago'),   _l('in 1h')),
+        (_l('%sh ago'),  _l('in %sh')),
+        (_l('1d ago'),   _l('in 1d')),
+        (_l('%sd ago'),  _l('in %sd')),
+        (_l('1w ago'),   _l('in 1w')),
+        (_l('%sw ago'),  _l('in %sw')),
+        (_l('1mo ago'),  _l('in 1mo')),
+        (_l('%smo ago'), _l('in %smo')),
+        (_l('1yr ago'),  _l('in 1yr')),
+        (_l('%syr ago'), _l('in %syr')),
+    ]
+
+
 _short_timeago_rows = None
 _registered_short_locales = set()
 
