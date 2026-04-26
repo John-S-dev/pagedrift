@@ -113,3 +113,5 @@ class TestThinkingExtraBodyFlashLite(unittest.TestCase):
         self.assertEqual(result, {"generationConfig": {"thinkingConfig": {"thinkingBudget": 512}}})
 
 
+if __name__ == "__main__":
+    unittest.main()
