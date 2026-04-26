@@ -93,3 +93,31 @@ def convert_query_param_to_type(value, schema_property):
     return value
 
 
+class Import(Resource):
+    def __init__(self, **kwargs):
+        # datastore is a black box dependency
+        self.datastore = kwargs['datastore']
+
+    @auth.check_token
+    @default_content_type('text/plain') #3547 #3542
+    @validate_openapi_request('importWatches')
+    def post(self):
+        """Import a list of watched URLs with optional watch configuration."""
+        from . import get_watch_schema_properties
+        # Special parameters that are NOT watch configuration
+        special_params = {'tag', 'tag_uuids', 'dedupe', 'proxy'}
+
+        extras = {}
+
+        # Handle special 'proxy' parameter
+        if request.args.get('proxy'):
+            plist = self.datastore.proxy_list
+            if not request.args.get('proxy') in plist:
+                proxy_list_str = ', '.join(plist) if plist else 'none configured'
+                return f"Invalid proxy choice, currently supported proxies are '{proxy_list_str}'", 400
+            else:
+                extras['proxy'] = request.args.get('proxy')
+
+        # Handle special 'dedupe' parameter
+        dedupe = strtobool(request.args.get('dedupe', 'true'))
+
