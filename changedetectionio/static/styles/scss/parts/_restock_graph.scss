@@ -1,0 +1,6 @@
+// Restock price/stock history graph + inline watchlist roll-down.
+// Used by the diff page (#restock-graph) and the watchlist inline graph (.restock-inline-graph);
+// both containers get the .js-restock-graph class from restock-price-graph.js.
+
+#restock-diff { width: 100%; box-sizing: border-box; }
+
