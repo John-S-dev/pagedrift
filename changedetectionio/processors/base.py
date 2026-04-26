@@ -137,3 +137,58 @@ class difference_detection_processor():
                 pass
             return False
 
+        # Now call the fetcher (playwright/requests/etc) with arguments that only a fetcher would need.
+        # When browser_connection_url is None, it method should default to working out whats the best defaults (os env vars etc)
+        self.fetcher = fetcher_obj(proxy_override=proxy_url,
+                                   custom_browser_connection_url=custom_browser_connection_url,
+                                   screenshot_format=self.screenshot_format
+                                   )
+
+        # Stamp the resolved backend name so downstream consumers (processors, plugins)
+        # can read it directly instead of re-deriving it from the fetcher class name.
+        self.fetcher.backend_name = prefer_fetch_backend
+
+        if self.watch.has_browser_steps:
+            self.fetcher.browser_steps = browser_steps_get_valid_steps(self.watch.get('browser_steps', []))
+            self.fetcher.browser_steps_screenshot_path = os.path.join(self.datastore.datastore_path, self.watch.get('uuid'))
+
+        # Tweak the base config with the per-watch ones
+        from changedetectionio.jinja2_custom import render as jinja_render
+        request_headers = CaseInsensitiveDict()
+
+        ua = self.datastore.data['settings']['requests'].get('default_ua')
+        if ua and ua.get(prefer_fetch_backend):
+            request_headers.update({'User-Agent': ua.get(prefer_fetch_backend)})
+
+        request_headers.update(self.watch.get('headers', {}))
+        request_headers.update(self.datastore.get_all_base_headers())
+        request_headers.update(self.datastore.get_all_headers_in_textfile_for_watch(uuid=self.watch.get('uuid')))
+
+        # https://github.com/psf/requests/issues/4525
+        # Requests doesnt yet support brotli encoding, so don't put 'br' here, be totally sure that the user cannot
+        # do this by accident.
+        if 'Accept-Encoding' in request_headers and "br" in request_headers['Accept-Encoding']:
+            request_headers['Accept-Encoding'] = request_headers['Accept-Encoding'].replace(', br', '')
+
+        for header_name in request_headers:
+            request_headers.update({header_name: jinja_render(template_str=request_headers.get(header_name))})
+
+        timeout = self.datastore.data['settings']['requests'].get('timeout')
+
+        request_body = self.watch.get('body')
+        if request_body:
+            request_body = jinja_render(template_str=self.watch.get('body'))
+
+        request_method = self.watch.get('method')
+        ignore_status_codes = self.watch.get('ignore_status_codes', False)
+
+        # Configurable per-watch or global extra delay before extracting text (for webDriver types)
+        system_webdriver_delay = self.datastore.data['settings']['application'].get('webdriver_delay', None)
+        if self.watch.get('webdriver_delay'):
+            self.fetcher.render_extract_delay = self.watch.get('webdriver_delay')
+        elif system_webdriver_delay is not None:
+            self.fetcher.render_extract_delay = system_webdriver_delay
+
+        if self.watch.get('webdriver_js_execute_code') is not None and self.watch.get('webdriver_js_execute_code').strip():
+            self.fetcher.webdriver_js_execute_code = self.watch.get('webdriver_js_execute_code')
+
