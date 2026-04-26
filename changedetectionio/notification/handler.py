@@ -81,3 +81,44 @@ def notification_format_align_with_apprise(n_format : str):
     return n_format
 
 
+def apply_html_color_to_body(n_body: str):
+    # https://github.com/dgtlmoon/changedetection.io/issues/821#issuecomment-1241837050
+    n_body = n_body.replace(REMOVED_PLACEMARKER_OPEN,
+                            f'<span style="{HTML_REMOVED_STYLE}" role="deletion" aria-label="Removed text" title="Removed text">')
+    n_body = n_body.replace(REMOVED_PLACEMARKER_CLOSED, f'</span>')
+    n_body = n_body.replace(ADDED_PLACEMARKER_OPEN,
+                            f'<span style="{HTML_ADDED_STYLE}" role="insertion" aria-label="Added text" title="Added text">')
+    n_body = n_body.replace(ADDED_PLACEMARKER_CLOSED, f'</span>')
+    # Handle changed/replaced lines (old → new)
+    n_body = n_body.replace(CHANGED_PLACEMARKER_OPEN,
+                            f'<span style="{HTML_CHANGED_STYLE}" role="note" aria-label="Changed text" title="Changed text">')
+    n_body = n_body.replace(CHANGED_PLACEMARKER_CLOSED, f'</span>')
+    n_body = n_body.replace(CHANGED_INTO_PLACEMARKER_OPEN,
+                            f'<span style="{HTML_CHANGED_INTO_STYLE}" role="note" aria-label="Changed into" title="Changed into">')
+    n_body = n_body.replace(CHANGED_INTO_PLACEMARKER_CLOSED, f'</span>')
+    return n_body
+
+def apply_discord_markdown_to_body(n_body):
+    """
+    Discord does not support <del> but it supports non-standard ~~strikethrough~~
+    :param n_body:
+    :return:
+    """
+    import re
+    # Define the mapping between your placeholders and markdown markers
+    replacements = [
+        (REMOVED_PLACEMARKER_OPEN, '~~', REMOVED_PLACEMARKER_CLOSED, '~~'),
+        (ADDED_PLACEMARKER_OPEN, '**', ADDED_PLACEMARKER_CLOSED, '**'),
+        (CHANGED_PLACEMARKER_OPEN, '~~', CHANGED_PLACEMARKER_CLOSED, '~~'),
+        (CHANGED_INTO_PLACEMARKER_OPEN, '**', CHANGED_INTO_PLACEMARKER_CLOSED, '**'),
+    ]
+    # So that the markdown gets added without any whitespace following it which would break it
+    for open_tag, open_md, close_tag, close_md in replacements:
+        # Regex: match opening tag, optional whitespace, capture the content, optional whitespace, then closing tag
+        pattern = re.compile(
+            re.escape(open_tag) + r'(\s*)(.*?)?(\s*)' + re.escape(close_tag),
+            flags=re.DOTALL
+        )
+        n_body = pattern.sub(lambda m: f"{m.group(1)}{open_md}{m.group(2)}{close_md}{m.group(3)}", n_body)
+    return n_body
+
