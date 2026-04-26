@@ -48,3 +48,45 @@
     let currentQueue = 0;
     let currentChecking = 0;
 
+    function totalNow() { return currentQueue + currentChecking; }
+
+    function stepValueAt(t) {
+        // Last event at or before t (step function). Log is small; scan from the end.
+        for (let i = eventLog.length - 1; i >= 0; i--) {
+            if (eventLog[i].t <= t) return eventLog[i].v;
+        }
+        return NaN; // before our earliest knowledge -> leave that column blank
+    }
+
+    function pushEvent(now) {
+        const v = totalNow();
+        const last = eventLog[eventLog.length - 1];
+        if (!last || last.v !== v) eventLog.push({ t: now, v: v });
+    }
+
+    function trimLog(now) {
+        const cutoff = now - RETAIN_MS;
+        // Keep the most recent event that predates the cutoff as a baseline anchor.
+        let anchor = -1;
+        for (let i = 0; i < eventLog.length; i++) {
+            if (eventLog[i].t <= cutoff) anchor = i; else break;
+        }
+        if (anchor > 0) eventLog.splice(0, anchor);
+        if (eventLog.length > MAX_EVENTS) eventLog.splice(0, eventLog.length - MAX_EVENTS);
+    }
+
+    function loadLog() {
+        try {
+            const raw = localStorage.getItem(STORE_KEY);
+            if (!raw) return [];
+            const parsed = JSON.parse(raw);
+            const log = Array.isArray(parsed) ? parsed : parsed.log;
+            if (!Array.isArray(log)) return [];
+            eventLog = log.filter(e => e && typeof e.t === "number" && typeof e.v === "number");
+            trimLog(Date.now());
+            return eventLog;
+        } catch (e) {
+            return [];
+        }
+    }
+
