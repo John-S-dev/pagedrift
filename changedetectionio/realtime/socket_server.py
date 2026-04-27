@@ -65,6 +65,99 @@ class SignalHandler:
         except Exception as e:
             logger.error(f"Socket.IO error in handle_general_stats_update: {str(e)}")
 
+    def handle_watch_small_status_update(self, *args, **kwargs):
+        """Small simple status update, for example 'Connecting...'"""
+        watch_uuid = kwargs.get('watch_uuid')
+        status = kwargs.get('status')
+
+        if watch_uuid and status:
+            logger.debug(f"Socket.IO: Received watch small status update '{status}' for UUID {watch_uuid}")
+            # Emit the status update to all connected clients
+            self.socketio_instance.emit("watch_small_status_comment", {
+                "uuid": watch_uuid,
+                "status": status,
+                "event_timestamp": time.time()
+            })
+
+
+
+    def handle_signal(self, *args, **kwargs):
+        logger.trace(f"SignalHandler: Signal received with {len(args)} args and {len(kwargs)} kwargs")
+        # Safely extract the watch UUID from kwargs
+        watch_uuid = kwargs.get('watch_uuid')
+        app_context = kwargs.get('app_context')
+
+        if watch_uuid:
+            # Get the watch object from the datastore
+            watch = self.datastore.data['watching'].get(watch_uuid)
+            if watch:
+                if app_context:
+                    # note
+                    with app_context.app_context():
+                        with app_context.test_request_context():
+                            # Forward to handle_watch_update with the watch parameter
+                            handle_watch_update(self.socketio_instance, watch=watch, datastore=self.datastore)
+                else:
+                    handle_watch_update(self.socketio_instance, watch=watch, datastore=self.datastore)
+
+                logger.trace(f"Signal handler processed watch UUID {watch_uuid}")
+            else:
+                logger.warning(f"Watch UUID {watch_uuid} not found in datastore")
+
+    def handle_watch_bumped_favicon_signal(self, *args, **kwargs):
+        watch_uuid = kwargs.get('watch_uuid')
+        if watch_uuid:
+            # Emit the queue size to all connected clients
+            self.socketio_instance.emit("watch_bumped_favicon", {
+                "uuid": watch_uuid,
+                "event_timestamp": time.time()
+            })
+        logger.debug(f"Watch UUID {watch_uuid} got its favicon updated")
+
+    def handle_deleted_signal(self, *args, **kwargs):
+        watch_uuid = kwargs.get('watch_uuid')
+        if watch_uuid:
+            # Emit the queue size to all connected clients
+            self.socketio_instance.emit("watch_deleted", {
+                "uuid": watch_uuid,
+                "event_timestamp": time.time()
+            })
+        logger.debug(f"Watch UUID {watch_uuid} was deleted")
+
+    def handle_queue_length(self, *args, **kwargs):
+        """Handle queue_length signal and emit to all clients"""
+        try:
+            queue_length = kwargs.get('length', 0)
+            logger.debug(f"SignalHandler: Queue length update received: {queue_length}")
+
+            # Emit the queue size to all connected clients
+            self.socketio_instance.emit("queue_size", {
+                "q_length": queue_length,
+                "event_timestamp": time.time()
+            })
+
+        except Exception as e:
+            logger.error(f"Socket.IO error in handle_queue_length: {str(e)}")
+
+    def handle_notification_event(self, *args, **kwargs):
+        """Handle notification_event signal and emit to all clients"""
+        try:
+            watch_uuid = kwargs.get('watch_uuid')
+            logger.debug(f"SignalHandler: Notification event received for watch UUID: {watch_uuid}")
+
+            # Emit the notification event to all connected clients
+            self.socketio_instance.emit("notification_event", {
+                "watch_uuid": watch_uuid,
+                "event_timestamp": time.time()
+            })
+
+            logger.trace(f"Socket.IO: Emitted notification_event for watch UUID {watch_uuid}")
+
+        except Exception as e:
+            logger.error(f"Socket.IO error in handle_notification_event: {str(e)}")
+
+
+
         general_stats = {
             'count_errors': errored_count,
             'unread_changes_count': datastore.unread_changes_count
