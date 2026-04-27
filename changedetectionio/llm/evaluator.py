@@ -264,6 +264,25 @@ def tag_llm_decision(tag):
     return None if value is None else bool(value)
 
 
+def tag_llm_applies_to_watches(tag) -> bool:
+    """True when this group hands its AI settings down to its watches.
+
+    Only the "on" state does that: a group set to "off" suppresses AI for its watches rather
+    than lending them prompts, and a group with no opinion leaves them alone entirely. This is
+    the single gate behind both the evaluator cascade and the watch edit page's
+    "From group ..." placeholder.
+    """
+    return tag_llm_decision(tag) is True
+
+
+def _watch_tags(watch, datastore):
+    """Yield this watch's tag dicts, in the watch's own tag order, skipping unknown UUIDs."""
+    for tag_uuid in watch.get('tags', []):
+        tag = datastore.data['settings']['application'].get('tags', {}).get(tag_uuid)
+        if tag:
+            yield tag
+
+
 def _tags_applying_llm(watch, datastore):
     """Yield this watch's groups, in order, that hand their AI settings to their watches."""
     for tag in _watch_tags(watch, datastore):
