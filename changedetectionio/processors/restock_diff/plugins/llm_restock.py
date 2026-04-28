@@ -108,6 +108,17 @@ _LLM_RESULT_CACHE = OrderedDict()
 _LLM_RESULT_CACHE_MAX = 500
 
 
+def _llm_cache_get(key):
+    return _LLM_RESULT_CACHE.get(key)
+
+
+def _llm_cache_put(key, value):
+    _LLM_RESULT_CACHE[key] = value
+    _LLM_RESULT_CACHE.move_to_end(key)
+    while len(_LLM_RESULT_CACHE) > _LLM_RESULT_CACHE_MAX:
+        _LLM_RESULT_CACHE.popitem(last=False)
+
+
 # JSON-LD blocks worth sending: only those that actually carry price/stock signals. This drops
 # the noise (BreadcrumbList, WebSite, Organization, ItemList…) that otherwise dominates and
 # pushes the useful data out of the (truncated) prompt.
