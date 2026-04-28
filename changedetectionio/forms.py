@@ -650,6 +650,21 @@ class ValidateStartsWithRegex(object):
             if not self.pattern.match(stripped):
                 raise ValidationError(self.message or _l("Invalid value."))
 
+def visual_browser_choices():
+    """Browsers that can render the Add-Watch live preview, as RadioField choices.
+
+    Lazy import (the add_watch_ui blueprint imports this module) and empty outside an
+    app context, because WTForms evaluates a choices callable on field construction.
+    """
+    from flask import current_app, has_app_context
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+
+    if not has_app_context():
+        return []
+    datastore = current_app.config.get('DATASTORE')
+    return browser_config.radio_choices(datastore) if datastore else []
+
+
 class importForm(Form):
     processor = RadioField(_l('Processor'), choices=lambda: processors.available_processors(), default=processors.get_default_processor)
     urls = TextAreaField(_l('URLs'))
