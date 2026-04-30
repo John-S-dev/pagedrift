@@ -324,6 +324,23 @@ def _is_safe_valid_url(test_url):
     return is_safe_valid_url(test_url)
 
 
+@app.template_filter('pagination_slice')
+def _jinja2_filter_pagination_slice(arr, skip):
+    per_page = datastore.data['settings']['application'].get('pager_size', 50)
+    if per_page:
+        return arr[skip : skip + per_page]
+
+    return arr
+
+
+@app.template_filter('format_seconds_ago')
+def _jinja2_filter_seconds_precise(timestamp):
+    if timestamp == False:
+        return gettext('Not yet')
+
+    return format(int(time.time() - timestamp), ',d')
+
+
 _RE_SANITIZE_TAG = re.compile(r'[^a-zA-Z0-9]')
 
 
