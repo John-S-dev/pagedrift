@@ -129,3 +129,33 @@ window.initVisualSelector = function (opts) {
         });
     }
 
+    function applyElementData(data) {
+        $fetchingUpdateNoticeElem.html(i18nT('vsRendering', "Rendering.."));
+        selectorData = data;
+
+        sortScrapedElementsBySize();
+        console.log(`Reported browser width from backend: ${data['browser_width']}`);
+
+        // Little sanity check for the user, alert them if something missing
+        alertIfFilterNotFound();
+
+        setScale();
+        reflowSelector();
+
+        // Initialize draw mode after everything is set up
+        initializeDrawMode();
+
+        $fetchingUpdateNoticeElem.fadeOut();
+    }
+
+    function updateFiltersText() {
+        // Assuming currentSelections is already defined and contains the selections
+        let uniqueSelections = new Set(currentSelections.map(sel => (sel[0] === '/' ? `xpath:${sel.xpath}` : sel.xpath)));
+
+        if (currentSelections.length > 0) {
+            // Convert the Set back to an array and join with newline characters
+            let textboxFilterText = Array.from(uniqueSelections).join("\n");
+            $includeFiltersElem.val(textboxFilterText);
+        }
+    }
+
