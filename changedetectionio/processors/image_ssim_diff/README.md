@@ -122,6 +122,68 @@ MAX_DIFF_WIDTH=900  # Default
 
 Use the "Include filters" field with CSS selectors or XPath to compare only specific page regions:
 
+```
+.content-area
+//div[@id='main']
+```
+
+The processor will automatically crop both screenshots to the bounding box of the first matched element.
+
+## Dependencies
+
+### Required
+- `opencv-python-headless>=4.8.0.76` - Fast image comparison
+- `Pillow (PIL)` - Image loading and manipulation
+- `numpy` - Array operations
+
+### Optional
+- `pybind11-pixelmatch>=0.1.3` - Alternative comparison method with anti-aliasing detection
+
+## Change Detection Interpretation
+
+- **0%** = Identical images (or below minimum change threshold)
+- **0.1-1%** = Minor differences (anti-aliasing, slight rendering differences)
+- **1-5%** = Noticeable changes (text updates, small content changes)
+- **5-20%** = Significant changes (layout shifts, content additions)
+- **>20%** = Major differences (page redesign, large content changes)
+
+## Technical Notes
+
+### Memory Management
+```python
+# Explicit cleanup for long-running processes
+img.close()  # Close PIL Images
+buffer.close()  # Close BytesIO buffers
+del large_array  # Mark numpy arrays for GC
+```
+
+### Diff Image Generation
+- Format: JPEG (quality=85, optimized)
+- Highlight: Red overlay (50% blend with original)
+- Auto-downscaling: Large screenshots downscaled for faster rendering
+- Base64 embedded: For direct template rendering
+
+### OpenCV Blur Parameters
+The Gaussian blur reduces sensitivity to:
+- Font rendering differences
+- Anti-aliasing variations
+- JPEG compression artifacts
+- Minor pixel shifts (1-2 pixels)
+
+Increase `OPENCV_BLUR_SIGMA` to make comparison more tolerant of these differences.
+
+## Comparison: OpenCV vs Pixelmatch vs SSIM
+
+| Feature | OpenCV | Pixelmatch | SSIM (old) |
+|---------|--------|------------|------------|
+| **Speed** | 50-100x faster | 10-20x faster | Baseline |
+| **Anti-aliasing** | Via blur | Built-in detection | Built-in |
+| **Text sensitivity** | High | Medium (AA-aware) | Medium |
+| **Dependencies** | opencv-python-headless | pybind11-pixelmatch + C++ compiler | scikit-image |
+| **Alpine/musl support** | ✅ Yes | ⚠️ Build issues | ✅ Yes |
+| **Memory usage** | Low | Low | High |
+| **Best for** | General use, max speed | Text-heavy screenshots | Deprecated |
+
 ## Migration from SSIM
 
 If you're upgrading from the old SSIM-based processor:
