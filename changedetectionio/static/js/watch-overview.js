@@ -91,3 +91,68 @@ $(function () {
 
         $row.removeClass('unviewed');
 
+    // ---- Cross-page selection store -------------------------------------------
+    // Selection is a Set of watch UUIDs (the source of truth) rather than the DOM,
+    // so it spans paginated pages. Persisted in sessionStorage scoped to the
+    // watch-list page + the active tag (only): a selection survives switching the
+    // status/processor/search/pagination views, but each tag group (and the
+    // untagged "all" view) gets its own selection bucket. The "/uuids" endpoint
+    // supplies the full matching id list for "select all matching".
+    const sel = window.cdioWatchSelection = (function () {
+        const KEY = 'cdio-watch-selection';
+        function scopeKey() {
+            const tag = new URLSearchParams(location.search).get('tag') || '';
+            return location.pathname + (tag ? '?tag=' + tag : '');
+        }
+        let uuids = new Set();
+        try {
+            const obj = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+            if (obj && obj.scope === scopeKey() && Array.isArray(obj.uuids)) {
+                uuids = new Set(obj.uuids);
+            }
+        } catch (e) { /* private mode / corrupt — best effort */ }
+        function persist() {
+            try {
+                sessionStorage.setItem(KEY, JSON.stringify({ scope: scopeKey(), uuids: Array.from(uuids) }));
+            } catch (e) { /* quota / private mode */ }
+        }
+        return {
+            has: (u) => uuids.has(u),
+            add: (u) => { uuids.add(u); persist(); },
+            remove: (u) => { uuids.delete(u); persist(); },
+            toggle: (u) => { if (uuids.has(u)) { uuids.delete(u); } else { uuids.add(u); } persist(); },
+            addMany: (arr) => { arr.forEach((u) => uuids.add(u)); persist(); },
+            clear: () => { uuids.clear(); persist(); },
+            all: () => Array.from(uuids),
+            size: () => uuids.size
+        };
+    })();
+
+    const selCfg = window.watchListSelection || {};
+    const totalMatching = parseInt(selCfg.total, 10) || 0;
+
+    // Row checkbox values carry a trailing space in the template — always trim.
+    const cbUuid = (el) => (el.value || '').trim();
+    const $rowCbs = () => $('input[name="uuids"][type=checkbox]');
+    const fmtNum = (n) => new Intl.NumberFormat(navigator.language).format(n);
+
+    // Reflect the store onto this page's checkboxes (load + after bulk changes).
+    function applySelectionToDom() {
+        $rowCbs().each(function () { this.checked = sel.has(cbUuid(this)); });
+        const visible = $rowCbs().get();
+        $('#check-all').prop('checked', visible.length > 0 && visible.every((el) => el.checked));
+    }
+
+    function updateRecordsSelected() {
+        const $el = $('#records-selected');
+        if (!$el.length) return;
+        const n = sel.size();
+        if (n > 0) {
+            const tpl = $el.attr('data-template') || '%(count)s records selected';
+            // Only the count is emphasised; the number is locale-formatted digits.
+            $el.html(tpl.replace('%(count)s', '<strong>' + fmtNum(n) + '</strong>')).show();
+        } else {
+            $el.hide();
+        }
+    }
+
