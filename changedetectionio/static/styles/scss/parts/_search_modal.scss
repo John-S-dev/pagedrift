@@ -43,3 +43,13 @@
   }
 }
 
+// Dark mode adjustments
+html[data-darkmode=true] {
+  #search-modal {
+    #search-modal-input {
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(89, 189, 251, 0.15);
+      }
+    }
+  }
+}
