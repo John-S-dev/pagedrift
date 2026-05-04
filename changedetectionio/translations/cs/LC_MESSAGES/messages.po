@@ -173,3 +173,43 @@ msgstr "Základní URL použita pro"
 msgid "token in notification links."
 msgstr "token v odkazech oznámení."
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ignore whitespace, tabs and new-lines/line-feeds when considering if a change was detected."
+msgstr "Ignorovat mezery, tabulátory a nové řádky/odřádkování, při odhadu zda došlo ke změně."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note:"
+msgstr "Poznámka:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this will change the status of your existing watches, possibly trigger alerts etc."
+msgstr "Při změně této hodnoty se změní stav existujících sledování a to pravděpodobně spustí upozornění atp."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Render anchor tag content, default disabled, when enabled renders links as"
+msgstr "Vykreslit obsah kotvícího tagu, výchozí vypnuto, při zapnutí vykresluje odkazu jako"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this could affect the content of your existing watches, possibly trigger alerts etc."
+msgstr "Při změně této hodnoty se nejspíše změní stav existujících sledování a to nejspíše spustí upozornění atp."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Remove HTML element(s) by CSS and XPath selectors before text conversion."
+msgstr "Odstranit HTML element(y) pomocí CSS a XPath značek před konverzí textu."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Don't paste HTML here, use only CSS and XPath selectors"
+msgstr "Nevkládat HTML, ale pouze CSS a XPath značky"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Add multiple elements, CSS or XPath selectors per line to ignore multiple parts of the HTML."
+msgstr "Přidat vícero elementů, CSS nebo XPath značky vždy na novou řádku, aby bylo postupně ignorováno více částí HTML."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: This is applied globally in addition to the per-watch rules."
+msgstr "Pozn.: Toto je aplikováno globálně dodatečně k pravidlům nastaveným pro jednotlivá sledování."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Matching text will be ignored in the text snapshot (you can still see it but it wont trigger a change)"
+msgstr "Text shody bude ignorován ve snímku textu (bude i nadále vidět, ale nebude spouštět upozornění na změnu)"
+
