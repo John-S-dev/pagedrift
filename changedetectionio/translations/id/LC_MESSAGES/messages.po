@@ -92,3 +92,48 @@ msgstr ""
 "mis. Beri tahu saya saat produk tersedia/habis stok, waktu tunggu berubah lebih dari satu minggu, atau varian produk "
 "baru muncul. Abaikan penambahan ulasan."
 
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
+msgstr "{count} diimpor dari Distill.io dalam {duration}dtk, {skipped_count} dilewati."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Tidak dapat membaca file ekspor XLSX, apakah ada masalah dengan file tersebut?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Kesalahan saat memproses baris nomor {}, nilai URL salah, baris dilewati."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "Kesalahan saat memproses baris nomor {}, pastikan semua tipe data sel benar, baris dilewati."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} diimpor dari Wachete .xlsx dalam {duration}dtk"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} diimpor dari .xlsx kustom dalam {duration}dtk"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Daftar URL"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX & Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr "Pemulihan Cadangan"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "Pemulihan cadangan changedetection.io tersedia di"
+
