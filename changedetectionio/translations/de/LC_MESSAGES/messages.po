@@ -125,3 +125,55 @@ msgstr ""
 msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
 msgstr ""
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to empty to disable / no limit"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password protection for your changedetection.io application."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password is locked."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Clear Snapshot History"
+msgstr "Snapshot-Verlauf löschen"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Allow access to the watch change history page when password is enabled (Good for sharing the diff page)"
+msgstr ""
+"Zugriff auf die Änderungshistorie-Seite erlauben, wenn Passwort aktiviert ist (Gut zum Teilen der Diff-Seite)Erlauben"
+" Sie anonymen Zugriff auf die Seite mit dem Wiedergabeverlauf, wenn das Passwort aktiviert ist"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "When a request returns no content, or the HTML does not contain any text, is this considered a change?"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Choose a default proxy for all watches"
+msgstr "Wählen Sie einen Standard-Proxy für alle Überwachungen"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the <strong>Basic</strong> method (default) where your watched sites don't need Javascript to render."
+msgstr ""
+"Benutzen Sie die <strong>Basic</strong> Methode (Standard), bei der Ihre überwachten Websites kein Javascript zum "
+"Rendern benötigen."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set"
+" by the ENV var 'WEBDRIVER_URL'."
+msgstr ""
+"Die <strong>Chrome/Javascript</strong>-Methode erfordert eine Netzwerkverbindung zu einem laufenden WebDriver+Chrome-"
+"Server, der durch die Umgebungsvariable „WEBDRIVER_URL“ festgelegt wird."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"If you're having trouble waiting for the page to be fully rendered (text missing etc), try increasing the 'wait' time"
+" here."
+msgstr ""
+"Wenn Sie Probleme damit haben, dass die Seite vollständig gerendert wird (fehlender Text usw.), versuchen Sie, die "
+"Wartezeit hier zu verlängern."
+
