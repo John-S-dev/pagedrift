@@ -1404,6 +1404,27 @@ paths:
         - Allows you to implement your own custom colorisation or formatting
         - Skips all HTML color application and service tweaks (added text, html color tags, etc)
 
+            headers = {'x-api-key': 'YOUR_API_KEY'}
+            uuid = '095be615-a8ad-4c33-8e9c-c7612fbf6c9f'
+
+            # Compare previous to latest with colored HTML output
+            response = requests.get(
+                f'http://localhost:5000/api/v1/watch/{uuid}/difference/previous/latest',
+                headers=headers,
+                params={'format': 'htmlcolor'}
+            )
+            print(response.text)
+
+            # Compare specific timestamps with word-level diff
+            from_ts = '1640995200'
+            to_ts = '1640998800'
+            response = requests.get(
+                f'http://localhost:5000/api/v1/watch/{uuid}/difference/{from_ts}/{to_ts}',
+                headers=headers,
+                params={'format': 'text', 'word_diff': 'true'}
+            )
+            print(response.text)
+
             # Show only additions, ignore whitespace and use word-level diff
             response = requests.get(
                 f'http://localhost:5000/api/v1/watch/{uuid}/difference/previous/latest',
