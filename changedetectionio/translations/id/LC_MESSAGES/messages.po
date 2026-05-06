@@ -268,3 +268,53 @@ msgstr "Umum"
 msgid "Fetching"
 msgstr "Pengambilan"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Your API key is stored locally and sent only to your chosen provider. On each detected change, the watch's diff and "
+"extracted text are sent to the LLM — no full page HTML."
+msgstr ""
+"Kunci API Anda disimpan secara lokal dan hanya dikirim ke penyedia yang Anda pilih. Pada setiap perubahan yang "
+"terdeteksi, diff monitor dan teks yang diekstrak dikirim ke LLM — bukan HTML halaman penuh."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Cache"
+msgstr "Cache"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache?"
+msgstr "Hapus seluruh cache ringkasan?"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove all cached AI change summaries across all watches."
+msgstr "Ini akan menghapus semua ringkasan perubahan AI yang tersimpan di cache dari seluruh monitor."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "They will be regenerated on the next check."
+msgstr "Ringkasan akan dibuat ulang pada pemeriksaan berikutnya."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear cache"
+msgstr "Hapus cache"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache"
+msgstr "Hapus seluruh cache ringkasan"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Removes all cached AI change summaries across all watches. They will be regenerated on the next check."
+msgstr ""
+"Menghapus semua ringkasan perubahan AI yang tersimpan di cache dari seluruh monitor. Ringkasan akan dibuat ulang pada"
+" pemeriksaan berikutnya."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Enables litellm verbose output (routed through loguru). Useful when diagnosing provider errors or empty responses. "
+"Leave off in production — generates a lot of log volume."
+msgstr ""
+"Mengaktifkan output verbose litellm (dialirkan melalui loguru). Berguna saat mendiagnosis kesalahan penyedia atau "
+"respons kosong. Biarkan nonaktif di produksi — menghasilkan volume log yang besar."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Default AI Change Summary"
+msgstr "Ringkasan Perubahan AI Default"
+
