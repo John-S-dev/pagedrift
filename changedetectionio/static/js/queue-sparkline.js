@@ -90,3 +90,47 @@
         }
     }
 
+    Spark.prototype.render = function (now) {
+        if (this.cssW < 4 || this.cssH < 4) return;
+        if (this.canvas.clientWidth !== this.rawW || this.canvas.clientHeight !== this.rawH) this.resize();
+
+        const W = this.W;
+
+        // Sample the step-function across the visible window (newest at right) and
+        // find the autoscale max in the same pass.
+        const ys = new Array(W);
+        let maxV = MIN_SCALE;
+        for (let x = 0; x < W; x++) {
+            const v = stepValueAt(this.columnTime(x, now));
+            ys[x] = v;
+            if (!isNaN(v) && v > maxV) maxV = v;
+        }
+        const tv = totalNow();
+        if (tv > maxV) maxV = tv;
+        const rate = maxV > this.displayMax ? RISE_LERP : FALL_LERP;
+        this.displayMax += (maxV - this.displayMax) * rate;
+
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.cssW, this.cssH);
+
+        // Whole trace in a SINGLE stroke; the left->right fade (old data dimming as it
+        // scrolls out of view) is a gradient strokeStyle rather than one stroke per
+        // pixel column — ~140 draw calls collapse to 1.
+        const grad = ctx.createLinearGradient(0, 0, this.cssW, 0);
+        grad.addColorStop(0, "rgba(255,255,255,0.10)");
+        grad.addColorStop(1, "rgba(255,255,255,0.95)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        let pen = false;
+        for (let x = 0; x < W; x++) {
+            const v = ys[x];
+            if (isNaN(v)) { pen = false; continue; } // gap (no history yet) breaks the line
+            const py = this.y(v);
+            if (pen) ctx.lineTo(x + 0.5, py);
+            else { ctx.moveTo(x + 0.5, py); pen = true; }
+        }
+        ctx.stroke();
+
