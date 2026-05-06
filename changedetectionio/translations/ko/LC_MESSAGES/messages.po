@@ -4008,6 +4008,47 @@ msgid "The current snapshot text contents value, useful when combined with JSON 
 msgstr "현재 스냅샷의 텍스트 내용 값입니다. JSON 또는 CSS 필터와 함께 쓰면 유용합니다."
 
 #: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "최대"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2,000자"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "까지의 알림 텍스트만 지원합니다. 제목도 포함됩니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "봇은 다른 봇에게 메시지를 보낼 수 없으므로, 봇이 아닌 사용자의 채팅 ID를 지정해야 합니다."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "매우 제한된 HTML만 지원하므로 추가 태그를 보내면 실패할 수 있습니다,"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(또는 일반 텍스트/마크다운 형식 사용)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "직접 API 호출용입니다. (비SSL의 경우 "
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "를 생략하세요. 예:"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "더 많은 도움말"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "아래에 나열된 <code>%(token)s</code> 자리표시자를 사용할 수 있습니다"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "Customise notifications"
 msgstr ""
 
