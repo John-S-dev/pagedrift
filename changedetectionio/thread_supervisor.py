@@ -24,3 +24,13 @@ target that fails instantly cannot spin the CPU.
 
 import time
 
+from loguru import logger
+
+# Back off 1, 2, 4 ... up to this many seconds between restarts.
+DEFAULT_MAX_BACKOFF_SECONDS = 60
+
+# A target that stayed up at least this long is considered to have recovered,
+# so its backoff resets rather than continuing to grow.
+HEALTHY_RUNTIME_SECONDS = 60
+
+
