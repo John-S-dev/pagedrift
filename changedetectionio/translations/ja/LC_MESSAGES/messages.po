@@ -83,6 +83,52 @@ msgstr ".zip バックアップファイルでなければなりません！"
 msgid "Include groups"
 msgstr "グループを含める"
 
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Create"
+msgstr "作成"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore"
+msgstr "復元"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "A backup is running!"
+msgstr "バックアップが実行中です！"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Here you can download and request a new backup, when a backup is completed you will see it listed below."
+msgstr "ここでバックアップのダウンロードや新規作成を依頼できます。バックアップが完了すると、以下に一覧表示されます。"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Mb"
+msgstr "MB"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "No backups found."
+msgstr "バックアップが見つかりません。"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Create backup"
+msgstr "バックアップを作成"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Remove backups"
+msgstr "バックアップを削除"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "A restore is running!"
+msgstr "復元が実行中です！"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore a backup. Must be a .zip backup file created on/after v0.53.1 (new database layout)."
+msgstr "バックアップを復元します。v0.53.1以降に作成された .zip バックアップファイル（新しいデータベース形式）である必要があります。"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr "注意：これはメインアプリケーションの設定を上書きしません。ウォッチとグループのみが対象です。"
+
 #: changedetectionio/blueprint/backups/templates/backup_restore.html
 #, python-format
 msgid "Max upload size: %(upload)s MB, Max decompressed size: %(decomp)s MB"
