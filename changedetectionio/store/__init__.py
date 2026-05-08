@@ -23,3 +23,6 @@ import uuid as uuid_builder
 from loguru import logger
 from blinker import signal
 
+dictfilt = lambda x, y: dict([(i, x[i]) for i in x if i in set(y)])
+
+
