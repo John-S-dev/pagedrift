@@ -159,3 +159,39 @@ window.initVisualSelector = function (opts) {
         }
     }
 
+    function setCurrentSelectedText(s) {
+        // Selectors come from the scraped page, display them as text and never as markup
+        $selectorCurrentXpathElem[0].textContent = s;
+    }
+
+    function drawHighlight(sel) {
+        ctx.strokeRect(sel.left * xScale, sel.top * yScale, sel.width * xScale, sel.height * yScale);
+        ctx.fillRect(sel.left * xScale, sel.top * yScale, sel.width * xScale, sel.height * yScale);
+    }
+
+    function handleMouseDown() {
+        // If we are in 'appendToList' mode, grow the list, if not, just 1
+        currentSelections = appendToList ? [...currentSelections, currentSelection] : [currentSelection];
+        highlightCurrentSelected();
+        updateFiltersText();
+    }
+
+    function reflowSelector() {
+        $(window).off('resize.visualselector').on('resize.visualselector', () => {
+            setScale();
+            highlightCurrentSelected();
+        });
+
+        setScale();
+
+        console.log(selectorData['size_pos'].length + " selectors found");
+
+        let existingFilters = splitToList($includeFiltersElem.val());
+
+        selectorData['size_pos'].forEach(sel => {
+            if ((!runInClearMode && sel.highlight_as_custom_filter) || existingFilters.includes(sel.xpath)) {
+                console.log("highlighting " + c);
+                currentSelections.push(sel);
+            }
+        });
+
