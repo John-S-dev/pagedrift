@@ -87,6 +87,47 @@ msgid ""
 "appear. Skip review additions."
 msgstr ""
 
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "A backup is running!"
+msgstr "备份正在运行！"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Here you can download and request a new backup, when a backup is completed you will see it listed below."
+msgstr "在此可下载并请求新的备份，备份完成后会在下方列表中显示。"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Mb"
+msgstr "MB"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "No backups found."
+msgstr "未找到备份。"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Create backup"
+msgstr "创建备份"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Remove backups"
+msgstr "删除备份"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "A restore is running!"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore a backup. Must be a .zip backup file created on/after v0.53.1 (new database layout)."
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr ""
+
 #: changedetectionio/blueprint/imports/importer.py
 msgid "Unable to read export XLSX file, something wrong with the file?"
 msgstr "无法读取导出的 XLSX 文件，文件是否有问题？"
