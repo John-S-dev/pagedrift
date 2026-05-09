@@ -23,6 +23,14 @@ import uuid as uuid_builder
 from loguru import logger
 from blinker import signal
 
+# Try to import orjson for faster JSON serialization
+try:
+    import orjson
+
+    HAS_ORJSON = True
+except ImportError:
+    HAS_ORJSON = False
+
 dictfilt = lambda x, y: dict([(i, x[i]) for i in x if i in set(y)])
 
 

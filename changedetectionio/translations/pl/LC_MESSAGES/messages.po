@@ -76,6 +76,51 @@ msgstr "Wyczyść wybór"
 msgid "What matters — when to notify me"
 msgstr "Co jest ważne — kiedy należy mnie powiadomić"
 
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "Struktura JSON wygląda na nieprawidłową – czy została uszkodzona?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
+msgstr "{count} Zaimportowano z Distill.io w ciągu {duration} sekund, {skipped_count} pozycji pominięto."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Nie można odczytać pliku XLSX wyeksportowanego — czy coś jest nie tak z tym plikiem?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr ""
+"Wystąpił błąd podczas przetwarzania wiersza o numerze {}; wartość adresu URL była nieprawidłowa, wiersz został "
+"pominięty."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr ""
+"Wystąpił błąd podczas przetwarzania wiersza o numerze {}; sprawdź, czy typy danych we wszystkich komórkach są "
+"prawidłowe; wiersz został pominięty."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} plików zaimportowano z pliku Wachete .xlsx w {duration} sekund"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} plików zaimportowano z niestandardowego pliku .xlsx w ciągu {duration} sekund"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Lista adresów URL"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX i Wachete"
+
 #: changedetectionio/blueprint/imports/templates/import.html
 msgid "Backup Restore"
 msgstr "Tworzenie kopii zapasowej i przywracanie danych"
