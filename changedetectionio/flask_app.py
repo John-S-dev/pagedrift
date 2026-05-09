@@ -343,6 +343,21 @@ def _is_safe_valid_url(test_url):
     return is_safe_valid_url(test_url)
 
 
+@app.template_global('get_html_head_extras')
+def _get_html_head_extras():
+    from .pluggy_interface import collect_html_head_extras
+
+    return collect_html_head_extras()
+
+
+@app.template_filter('format_number_locale')
+def _jinja2_filter_format_number_locale(value: float) -> str:
+    "Formats for example 4000.10 to the local locale default of 4,000.10"
+    # Format the number with two decimal places (locale format string will return 6 decimal)
+    formatted_value = locale.format_string("%.2f", value, grouping=True)
+    return formatted_value
+
+
 @app.template_filter('format_timestamp_timeago')
 def _jinja2_filter_datetimestamp(timestamp, format="%Y-%m-%d %H:%M:%S"):
     if not timestamp:
