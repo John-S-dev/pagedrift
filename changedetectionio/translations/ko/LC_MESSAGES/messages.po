@@ -391,3 +391,101 @@ msgstr "프롬프트"
 msgid "Behaviour"
 msgstr "동작"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI-powered change monitoring"
+msgstr "AI 기반 변경 모니터링"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Connect an LLM to move from \"something changed\" to \"only the thing you care about changed\"."
+msgstr "LLM을 연결해 \"무언가 변경됨\"에서 \"관심 있는 내용만 변경됨\"으로 전환하세요."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Intent filtering"
+msgstr "판단 기준 필터링"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Each watch or tag can carry a plain-text intent — %(ex1)s or %(ex2)s. On every detected change the AI evaluates the "
+"diff against it and suppresses irrelevant noise."
+msgstr "각 모니터링 또는 태그에 일반 텍스트 판단 기준(%(ex1)s 또는 %(ex2)s)을 지정할 수 있습니다. 변경이 감지될 때마다 AI가 diff를 이 기준과 비교해 불필요한 알림을 줄입니다."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Tip: intent evaluation benefits from a capable model — recommended %(local)s locally, or %(gpt)s / %(gemini)s. Very "
+"small models (≤3B) may misjudge numeric comparisons."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Instead of raw diffs, receive plain-language summaries in notifications — %(ex1)s or %(ex2)s. Set a global default "
+"prompt here, or override per watch or tag."
+msgstr "raw diff 대신 알림에서 자연어 요약(%(ex1)s 또는 %(ex2)s)을 받을 수 있습니다. 여기에서 전역 기본 프롬프트를 설정하거나 모니터링/태그별로 재정의하세요."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Minimal cost"
+msgstr "최소 비용"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"The AI sees only a unified diff of what changed — never full page HTML. Low-cost models like %(gpt)s or %(gemini)s "
+"handle this well, typically fractions of a cent per check."
+msgstr ""
+"AI는 전체 페이지 HTML이 아닌 변경된 내용의 unified diff만 확인합니다. %(gpt)s 또는 %(gemini)s 같은 저비용 모델도 이를 잘 처리합니다. 보통 확인당 1센트보다 훨씬 적은 비용이 "
+"듭니다."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "AI / LLM configured:"
+msgstr "AI / LLM 설정됨:"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Configure AI Provider"
+msgstr "AI 프로바이더 설정"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Activate for individual watches in this tag/group?"
+msgstr "이 태그/그룹의 개별 모니터링에도 활성화할까요?"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Auto-apply to watches with URLs matching"
+msgstr "URL이 다음과 일치하는 모니터링에 자동 적용"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "e.g. *://example.com/* or github.com/myorg"
+msgstr "예: *://example.com/* 또는 github.com/myorg"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/edit-tag.html
+msgid "Tag colour"
+msgstr "태그 색상"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Must be a hex colour, for example #4f8ef7"
+msgstr "16진수 색상이어야 합니다. 예: #4f8ef7"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "AI for watches in this group"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "On, use the settings below"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Off for every watch"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Leave it to each watch"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Tag name"
+msgstr "태그 이름"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Filters & Triggers"
+msgstr "필터 및 트리거"
+
