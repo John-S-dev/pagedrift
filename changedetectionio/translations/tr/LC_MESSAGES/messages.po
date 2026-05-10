@@ -42,6 +42,48 @@ msgstr "Yeni bir web sayfası değişiklik tespiti izleyicisi ekle"
 msgid "Go"
 msgstr "Git"
 
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr "Not: Bu, ana uygulama ayarlarını geçersiz kılmaz, yalnızca izleyicileri ve grupları geçersiz kılar."
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+#, python-format
+msgid "Max upload size: %(upload)s MB, Max decompressed size: %(decomp)s MB"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all groups found in backup?"
+msgstr "Yedekte bulunan tüm gruplar dahil edilsin mi?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing groups of the same UUID?"
+msgstr "Aynı UUID'ye sahip mevcut gruplar değiştirilsin mi?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all watches found in backup?"
+msgstr "Yedekte bulunan tüm izleyiciler dahil edilsin mi?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing watches of the same UUID?"
+msgstr "Aynı UUID'ye sahip mevcut izleyiciler değiştirilsin mi?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Importing 5,000 of the first URLs from your list, the rest can be imported again."
+msgstr "Listenizden ilk 5.000 URL içe aktarılıyor, geri kalanı daha sonra tekrar içe aktarılabilir."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from list in {duration}s, {skipped_count} Skipped."
+msgstr "{count} kayıt listeden {duration} saniyede içe aktarıldı, {skipped_count} atlandı."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read JSON file, was it broken?"
+msgstr "JSON dosyası okunamıyor, bozuk olabilir mi?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "JSON yapısı geçersiz görünüyor, bozuk olabilir mi?"
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
