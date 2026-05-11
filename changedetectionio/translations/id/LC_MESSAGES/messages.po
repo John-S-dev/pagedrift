@@ -92,6 +92,47 @@ msgstr ""
 "mis. Beri tahu saya saat produk tersedia/habis stok, waktu tunggu berubah lebih dari satu minggu, atau varian produk "
 "baru muncul. Abaikan penambahan ulasan."
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Grup / tag monitor"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Pantau URL ini!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Edit dahulu lalu pantau"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Pencadangan sedang berjalan, periksa kembali beberapa menit lagi"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Jumlah maksimum cadangan tercapai, silakan hapus beberapa"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Cadangan sedang dibuat di latar belakang, periksa kembali beberapa menit lagi."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Cadangan telah dihapus."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr "File ZIP cadangan"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr "Harus berupa file cadangan .zip!"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr "Sertakan grup"
+
 #: changedetectionio/blueprint/backups/restore.py
 msgid "Replace existing groups of the same UUID"
 msgstr "Ganti grup yang ada dengan UUID yang sama"
