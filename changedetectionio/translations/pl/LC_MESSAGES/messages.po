@@ -216,6 +216,51 @@ msgstr "Dynamiczne dostosowywanie liczby procesów roboczych nie jest obsługiwa
 msgid "Error adjusting workers: {}"
 msgstr "Błąd podczas dostosowywania liczby procesów roboczych: {}"
 
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection enabled."
+msgstr "Włączono ochronę hasłem."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+msgid "Settings updated."
+msgstr "Ustawienia zostały zaktualizowane."
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "Wystąpił błąd – proszę zapoznać się z poniższą informacją."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "API Key was regenerated."
+msgstr "Klucz API został wygenerowany ponownie."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling paused - checks will not be queued."
+msgstr "Automatyczne planowanie zostało wstrzymane — zadania nie będą dodawane do kolejki."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Automatic scheduling resumed - checks will be queued normally."
+msgstr "Wznowiono automatyczne planowanie — kontrole będą dodawane do kolejki w zwykły sposób."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications muted."
+msgstr "Wszystkie powiadomienia wyciszone."
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "All notifications unmuted."
+msgstr "Wyłączono wyciszenie wszystkich powiadomień."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid ""
+"api_key is required when api_base differs from the saved configuration. Refusing to send the stored API key to a "
+"different endpoint."
+msgstr ""
+"Parametru `api_key` wymaga się, gdy wartość `api_base` różni się od tej zapisanej w konfiguracji. Odmowa wysłania "
+"zapisanego klucza API do innego punktu końcowego."
+
+#: changedetectionio/blueprint/settings/llm.py
+msgid "AI / LLM configuration removed."
+msgstr "Usunięto konfigurację AI / LLM."
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "Clear cache"
 msgstr "Wyczyść pamięć podręczną"
