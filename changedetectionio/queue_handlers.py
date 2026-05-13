@@ -381,3 +381,43 @@ class RecheckPriorityQueue:
                     'max_priority': max(priority_counts.keys()) if priority_counts else None
                 }
                 
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get queue summary: {str(e)}")
+            return {'total_items': 0, 'priority_breakdown': {}, 'immediate_items': 0, 
+                   'clone_items': 0, 'scheduled_items': 0}
+    
+    # PRIVATE METHODS
+    def _get_item_uuid(self, item) -> str:
+        """Safely extract UUID from item for logging"""
+        try:
+            if hasattr(item, 'item') and isinstance(item.item, dict):
+                return item.item.get('uuid', 'unknown')
+        except Exception:
+            pass
+        return 'unknown'
+
+    def _emit_put_signals(self, item):
+        """Emit signals when item is added"""
+        try:
+            # Watch update signal
+            if hasattr(item, 'item') and isinstance(item.item, dict) and 'uuid' in item.item:
+                watch_check_update = signal('watch_check_update')
+                if watch_check_update:
+                    watch_check_update.send(watch_uuid=item.item['uuid'])
+
+            # Queue length signal
+            if self.queue_length_signal:
+                self.queue_length_signal.send(length=self.qsize())
+
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to emit put signals: {str(e)}")
+
+    def _emit_get_signals(self):
+        """Emit signals when item is removed"""
+        try:
+            if self.queue_length_signal:
+                self.queue_length_signal.send(length=self.qsize())
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to emit get signals: {str(e)}")
+
+
