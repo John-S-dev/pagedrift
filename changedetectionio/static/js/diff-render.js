@@ -35,3 +35,74 @@ $(document).ready(function () {
     $('#jump-next-diff').click(function () {
         if (!inputs || inputs.length === 0) return;
 
+        // Find the next change after current scroll position
+        var currentScrollPos = $(window).scrollTop();
+        var viewportHeight = $(window).height();
+        var currentCenter = currentScrollPos + (viewportHeight / 2);
+
+        // Add small buffer (50px) to jump past changes already near center
+        var searchFromPosition = currentCenter + 50;
+
+        var nextElement = null;
+        for (var i = 0; i < inputs.length; i++) {
+            var elementTop = $(inputs[i]).offset().top;
+            if (elementTop > searchFromPosition) {
+                nextElement = inputs[i];
+                break;
+            }
+        }
+
+        // If no element found ahead, wrap to first element
+        if (!nextElement) {
+            nextElement = inputs[0];
+        }
+
+        // Scroll to position the element at viewport center
+        var elementTop = $(nextElement).offset().top;
+        var targetScrollPos = elementTop - (viewportHeight / 2);
+
+        window.scrollTo({
+            top: targetScrollPos,
+            behavior: "smooth",
+        });
+    });
+
+    // Track current scroll position in visualizer
+    function updateVisualizerPosition() {
+        if (!$difference.length || visualizerResolutionCells === 0) return;
+
+        var scrollTop = $(window).scrollTop();
+        var viewportHeight = $(window).height();
+        var viewportCenter = scrollTop + (viewportHeight / 2);
+        var differenceTop = $difference.offset().top;
+        var differenceHeight = $difference[0].scrollHeight;
+        var positionInDifference = viewportCenter - differenceTop;
+
+        // Handle edge case: if we're at max scroll, show last cell
+        // This prevents shorter documents from never reaching 100%
+        var maxScrollTop = $(document).height() - viewportHeight;
+        var isAtBottom = scrollTop >= maxScrollTop - 10; // 10px tolerance
+
+        // Calculate which cell we're currently viewing
+        var currentCell;
+        if (isAtBottom) {
+            currentCell = visualizerResolutionCells - 1;
+        } else {
+            currentCell = Math.floor(positionInDifference / cellHeight);
+            currentCell = Math.max(0, Math.min(currentCell, visualizerResolutionCells - 1));
+        }
+
+        // Remove previous active marker and add to current cell
+        $visualizer.find('> div').removeClass('current-position');
+        $visualizer.find('> div').eq(currentCell).addClass('current-position');
+    }
+
+    // Recalculate cellHeight on window resize
+    function handleResize() {
+        if ($difference.length) {
+            var docHeight = $difference[0].scrollHeight;
+            cellHeight = docHeight / visualizerResolutionCells;
+            updateVisualizerPosition();
+        }
+    }
+

@@ -86,3 +86,45 @@ msgstr ""
 "Восстановите резервную копию. Должен быть файл резервной копии .zip, созданный в версии 0.53.1 или после нее (новая "
 "структура базы данных)."
 
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr "Примечание. Это не отменяет основные настройки приложения, а только часы и группы."
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+#, python-format
+msgid "Max upload size: %(upload)s MB, Max decompressed size: %(decomp)s MB"
+msgstr "Максимальный размер загрузки: %(upload)s МБ. Максимальный размер в распакованном виде: %(decomp)s МБ."
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all groups found in backup?"
+msgstr "Включить все группы, найденные в резервной копии?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing groups of the same UUID?"
+msgstr "Заменить существующие группы с одним и тем же UUID?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all watches found in backup?"
+msgstr "Включить все найденные часы в резервную копию?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing watches of the same UUID?"
+msgstr "Заменить существующие часы с тем же UUID?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Importing 5,000 of the first URLs from your list, the rest can be imported again."
+msgstr "Импортируйте 5000 первых URL-адресов из вашего списка, остальные можно импортировать снова."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from list in {duration}s, {skipped_count} Skipped."
+msgstr "{count} Импортировано из списка в {duration}, {skipped_count} пропущено."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read JSON file, was it broken?"
+msgstr "Не удалось прочитать файл JSON, он сломан?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "Структура JSON выглядит недействительной, она сломана?"
+
