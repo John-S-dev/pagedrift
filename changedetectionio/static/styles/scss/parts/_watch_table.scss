@@ -11,3 +11,11 @@ $title-col-stack-breakpoint: 1200px;
   background-color: var(--watchlist-row-selected);
 }
 
+// Reveal the per-row action buttons on hover/focus/selection (hidden at rest —
+// see td.buttons below). The row-hover background itself comes from .cdio-table.
+.watch-table tbody tr:hover td.buttons *,
+.watch-table tbody tr:focus-within td.buttons *,
+.watch-table tbody tr:has(input[name="uuids"]:checked) td.buttons * {
+  opacity: 1;
+}
+
