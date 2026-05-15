@@ -405,6 +405,15 @@ def _runtime_llm_config(datastore) -> dict | None:
     return cfg
 
 
+# ---------------------------------------------------------------------------
+# Global monthly token budget
+# ---------------------------------------------------------------------------
+
+def _get_month_key() -> str:
+    """Returns 'YYYY-MM' for the current UTC month."""
+    return datetime.now(timezone.utc).strftime("%Y-%m")
+
+
 def get_effective_summary_prompt(watch, datastore) -> str:
     """Return the prompt that summarise_change will use.
 
