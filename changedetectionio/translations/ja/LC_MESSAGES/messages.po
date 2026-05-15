@@ -350,6 +350,46 @@ msgid "Note: This is applied globally in addition to the per-watch rules."
 msgstr "注意：これはウォッチごとのルールに加えてグローバルに適用されます。"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "コピー"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "APIキーを再生成"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Chrome拡張機能"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Chromeから任意のウェブページを changedetection.io に簡単に追加できます。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "ステップ1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "拡張機能をインストールしてください。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "ステップ2"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "このページに移動してください。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "ステップ3"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Open the extension from the toolbar and click"
+msgstr "ツールバーから拡張機能を開いてクリックしてください"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Uptime:"
 msgstr "稼働時間："
 
