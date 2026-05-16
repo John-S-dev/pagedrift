@@ -171,6 +171,54 @@ msgstr "Strukturovaný JSON text je neplatný, byl poškozen?"
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
 msgstr "{count} importováno z Distill.io za {duration}s, {skipped_count} přeskočeno."
 
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "Nelze přečíst vyexportovaný XLSX soubor, je s ním něco v nepořádku?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "Chyba při zpracování řádku {}, hodnota URL neplatná, řádek přeskočen."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "Chyba při zpracování řádku {}, zkontrolujte že všechny typy dat v buňkách jsou správné, řádka přeskočena."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "{count} importováno z Wachete .xlsx za {duration}s"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "{count} importováno z vlastního .xlsx za {duration}s"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "Seznam adres URL"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX a Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr "Obnova zálohy"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "Možnost obnovení changedetection.io zálohy je v"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr "sekci záloh"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
+msgstr "Vložte jednu URL na řádek a případně přidejte tagy pro každou URL odsazené mezerníkem, oddělené čárkou (,):"
+
 #: changedetectionio/blueprint/settings/__init__.py
 msgid "Password protection removed."
 msgstr "Ochrana heslem odebrána."
