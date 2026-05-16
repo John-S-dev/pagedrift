@@ -143,3 +143,45 @@ def sigshutdown_handler(_signo, _stack_frame):
 
     sys.exit()
 
+def main():
+    global datastore
+    global app
+
+    # Early help/version check before any initialization
+    if '--help' in sys.argv or '-help' in sys.argv:
+        print_help()
+        sys.exit(0)
+
+    if '--version' in sys.argv or '-v' in sys.argv:
+        print(f'changedetection.io {__version__}')
+        sys.exit(0)
+
+    # Import heavy modules after help/version checks to keep startup fast for those flags
+    from changedetectionio import store
+    from changedetectionio.flask_app import changedetection_app
+
+    datastore_path = None
+    # Set a default logger level
+    logger_level = 'DEBUG'
+    include_default_watches = True
+    all_paused = None  # None means don't change, True/False to set
+
+    host = os.environ.get("LISTEN_HOST", "0.0.0.0").strip()
+    port = int(os.environ.get('PORT', 5000))
+    ssl_mode = False
+
+    # Lists for multiple URLs and their options
+    urls_to_add = []
+    url_options = {}  # Key: index (0-based), Value: dict of options
+    recheck_watches = None  # None, 'all', or list of UUIDs
+    recheck_repeat_count = 1  # Number of times to repeat recheck cycle
+    batch_mode = False  # Run once then exit when queue is empty
+
+    # On Windows, create and use a default path.
+    if os.name == 'nt':
+        datastore_path = os.path.expandvars(r'%APPDATA%\changedetection.io')
+        os.makedirs(datastore_path, exist_ok=True)
+    else:
+        # Must be absolute so that send_from_directory doesnt try to make it relative to backend/
+        datastore_path = os.path.join(os.getcwd(), "../datastore")
+
