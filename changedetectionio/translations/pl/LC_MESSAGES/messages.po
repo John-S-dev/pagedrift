@@ -76,6 +76,50 @@ msgstr "Wyczyść wybór"
 msgid "What matters — when to notify me"
 msgstr "Co jest ważne — kiedy należy mnie powiadomić"
 
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Restore started in background, check back in a few minutes."
+msgstr "Przywracanie uruchomiono w tle. Sprawdź ponownie za kilka minut."
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Create"
+msgstr "Utwórz"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore"
+msgstr "Przywróć"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "A backup is running!"
+msgstr "Trwa tworzenie kopii zapasowej!"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Here you can download and request a new backup, when a backup is completed you will see it listed below."
+msgstr ""
+"W tym miejscu możesz pobrać kopię zapasową lub zlecić utworzenie nowej; po zakończeniu tworzenia kopii zapasowej "
+"pojawi się ona na poniższej liście."
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Mb"
+msgstr "Mb"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "No backups found."
+msgstr "Nie znaleziono kopii zapasowych."
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Create backup"
+msgstr "Utwórz kopię zapasową"
+
+#: changedetectionio/blueprint/backups/templates/backup_create.html
+msgid "Remove backups"
+msgstr "Usuń kopie zapasowe"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "A restore is running!"
+msgstr "Trwa przywracanie danych!"
+
 #: changedetectionio/blueprint/imports/importer.py
 msgid "JSON structure looks invalid, was it broken?"
 msgstr "Struktura JSON wygląda na nieprawidłową – czy została uszkodzona?"
