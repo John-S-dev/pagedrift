@@ -268,6 +268,47 @@ msgstr ""
 msgid "These notifications apply to all web page watches, or you can configure them per group or per watch separately."
 msgstr ""
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Backups"
+msgstr "Copias de seguridad"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Time & Date"
+msgstr "Hora y fecha"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "CAPTCHA & Proxies"
+msgstr "CAPTCHA y servidores proxy"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/tags/templates/edit-tag.html
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI / LLM"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Info"
+msgstr "Información"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Default recheck time for all watches, current system minimum is"
+msgstr "Tiempo de revisión predeterminado para todos los monitores, el mínimo actual del sistema es"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "more info"
+msgstr "más información"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "After this many consecutive times that the CSS/xPath filter is missing, send a notification"
+msgstr "Después de tantas veces consecutivas que falta el filtro CSS/xPath, envíe una notificación"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to <strong>0</strong> to disable"
+msgstr "Establecer en <strong>0</strong> para deshabilitar"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit collection of history snapshots for each watch to this number of history items."
+msgstr "Limite la recopilación de instantáneas del historial para cada monitor a esta cantidad de elementos del historial."
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
 msgid "Add multiple elements, CSS or XPath selectors per line to ignore multiple parts of the HTML."
 msgstr "Agregue múltiples elementos, selectores CSS o XPath por línea para ignorar múltiples partes del HTML."
