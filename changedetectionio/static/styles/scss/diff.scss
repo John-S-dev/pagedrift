@@ -45,3 +45,69 @@ body.difference-page {
   }
 }
 
+#diff-ui {
+
+  background: var(--color-background);
+  padding: 1rem;
+  border-radius: 5px;
+
+  @media (min-width: 767px) {
+    min-width: 50%;
+  }
+
+  // The first tab 'text' diff
+  #text {
+    font-size: 11px;
+  }
+
+  pre {
+    white-space: break-spaces;
+    overflow-wrap: anywhere;
+  }
+
+
+  h1 {
+    display: inline;
+    font-size: 100%;
+  }
+
+  #result {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+
+  .source {
+    position: absolute;
+    right: 1%;
+    top: .2em;
+  }
+
+  @-moz-document url-prefix() {
+    body {
+      height: 99%;
+      /* Hide scroll bar in Firefox */
+    }
+  }
+
+  td#diff-col div {
+    text-align: justify;
+    white-space: pre-wrap;
+  }
+
+  .ignored {
+    background-color: #ccc;
+    /*  border: #0d91fa 1px solid; */
+    opacity: 0.7;
+  }
+
+  .triggered {
+    background-color: #1b98f8;
+  }
+
+  /* ignored and triggered? make it obvious error */
+  .ignored.triggered {
+    background-color: #ff0000;
+  }
+
