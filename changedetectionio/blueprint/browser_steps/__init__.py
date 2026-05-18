@@ -104,6 +104,35 @@ def run_async_in_browser_loop(coro):
     else:
         raise RuntimeError("Browser steps event loop is not available")
 
+async def _close_session_resources(session_data, label=''):
+    """Close all browser resources for a session in the correct order.
+
+    browserstepper.cleanup() closes page+context but not the browser itself.
+    For CloakBrowser, browser.close() is what stops the local Chromium process via pw.stop().
+    For the default CDP path, playwright_context.stop() shuts down the playwright instance.
+    """
+    browserstepper = session_data.get('browserstepper')
+    if browserstepper:
+        try:
+            await browserstepper.cleanup()
+        except Exception as e:
+            logger.error(f"Error cleaning up browserstepper{label}: {e}")
+
+    browser = session_data.get('browser')
+    if browser:
+        try:
+            await asyncio.wait_for(browser.close(), timeout=5.0)
+        except Exception as e:
+            logger.warning(f"Error closing browser{label}: {e}")
+
+    playwright_context = session_data.get('playwright_context')
+    if playwright_context:
+        try:
+            await playwright_context.stop()
+        except Exception as e:
+            logger.warning(f"Error stopping playwright context{label}: {e}")
+
+
 async def acquire_browser_for_fetcher(fetcher_name, proxy=None, keepalive_ms=None):
     """Acquire a Playwright browser for the given fetcher backend.
 
