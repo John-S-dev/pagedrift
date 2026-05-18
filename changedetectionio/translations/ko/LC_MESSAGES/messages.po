@@ -3713,6 +3713,52 @@ msgstr "1시간 전"
 msgid "in 1h"
 msgstr "1시간 후"
 
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sh ago"
+msgstr "%s시간 전"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sh"
+msgstr "%s시간 후"
+
+#: changedetectionio/languages.py
+msgid "1d ago"
+msgstr "1일 전"
+
+#: changedetectionio/languages.py
+msgid "in 1d"
+msgstr "1일 후"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sd ago"
+msgstr "%s일 전"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sd"
+msgstr "%s일 후"
+
+#: changedetectionio/languages.py
+msgid "1w ago"
+msgstr "1주 전"
+
+#: changedetectionio/languages.py
+msgid "in 1w"
+msgstr "1주 후"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sw ago"
+msgstr "%s주 전"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sw"
+msgstr "%s주 후"
+
 #: changedetectionio/processors/image_ssim_diff/difference.py
 #, python-brace-format
 msgid "Failed to load screenshots: {}"
