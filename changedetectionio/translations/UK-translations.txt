@@ -171,3 +171,43 @@ msgstr "Увімкнути або вимкнути значки (фавікон�
 msgid "Number of items per page in the watch overview list, 0 to disable."
 msgstr "Кількість елементів на сторінці у списку завдань, 0 для вимкнення."
 
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Keyboard:"
+msgstr "Клавіатура:"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Previous"
+msgstr "Попереднє"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Next"
+msgstr "Наступне"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Jump to next difference"
+msgstr "Перейти до наступної розбіжності"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Jump"
+msgstr "Перейти"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Error Text"
+msgstr "Текст помилки"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Error Screenshot"
+msgstr "Скріншот помилки"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Text"
+msgstr "Текст"
+
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+msgid "Current screenshot"
+msgstr "Поточний скріншот"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Extract Data"
+msgstr "Вилучити дані"
+
