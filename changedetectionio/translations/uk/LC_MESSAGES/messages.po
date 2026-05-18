@@ -257,6 +257,46 @@ msgid "Set to empty to disable / no limit"
 msgstr "Залиште порожнім, щоб вимкнути (без обмежень)"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "копіювати"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "Перестворити ключ API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Розширення Chrome"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Легко додавайте будь-яку веб-сторінку до вашої інсталяції changedetection.io прямо з Chrome."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "Крок 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "Встановіть розширення,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "Крок 2"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "Перейдіть на цю сторінку,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "Крок 3"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Open the extension from the toolbar and click"
+msgstr "Відкрийте розширення на панелі інструментів і натисніть"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Local Time & Date in Browser:"
 msgstr "Місцевий час і дата у браузері:"
 
