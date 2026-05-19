@@ -113,3 +113,40 @@ body {
   }
 }
 
+// Right-hand column that hosts the page content (header, flash messages, the
+// page body block). `align-items: center` centers each child horizontally
+// — child blocks render at their intrinsic width and sit in the middle of
+// the column regardless of viewport size.
+.content-main {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media only screen and (min-width: $desktop-wide-breakpoint) {
+    flex-direction: column;
+  }
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+// Row icons like chrome, pdf, share, etc
+.status-icon {
+  display: inline-block;
+  height: 1rem;
+  vertical-align: middle;
+}
+
+/*.pure-table-even {
+  background: var(--color-background);
+}*/
+
