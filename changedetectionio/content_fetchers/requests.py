@@ -256,3 +256,5 @@ class fetcher(Fetcher):
                     logger.warning(f"Failed to unlink screenshot: {screenshot} - {e}")
 
 
+# Create module-level instance for plugin registration
+requests_plugin = RequestsFetcherPlugin()
