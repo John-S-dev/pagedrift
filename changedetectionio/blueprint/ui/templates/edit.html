@@ -117,6 +117,33 @@
 
                     </div>
 
+                    <div class="pure-control-group time-between-check border-fieldset">
+
+                        {{ render_checkbox_field(form.time_between_check_use_default, class="use-default-timecheck") }}
+                        <br>
+                        <div id="time-check-widget-wrapper">
+                            {{ render_field(form.time_between_check, class="time-check-widget") }}
+
+                            <span class="pure-form-message-inline">
+                             {{ _('The interval/amount of time between each check.') }}
+                            </span>
+                        </div>
+                        <div id="time-between-check-schedule">
+                            <!-- Start Time and End Time -->
+                            <div id="limit-between-time">
+                                {{ render_time_schedule_form(form, available_timezones, timezone_default_config) }}
+                            </div>
+                        </div>
+<br>
+              </div>
+                    <div class="pure-control-group">
+                        {{ render_field(form.history_snapshot_max_length, class="history_snapshot_max_length") }}
+                        <span class="pure-form-message-inline">{{ _('Limit collection of history snapshots for each watch to this number of history items.') }}
+                        <br>
+                        {{ _('Set to empty to use system settings default') }}
+                        </span>
+                    </div>
+
                 </fieldset>
             </div>
 
