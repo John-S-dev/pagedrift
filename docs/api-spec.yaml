@@ -2010,6 +2010,45 @@ paths:
         '500':
           description: Server error
 
+  /systeminfo:
+    get:
+      operationId: getSystemInfo
+      tags: [System Information]
+      summary: Get system information
+      description: Return information about the current system state
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            curl -X GET "http://localhost:5000/api/v1/systeminfo" \
+              -H "x-api-key: YOUR_API_KEY"
+        - lang: 'Python'
+          source: |
+            import requests
+
+            headers = {'x-api-key': 'YOUR_API_KEY'}
+            response = requests.get('http://localhost:5000/api/v1/systeminfo', headers=headers)
+            print(response.json())
+      responses:
+        '200':
+          description: System information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemInfo'
+              example:
+                watch_count: 42
+                tag_count: 5
+                uptime: "2 days, 3:45:12"
+                version: "0.50.10"
+
+  /full-spec:
+    get:
+      operationId: getFullApiSpec
+      tags: [Plugin API Extensions]
+      summary: Get full live API spec
+      description: |
+        Return the fully merged OpenAPI specification for this instance.
+
         To load it directly in Swagger UI, paste the URL into the "Explore" box:
         ```
         http://localhost:5000/api/v1/full-spec
