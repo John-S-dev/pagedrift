@@ -28,3 +28,63 @@
             const containerRect = container.getBoundingClientRect();
             let handleTop;
 
+            if (isMouseOverContainer) {
+                // Mouse is over container - follow the mouse Y position
+                handleTop = mouseY - containerRect.top;
+            } else {
+                // Mouse not over container - use viewport center
+                const viewportCenter = window.innerHeight / 2;
+
+                if (containerRect.top > viewportCenter) {
+                    // Container is below viewport center - position handle at container top
+                    handleTop = 0;
+                } else if (containerRect.bottom < viewportCenter) {
+                    // Container is above viewport center - position handle at container bottom
+                    handleTop = containerRect.height;
+                } else {
+                    // Container spans viewport center - position handle at viewport center
+                    handleTop = viewportCenter - containerRect.top;
+                }
+            }
+
+            // Ensure handle stays within container bounds
+            handleTop = Math.max(24, Math.min(handleTop, containerRect.height - 24));
+
+            handle.style.top = handleTop + 'px';
+        }
+
+        /**
+         * Track mouse position over container
+         */
+        function onMouseMoveContainer(e) {
+            mouseY = e.clientY;
+            updateHandlePosition();
+        }
+
+        /**
+         * Mouse enters container
+         */
+        function onMouseEnter() {
+            isMouseOverContainer = true;
+        }
+
+        /**
+         * Mouse leaves container
+         */
+        function onMouseLeave() {
+            isMouseOverContainer = false;
+            updateHandlePosition();
+        }
+
+        /**
+         * Update slider position and clip-path
+         */
+        function updateSlider(clientX) {
+            const rect = container.getBoundingClientRect();
+            const pos = Math.max(0, Math.min(clientX - rect.left, rect.width));
+            const percentage = (pos / rect.width) * 100;
+
+            slider.style.left = percentage + '%';
+            afterWrapper.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+        }
+
