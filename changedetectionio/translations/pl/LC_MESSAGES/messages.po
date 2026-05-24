@@ -505,6 +505,52 @@ msgid "AI Provider"
 msgstr "Dostawca rozwiązań AI"
 
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Remove AI / LLM configuration?"
+msgstr "Usunąć konfigurację AI / LLM?"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove your saved AI provider, model, and API key."
+msgstr "Spowoduje to usunięcie zapisanego dostawcy AI, modelu oraz klucza API."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Remove"
+msgstr "Usuń"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html changedetectionio/templates/base.html
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Test connection"
+msgstr "Sprawdź połączenie"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Your API key is stored locally and sent only to your chosen provider. On each detected change, the watch's diff and "
+"extracted text are sent to the LLM — no full page HTML."
+msgstr ""
+"Twój klucz API jest przechowywany lokalnie i przesyłany wyłącznie do wybranego przez Ciebie dostawcy. Przy każdej "
+"wykrytej zmianie do modelu LLM przesyłane są różnice w treści oraz wyodrębniony tekst — nie jest przesyłany pełny kod"
+" HTML strony."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Cache"
+msgstr "Pamięć podręczna"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache?"
+msgstr "Wyczyścić całą pamięć podręczną podsumowań?"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove all cached AI change summaries across all watches."
+msgstr "Spowoduje to usunięcie wszystkich zapisanych w pamięci podręcznej podsumowań zmian AI ze wszystkich obserwacji."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "They will be regenerated on the next check."
+msgstr "Zostaną odnowione przy następnym sprawdzeniu."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "Clear cache"
 msgstr "Wyczyść pamięć podręczną"
 
