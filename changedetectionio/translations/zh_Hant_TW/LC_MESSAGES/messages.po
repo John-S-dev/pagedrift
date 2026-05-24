@@ -256,3 +256,43 @@ msgstr "每行新增多個元素、CSS 或 XPath 選擇器，以忽略 HTML 的�
 msgid "Note: This is applied globally in addition to the per-watch rules."
 msgstr "注意：除了每個監測任務的規則外，此設定還會套用至全域。"
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "複製"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "重新產生 API 金鑰"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Chrome 擴充功能"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "從 Chrome 內部輕鬆將任何網頁新增至您的 changedetection.io 安裝中。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "步驟 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "安裝擴充功能，"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "步驟 2"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "導覽至此頁面，"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "步驟 3"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Open the extension from the toolbar and click"
+msgstr "從工具列開啟擴充功能並點擊"
+
