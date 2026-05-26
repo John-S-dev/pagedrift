@@ -159,3 +159,58 @@ def construct_blueprint(datastore: ChangeDetectionStore):
                     from changedetectionio import worker_pool
                     from changedetectionio.flask_app import update_q, notification_q, app, datastore as ds
 
+                    # Check CPU core availability and warn if worker count is high
+                    cpu_count = os.cpu_count()
+                    if cpu_count and new_worker_count >= (cpu_count * 0.9):
+                        flash(gettext("Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})").format(
+                            worker_count=new_worker_count, cpu_count=cpu_count), 'warning')
+
+                    result = worker_pool.adjust_async_worker_count(
+                        new_count=new_worker_count,
+                        update_q=update_q,
+                        notification_q=notification_q,
+                        app=app,
+                        datastore=ds
+                    )
+
+                    if result['status'] == 'success':
+                        flash(gettext("Worker count adjusted: {}").format(result['message']), 'notice')
+                    elif result['status'] == 'not_supported':
+                        flash(gettext("Dynamic worker adjustment not supported for sync workers"), 'warning')
+                    elif result['status'] == 'error':
+                        flash(gettext("Error adjusting workers: {}").format(result['message']), 'error')
+
+                if not os.getenv("SALTED_PASS", False) and len(form.application.form.password.encrypted_password):
+                    datastore.data['settings']['application']['password'] = form.application.form.password.encrypted_password
+                    datastore.commit()
+                    flash(gettext("Password protection enabled."), 'notice')
+                    flask_login.logout_user()
+                    return redirect(url_for('watchlist.index'))
+
+                # Also save plugin settings from the same form submission
+                plugin_tabs_list = get_plugin_settings_tabs()
+                for tab in plugin_tabs_list:
+                    plugin_id = tab['plugin_id']
+                    form_class = tab['form_class']
+
+                    # Instantiate plugin form with POST data
+                    plugin_form = form_class(formdata=request.form)
+
+                    # Save plugin settings (validation is optional for plugins)
+                    if plugin_form.data:
+                        save_plugin_settings(datastore.datastore_path, plugin_id, plugin_form.data)
+
+                flash(gettext("Settings updated."))
+
+            else:
+                flash(gettext("An error occurred, please see below."), "error")
+
+        # Convert to ISO 8601 format, all date/time relative events stored as UTC time
+        utc_time = datetime.now(ZoneInfo("UTC")).isoformat()
+
+        # Get active plugins
+        from changedetectionio.pluggy_interface import get_active_plugins
+        import sys
+        active_plugins = get_active_plugins()
+        python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+
