@@ -174,6 +174,51 @@ msgstr "還原 changedetection.io 備份功能位於"
 msgid "backups section"
 msgstr "備份區段"
 
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Column #"
+msgstr "欄位 #"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Type"
+msgstr "類型"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "none"
+msgstr "無"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "CSS/xPath filter"
+msgstr "CSS / xPath 過濾器"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Group / Tag name(s)"
+msgstr "群組 / 標籤名稱"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Recheck time (minutes)"
+msgstr "複查時間（分鐘）"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/sidebar-nav.html
+msgid "Import"
+msgstr "匯入"
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Expand on hover"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Always expanded"
+msgstr ""
+
+#: changedetectionio/blueprint/menu_modes.py
+msgid "Stays minimal"
+msgstr ""
+
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch with UUID %(uuid)s not found"
+msgstr "找不到 UUID 為 %(uuid)s 的監測任務"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Time & Date"
 msgstr "時間與日期"
