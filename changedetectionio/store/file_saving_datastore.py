@@ -28,6 +28,10 @@ except ImportError:
 # Set to True for mission-critical deployments requiring crash consistency
 FORCE_FSYNC_DATA_IS_CRITICAL = bool(strtobool(os.getenv('FORCE_FSYNC_DATA_IS_CRITICAL', 'False')))
 
+# ============================================================================
+# Helper Functions for Atomic File Operations
+# ============================================================================
+
 def save_json_atomic(file_path, data_dict, label="file", max_size_mb=10):
     """
     Save JSON data to disk using atomic write pattern.
