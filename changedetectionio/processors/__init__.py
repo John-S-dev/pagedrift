@@ -275,3 +275,33 @@ def available_processors():
     return _available_processors_cached(locale_str)
 
 
+def get_processor_descriptions():
+    """
+    Get a dictionary mapping processor names to their description/name values.
+    Translations are applied based on the current request locale.
+
+    :return: A dict mapping processor name to description (e.g., {'text_json_diff': 'Webpage Text/HTML, JSON and PDF changes'})
+    """
+    processor_classes = find_processors()
+    descriptions = {}
+
+    for module, sub_package_name in processor_classes:
+        # Try to get the 'name' or 'description' attribute from the processor module first
+        if hasattr(module, 'name'):
+            descriptions[sub_package_name] = gettext(module.name)
+        elif hasattr(module, 'description'):
+            descriptions[sub_package_name] = gettext(module.description)
+        else:
+            # Fall back to parent module's __init__.py
+            parent_module = get_parent_module(module)
+            if parent_module and hasattr(parent_module, 'processor_description'):
+                descriptions[sub_package_name] = gettext(parent_module.processor_description)
+            elif parent_module and hasattr(parent_module, 'name'):
+                descriptions[sub_package_name] = gettext(parent_module.name)
+            else:
+                # Final fallback to a readable name
+                descriptions[sub_package_name] = sub_package_name.replace('_', ' ').title()
+
+    return descriptions
+
+
