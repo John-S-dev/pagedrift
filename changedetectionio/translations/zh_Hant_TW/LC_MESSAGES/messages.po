@@ -340,3 +340,51 @@ msgstr "步驟 3"
 msgid "Open the extension from the toolbar and click"
 msgstr "從工具列開啟擴充功能並點擊"
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Local Time & Date in Browser:"
+msgstr "瀏覽器中的本地時間與日期："
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable this setting to open the diff page in a new tab. If disabled, the diff page will open in the current tab."
+msgstr "啟用此設定以在新分頁中開啟差異（Diff）頁面。如果停用，差異頁面將在目前分頁中開啟。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Realtime UI Updates Enabled - (Restart required if this is changed)"
+msgstr "已啟用即時 UI 更新 -（若變更此項需要重新啟動）"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable or Disable Favicons next to the watch list"
+msgstr "啟用或停用監測列表旁的網站圖示（Favicons）"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of items per page in the watch overview list, 0 to disable."
+msgstr "監測概覽列表中每頁的項目數量，設為 0 以停用。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "How \"Checked\" and \"Changed\" times are shown in the watch overview list."
+msgstr "「檢查時間」和「變更時間」在監測概覽列表中的顯示方式。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid ""
+"\"Collapsed icon rail\" keeps the left navigation slim and reveals labels on mouse-over; \"Always expanded\" keeps "
+"labels visible."
+msgstr "「摺疊式圖示列」可保持左側導覽列精簡，並在滑鼠懸停時顯示標籤；「一律展開」則讓標籤保持可見。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Tip"
+msgstr "提示"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "\"Residential\" and \"Mobile\" proxy type can be more successful than \"Data Center\" for blocked websites."
+msgstr "對於被封鎖的網站，「住宅」與「行動網路」代理伺服器類型可能比「資料中心」更容易成功。"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "\"Name\" will be used for selecting the proxy in the Watch Edit settings"
+msgstr "「名稱」將用於在監測任務編輯設定中選擇代理伺服器"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid ""
+"SOCKS5 proxies with authentication are only supported with 'plain requests' fetcher, for other fetchers you should "
+"whitelist the IP access instead"
+msgstr "僅「純文字請求」抓取器支援需要驗證的 SOCKS5 代理伺服器，對於其他抓取器，您應該改為將 IP 存取列入白名單"
+
