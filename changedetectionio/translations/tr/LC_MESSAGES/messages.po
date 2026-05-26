@@ -268,6 +268,50 @@ msgid "Note: Simply changing the User-Agent often does not defeat anti-robot tec
 msgstr "Not: Sadece User-Agent'ı değiştirmek genellikle anti-robot teknolojilerini alt etmez, şunları dikkate almak önemlidir"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Şunu kullanarak API erişim sınırını kısıtlayın"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "başlık - Chrome Eklentisinin çalışması için gereklidir"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "kopyala"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "API anahtarını yeniden oluştur"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Chrome Eklentisi"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Herhangi bir web sayfasını Chrome içinden changedetection.io kurulumunuza kolayca ekleyin."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "Adım 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "Eklentiyi yükleyin,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 2"
+msgstr "Adım 2"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Navigate to this page,"
+msgstr "Bu sayfaya gidin,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 3"
+msgstr "Adım 3"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Open the extension from the toolbar and click"
 msgstr "Araç çubuğundan eklentiyi açın ve tıklayın"
 
