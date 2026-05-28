@@ -37,6 +37,47 @@ msgstr "Резервні копії було видалено."
 msgid "Backups"
 msgstr "Резервні копії"
 
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "A backup is running!"
+msgstr "Виконується резервне копіювання!"
+
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "Here you can download and request a new backup, when a backup is completed you will see it listed below."
+msgstr "Тут ви можете завантажити або створити нову резервну копію. Коли створення завершиться, вона з'явиться у списку нижче."
+
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "Mb"
+msgstr "Мб"
+
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "No backups found."
+msgstr "Резервних копій не знайдено."
+
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "Create backup"
+msgstr "Створити резервну копію"
+
+#: changedetectionio/blueprint/backups/templates/overview.html
+msgid "Remove backups"
+msgstr "Видалити резервні копії"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Importing 5,000 of the first URLs from your list, the rest can be imported again."
+msgstr "Імпортуються перші 5000 URL з вашого списку, решту можна імпортувати повторно."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{} Imported from list in {:.2f}s, {} Skipped."
+msgstr "{} Імпортовано зі списку за {:.2f}с, {} Пропущено."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read JSON file, was it broken?"
+msgstr "Не вдалося прочитати JSON-файл, можливо, він пошкоджений?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "Структура JSON виглядає некоректною, можливо, файл пошкоджений?"
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{} Imported from Distill.io in {:.2f}s, {} Skipped."
