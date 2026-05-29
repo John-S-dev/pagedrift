@@ -87,6 +87,47 @@ msgid ""
 "appear. Skip review additions."
 msgstr ""
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "Gruppo / Etichetta"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Monitora questo URL!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Modifica > Monitora"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Un backup è già in esecuzione, riprova tra qualche minuto"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Numero massimo di backup raggiunto, rimuovine alcuni"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Backup in creazione in background, riprova tra qualche minuto."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "I backup sono stati eliminati."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr ""
+
 #: changedetectionio/blueprint/backups/restore.py
 msgid "Replace existing groups of the same UUID"
 msgstr ""
