@@ -281,3 +281,64 @@ window.initVisualSelector = function (opts) {
     function initializeDrawMode() {
         if (!isImageProcessor || !c) return;
 
+        // Highlight the restored selections
+        highlightCurrentSelected();
+    }
+
+    function handleDrawMouseDown(e) {
+        const rect = c.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Check if clicking on a resize handle
+        if (drawnBox) {
+            resizeHandle = getResizeHandle(x, y);
+            if (resizeHandle) {
+                isDrawing = true;
+                drawStartX = x;
+                drawStartY = y;
+                return;
+            }
+
+            // Check if clicking inside the box (for dragging)
+            if (isInsideBox(x, y)) {
+                isDragging = true;
+                dragOffsetX = x - drawnBox.x;
+                dragOffsetY = y - drawnBox.y;
+                $selectorCanvasElem.css('cursor', 'move');
+                return;
+            }
+        }
+
+        // Start new box
+        isDrawing = true;
+        drawStartX = x;
+        drawStartY = y;
+        drawnBox = { x: x, y: y, width: 0, height: 0 };
+    }
+
+    function handleDrawMouseMove(e) {
+        const rect = c.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Update cursor based on position
+        if (!isDrawing && !isDragging && drawnBox) {
+            const handle = getResizeHandle(x, y);
+            if (handle) {
+                $selectorCanvasElem.css('cursor', getHandleCursor(handle));
+            } else if (isInsideBox(x, y)) {
+                $selectorCanvasElem.css('cursor', 'move');
+            } else {
+                $selectorCanvasElem.css('cursor', 'crosshair');
+            }
+        }
+
+        // Handle dragging the box
+        if (isDragging) {
+            drawnBox.x = x - dragOffsetX;
+            drawnBox.y = y - dragOffsetY;
+            drawBox();
+            return;
+        }
+
