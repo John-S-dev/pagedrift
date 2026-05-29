@@ -213,6 +213,52 @@ msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped.
 msgstr "{count} importées de Distill.io en {duration}s, {skipped_count} ignorées."
 
 #: changedetectionio/blueprint/imports/templates/import.html
+msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
+msgstr ""
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/templates/edit/include_subtract.html
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example"
+msgstr "Exemple"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URLs which do not pass validation will stay in the textarea."
+msgstr "Les URL qui ne passent pas la validation resteront dans la zone de texte."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Copy and Paste your Distill.io watch 'export' file, this should be a JSON file."
+msgstr ""
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ""
+"This is <i>experimental</i>, supported fields are <code>name</code>, <code>uri</code>, <code>tags</code>, "
+"<code>config:selections</code>, the rest (including <code>schedule</code>) are ignored."
+msgstr ""
+"C'est <i>expérimental</i>, les champs pris en charge sont <code>name</code>, <code>uri</code>, <code>tags</code>, "
+"<code>config:selections</code>, le reste (y compris <code>schedule</code>) est ignoré."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "How to export?"
+msgstr "Comment exporter ?"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Be sure to set your default fetcher to Chrome if required."
+msgstr "Assurez-vous de définir votre outil de récupération par défaut sur Chrome si nécessaire."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Table of custom column and data types mapping for the"
+msgstr "Tableau de mappage des colonnes personnalisées et des types de données pour le"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Custom mapping"
+msgstr "Cartographie personnalisée"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "File mapping type."
+msgstr "Type de mappage de fichiers."
+
+#: changedetectionio/blueprint/imports/templates/import.html
 msgid "Column #"
 msgstr "Colonne #"
 
