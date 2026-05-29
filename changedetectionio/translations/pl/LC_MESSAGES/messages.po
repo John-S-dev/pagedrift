@@ -392,6 +392,44 @@ msgstr ""
 msgid "AI / LLM configuration removed."
 msgstr "Usunięto konfigurację AI / LLM."
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/tags/templates/edit-tag.html
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "General"
+msgstr "Ogólne informacje"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Fetching"
+msgstr "Pobieranie"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Global Filters"
+msgstr "Filtry globalne"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "UI Options"
+msgstr "Opcje interfejsu użytkownika"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Backups"
+msgstr "Kopie zapasowe"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Time & Date"
+msgstr "Godzina i data"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "CAPTCHA & Proxies"
+msgstr "CAPTCHA i serwery proxy"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/tags/templates/edit-tag.html
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI / LLM"
+msgstr "Sztuczna inteligencja / Wielkie modele językowe"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Info"
+msgstr "Informacje"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Changing this will change the status of your existing watches, possibly trigger alerts etc."
 msgstr "Zmiana tej opcji spowoduje zmianę statusu istniejących obserwacji, co może wywołać powiadomienia itp."
