@@ -174,6 +174,138 @@ async def capture_full_page(page, screenshot_format='JPEG', watch_uuid=None, loc
     return screenshot_chunks[0]
 
 
+class fetcher(Fetcher):
+    fetcher_description = "Puppeteer/direct {}/Javascript".format(
+        os.getenv("PLAYWRIGHT_BROWSER_TYPE", 'chromium').capitalize()
+    )
+    if os.getenv("PLAYWRIGHT_DRIVER_URL"):
+        fetcher_description += " via '{}'".format(os.getenv("PLAYWRIGHT_DRIVER_URL"))
+
+    browser = None
+    browser_type = ''
+    command_executor = ''
+    proxy = None
+
+    # Capability flags
+    supports_browser_steps = True
+    supports_screenshots = True
+    supports_xpath_element_data = True
+
+    @classmethod
+    def get_status_icon_data(cls):
+        """Return Chrome browser icon data for Puppeteer fetcher."""
+        return {
+            'filename': 'google-chrome-icon.png',
+            'alt': 'Using a Chrome browser',
+            'title': 'Using a Chrome browser'
+        }
+
+    def __init__(self, proxy_override=None, custom_browser_connection_url=None, **kwargs):
+        super().__init__(**kwargs)
+
+        # Renderer crashes recorded during the fetch, see the 'error' handler in fetch_page().
+        # Set up here so run()'s finally can always report, even if we never got as far as a page.
+        self.page_errors = []
+
+        if custom_browser_connection_url:
+            self.browser_connection_is_custom = True
+            self.browser_connection_url = custom_browser_connection_url
+        else:
+            # Fallback to fetching from system
+            # .strip('"') is going to save someone a lot of time when they accidently wrap the env value
+            self.browser_connection_url = os.getenv("PLAYWRIGHT_DRIVER_URL", 'ws://playwright-chrome:3000').strip('"')
+
+        # allow per-watch proxy selection override
+        # @todo check global too?
+        if proxy_override:
+            # Playwright needs separate username and password values
+            parsed = urlparse(proxy_override)
+            if parsed:
+                self.proxy = {'username': parsed.username, 'password': parsed.password}
+                # Add the proxy server chrome start option, the username and password never gets added here
+                # (It always goes in via await self.page.authenticate(self.proxy))
+
+                # @todo filter some injection attack?
+                # check scheme when no scheme
+                proxy_url = parsed.scheme + "://" if parsed.scheme else 'http://'
+                r = "?" if not '?' in self.browser_connection_url else '&'
+                port = ":"+str(parsed.port) if parsed.port else ''
+                q = "?"+parsed.query if parsed.query else ''
+                proxy_url += f"{parsed.hostname}{port}{parsed.path}{q}"
+                self.browser_connection_url += f"{r}--proxy-server={proxy_url}"
+
+    async def quit(self, watch=None):
+        watch_uuid = watch.get('uuid') if watch else 'unknown'
+
+        # Close page
+        try:
+            if hasattr(self, 'page') and self.page:
+                await asyncio.wait_for(self.page.close(), timeout=5.0)
+                logger.debug(f"[{watch_uuid}] Page closed successfully")
+        except asyncio.TimeoutError:
+            logger.warning(f"[{watch_uuid}] Timed out closing page (5s)")
+        except Exception as e:
+            logger.warning(f"[{watch_uuid}] Error closing page: {e}")
+        finally:
+            self.page = None
+
+        # Close browser connection
+        try:
+            if hasattr(self, 'browser') and self.browser:
+                await asyncio.wait_for(self.browser.close(), timeout=5.0)
+                logger.debug(f"[{watch_uuid}] Browser closed successfully")
+        except asyncio.TimeoutError:
+            logger.warning(f"[{watch_uuid}] Timed out closing browser (5s)")
+        except Exception as e:
+            logger.warning(f"[{watch_uuid}] Error closing browser: {e}")
+        finally:
+            self.browser = None
+
+        logger.info(f"[{watch_uuid}] Cleanup puppeteer complete")
+
+        # Force garbage collection to release resources
+        gc.collect()
+
+    async def fetch_page(self,
+                         current_include_filters,
+                         empty_pages_are_a_change,
+                         fetch_favicon,
+                         ignore_status_codes,
+                         is_binary,
+                         request_body,
+                         request_headers,
+                         request_method,
+                         screenshot_format,
+                         timeout,
+                         url,
+                         watch_uuid
+                         ):
+        import re
+        self.delete_browser_steps_screenshots()
+
+        n = int(os.getenv("WEBDRIVER_DELAY_BEFORE_CONTENT_READY", 12)) + self.render_extract_delay
+        extra_wait = min(n, 15)
+
+        logger.debug(f"Extra wait set to {extra_wait}s, requested was {n}s.")
+
+        from pyppeteer import Pyppeteer
+        pyppeteer_instance = Pyppeteer()
+
+        # Connect directly using the specified browser_ws_endpoint
+        # @todo timeout
+        try:
+            logger.debug(f"[{watch_uuid}] Connecting to browser at {self.browser_connection_url}")
+            self.browser = await pyppeteer_instance.connect(browserWSEndpoint=self.browser_connection_url,
+                                                            ignoreHTTPSErrors=True
+                                                            )
+            logger.debug(f"[{watch_uuid}] Browser connected successfully")
+        except websockets.exceptions.InvalidStatusCode as e:
+            raise BrowserConnectError(msg=f"Error while trying to connect the browser, Code {e.status_code} (check your access, whitelist IP, password etc)")
+        except websockets.exceptions.InvalidURI:
+            raise BrowserConnectError(msg=f"Error connecting to the browser, check your browser connection address (should be ws:// or wss://")
+        except Exception as e:
+            raise BrowserConnectError(msg=f"Error connecting to the browser - Exception '{str(e)}'")
+
 # Plugin registration for built-in fetcher
 class PuppeteerFetcherPlugin:
     """Plugin class that registers the Puppeteer fetcher as a built-in plugin."""
