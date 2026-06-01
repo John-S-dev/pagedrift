@@ -394,6 +394,46 @@ msgstr "UI 옵션"
 msgid "Backups"
 msgstr "백업"
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr "모니터링을 처리할 동시 워커 수입니다. 워커가 많을수록 처리는 빨라지지만 메모리 사용량도 늘어납니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "현재 실행 중:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "작동 중"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "워커"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "활발히 처리 중"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "예: 무작위 지터를 3초로 설정하면 최대 3초 빠르거나 최대 3초 늦게 실행될 수 있습니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "일반 요청(Chrome 기반이 아님)의 최대 타임아웃 시간(초)입니다. 1~999 사이여야 합니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Applied to all requests."
+msgstr "모든 요청에 적용됩니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note: Simply changing the User-Agent often does not defeat anti-robot technologies, it's important to consider"
+msgstr "참고: User-Agent만 바꾼다고 해서 반봇 기술을 우회할 수 있는 것은 아닙니다. 다음 요소도 함께 고려해야 합니다."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr "브라우저가 탐지되는 모든 방식"
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
 msgid "Matching text will be ignored in the text snapshot (you can still see it but it wont trigger a change)"
 msgstr "일치하는 텍스트는 텍스트 스냅샷 비교에서 무시됩니다. (화면에는 표시되지만 변경으로 감지되지는 않음)"
