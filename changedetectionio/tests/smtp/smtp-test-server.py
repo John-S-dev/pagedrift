@@ -90,3 +90,21 @@ def echo_last_message():
     return Response(last_received_message, mimetype='text/plain')
 
 
+def run_flask():
+    app.run(host='0.0.0.0', port=11080, debug=False, use_reloader=False)
+
+
+if __name__ == "__main__":
+    # Start the SMTP server
+    controller = Controller(CustomSMTPHandler(), hostname='0.0.0.0', port=11025)
+    controller.start()
+
+    # Start the HTTP server in a separate thread
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+
+    # Keep the main thread alive
+    try:
+        flask_thread.join()
+    except KeyboardInterrupt:
+        print("Shutting down...")
