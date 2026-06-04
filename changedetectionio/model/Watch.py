@@ -259,6 +259,68 @@ class model(EntityPersistenceMixin, watch_base):
     def fetcher_supports_screenshots(self):
         """Return True if the fetcher configured for this watch supports screenshots.
 
+                        # Always resolve history entries to within the watch's own data directory.
+                        # Entries restored from backup could contain absolute or traversal paths —
+                        # never trust them. Use realpath to also block symlink-based escapes.
+                        safe_data_dir = os.path.realpath(self.data_dir)
+                        snapshot_fname = os.path.basename(v.strip())
+                        resolved_path = os.path.realpath(os.path.join(self.data_dir, snapshot_fname))
+
+                        if not resolved_path.startswith(safe_data_dir + os.sep) and resolved_path != safe_data_dir:
+                            logger.warning(f"Skipping unsafe history entry for {self.get('uuid')}: {v!r}")
+                            continue
+
+                        if not os.path.exists(resolved_path):
+                            continue
+
+                        tmp_history[k] = resolved_path
+
+        if len(tmp_history):
+            self.__newest_history_key = list(tmp_history.keys())[-1]
+        else:
+            self.__newest_history_key = None
+
+        self.__history_n = len(tmp_history)
+
+        return tmp_history
+
+    @property
+    def has_history(self):
+        fname = os.path.join(self.data_dir, self.history_index_filename)
+        return os.path.isfile(fname)
+
+    @property
+    def has_browser_steps(self):
+        has_browser_steps = self.get('browser_steps') and list(filter(
+            lambda s: (s['operation'] and len(s['operation']) and s['operation'] != 'Choose one' and s['operation'] != 'Goto site'),
+            self.get('browser_steps')))
+
+        return has_browser_steps
+
+    @property
+    def has_restock_info(self):
+        if self.get('restock') and self['restock'].get('in_stock') != None:
+                return True
+
+        return False
+
+    # Returns the newest key, but if theres only 1 record, then it's counted as not being new, so return 0.
+    @property
+    def newest_history_key(self):
+        if self.__newest_history_key is not None:
+            return self.__newest_history_key
+
+        if len(self.history) <= 1:
+            return 0
+
+
+        bump = self.history
+        return self.__newest_history_key
+
+    # Given an arbitrary timestamp, find the best history key for the [diff] button so it can preset a smarter from_version
+    @property
+    def get_from_version_based_on_last_viewed(self):
+
         """Unfortunately for now timestamp is stored as string key"""
         keys = list(self.history.keys())
         if not keys:
