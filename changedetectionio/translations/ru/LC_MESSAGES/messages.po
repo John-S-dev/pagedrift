@@ -319,6 +319,52 @@ msgstr ""
 msgid "API Access"
 msgstr "API-доступ"
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Does your reader support HTML? Set it here"
+msgstr "Поддерживает ли ваша читалка HTML? Установите это здесь"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "'System default' for the same template for all items, or re-use your \"Notification Body\" as the template."
+msgstr ""
+"«Системное значение по умолчанию» для одного и того же шаблона для всех элементов или повторно используйте «Тело "
+"уведомления» в качестве шаблона."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ensure the settings below are correct, they are used to manage the time schedule for checking your web page watches."
+msgstr ""
+"Убедитесь, что приведенные ниже настройки верны. Они используются для управления расписанием проверки часов вашей "
+"веб-страницы."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "UTC Time & Date from Server:"
+msgstr "Время и дата UTC с сервера:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Local Time & Date in Browser:"
+msgstr "Местное время и дата в браузере:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable this setting to open the diff page in a new tab. If disabled, the diff page will open in the current tab."
+msgstr ""
+"Включите этот параметр, чтобы открыть страницу различий в новой вкладке. Если этот параметр отключен, страница "
+"различий откроется на текущей вкладке."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Realtime UI Updates Enabled - (Restart required if this is changed)"
+msgstr "Обновления пользовательского интерфейса в реальном времени включены — (если это изменено, требуется перезагрузка)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Enable or Disable Favicons next to the watch list"
+msgstr "Включить или отключить значки рядом со списком наблюдения."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of items per page in the watch overview list, 0 to disable."
+msgstr "Количество элементов на странице в обзорном списке наблюдения: 0, чтобы отключить."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "How \"Checked\" and \"Changed\" times are shown in the watch overview list."
+msgstr ""
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid ""
 "You are solely responsible for compliance with applicable data-protection laws (e.g. GDPR) regarding any personal "
