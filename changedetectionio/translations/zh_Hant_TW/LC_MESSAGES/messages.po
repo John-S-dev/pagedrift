@@ -479,3 +479,46 @@ msgid ""
 "whitelist the IP access instead"
 msgstr "僅「純文字請求」抓取器支援需要驗證的 SOCKS5 代理伺服器，對於其他抓取器，您應該改為將 IP 存取列入白名單"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove your saved AI provider, model, and API key."
+msgstr "這將會移除您儲存的 AI 供應商、模型和 API 金鑰。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Remove"
+msgstr "移除"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html changedetectionio/templates/base.html
+msgid "Cancel"
+msgstr "取消"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Test connection"
+msgstr "測試連線"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"Your API key is stored locally and sent only to your chosen provider. On each detected change, the watch's diff and "
+"extracted text are sent to the LLM — no full page HTML."
+msgstr "您的 API 金鑰儲存在本地，且僅發送至您選擇的供應商。在每次檢測到變更時，監測任務的差異（Diff）和提取的文字會被發送至 LLM — 絕非全頁 HTML。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Cache"
+msgstr "快取"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear all summary cache?"
+msgstr "是否清除所有摘要快取？"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "This will remove all cached AI change summaries across all watches."
+msgstr "這將移除所有監測任務中所有已快取的 AI 變更摘要。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "They will be regenerated on the next check."
+msgstr "它們將在下次檢查時重新產生。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Clear cache"
+msgstr "清除快取"
+

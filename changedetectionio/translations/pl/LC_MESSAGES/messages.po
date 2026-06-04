@@ -796,6 +796,62 @@ msgid "Note"
 msgstr "Uwaga"
 
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"AI / LLM is configured via environment variables (<code>LLM_MODEL=%(model)s</code>%(api_base)s). Remove the "
+"<code>LLM_MODEL</code> environment variable to configure via this form instead."
+msgstr ""
+"Sztuczna inteligencja / LLM jest konfigurowana za pomocą zmiennych środowiskowych "
+"(<code>LLM_MODEL=%(model)s</code>%(api_base)s). Aby zamiast tego skonfigurować system za pomocą tego formularza, "
+"należy usunąć zmienną środowiskową <code>LLM_MODEL</code>."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "select a provider"
+msgstr "wybierz dostawcę"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "OpenAI-compatible (vLLM, LM Studio, llama.cpp)"
+msgstr "Zgodność z OpenAI (vLLM, LM Studio, llama.cpp)"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Only needed for Ollama or custom/self-hosted endpoints. Leave blank for cloud providers."
+msgstr ""
+"Wymagane wyłącznie w przypadku Ollamy lub niestandardowych/własnych punktów końcowych. W przypadku dostawców usług w "
+"chmurze pozostaw to pole puste."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Reasoning models (Qwen3, DeepSeek-R1, Gemma 3, etc.) emit chain-of-thought before the final answer. This multiplier "
+"scales every <code>max_tokens</code> cap for this endpoint to leave reasoning room. Defaults to %(default)s; raise it"
+" if responses come back truncated or empty, lower it (down to 1x) if you want tighter limits on a paid endpoint. "
+"Applied to Ollama and OpenAI-compatible endpoints — other cloud providers (OpenAI, Anthropic, Gemini) keep their "
+"original tight caps."
+msgstr ""
+"Modele rozumowania (Qwen3, DeepSeek-R1, Gemma 3 itp.) generują łańcuch rozumowania przed podaniem ostatecznej "
+"odpowiedzi. Ten mnożnik skaluje każdy limit <code>max_tokens</code> dla tego punktu końcowego, aby zapewnić miejsce "
+"na proces rozumowania. Wartość domyślna to %(default)s; zwiększ ją, jeśli odpowiedzi są ucięte lub puste, zmniejsz "
+"(do 1x), jeśli chcesz zastosować bardziej restrykcyjne limity w przypadku płatnego punktu końcowego. Dotyczy to "
+"punktów końcowych zgodnych z Ollama i OpenAI — inni dostawcy usług w chmurze (OpenAI, Anthropic, Gemini) zachowują "
+"swoje pierwotne, wąskie limity."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Load available models"
+msgstr "Załaduj dostępne modele"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Available models"
+msgstr "Dostępne modele"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "choose a model"
+msgstr "wybierz model"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Enter API key and click 'Load available models'"
+msgstr "Wprowadź klucz API i kliknij „Załaduj dostępne modele”"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "Remove AI / LLM configuration?"
 msgstr "Usunąć konfigurację AI / LLM?"
 
