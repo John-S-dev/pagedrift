@@ -304,6 +304,120 @@ def element_removal(selectors: List[str], html_content):
 
     return modified_html
 
+def elementpath_tostring(obj):
+    """
+    change elementpath.select results to string type
+    # The MIT License (MIT), Copyright (c), 2018-2021, SISSA (Scuola Internazionale Superiore di Studi Avanzati)
+    # https://github.com/sissaschool/elementpath/blob/dfcc2fd3d6011b16e02bf30459a7924f547b47d0/elementpath/xpath_tokens.py#L1038
+    """
+
+    import elementpath
+    from decimal import Decimal
+    import math
+
+    if obj is None:
+        return ''
+    # https://elementpath.readthedocs.io/en/latest/xpath_api.html#elementpath.select
+    elif isinstance(obj, elementpath.XPathNode):
+        return obj.string_value
+    elif isinstance(obj, bool):
+        return 'true' if obj else 'false'
+    elif isinstance(obj, Decimal):
+        value = format(obj, 'f')
+        if '.' in value:
+            return value.rstrip('0').rstrip('.')
+        return value
+
+    elif isinstance(obj, float):
+        if math.isnan(obj):
+            return 'NaN'
+        elif math.isinf(obj):
+            return str(obj).upper()
+
+        value = str(obj)
+        if '.' in value:
+            value = value.rstrip('0').rstrip('.')
+        if '+' in value:
+            value = value.replace('+', '')
+        if 'e' in value:
+            return value.upper()
+        return value
+
+    return str(obj)
+
+# Return str Utf-8 of matched rules
+@lxml_guarded
+def xpath_filter(xpath_filter, html_content, append_pretty_line_formatting=False, is_xml=False):
+    """
+
+    :param xpath_filter:
+    :param html_content:
+    :param append_pretty_line_formatting:
+    :param is_xml: set to true if is XML or is RSS (RSS is XML)
+    :return:
+    """
+    from lxml import etree, html
+    import elementpath
+
+    parser = lxml_html_parser()
+    tree = None
+    try:
+        if is_xml:
+            # So that we can keep CDATA for cdata_in_document_to_text() to process
+            parser = etree.XMLParser(strip_cdata=False, resolve_entities=False, no_network=True)
+            # For XML/RSS content, use etree.fromstring to properly handle XML declarations
+            tree = etree.fromstring(html_content.encode('utf-8') if isinstance(html_content, str) else html_content, parser=parser)
+        else:
+            tree = html.fromstring(html_content, parser=parser)
+        html_block = ""
+
+        # Build namespace map for XPath queries
+        namespaces = {'re': 'http://exslt.org/regular-expressions'}
+
+        # Handle default namespace in documents (common in RSS/Atom feeds, but can occur in any XML)
+        # XPath spec: unprefixed element names have no namespace, not the default namespace
+        # Solution: Register the default namespace with empty string prefix in elementpath
+        # This is primarily for RSS/Atom feeds but works for any XML with default namespace
+        if hasattr(tree, 'nsmap') and tree.nsmap and None in tree.nsmap:
+            # Register the default namespace with empty string prefix for elementpath
+            # This allows //title to match elements in the default namespace
+            namespaces[''] = tree.nsmap[None]
+
+        r = elementpath.select(tree, xpath_filter.strip(), namespaces=namespaces, parser=get_safe_xpath3_parser())
+        #@note: //title/text() now works with default namespaces (fixed by registering '' prefix)
+        #@note: //title/text() wont work where <title>CDATA.. (use cdata_in_document_to_text first)
+
+        if type(r) != list:
+            r = [r]
+
+        for element in r:
+            # When there's more than 1 match, then add the suffix to separate each line
+            # And where the matched result doesn't include something that will cause Inscriptis to add a newline
+            # (This way each 'match' reliably has a new-line in the diff)
+            # Divs are converted to 4 whitespaces by inscriptis
+            if append_pretty_line_formatting and len(html_block) and (not hasattr( element, 'tag' ) or not element.tag in (['br', 'hr', 'div', 'p'])):
+                html_block += TEXT_FILTER_LIST_LINE_SUFFIX
+
+            if type(element) == str:
+                html_block += element
+            elif issubclass(type(element), etree._Element) or issubclass(type(element), etree._ElementTree):
+                # Use 'xml' method for RSS/XML content, 'html' for HTML content
+                # parser will be XMLParser if we detected XML content
+                method = 'xml' if (is_xml or isinstance(parser, etree.XMLParser)) else 'html'
+                html_block += etree.tostring(element, pretty_print=True, method=method, encoding='unicode')
+            else:
+                html_block += elementpath_tostring(element)
+
+        # Drop element references before the finally block so tree.clear() can release
+        # the libxml2 document immediately (elements pin the C-level doc via refcount).
+        del r
+        return html_block
+    finally:
+        # Explicitly clear the tree to free memory
+        # lxml trees can hold significant memory, especially with large documents
+        if tree is not None:
+            tree.clear()
+
 # Return str Utf-8 of matched rules
 # 'xpath1:'
 @lxml_guarded
