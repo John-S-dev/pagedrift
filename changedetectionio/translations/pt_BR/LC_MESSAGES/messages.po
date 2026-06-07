@@ -916,6 +916,48 @@ msgstr "Não foi possível carregar o processador '{}', o plugin pode estar falt
 msgid "System settings default"
 msgstr ""
 
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Default"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/edit.py
+msgid "Updated watch - unpaused!"
+msgstr "Monitoramento atualizado - retomado!"
+
+#: changedetectionio/blueprint/ui/edit.py
+msgid "Updated watch."
+msgstr "Monitoramento atualizado."
+
+#: changedetectionio/blueprint/ui/preview.py
+msgid "Preview unavailable - No fetch/check completed or triggers not reached"
+msgstr "Pré-visualização indisponível - Nenhuma busca concluída ou gatilhos não atingidos"
+
+#: changedetectionio/blueprint/ui/preview.py
+msgid "Diff"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/queue.py changedetectionio/blueprint/watchlist/__init__.py
+#, python-brace-format
+msgid "displaying <b>{start} - {end}</b> {record_name} in total <b>{total}</b>"
+msgstr "exibindo <b>{start} - {end}</b> {record_name} em um total de <b>{total}</b>"
+
+#: changedetectionio/blueprint/ui/queue.py
+msgid "queued items"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/queue.py
+#, python-brace-format
+msgid "Queue cleared ({} items removed)."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "This will remove version history (snapshots) for ALL watches, but keep your list of URLs!"
+msgstr "Isso removerá o histórico de versões (instantâneos) para TODOS os monitoramentos, mas manterá sua lista de URLs!"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "You may like to use the"
+msgstr "Você pode querer usar o"
+
 #: changedetectionio/blueprint/ui/templates/clear_all_history.html
 msgid "BACKUP"
 msgstr "BACKUP"
