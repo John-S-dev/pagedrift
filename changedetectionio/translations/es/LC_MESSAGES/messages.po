@@ -478,6 +478,51 @@ msgstr "Establecer en <strong>0</strong> para deshabilitar"
 msgid "Limit collection of history snapshots for each watch to this number of history items."
 msgstr "Limite la recopilación de instantáneas del historial para cada monitor a esta cantidad de elementos del historial."
 
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "all of the ways that the browser is detected"
+msgstr "todas las formas en que se detecta el navegador"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Connect using Bright Data proxies, find out more here."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/diff.html
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/templates/_common_fields.html
+msgid "Tip:"
+msgstr "Consejo:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Ignore whitespace, tabs and new-lines/line-feeds when considering if a change was detected."
+msgstr ""
+"Ignore los espacios en blanco, las tabulaciones y las nuevas líneas/avances de línea al considerar si se detectó un "
+"cambio."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Note:"
+msgstr "Nota:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this will change the status of your existing watches, possibly trigger alerts etc."
+msgstr "Cambiar esto cambiará el estado de sus monitores existentes, posiblemente activará alertas, etc."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Render anchor tag content, default disabled, when enabled renders links as"
+msgstr ""
+"Representar el contenido de la etiqueta de anclaje, deshabilitado de forma predeterminada; cuando está habilitado, "
+"los enlaces se muestran como"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Changing this could affect the content of your existing watches, possibly trigger alerts etc."
+msgstr "Cambiar esto podría afectar el contenido de sus monitores existentes, posiblemente activar alertas, etc."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Remove HTML element(s) by CSS and XPath selectors before text conversion."
+msgstr "Elimine los elementos HTML mediante los selectores CSS y XPath antes de la conversión de texto."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
+msgid "Don't paste HTML here, use only CSS and XPath selectors"
+msgstr "No pegue HTML aquí, use solo selectores CSS y XPath"
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/include_subtract.html
 msgid "Add multiple elements, CSS or XPath selectors per line to ignore multiple parts of the HTML."
 msgstr "Agregue múltiples elementos, selectores CSS o XPath por línea para ignorar múltiples partes del HTML."
