@@ -127,6 +127,50 @@ msgstr "Введіть по одному URL у рядок, опціональн
 msgid "Example:"
 msgstr "Приклад:"
 
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URLs which do not pass validation will stay in the textarea."
+msgstr "URL, що не пройшли перевірку, залишаться у текстовому полі."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Copy and Paste your Distill.io watch 'export' file, this should be a JSON file."
+msgstr "Скопіюйте та вставте вміст файлу експорту з Distill.io (файл JSON)."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "This is"
+msgstr "Це"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "experimental"
+msgstr "експериментальна функція"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "supported fields are"
+msgstr "підтримувані поля:"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "the rest (including"
+msgstr "решта (включно з"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "are ignored."
+msgstr "ігноруються."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "How to export?"
+msgstr "Як експортувати?"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Be sure to set your default fetcher to Chrome if required."
+msgstr "Переконайтеся, що встановлено Chrome як завантажувач за замовчуванням, якщо це необхідно."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Table of custom column and data types mapping for the"
+msgstr "Таблиця зіставлення користувацьких стовпців і типів даних для"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Custom mapping"
+msgstr "Власне зіставлення"
+
 #: changedetectionio/blueprint/settings/__init__.py
 #, python-brace-format
 msgid "Worker count adjusted: {}"
