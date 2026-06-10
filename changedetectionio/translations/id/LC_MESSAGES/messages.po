@@ -524,6 +524,50 @@ msgid "After this many consecutive times that the CSS/xPath filter is missing, s
 msgstr "Setelah filter CSS/xPath tidak ditemukan sebanyak ini secara berturut-turut, kirim notifikasi"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to <strong>0</strong> to disable"
+msgstr "Atur ke <strong>0</strong> untuk menonaktifkan"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit collection of history snapshots for each watch to this number of history items."
+msgstr "Batasi kumpulan snapshot riwayat setiap monitor hingga jumlah item riwayat ini."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Set to empty to disable / no limit"
+msgstr "Kosongkan untuk menonaktifkan / tanpa batas"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password protection for your changedetection.io application."
+msgstr "Perlindungan kata sandi untuk aplikasi changedetection.io Anda."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Password is locked."
+msgstr "Kata sandi dikunci."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Clear Snapshot History"
+msgstr "Hapus Riwayat Snapshot"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Allow access to the watch change history page when password is enabled (Good for sharing the diff page)"
+msgstr ""
+"Izinkan akses ke halaman riwayat perubahan monitor saat kata sandi diaktifkan (berguna untuk membagikan halaman "
+"perbedaan)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "When a request returns no content, or the HTML does not contain any text, is this considered a change?"
+msgstr ""
+"Jika permintaan tidak mengembalikan konten, atau HTML tidak berisi teks apa pun, apakah ini dianggap sebagai "
+"perubahan?"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Choose a default proxy for all watches"
+msgstr "Pilih proksi default untuk semua monitor"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the <strong>Basic</strong> method (default) where your watched sites don't need Javascript to render."
+msgstr "Gunakan metode <strong>Basic</strong> (default) jika situs yang dipantau tidak memerlukan Javascript untuk dirender."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Applied to all requests."
 msgstr "Diterapkan ke semua permintaan."
 
