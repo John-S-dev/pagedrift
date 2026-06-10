@@ -1481,3 +1481,48 @@ msgstr "Показати розширені налаштування"
 msgid "Run this code before performing change detection, handy for filling in fields and other actions"
 msgstr "Виконати цей код перед перевіркою змін, зручно для заповнення полів та інших дій"
 
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Summary"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+#: changedetectionio/processors/text_json_diff/difference.py
+msgid "History"
+msgstr "Історія"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Preview"
+msgstr "Прев'ю"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Changedetection.io can monitor more than just web-pages! See our plugins!"
+msgstr "Changedetection.io може моніторити більше, ніж просто веб-сторінки! Дивіться наші плагіни!"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "More info"
+msgstr "Детальніше"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "You can also add 'shared' watches."
+msgstr "Ви також можете додати 'спільні' завдання."
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Goto full history"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Loading price history…"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/processors/restock_diff/difference.py
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Out of stock"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "No price data available to graph yet."
+msgstr ""
+
