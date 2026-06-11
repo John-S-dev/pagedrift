@@ -263,6 +263,51 @@ msgstr "カスタムマッピング"
 msgid "File mapping type."
 msgstr "ファイルマッピングタイプ。"
 
+#: changedetectionio/blueprint/rss/single_watch.py
+#, python-format
+msgid "Watch %(uuid)s does not have enough history snapshots to show changes (need at least 2)"
+msgstr "ウォッチ %(uuid)s には変更を表示するためのスナップショット履歴が不足しています（最低2件必要）"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection removed."
+msgstr "パスワード保護が解除されました。"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Warning: Worker count ({worker_count}) is close to or exceeds available CPU cores ({cpu_count})"
+msgstr "警告：ワーカー数（{worker_count}）が利用可能なCPUコア数（{cpu_count}）に近いか超えています"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Worker count adjusted: {}"
+msgstr "ワーカー数を調整しました: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Dynamic worker adjustment not supported for sync workers"
+msgstr "同期ワーカーは動的なワーカー数調整をサポートしていません"
+
+#: changedetectionio/blueprint/settings/__init__.py
+#, python-brace-format
+msgid "Error adjusting workers: {}"
+msgstr "ワーカー数の調整中にエラーが発生しました: {}"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "Password protection enabled."
+msgstr "パスワード保護が有効になりました。"
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+msgid "Settings updated."
+msgstr "設定を更新しました。"
+
+#: changedetectionio/blueprint/settings/__init__.py changedetectionio/blueprint/settings/notifications/__init__.py
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/processors/extract.py
+msgid "An error occurred, please see below."
+msgstr "エラーが発生しました。以下をご確認ください。"
+
+#: changedetectionio/blueprint/settings/__init__.py
+msgid "API Key was regenerated."
+msgstr "APIキーが再生成されました。"
+
 #: changedetectionio/blueprint/settings/__init__.py
 msgid "Automatic scheduling paused - checks will not be queued."
 msgstr "自動スケジューリングが一時停止されました。チェックはキューに追加されません。"
