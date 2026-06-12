@@ -56,3 +56,33 @@ run_test() {
 # Test Functions (each runs independently)
 # =============================================================================
 
+test_help_flag() {
+    local test_id=$1
+    timeout 3 python3 changedetection.py --help 2>&1 | grep -q "Add URLs on startup"
+}
+
+test_version_flag() {
+    local test_id=$1
+    timeout 3 python3 changedetection.py --version 2>&1 | grep -qE "changedetection.io [0-9]+\.[0-9]+"
+}
+
+test_single_url() {
+    local test_id=$1
+    local dir="/tmp/cli-test-single-${test_id}-$$"
+    timeout 10 python3 changedetection.py -d "$dir" -C -u https://example.com -b &>/dev/null
+    # Count watch directories (UUID directories containing watch.json)
+    [ "$(find "$dir" -mindepth 2 -maxdepth 2 -name 'watch.json' | wc -l)" -eq 1 ]
+}
+
+test_multiple_urls() {
+    local test_id=$1
+    local dir="/tmp/cli-test-multi-${test_id}-$$"
+    timeout 12 python3 changedetection.py -d "$dir" -C \
+        -u https://example.com \
+        -u https://github.com \
+        -u https://httpbin.org \
+        -b &>/dev/null
+    # Count watch directories (UUID directories containing watch.json)
+    [ "$(find "$dir" -mindepth 2 -maxdepth 2 -name 'watch.json' | wc -l)" -eq 3 ]
+}
+

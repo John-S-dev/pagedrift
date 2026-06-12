@@ -212,6 +212,50 @@ msgstr "JSON 구조가 올바르지 않습니다. 파일이 손상되었나요?"
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
 msgstr "Distill.io에서 {count}개를 {duration}초 만에 가져왔습니다. {skipped_count}개는 건너뛰었습니다."
 
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read export XLSX file, something wrong with the file?"
+msgstr "내보낸 XLSX 파일을 읽을 수 없습니다. 파일에 문제가 있나요?"
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, URL value was incorrect, row was skipped."
+msgstr "{}행 처리 중 오류가 발생했습니다. URL 값이 올바르지 않아 해당 행을 건너뛰었습니다."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "Error processing row number {}, check all cell data types are correct, row was skipped."
+msgstr "{}행 처리 중 오류가 발생했습니다. 모든 셀 데이터 형식이 올바른지 확인해 주세요. 해당 행은 건너뛰었습니다."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from Wachete .xlsx in {duration}s"
+msgstr "Wachete .xlsx에서 {count}개를 {duration}초 만에 가져왔습니다."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} imported from custom .xlsx in {duration}s"
+msgstr "사용자 지정 .xlsx에서 {count}개를 {duration}초 만에 가져왔습니다."
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "URL List"
+msgstr "URL 목록"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid ".XLSX & Wachete"
+msgstr ".XLSX 및 Wachete"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Backup Restore"
+msgstr "백업 복원"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "Restoring changedetection.io backups is in the"
+msgstr "changedetection.io 백업 복원은"
+
+#: changedetectionio/blueprint/imports/templates/import.html
+msgid "backups section"
+msgstr "백업 섹션"
+
 #: changedetectionio/blueprint/imports/templates/import.html
 msgid "Enter one URL per line, and optionally add tags for each URL after a space, delineated by comma (,):"
 msgstr "한 줄에 URL 하나씩 입력하고, 필요하면 공백 뒤에 각 URL의 태그를 쉼표(,)로 구분해 추가해 주세요:"
