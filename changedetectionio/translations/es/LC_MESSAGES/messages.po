@@ -1070,6 +1070,54 @@ msgid "Current screenshot from most recent request"
 msgstr "Captura de pantalla actual de la solicitud más reciente"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "No es compatible con el navegador Selenium"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Activar el buscador de texto"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Espere, el primer paso del navegador puede tardar un poco en cargarse."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "Haga clic aquí para comenzar"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please allow 10-15 seconds for the browser to connect."
+msgstr "Espere entre 10 y 15 segundos para que se conecte el navegador."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Press \"Play\" to start."
+msgstr "Presione \"Reproducir\" para comenzar."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Selector data is not ready, watch needs to be checked atleast once."
+msgstr "Los datos del selector visual no están listos; es necesario revisar el monitor al menos una vez."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Sorry, this functionality only works with fetchers that support interactive Javascript (so far only Playwright based "
+"fetchers)"
+msgstr ""
+"Lo sentimos, esta funcionalidad solo funciona con buscadores que admiten Javascript interactivo (hasta ahora solo "
+"buscadores basados ​​en Playwright)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports interactive Javascript."
+msgstr "a uno que admita Javascript interactivo."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "You need to"
+msgstr "Necesitas"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set the fetch method"
+msgstr "Establecer el método de recuperación"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid ""
 "Sends a notification when the filter can no longer be seen on the page, good for knowing when the page changed and "
 "your filter will not work anymore."
