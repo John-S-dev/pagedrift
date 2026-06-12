@@ -61,3 +61,53 @@
       }
     });
 
+    // Close modal when clicking the backdrop
+    searchModal.addEventListener('click', function(e) {
+      const rect = searchModal.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width
+      );
+      if (!isInDialog) {
+        closeSearchModal();
+      }
+    });
+
+    // Keyboard shortcuts: Alt+S, and "/" (when not already typing in a field).
+    document.addEventListener('keydown', function(e) {
+      if (e.altKey && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        openSearchModal();
+        return;
+      }
+      if (e.key === '/' && !e.altKey && !e.ctrlKey && !e.metaKey) {
+        const t = e.target;
+        const tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+        if (tag === 'input' || tag === 'textarea' || tag === 'select' || (t && t.isContentEditable)) {
+          return; // let "/" type normally in form fields
+        }
+        e.preventDefault();
+        openSearchModal();
+      }
+    });
+
+    // Handle Enter key in search input
+    if (searchInput) {
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (searchForm) {
+            // Trigger form submission programmatically
+            searchForm.dispatchEvent(new Event('submit'));
+          }
+        }
+      });
+    }
+
+    // Handle form submission
+    if (searchForm) {
+      searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
