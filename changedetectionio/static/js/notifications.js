@@ -88,3 +88,17 @@ function renderNotificationRecipients() {
     });
 }
 
+function appendNotificationUrl(url) {
+    var $ta = $('textarea.notification-urls');
+    var cur = $.trim($ta.val() || '');
+    $ta.val(cur ? cur + '\n' + url : url);
+    $ta.trigger('input');
+}
+
+function removeNotificationLine(line) {
+    var $ta = $('textarea.notification-urls');
+    var kept = ($ta.val() || '').split('\n').filter(function (s) { return s.trim() !== line.trim(); });
+    $ta.val(kept.join('\n'));
+    $ta.trigger('input');
+}
+
