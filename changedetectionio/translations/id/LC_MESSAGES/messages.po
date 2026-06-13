@@ -609,6 +609,46 @@ msgid "Changing this could affect the content of your existing watches, possibly
 msgstr "Mengubah ini dapat memengaruhi konten monitor Anda yang sudah ada, dan mungkin memicu peringatan, dll."
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Drive your changedetection.io via API, More about"
+msgstr "Kendalikan changedetection.io Anda melalui API, selengkapnya tentang"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API access and examples here"
+msgstr "akses API dan contohnya di sini"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Batasi akses API menggunakan"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "header - diperlukan agar Chrome Extension dapat berfungsi"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "salin"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "Buat ulang kunci API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Chrome Extension"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Tambahkan halaman web apa pun dengan mudah ke instalasi changedetection.io Anda langsung dari Chrome."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "Langkah 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "Instal ekstensi,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Step 2"
 msgstr "Langkah 2"
 
