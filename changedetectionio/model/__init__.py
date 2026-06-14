@@ -459,6 +459,60 @@ class watch_base(dict):
                         continue
                 return frozenset(properties)
 
+            cls._cached_get_property_names = _get_props
+
+        return cls._cached_get_property_names()
+
+    def __deepcopy__(self, memo):
+        """
+        Custom deepcopy for all watch_base subclasses (Watch, Tag, etc.).
+
+        CRITICAL FIX: Prevents copying large reference objects like __datastore
+        which would cause exponential memory growth when Watch objects are deepcopied.
+
+        This is called by:
+        - api/Watch.py:76 (API endpoint)
+        - api/Tags.py:28 (Tags API)
+        - processors/base.py:26 (EVERY processor run)
+        - store/__init__.py:544 (clone watch)
+        - And other locations
+        """
+        from copy import deepcopy
+
+        # Create new instance without calling __init__
+        cls = self.__class__
+        new_obj = cls.__new__(cls)
+        memo[id(self)] = new_obj
+
+        # Copy the dict data (all the settings)
+        for key, value in self.items():
+            new_obj[key] = deepcopy(value, memo)
+
+        # Copy instance attributes dynamically
+        # This handles Watch-specific attrs (like __datastore) and any future subclass attrs
+        for attr_name in dir(self):
+            # Skip methods, special attrs, and dict keys
+            if attr_name.startswith('_') and not attr_name.startswith('__'):
+                # This catches _model__datastore, _model__history_n, etc.
+                try:
+                    attr_value = getattr(self, attr_name)
+
+                    # Special handling: Share references to large objects instead of copying
+                    # Examples: _datastore, __datastore, __app_reference, __global_settings, etc.
+                    if (attr_name == '_datastore' or
+                        attr_name.endswith('__datastore') or
+                        attr_name.endswith('__app')):
+                        # Share the reference (don't copy!) to prevent memory leaks
+                        setattr(new_obj, attr_name, attr_value)
+                    # Skip cache attributes - let them regenerate on demand
+                    elif 'cache' in attr_name.lower():
+                        pass  # Don't copy caches
+                    # Copy regular instance attributes
+                    elif not callable(attr_value):
+                        setattr(new_obj, attr_name, attr_value)
+                except AttributeError:
+                    pass  # Attribute doesn't exist in this instance
+
     def _get_commit_data(self):
         """
         Prepare data for commit (can be overridden by subclasses).
