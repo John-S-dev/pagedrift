@@ -3280,6 +3280,46 @@ msgid "Title"
 msgstr "Titul"
 
 #: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "Ignorovat řádky obsahující"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "Tělo žádosti"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "Metoda žádosti"
+
+#: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Ignorovat stavové kódy (zpracovat stavové kódy jiné než 2xx jako normálně)"
+
+#: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "Zpracovat pouze tehdy, když se objeví jedinečné řádky"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Odstranit duplicitní řádky textu"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Seřadit text podle abecedy"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Odstranit ignorované řádky"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Odstranit všechny mezery před a za každým řádkem textu"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Přidané řádky"
+
+#: changedetectionio/forms.py
 msgid "Replaced/changed lines"
 msgstr "Nahrazené/upravené řádky"
 
