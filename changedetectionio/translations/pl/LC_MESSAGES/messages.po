@@ -1267,6 +1267,48 @@ msgstr ""
 "<p>Czy na pewno chcesz usunąć wszystkie obserwacje z grupy <strong>%(title)s</strong>?</p><p>Tagi zostaną zachowane, "
 "ale obserwacje zostaną z nich usunięte.</p>"
 
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches errors cleared"
+msgstr "{} – usunięto błędy"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches cleared/reset."
+msgstr "{} liczników wyzerowano."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches set to use default notification settings"
+msgstr "Ustawiono domyślne ustawienia powiadomień dla {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Browser / fetch method updated on {} watches"
+msgstr "Zaktualizowano przeglądarkę / metodę pobierania w obserwacjach {}"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid browser / fetch method selected"
+msgstr "Wybrano nieprawidłową przeglądarkę lub metodę pobierania"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Proxy updated on {} watches"
+msgstr "Zaktualizowano serwer proxy dla {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid proxy selected"
+msgstr "Wybrano nieprawidłowy serwer proxy"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches were tagged"
+msgstr "Oznaczono {} obserwacji"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/watchlist/__init__.py
+msgid "Watch not found"
+msgstr "Nie znaleziono obserwacji"
+
 #: changedetectionio/blueprint/ui/queue.py
 #, python-brace-format
 msgid "Queue cleared ({} items removed)."
