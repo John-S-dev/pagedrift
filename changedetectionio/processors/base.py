@@ -137,6 +137,66 @@ class difference_detection_processor():
                 pass
             return False
 
+        # Always delete first - this is one-shot regardless of what happens next.
+        try:
+            os.unlink(preload_path)
+        except OSError:
+            pass
+
+        content = meta.get('content')
+        self.fetcher.content = content
+        self.fetcher.raw_content = content.encode('utf-8', errors='replace') if isinstance(content, str) else content
+        self.fetcher.status_code = meta.get('status_code', 200)
+        self.fetcher.headers = meta.get('headers') or {'content-type': 'text/html'}
+
+        # Screenshot + xpath were migrated alongside in final on-disk format - reuse them.
+        screenshot_path = os.path.join(data_dir, 'last-screenshot.png')
+        if os.path.isfile(screenshot_path):
+            with open(screenshot_path, 'rb') as f:
+                self.fetcher.screenshot = f.read()
+
+        elements_path = os.path.join(data_dir, 'elements.deflate')
+        if os.path.isfile(elements_path):
+            try:
+                with open(elements_path, 'rb') as f:
+                    self.fetcher.xpath_data = json.loads(zlib.decompress(f.read()))
+            except Exception as e:
+                logger.warning(f"Could not load preloaded xpath data for {self.watch.get('uuid')}: {e}")
+
+        logger.info(f"Using preloaded Add-Watch snapshot for {self.watch.get('uuid')} - skipping network fetch")
+        return True
+
+    async def call_browser(self, preferred_proxy_id=None):
+
+        from requests.structures import CaseInsensitiveDict
+
+        url = self.watch.link
+
+        # Scheme allowlist (file:// etc), parser-differential and private/reserved IP checks.
+        await self.validate_url_is_fetchable()
+
+        # Proxy ID "key"
+        preferred_proxy_id = preferred_proxy_id if preferred_proxy_id else self.datastore.get_preferred_proxy_for_watch(
+            uuid=self.watch.get('uuid'))
+
+        # Resolve which content fetcher this watch should use. This is the single source of
+        # truth (watch -> group -> system, extra_browser_/pdf/browser_steps overrides etc);
+        # the resolved backend name is stamped onto the fetcher instance below.
+        from changedetectionio.content_fetchers import resolve_content_fetcher
+        fetcher_obj, prefer_fetch_backend, custom_browser_connection_url = resolve_content_fetcher(
+            watch=self.watch, datastore=self.datastore)
+
+        proxy_url = None
+        if preferred_proxy_id:
+            # Custom browser endpoints should NOT have a proxy added
+            if not prefer_fetch_backend.startswith('extra_browser_'):
+                proxy_url = self.datastore.proxy_list.get(preferred_proxy_id).get('url')
+                logger.debug(f"Selected proxy key '{preferred_proxy_id}' as proxy URL '{proxy_url}' for {url}")
+            else:
+                logger.debug("Skipping adding proxy data when custom Browser endpoint is specified. ")
+
+        logger.debug(f"Using proxy '{proxy_url}' for {self.watch['uuid']}")
+
         # Now call the fetcher (playwright/requests/etc) with arguments that only a fetcher would need.
         # When browser_connection_url is None, it method should default to working out whats the best defaults (os env vars etc)
         self.fetcher = fetcher_obj(proxy_override=proxy_url,
