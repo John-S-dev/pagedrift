@@ -306,3 +306,49 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
         # Create zip in memory
         memory_file = BytesIO()
 
+        with zipfile.ZipFile(memory_file, 'w',
+                           compression=zipfile.ZIP_DEFLATED,
+                           compresslevel=8) as zipObj:
+
+            # Add the watch's JSON file if it exists
+            watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+            if os.path.isfile(watch_json_path):
+                zipObj.write(watch_json_path,
+                           arcname=os.path.join(uuid, 'watch.json'),
+                           compress_type=zipfile.ZIP_DEFLATED,
+                           compresslevel=8)
+
+            # Add all files in the watch data directory
+            if os.path.isdir(watch.data_dir):
+                for f in Path(watch.data_dir).glob('*'):
+                    if f.is_file() and f.name != 'watch.json':  # Skip watch.json since we already added it
+                        zipObj.write(f,
+                                   arcname=os.path.join(uuid, f.name),
+                                   compress_type=zipfile.ZIP_DEFLATED,
+                                   compresslevel=8)
+
+        # Seek to beginning of file
+        memory_file.seek(0)
+
+        # Generate filename with timestamp
+        timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"watch-data-{uuid[:8]}-{timestamp}.zip"
+
+        return send_file(memory_file,
+                        as_attachment=True,
+                        download_name=filename,
+                        mimetype='application/zip')
+
+    # Ajax callback
+    @edit_blueprint.route("/edit/<uuid_str:uuid>/preview-rendered", methods=['POST'])
+    @login_optionally_required
+    def watch_get_preview_rendered(uuid):
+        '''For when viewing the "preview" of the rendered text from inside of Edit'''
+        from flask import jsonify
+
+        if uuid == 'first':
+            uuid = list(datastore.data['watching'].keys()).pop()
+        from changedetectionio.processors.text_json_diff import prepare_filter_prevew
+        result = prepare_filter_prevew(watch_uuid=uuid, form_data=request.form, datastore=datastore)
+        return jsonify(result)
+
