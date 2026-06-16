@@ -4381,6 +4381,46 @@ msgid "Content raw/before filters"
 msgstr ""
 
 #: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Actualizaciones en tiempo real sin conexión"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Seleccionar idioma"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Detectar automáticamente desde el navegador"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "El soporte de idiomas está en versión beta. Ayúdenos a mejorar abriendo un PR en GitHub con cualquier actualización."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Buscar"
+
+#: changedetectionio/templates/base.html
 #, python-format
 msgid "URL or Title in '%(title)s'"
 msgstr "URL o título en '%(title)s'"
