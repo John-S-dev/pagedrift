@@ -57,3 +57,107 @@ class ImageDiffHandler(ABC):
             right: Right coordinate
             bottom: Bottom coordinate
 
+        Returns:
+            Cropped image object
+        """
+        pass
+
+    @abstractmethod
+    def resize(self, img: Any, max_width: int, max_height: int) -> Any:
+        """
+        Resize image maintaining aspect ratio.
+
+        Args:
+            img: Handler-specific image object
+            max_width: Maximum width in pixels
+            max_height: Maximum height in pixels
+
+        Returns:
+            Resized image object
+        """
+        pass
+
+    @abstractmethod
+    def get_dimensions(self, img: Any) -> Tuple[int, int]:
+        """
+        Get image dimensions.
+
+        Args:
+            img: Handler-specific image object
+
+        Returns:
+            Tuple of (width, height)
+        """
+        pass
+
+    @abstractmethod
+    def to_grayscale(self, img: Any) -> Any:
+        """
+        Convert image to grayscale.
+
+        Args:
+            img: Handler-specific image object
+
+        Returns:
+            Grayscale image object
+        """
+        pass
+
+    @abstractmethod
+    def gaussian_blur(self, img: Any, sigma: float) -> Any:
+        """
+        Apply Gaussian blur to image.
+
+        Args:
+            img: Handler-specific image object
+            sigma: Blur sigma value (0 = no blur)
+
+        Returns:
+            Blurred image object
+        """
+        pass
+
+    @abstractmethod
+    def absolute_difference(self, img1: Any, img2: Any) -> Any:
+        """
+        Calculate absolute difference between two images.
+
+        Args:
+            img1: First image (handler-specific object)
+            img2: Second image (handler-specific object)
+
+        Returns:
+            Difference image object
+        """
+        pass
+
+    @abstractmethod
+    def threshold(self, img: Any, threshold_value: int) -> Tuple[float, Any]:
+        """
+        Apply threshold to image and calculate change percentage.
+
+        Args:
+            img: Handler-specific image object (typically grayscale difference)
+            threshold_value: Threshold value (0-255)
+
+        Returns:
+            Tuple of (change_percentage, binary_mask)
+            - change_percentage: Percentage of pixels above threshold (0-100)
+            - binary_mask: Handler-specific binary mask object
+        """
+        pass
+
+    @abstractmethod
+    def apply_red_overlay(self, img: Any, mask: Any) -> bytes:
+        """
+        Apply red overlay to image where mask is True.
+
+        Args:
+            img: Handler-specific image object (color)
+            mask: Handler-specific binary mask object
+
+        Returns:
+            JPEG bytes with red overlay applied
+        """
+        pass
+
