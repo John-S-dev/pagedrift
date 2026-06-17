@@ -609,6 +609,56 @@ msgstr "Pilih proksi default untuk semua monitor"
 msgid "Use the <strong>Basic</strong> method (default) where your watched sites don't need Javascript to render."
 msgstr "Gunakan metode <strong>Basic</strong> (default) jika situs yang dipantau tidak memerlukan Javascript untuk dirender."
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set"
+" by the ENV var 'WEBDRIVER_URL'."
+msgstr ""
+"Metode <strong>Chrome/Javascript</strong> memerlukan koneksi jaringan ke server WebDriver+Chrome yang sedang "
+"berjalan, diatur melalui variabel ENV 'WEBDRIVER_URL'."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"If you're having trouble waiting for the page to be fully rendered (text missing etc), try increasing the 'wait' time"
+" here."
+msgstr ""
+"Jika Anda kesulitan menunggu halaman selesai dirender sepenuhnya (teks hilang, dll.), coba tingkatkan waktu 'wait' di"
+" sini."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will wait <i>n</i> seconds before extracting the text."
+msgstr "Ini akan menunggu <i>n</i> detik sebelum mengekstrak teks."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr ""
+"Jumlah worker bersamaan untuk memproses monitor. Lebih banyak worker = pemrosesan lebih cepat tetapi penggunaan "
+"memori lebih tinggi."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "Sedang berjalan:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "operasional"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "worker"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "actively processing"
+msgstr "sedang aktif memproses"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Example - 3 seconds random jitter could trigger up to 3 seconds earlier or up to 3 seconds later"
+msgstr "Contoh - jitter acak 3 detik dapat memicu hingga 3 detik lebih awal atau hingga 3 detik lebih lambat"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "For regular plain requests (not chrome based), maximum number of seconds until timeout, 1-999."
+msgstr "Untuk permintaan biasa (bukan berbasis Chrome), jumlah detik maksimum hingga timeout, 1-999."
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Applied to all requests."
 msgstr "Diterapkan ke semua permintaan."
