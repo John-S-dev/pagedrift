@@ -253,3 +253,36 @@ def test_cancel_running_uuid_helper(client, live_server, measure_memory_usage, d
     assert result2["worker_id"] is None
 
 
+def test_cancel_running_endpoint(client, live_server, measure_memory_usage, datastore_path):
+    """POST /queue/cancel-running: 200 on success, 400 on empty uuid, 404 on unknown uuid."""
+    update_q, worker_pool, qmeta = _quiesce(live_server)
+
+    synth = "dddddddd-dddd-dddd-dddd-dddddddddddd"
+    assert worker_pool.claim_uuid_for_processing(synth, worker_id=999) is True
+
+    # Happy path
+    res = client.post(
+        url_for("ui.ui_queue.queue_cancel_running"),
+        data={"uuid": synth, "csrf_token": "test"},
+    )
+    assert res.status_code == 200
+    body = res.get_json()
+    assert body["ok"] is True
+    assert body["cancelled"] is True
+    assert body["worker_id"] == 999
+
+    # No longer in running per the snapshot
+    snap = client.get(url_for("ui.ui_queue.queue_json")).get_json()
+    assert all(r["uuid"] != synth for r in snap["running"])
+
+    # Empty uuid → 400
+    res = client.post(url_for("ui.ui_queue.queue_cancel_running"), data={"uuid": ""})
+    assert res.status_code == 400
+
+    # Unknown uuid → 404
+    res = client.post(url_for("ui.ui_queue.queue_cancel_running"), data={"uuid": "never-claimed-anywhere"})
+    assert res.status_code == 404
+
+    # cancel_running_uuid() spawned a replacement worker via the route (update_q
+    # etc. were available). Tear it down so the next test starts at workers=0.
+    live_server.app.set_workers(0)
