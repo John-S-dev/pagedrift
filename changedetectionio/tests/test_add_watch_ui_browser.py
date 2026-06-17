@@ -37,6 +37,83 @@ def test_hidden_without_a_live_preview_browser(client, live_server, measure_memo
     assert b'needs an interactive browser' in res.data
 
 
+def test_shown_when_a_live_preview_browser_exists(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """A capable browser -> the sidebar link is offered and the page serves its picker."""
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+    monkeypatch.setattr(browser_config, 'list_visual_browser_choices',
+                        lambda datastore: [('html_webdriver', 'WebDriver Chrome/Javascript')])
+
+    res = client.get(url_for('watchlist.index'))
+    assert url_for('add_watch_ui.add_watch_ui_index').encode() in res.data
+
+    res = client.get(url_for('add_watch_ui.add_watch_ui_index'))
+    assert res.status_code == 200
+    assert b'name="fetch_backend"' in res.data
+    assert b'value="html_webdriver"' in res.data
+    # The system default resolves to html_requests (no preview), so a real browser is preselected
+    assert b'checked' in res.data
+
+
+def test_browser_picker_lists_only_live_preview_capable(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """Capable browsers are offered; the plain HTTP client never is."""
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+
+    # html_webdriver is only preview-capable when it resolves to playwright/puppeteer, so
+    # pretend it does (a WEBDRIVER_URL-only deployment resolves it to selenium, which can't).
+    monkeypatch.setattr(browser_config, 'is_visual_capable',
+                        lambda name, datastore: name == 'html_webdriver')
+
+    res = client.get(url_for('add_watch_ui.add_watch_ui_index'))
+    assert res.status_code == 200
+    assert b'name="fetch_backend"' in res.data
+    assert b'value="html_webdriver"' in res.data
+    # The plain HTTP client can't render a preview, so it is not an option
+    assert b'value="html_requests"' not in res.data
+    # The system default resolves to html_requests here, so it is listed but disabled
+    assert b'value="system"' in res.data
+    assert b'disabled' in res.data
+
+
+def test_snapshot_refuses_browser_that_cannot_preview(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """/snapshot won't spend a fetch on a browser that produces no screenshot."""
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+    monkeypatch.setattr(browser_config, 'is_visual_capable', lambda name, datastore: False)
+
+    snapshot_url = url_for('add_watch_ui.add_watch_ui_snapshot')
+
+    # Nothing capable, and no explicit browser asked for -> nothing to preview with
+    res = client.post(snapshot_url, data={'url': 'https://example.com'})
+    assert res.status_code == 400
+    assert b'No interactive browser' in res.data
+
+    # Explicitly asking for a browser that can't preview is refused just the same
+    res = client.post(snapshot_url, data={'url': 'https://example.com',
+                                          'fetch_backend': 'html_requests'})
+    assert res.status_code == 400
+
+    # A made-up name never resolves to a capable fetcher either (real capability lookup here)
+    monkeypatch.undo()
+    res = client.post(snapshot_url, data={'url': 'https://example.com',
+                                          'fetch_backend': '../../etc/passwd'})
+    assert res.status_code == 400
+    res = client.post(snapshot_url, data={'url': 'https://example.com',
+                                          'fetch_backend': 'os'})
+    assert res.status_code == 400
+
+
+def test_snapshot_is_post_only(client, live_server, measure_memory_usage, datastore_path):
+    """A GET must not reach the endpoint at all.
+
+    /snapshot drives a real server-side browser fetch and hands the rendered result back in
+    the response (GHSA-56fq-63vj-9992). As a GET that is reachable by anything that can make
+    the operator's browser issue a request - an <img>/<iframe>/link from another site - with
+    no CSRF token in play. POST-only + CSRFProtect means only our own page can trigger it.
+    """
+    # Method mismatch surfaces as 404 here rather than 405
+    res = client.get(url_for('add_watch_ui.add_watch_ui_snapshot') + '?url=https://example.com')
+    assert res.status_code in (404, 405)
+
+
 def test_submit_rejects_unknown_fetcher(client, live_server, measure_memory_usage, datastore_path):
     """A posted browser is checked server side, so a doctored form can't pin a junk fetcher."""
     datastore = _datastore(client)
