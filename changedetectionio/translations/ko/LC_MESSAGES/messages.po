@@ -797,6 +797,61 @@ msgstr "AI 기능을 활성화하면 이 데이터 전송 또는 AI 기능 사�
 msgid "I have read and understood the above. I accept full responsibility and indemnify the creator(s) of this software."
 msgstr "위 내용을 읽고 이해했습니다. 모든 책임이 사용자에게 있음을 인지하고 이에 동의합니다."
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/templates/_common_fields.html
+msgid "Note"
+msgstr "참고"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"AI / LLM is configured via environment variables (<code>LLM_MODEL=%(model)s</code>%(api_base)s). Remove the "
+"<code>LLM_MODEL</code> environment variable to configure via this form instead."
+msgstr ""
+"AI / LLM이 환경 변수(<code>LLM_MODEL=%(model)s</code>%(api_base)s)로 설정되어 있습니다. 대신 이 양식에서 설정하려면 <code>LLM_MODEL</code> 환경 "
+"변수를 제거하세요."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "select a provider"
+msgstr "프로바이더 선택"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "OpenAI-compatible (vLLM, LM Studio, llama.cpp)"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Only needed for Ollama or custom/self-hosted endpoints. Leave blank for cloud providers."
+msgstr "Ollama 또는 사용자 지정/자체 호스팅 엔드포인트에만 필요합니다. 클라우드 프로바이더는 비워 두세요."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Reasoning models (Qwen3, DeepSeek-R1, Gemma 3, etc.) emit chain-of-thought before the final answer. This multiplier "
+"scales every <code>max_tokens</code> cap for this endpoint to leave reasoning room. Defaults to %(default)s; raise it"
+" if responses come back truncated or empty, lower it (down to 1x) if you want tighter limits on a paid endpoint. "
+"Applied to Ollama and OpenAI-compatible endpoints — other cloud providers (OpenAI, Anthropic, Gemini) keep their "
+"original tight caps."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Load available models"
+msgstr "사용 가능한 모델 불러오기"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Available models"
+msgstr "사용 가능한 모델"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "choose a model"
+msgstr "모델 선택"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Enter API key and click 'Load available models'"
+msgstr "API 키를 입력하고 '사용 가능한 모델 불러오기'를 클릭하세요"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Remove AI / LLM configuration?"
+msgstr "AI / LLM 설정을 제거할까요?"
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "This will remove your saved AI provider, model, and API key."
 msgstr "저장된 AI 프로바이더, 모델, API 키가 제거됩니다."
