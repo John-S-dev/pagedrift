@@ -37,6 +37,104 @@ def is_valid_uuid(val):
 
 def test_api_simple(client, live_server, measure_memory_usage, datastore_path):
 
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Create a watch
+    set_original_response(datastore_path=datastore_path)
+
+    # Validate bad URL
+    test_url = url_for('test_endpoint', _external=True )
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": "h://xxxxxxxxxom"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+    assert res.status_code == 400
+
+    # Create new
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": test_url, 'tag': "One, Two", "title": "My test URL"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert is_valid_uuid(res.json.get('uuid'))
+    watch_uuid = res.json.get('uuid')
+    assert res.status_code == 201
+
+    wait_for_all_checks(client)
+
+    # Verify its in the list and that recheck worked
+    res = client.get(
+        url_for("createwatch", tag="OnE"),
+        headers={'x-api-key': api_key}
+    )
+    assert watch_uuid in res.json.keys()
+    before_recheck_info = res.json[watch_uuid]
+
+    assert before_recheck_info['last_checked'] != 0
+
+    #705 `last_changed` should be zero on the first check
+    assert before_recheck_info['last_changed'] == 0
+    assert before_recheck_info['title'] == 'My test URL'
+    assert isinstance(before_recheck_info['link'], str), "link must be a plain string, not a tuple or list"
+    assert before_recheck_info['link'] == test_url
+
+    # Check the limit by tag doesnt return anything when nothing found
+    res = client.get(
+        url_for("createwatch", tag="Something else entirely"),
+        headers={'x-api-key': api_key}
+    )
+    assert len(res.json) == 0
+    time.sleep(2)
+    wait_for_all_checks(client)
+    set_modified_response(datastore_path=datastore_path)
+    # Trigger recheck of all ?recheck_all=1
+    res = client.get(
+        url_for("createwatch", recheck_all='1'),
+        headers={'x-api-key': api_key},
+    )
+    wait_for_all_checks(client)
+
+    time.sleep(2)
+    # Did the recheck fire?
+    res = client.get(
+        url_for("createwatch"),
+        headers={'x-api-key': api_key},
+    )
+    after_recheck_info = res.json[watch_uuid]
+    assert after_recheck_info['last_checked'] != before_recheck_info['last_checked']
+    assert after_recheck_info['last_changed'] != 0
+
+    # #2877 When run in a slow fetcher like playwright etc
+    assert after_recheck_info['last_changed'] ==  after_recheck_info['last_checked']
+
+    # Check history index list
+    res = client.get(
+        url_for("watchhistory", uuid=watch_uuid),
+        headers={'x-api-key': api_key},
+    )
+    watch_history = res.json
+    assert len(res.json) == 2, "Should have two history entries (the original and the changed)"
+
+    # Fetch a snapshot by timestamp, check the right one was found
+    res = client.get(
+        url_for("watchsinglehistory", uuid=watch_uuid, timestamp=list(res.json.keys())[-1]),
+        headers={'x-api-key': api_key},
+    )
+    assert b'which has this one new line' in res.data
+
+    # Fetch a snapshot by 'latest'', check the right one was found
+    res = client.get(
+        url_for("watchsinglehistory", uuid=watch_uuid, timestamp='latest'),
+        headers={'x-api-key': api_key},
+    )
+    assert b'which has this one new line' in res.data
+    assert b'<div id' not in res.data
+
     time.sleep(3)
     # Fetch the whole watch again, viewed should be true
     res = client.get(
