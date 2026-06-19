@@ -1555,3 +1555,50 @@ msgstr "Nama tag/grup organisasi yang digunakan pada halaman daftar utama"
 msgid "Also automatically applied by URL pattern:"
 msgstr "Juga diterapkan otomatis berdasarkan pola URL:"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "penambahan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "pertimbangkan untuk mengaktifkan"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Only trigger when unique lines appear"
+msgstr "Hanya picu saat baris unik muncul"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Good for websites that just move the content around, and you want to know when NEW content is added, compares new "
+"lines against all history for this watch."
+msgstr ""
+"Cocok untuk situs web yang hanya memindahkan konten, dan Anda ingin tahu saat konten BARU ditambahkan; membandingkan "
+"baris baru dengan seluruh riwayat monitor ini."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below."
+msgstr ""
+"Membantu mengurangi perubahan terdeteksi yang disebabkan situs mengacak urutan baris, kombinasikan dengan <i>periksa "
+"baris unik</i> di bawah."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Remove any whitespace before and after each line of text"
+msgstr "Hapus spasi apa pun sebelum dan sesudah setiap baris teks"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI Intent preview"
+msgstr "Pratinjau Intent AI"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Loading..."
+msgstr "Memuat..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The Visual Selector tool lets you select the"
+msgstr "Alat Selektor Visual memungkinkan Anda memilih"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "teks"
+
