@@ -4511,6 +4511,46 @@ msgstr ""
 msgid "Content after filters"
 msgstr ""
 
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr "このリンクを共有:"
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "リアルタイム更新オフライン"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "言語を選択"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "ブラウザから自動検出"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "言語サポートはベータ版です。GitHubでPRを作成して改善にご協力ください。"
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
 #: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
 msgid "Search"
 msgstr "検索"
