@@ -490,6 +490,46 @@ msgid "API Access"
 msgstr "API-доступ"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Drive your changedetection.io via API, More about"
+msgstr "Управляйте своим Changetection.io через API. Подробнее о"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API access and examples here"
+msgstr "Доступ к API и примеры здесь"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Ограничьте лимит доступа к API, используя"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "заголовок — необходим для работы расширения Chrome."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "копировать"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Regenerate API key"
+msgstr "Восстановить ключ API"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Chrome Extension"
+msgstr "Расширение Chrome"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Easily add any web-page to your changedetection.io installation from within Chrome."
+msgstr "Легко добавьте любую веб-страницу в вашу установку Changetection.io из Chrome."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Step 1"
+msgstr "Шаг 1"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Install the extension,"
+msgstr "Установите расширение,"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Does your reader support HTML? Set it here"
 msgstr "Поддерживает ли ваша читалка HTML? Установите это здесь"
 
