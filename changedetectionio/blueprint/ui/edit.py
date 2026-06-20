@@ -262,6 +262,43 @@ def construct_blueprint(datastore: ChangeDetectionStore, update_q, queuedWatchMe
             datastore.data['watching'][uuid].update(form.data)
             datastore.data['watching'][uuid].update(extra_update_obj)
 
+            if not datastore.data['watching'][uuid].get('tags'):
+                # Force it to be a list, because form.data['tags'] will be string if nothing found
+                # And del(form.data['tags'] ) wont work either for some reason
+                datastore.data['watching'][uuid]['tags'] = []
+
+            # Recast it if need be to right data Watch handler
+            watch_class = processors.get_custom_watch_obj_for_processor(form.data.get('processor'))
+            datastore.data['watching'][uuid] = watch_class(datastore_path=datastore.datastore_path, __datastore=datastore.data, default=datastore.data['watching'][uuid])
+
+            # Save the watch immediately
+            datastore.data['watching'][uuid].commit()
+
+            flash(gettext("Updated watch - unpaused!") if request.args.get('unpause_on_save') else gettext("Updated watch."))
+
+            # Cleanup any browsersteps session for this watch
+            try:
+                from changedetectionio.blueprint.browser_steps import cleanup_session_for_watch
+                cleanup_session_for_watch(uuid)
+            except Exception as e:
+                logger.debug(f"Error cleaning up browsersteps session: {e}")
+
+            # Do not queue on edit if its not within the time range
+
+            # @todo maybe it should never queue anyway on edit...
+            is_in_schedule = True
+            watch = datastore.data['watching'].get(uuid)
+
+            if watch.get('time_between_check_use_default'):
+                time_schedule_limit = datastore.data['settings']['requests'].get('time_schedule_limit') or {}
+            else:
+                time_schedule_limit = watch.get('time_schedule_limit') or {}
+
+            tz_name = default_timezone_name(
+                time_schedule_limit.get('timezone')
+                or datastore.data['settings']['application'].get('scheduler_timezone_default')
+            )
+
     @edit_blueprint.route("/edit/<uuid_str:uuid>/get-html", methods=['GET'])
     @login_optionally_required
     def watch_get_latest_html(uuid):
