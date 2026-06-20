@@ -1709,6 +1709,57 @@ msgstr "Будь ласка, зачекайте, перший крок брау�
 msgid "Click here to Start"
 msgstr "Натисніть тут для запуску"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Only trigger when unique lines appear"
+msgstr "Спрацьовувати лише при появі унікальних рядків"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Good for websites that just move the content around, and you want to know when NEW content is added, compares new "
+"lines against all history for this watch."
+msgstr ""
+"Корисно для сайтів, які просто переміщують контент, коли ви хочете знати лише про НОВИЙ контент. Порівнює нові рядки "
+"з усією історією цього завдання."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below."
+msgstr ""
+"Допомагає зменшити хибні спрацювання, спричинені перемішуванням рядків на сайті, використовуйте разом із "
+"<i>перевіркою унікальних рядків</i> нижче."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Remove any whitespace before and after each line of text"
+msgstr "Видаляти пробіли на початку та в кінці кожного рядка тексту"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI Intent preview"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Loading..."
+msgstr "Завантаження..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The Visual Selector tool lets you select the"
+msgstr "Інструмент візуального вибору дозволяє вибрати"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "текстові"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"elements that will be used for the change detection. It automatically fills-in the filters in the "
+"\"CSS/JSONPath/JQ/XPath Filters\" box of the"
+msgstr ""
+"елементи, які будуть використовуватися для виявлення змін. Він автоматично заповнює фільтри в полі "
+"\"CSS/JSONPath/JQ/XPath Фільтри\" у вкладці"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "tab. Use"
+msgstr ". Використовуйте"
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Waiting for new pages to check…"
 msgstr ""
