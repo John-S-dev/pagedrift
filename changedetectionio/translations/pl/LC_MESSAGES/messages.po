@@ -559,6 +559,60 @@ msgid "Info"
 msgstr "Informacje"
 
 #: changedetectionio/blueprint/settings/templates/settings.html
+msgid "When a request returns no content, or the HTML does not contain any text, is this considered a change?"
+msgstr ""
+"Czy sytuacja, w której żądanie nie zwraca żadnej treści lub kod HTML nie zawiera żadnego tekstu, jest uznawana za "
+"zmianę?"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Choose a default proxy for all watches"
+msgstr "Wybierz domyślny serwer proxy dla wszystkich obserwacji"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the <strong>Basic</strong> method (default) where your watched sites don't need Javascript to render."
+msgstr ""
+"Użyj metody <strong>Basic</strong> (domyślnej), jeśli obserwowane strony nie wymagają obsługi JavaScript do "
+"wyświetlenia."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"The <strong>Chrome/Javascript</strong> method requires a network connection to a running WebDriver+Chrome server, set"
+" by the ENV var 'WEBDRIVER_URL'."
+msgstr ""
+"Metoda <strong>Chrome/Javascript</strong> wymaga połączenia sieciowego z uruchomionym serwerem WebDriver+Chrome, "
+"którego adres jest określony przez zmienną środowiskową „WEBDRIVER_URL”."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"If you're having trouble waiting for the page to be fully rendered (text missing etc), try increasing the 'wait' time"
+" here."
+msgstr ""
+"Jeśli masz problem z oczekiwaniem na pełne wyświetlenie strony (brakujące fragmenty tekstu itp.), spróbuj wydłużyć "
+"tutaj czas „oczekiwania”."
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will wait <i>n</i> seconds before extracting the text."
+msgstr "Przed wyodrębnieniem tekstu system odczeka <i>n</i> sekund."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Number of concurrent workers to process watches. More workers = faster processing but higher memory usage."
+msgstr ""
+"Liczba procesów działających jednocześnie do przetwarzania obserwacji. Więcej procesów oznacza szybsze przetwarzanie,"
+" ale większe zużycie pamięci."
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Currently running:"
+msgstr "Obecnie uruchomione:"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "operational"
+msgstr "operacyjny"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "workers"
+msgstr "procesy robocze"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
 msgid "actively processing"
 msgstr "aktywnie przetwarzając"
 
