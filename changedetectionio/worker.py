@@ -7,6 +7,12 @@ from changedetectionio import worker_pool
 from changedetectionio.queuedWatchMetaData import PrioritizedItem
 from changedetectionio.pluggy_interface import apply_update_handler_alter, apply_update_finalize
 
+import asyncio
+import os
+import re
+import sys
+import time
+
 # Allow alphanumerics, space, and a small set of punctuation that appears in legitimate
 # status strings ("Querying AI/LLM (intent)..", "Fetching..."). Anything that could
 # be HTML-active (<, >, &, ", ', =, ;, {, }, `, \) is stripped.
