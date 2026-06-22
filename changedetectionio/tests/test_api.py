@@ -275,3 +275,54 @@ def test_access_denied(client, live_server, measure_memory_usage, datastore_path
     )
     assert b"Settings updated." in res.data
 
+def test_api_watch_PUT_update(client, live_server, measure_memory_usage, datastore_path):
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    # Create a watch
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Create new
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({"url": test_url,
+                         'tag': "One, Two",
+                         "title": "My test URL",
+                         'headers': {'cookie': 'yum'},
+                         "conditions": [
+                             {
+                                 "field": "page_filtered_text",
+                                 "operator": "contains_regex",
+                                 "value": "."  # contains anything
+                             }
+                         ],
+                         "conditions_match_logic": "ALL",
+                         }
+                        ),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    if res.status_code != 201:
+        print(f"\n=== POST createwatch failed with {res.status_code} ===")
+        print(f"Response: {res.data}")
+    assert res.status_code == 201
+
+    wait_for_all_checks(client)
+    # Get a listing, it will be the first one
+    res = client.get(
+        url_for("createwatch"),
+        headers={'x-api-key': api_key}
+    )
+
+    watch_uuid = list(res.json.keys())[0]
+    assert not res.json[watch_uuid].get('viewed'), 'A newly created watch can only be unviewed'
+
+    # Check in the edit page just to be sure
+    res = client.get(
+        url_for("ui.ui_edit.edit_page", uuid=watch_uuid),
+    )
+    assert b"cookie: yum" in res.data, "'cookie: yum' found in 'headers' section"
+    assert b"One" in res.data, "Tag 'One' was found"
+    assert b"Two" in res.data, "Tag 'Two' was found"
+
