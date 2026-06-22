@@ -487,6 +487,8 @@ class NotificationService:
         # @todo - This could be a markdown template on the disk, apprise will convert the markdown to HTML+Plaintext parts in the email, and then 'markup_text_links_to_html_links' is not needed
         body = f"""Hello,
 
+Your configured CSS/xPath filters of '{filter_list}' for {{{{watch_url}}}} did not appear on the page after {threshold} attempts.
+
 It's possible the page changed layout and the filter needs updating ( Try the 'Visual Selector' tab )
 
 Edit link: {{{{base_url}}}}/edit/{{{{watch_uuid}}}}
