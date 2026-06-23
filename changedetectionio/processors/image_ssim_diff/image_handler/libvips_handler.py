@@ -174,3 +174,167 @@ class LibvipsImageDiffHandler(ImageDiffHandler):
         # Normalize mask to 0-1 range for blending
         mask_normalized = mask / 255.0
 
+        # Split into R, G, B channels
+        channels = img.bandsplit()
+        r, g, b = channels[0], channels[1], channels[2]
+
+        # Apply red overlay (50% blend):
+        # Where mask is 1: blend 50% original with 50% red (255)
+        # Where mask is 0: keep original
+        r = r * (1 - mask_normalized * 0.5) + 127.5 * mask_normalized
+        g = g * (1 - mask_normalized * 0.5)
+        b = b * (1 - mask_normalized * 0.5)
+
+        # Recombine channels
+        result = r.bandjoin([g, b])
+
+        # CRITICAL: Use temp file instead of write_to_buffer()
+        # write_to_buffer() leaks C memory that isn't returned to OS
+        # See: https://github.com/libvips/pyvips/issues/234
+        try:
+            with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as tmp:
+                temp_path = tmp.name
+
+            # Write to file (doesn't leak like write_to_buffer)
+            result.write_to_file(temp_path, Q=85)
+
+            # Read bytes and clean up
+            with open(temp_path, 'rb') as f:
+                image_bytes = f.read()
+
+            os.unlink(temp_path)
+            return image_bytes
+
+        except Exception as e:
+            logger.error(f"Failed to write image via temp file: {e}")
+            # Fallback to write_to_buffer if temp file fails
+            return result.write_to_buffer('.jpg', Q=85)
+
+    def close(self, img: pyvips.Image) -> None:
+        """
+        LibVIPS uses automatic reference counting.
+
+        No explicit cleanup needed - memory freed when references drop to zero.
+        """
+        pass
+
+    def find_template(
+        self,
+        img: pyvips.Image,
+        template_img: pyvips.Image,
+        original_bbox: Tuple[int, int, int, int],
+        search_tolerance: float = 0.2
+    ) -> Tuple[int, int, int, int]:
+        """
+        Find template in image using OpenCV template matching.
+
+        Note: This temporarily converts to numpy for OpenCV operations since
+        libvips doesn't have template matching built-in.
+        """
+        import cv2
+        import numpy as np
+
+        try:
+            left, top, right, bottom = original_bbox
+            width = right - left
+            height = bottom - top
+
+            # Calculate search region
+            margin_x = int(width * search_tolerance)
+            margin_y = int(height * search_tolerance)
+
+            search_left = max(0, left - margin_x)
+            search_top = max(0, top - margin_y)
+            search_right = min(img.width, right + margin_x)
+            search_bottom = min(img.height, bottom + margin_y)
+
+            # Crop search region
+            search_region = self.crop(img, search_left, search_top, search_right, search_bottom)
+
+            # Convert to numpy arrays for OpenCV
+            search_array = np.ndarray(
+                buffer=search_region.write_to_memory(),
+                dtype=np.uint8,
+                shape=[search_region.height, search_region.width, search_region.bands]
+            )
+            template_array = np.ndarray(
+                buffer=template_img.write_to_memory(),
+                dtype=np.uint8,
+                shape=[template_img.height, template_img.width, template_img.bands]
+            )
+
+            # Convert to grayscale
+            if len(search_array.shape) == 3:
+                search_gray = cv2.cvtColor(search_array, cv2.COLOR_RGB2GRAY)
+            else:
+                search_gray = search_array
+
+            if len(template_array.shape) == 3:
+                template_gray = cv2.cvtColor(template_array, cv2.COLOR_RGB2GRAY)
+            else:
+                template_gray = template_array
+
+            logger.debug(f"Searching for template in region: ({search_left}, {search_top}) to ({search_right}, {search_bottom})")
+
+            # Perform template matching
+            result = cv2.matchTemplate(search_gray, template_gray, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+            logger.debug(f"Template matching confidence: {max_val:.2%}")
+
+            # Check if match is good enough (80% confidence threshold)
+            if max_val >= 0.8:
+                # Calculate new bounding box in original image coordinates
+                match_x = search_left + max_loc[0]
+                match_y = search_top + max_loc[1]
+
+                new_bbox = (match_x, match_y, match_x + width, match_y + height)
+
+                # Calculate movement distance
+                move_x = abs(match_x - left)
+                move_y = abs(match_y - top)
+
+                logger.info(f"Template found at ({match_x}, {match_y}), "
+                           f"moved {move_x}px horizontally, {move_y}px vertically, "
+                           f"confidence: {max_val:.2%}")
+
+                return new_bbox
+            else:
+                logger.warning(f"Template match confidence too low: {max_val:.2%} (need 80%)")
+                return None
+
+        except Exception as e:
+            logger.error(f"Template matching error: {e}")
+            return None
+
+    def save_template(
+        self,
+        img: pyvips.Image,
+        bbox: Tuple[int, int, int, int],
+        output_path: str
+    ) -> bool:
+        """
+        Save a cropped region as a template file.
+        """
+        import os
+
+        try:
+            left, top, right, bottom = bbox
+            width = right - left
+            height = bottom - top
+
+            # Ensure output directory exists
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+            # Crop template region
+            template = self.crop(img, left, top, right, bottom)
+
+            # Save as PNG
+            template.write_to_file(output_path, compression=6)
+
+            logger.info(f"Saved template: {output_path} ({width}x{height}px)")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to save template: {e}")
+            return False
