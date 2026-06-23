@@ -505,6 +505,21 @@ def _has_lone_surrogate(value):
         return any(_has_lone_surrogate(v) for v in value)
     return False
 
+def _sanitize_lone_surrogate_str(value: str) -> str:
+    return _LONE_SURROGATE_RE.sub('\ufffd', value)
+
+def _sanitize_lone_surrogates(value):
+    if isinstance(value, str):
+        return _sanitize_lone_surrogate_str(value)
+    if isinstance(value, dict):
+        # JSON object keys are always strings, so they only need the substitution - recursing on a
+        # key would (in theory) hand back an unhashable dict/list
+        return {_sanitize_lone_surrogate_str(k) if isinstance(k, str) else k: _sanitize_lone_surrogates(v)
+                for k, v in value.items()}
+    if isinstance(value, list):
+        return [_sanitize_lone_surrogates(v) for v in value]
+    return value
+
 # Mode     - "content" return the content without the matches (default)
 #          - "line numbers" return a list of line numbers that match (int list)
 #

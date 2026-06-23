@@ -819,6 +819,46 @@ msgstr ""
 msgid "Monthly token budget reached. AI summarisation is paused until next month."
 msgstr ""
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "tokens per month (0 = unlimited)"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "platform.openai.com → API keys"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "console.anthropic.com → API keys"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "aistudio.google.com → Get API key"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "No API key needed for local Ollama"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Bearer token for your self-hosted server (vLLM, LM Studio, etc.)"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "openrouter.ai → Keys"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Select a provider first."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Loading…"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "No models returned by the provider."
+msgstr ""
+
 #: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/menu.html
 msgid "Mute notifications"
 msgstr "Silenciar notificações"
