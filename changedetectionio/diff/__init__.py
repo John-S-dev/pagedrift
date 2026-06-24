@@ -67,3 +67,15 @@ def extract_changed_from(raw_diff: str) -> str:
     return '\n'.join(next((g for g in m.groups() if g is not None), '') for m in _EXTRACT_REMOVED_RE.finditer(raw_diff))
 
 
+# Export main public API
+__all__ = [
+    'render_diff',
+    'customSequenceMatcher',
+    'render_inline_word_diff',
+    'render_nested_line_diff',
+    'TOKENIZERS',
+    'REMOVED_STYLE',
+    'ADDED_STYLE',
+    'REMOVED_INNER_STYLE',
+    'ADDED_INNER_STYLE',
+]
