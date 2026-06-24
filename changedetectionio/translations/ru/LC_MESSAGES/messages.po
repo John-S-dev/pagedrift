@@ -1009,6 +1009,47 @@ msgstr "Текущий расчетный период"
 msgid "(set via <code>LLM_MAX_INPUT_CHARS</code>)"
 msgstr "(устанавливается через <code>LLM_MAX_INPUT_CHARS</code>)"
 
+#: changedetectionio/blueprint/tags/__init__.py
+#, python-brace-format
+msgid "The tag \"{}\" already exists"
+msgstr "Тег \"{}\" уже существует."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag added"
+msgstr "Тег добавлен"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag deleted, removing from watches in background"
+msgstr "Тег удален, часы удалены в фоновом режиме"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Unlinking tag from watches in background"
+msgstr "Отключение тега от часов в фоновом режиме"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "All tags deleted, clearing from watches in background"
+msgstr "Все теги удалены, часы в фоновом режиме удалены."
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Tag not found"
+msgstr "Тег не найден"
+
+#: changedetectionio/blueprint/tags/__init__.py
+msgid "Updated"
+msgstr "Обновлено"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Activate for individual watches in this tag/group?"
+msgstr "Активировать для отдельных часов в этом теге/группе?"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "Auto-apply to watches with URLs matching"
+msgstr "Автоматически применять к часам с совпадающими URL-адресами"
+
+#: changedetectionio/blueprint/tags/form.py
+msgid "e.g. *://example.com/* or github.com/myorg"
+msgstr "например *://example.com/* или github.com/myorg"
+
 #: changedetectionio/blueprint/tags/templates/edit-tag.html
 msgid "Custom colour"
 msgstr "Пользовательский цвет"
