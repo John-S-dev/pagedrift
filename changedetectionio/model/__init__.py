@@ -513,6 +513,51 @@ class watch_base(dict):
                 except AttributeError:
                     pass  # Attribute doesn't exist in this instance
 
+    @property
+    def data_dir(self):
+        """
+        The base directory for this watch/tag data (property, computed from UUID).
+
+        Common property for both Watch and Tag objects.
+        Returns path like: /datastore/{uuid}/
+        """
+        return os.path.join(self._datastore_path, self['uuid']) if self._datastore_path else None
+
+    def ensure_data_dir_exists(self):
+        """
+        Create the data directory if it doesn't exist.
+
+        Common method for both Watch and Tag objects.
+        """
+        from loguru import logger
+        if not os.path.isdir(self.data_dir):
+            logger.debug(f"> Creating data dir {self.data_dir}")
+            os.mkdir(self.data_dir)
+
+    def get_global_setting(self, *path):
+        """
+        Get a setting from the global datastore configuration.
+
+        Args:
+            *path: Path to the setting (e.g., 'application', 'history_snapshot_max_length')
+
+        Returns:
+            The setting value, or None if not found
+
+        Example:
+            maxlen = self.get_global_setting('application', 'history_snapshot_max_length')
+        """
+        if not self._datastore:
+            return None
+
+        try:
+            value = self._datastore['settings']
+            for key in path:
+                value = value[key]
+            return value
+        except (KeyError, TypeError):
+            return None
+
     def _get_commit_data(self):
         """
         Prepare data for commit (can be overridden by subclasses).
