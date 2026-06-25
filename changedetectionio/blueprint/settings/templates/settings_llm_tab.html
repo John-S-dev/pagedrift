@@ -399,6 +399,43 @@
   {% else %}
   <p class="llm-no-usage">{{ _('No AI usage recorded yet.') }}</p>
 
+  <div class="llm-usage-settings">
+    <div class="llm-usage-row">
+      <span class="llm-usage-row-label">{{ _('Token budget') }}</span>
+      <span class="llm-usage-row-value">
+        {% if llm_token_budget_month_env %}
+          <strong>{{ '{:,}'.format(llm_token_budget_month_env) }}</strong>
+          <span class="llm-env-badge">{{ _('(set via <code>LLM_TOKEN_BUDGET_MONTH</code>)') | safe }}</span>
+          <input type="hidden" name="llm-token_budget_month" value="{{ llm_token_budget_month_env }}">
+        {% else %}
+          {{ form.llm.form.token_budget_month(placeholder=_('0 = unlimited'), value=llm_stored.get('token_budget_month', 0) or '') }}
+          <span class="llm-field-hint">{{ _('tokens per month (0 = unlimited)') }}</span>
+        {% endif %}
+      </span>
+    </div>
+    <div class="llm-usage-row">
+      <span class="llm-usage-row-label">{{ _('Max input characters') }}</span>
+      <span class="llm-usage-row-value">
+        {% if llm_max_input_chars_env %}
+          {{ form.llm.form.max_input_chars(value=llm_max_input_chars_env, readonly=True, style="width:10em;opacity:0.6;cursor:not-allowed;") }}
+          <span class="llm-env-badge">{{ _('(set via <code>LLM_MAX_INPUT_CHARS</code>)') | safe }}</span>
+        {% else %}
+          {{ form.llm.form.max_input_chars(placeholder='100000', value=llm_stored.get('max_input_chars', 100000) or '') }}
+          <span class="llm-field-hint">{{ _('characters — currently enforcing: %(limit)s', limit='{:,}'.format(llm_effective_max_input_chars)) }}</span>
+        {% endif %}
+      </span>
+    </div>
+    <div class="llm-usage-row">
+      <span class="llm-usage-row-label">{{ _('Max tokens per watch per period') }}</span>
+      <span class="llm-usage-row-value">
+        {{ form.llm.form.max_tokens_per_count_period(placeholder=_('0 = unlimited'), value=llm_stored.get('max_tokens_per_count_period', 0) or '') }}
+        <span class="llm-field-hint">{{ _('tokens — skips AI evaluation on a watch once its usage within the current period (monthly) hits this cap (0 = unlimited)') }}</span>
+      </span>
+    </div>
+  </div>
+  {% endif %}
+  {% endcall %}
+
 {% endcall %}{# stab_shell #}
 </div>
 
