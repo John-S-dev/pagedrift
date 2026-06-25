@@ -701,6 +701,46 @@ msgstr "Pozn.: Toto je aplikováno globálně dodatečně k pravidlům nastaven�
 msgid "Matching text will be ignored in the text snapshot (you can still see it but it wont trigger a change)"
 msgstr "Text shody bude ignorován ve snímku textu (bude i nadále vidět, ale nebude spouštět upozornění na změnu)"
 
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Each line processed separately, any line matching will be ignored (removed before creating the checksum)"
+msgstr "Každá řádka zpracována samostatně, odpovídající řádky budou ignorovány (odstraněny před založením kontrolního součtu)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Regular Expression support, wrap the entire line in forward slash"
+msgstr "Podpora regulárních výrazů, ohraničit celé řádky lomítkem"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/templates/edit/text-options.html
+msgid "Changing this will affect the comparison checksum which may trigger an alert"
+msgstr "Změna této hodnoty ovlivní porovnávací kontrolní součet, což může spustit upozornění"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Remove any text that appears in the \"Ignore text\" from the output (otherwise its just ignored for change-detection)"
+msgstr "Odstranit všechen text z výstupu zadaný pod \"Ignorovat text\" (jinak bude ignorováno pouze pro detekci změn)"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API Access"
+msgstr "API Přístup"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Drive your changedetection.io via API, More about"
+msgstr "Ovládejte svou changedetection.io pomocí API, Více o"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "API access and examples here"
+msgstr "přístupu k API a příklady zde"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "Restrict API access limit by using"
+msgstr "Omezit API přístupový limit použitím"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "header - required for the Chrome Extension to work"
+msgstr "hlavičky - vyžadováno pro správné fungování Chrome rozšíření"
+
+#: changedetectionio/blueprint/settings/templates/settings.html
+msgid "copy"
+msgstr "kopírovat"
+
 #: changedetectionio/blueprint/settings/templates/settings.html
 msgid "Regenerate API key"
 msgstr "Obnovit API klíč"
