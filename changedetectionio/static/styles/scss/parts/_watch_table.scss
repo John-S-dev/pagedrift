@@ -35,6 +35,11 @@ $title-col-stack-breakpoint: 1200px;
   }
 }
 
+body.watch-selection-active #checkbox-operations {
+  display: block;
+}
+
+
 .pure-table.watch-table td {
   /* override of pure-css */
     padding: .7em 0.7em;
