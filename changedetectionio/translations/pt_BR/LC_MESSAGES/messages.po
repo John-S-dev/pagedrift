@@ -212,6 +212,48 @@ msgstr "Uma restauração está em execução!"
 msgid "Restore a backup. Must be a .zip backup file created on/after v0.53.1 (new database layout)."
 msgstr "Restaurar um backup. Deve ser um arquivo .zip criado na v0.53.1 ou superior (novo layout de banco de dados)."
 
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Note: This does not override the main application settings, only watches and groups."
+msgstr "Nota: Isso não substitui as configurações principais do aplicativo, apenas monitoramentos e grupos."
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+#, python-format
+msgid "Max upload size: %(upload)s MB, Max decompressed size: %(decomp)s MB"
+msgstr ""
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all groups found in backup?"
+msgstr "Incluir todos os grupos encontrados no backup?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing groups of the same UUID?"
+msgstr "Substituir grupos existentes com o mesmo UUID?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Include all watches found in backup?"
+msgstr "Incluir todos os monitoramentos encontrados no backup?"
+
+#: changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Replace any existing watches of the same UUID?"
+msgstr "Substituir monitoramentos existentes com o mesmo UUID?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Importing 5,000 of the first URLs from your list, the rest can be imported again."
+msgstr "Importando as primeiras 5.000 URLs da sua lista, o restante pode ser importado novamente."
+
+#: changedetectionio/blueprint/imports/importer.py
+#, python-brace-format
+msgid "{count} Imported from list in {duration}s, {skipped_count} Skipped."
+msgstr "{count} Importados da lista em {duration}s, {skipped_count} Ignorados."
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "Unable to read JSON file, was it broken?"
+msgstr "Não foi possível ler o arquivo JSON, ele está corrompido?"
+
+#: changedetectionio/blueprint/imports/importer.py
+msgid "JSON structure looks invalid, was it broken?"
+msgstr "A estrutura do JSON parece inválida, ele está corrompido?"
+
 #: changedetectionio/blueprint/imports/importer.py
 #, python-brace-format
 msgid "{count} Imported from Distill.io in {duration}s, {skipped_count} Skipped."
