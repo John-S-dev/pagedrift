@@ -71,3 +71,40 @@ function setupDiffNavigation() {
     }, false);
 }
 
+$(document).ready(function () {
+    $('.needs-localtime').each(function () {
+        for (var option of this.options) {
+            var dateObject = new Date(option.value * 1000);
+            var formattedDate = dateObject.toLocaleString(undefined, {dateStyle: "full", timeStyle: "medium"});
+            // Preserve any existing text in the label (like "(Previous)" or "(Current)")
+            var existingText = option.text.replace(option.value, '').trim();
+            option.label = existingText ? formattedDate + ' ' + existingText : formattedDate;
+        }
+    });
+
+    // Setup keyboard navigation for diff versions
+    if ($('#diff-from-version').length && $('#diff-to-version').length) {
+        setupDiffNavigation();
+    }
+
+    // Load it when the #screenshot tab is in use, so we dont give a slow experience when waiting for the text diff to load
+    window.addEventListener('hashchange', function (e) {
+        toggle(location.hash);
+    }, false);
+
+    toggle(location.hash);
+
+    function toggle(hash_name) {
+        if (hash_name === '#screenshot') {
+            $("img#screenshot-img").attr('src', screenshot_url);
+            $("#settings").hide();
+        } else if (hash_name === '#error-screenshot') {
+            $("img#error-screenshot-img").attr('src', error_screenshot_url);
+            $("#settings").hide();
+        } else if (hash_name === '#extract') {
+            $("#settings").hide();
+        } else {
+            $("#settings").show();
+        }
+    }
+
