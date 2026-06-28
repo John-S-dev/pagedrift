@@ -7,3 +7,44 @@ ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt /requirements.txt
 
+ARG TARGETPLATFORM
+
+RUN \
+ apk add --update --no-cache --virtual=build-dependencies \
+    build-base \
+    cargo \
+    git \
+    jpeg-dev \
+    libc-dev \
+    libffi-dev \
+    libxslt-dev \
+    openssl-dev \
+    python3-dev \
+    file \
+    zip \
+    zlib-dev && \
+  apk add --update --no-cache \
+    libjpeg \
+    libxslt \
+    file \
+    nodejs \
+    poppler-utils \
+    python3 \
+    glib \
+    libsm \
+    libxext \
+    libxrender && \
+  case "$TARGETPLATFORM" in \
+    linux/arm/v7|linux/arm/v8) \
+      echo "INFO: Skipping py3-opencv on $TARGETPLATFORM (using pixelmatch fallback)" \
+      ;; \
+    *) \
+      apk add --update --no-cache py3-opencv || echo "WARN: py3-opencv install failed, using pixelmatch fallback" \
+      ;; \
+  esac && \
+  echo "**** pip3 install test of changedetection.io ****" && \
+  python3 -m venv /lsiopy  && \
+  pip install -U pip wheel setuptools && \
+  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.22/ -r /requirements.txt && \
+  apk del --purge \
+    build-dependencies
