@@ -284,6 +284,33 @@ code {
   }
 }
 
+.button-success {
+  background: var(--color-background-button-success);
+}
+
+.button-tag {
+  background: var(--color-background-button-tag);
+  color: var(--color-text-button);
+  font-size: 75%;
+  border-radius: 6px;
+  margin-right: 4px;
+  &.active {
+    background: var(--color-background-button-tag-active);
+    font-weight: bold;
+  }
+  margin-bottom: 1px;
+}
+
+.button-error {
+  background: var(--color-background-button-error);
+  color: var(--color-text-button-error);
+}
+
+.button-warning {
+  background: var(--color-background-button-warning);
+  color: var(--color-text-button-warning);
+}
+
 .button-secondary {
   background: var(--color-background-button-secondary);
 }
