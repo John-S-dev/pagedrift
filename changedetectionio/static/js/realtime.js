@@ -146,6 +146,72 @@ $(document).ready(function () {
                 socket.disconnect();
             });
 
+            socket.on('queue_size', function (data) {
+                console.log(`${data.event_timestamp} - Queue size update: ${data.q_length}`);
+                const formattedCount = parseInt(data.q_length).toLocaleString() || 'None';
+                queueSizeNodes.forEach(node => { node.textContent = formattedCount; });
+                document.body.classList.toggle('has-queue', parseInt(data.q_length) > 0);
+
+                // Update queue bubble in action sidebar
+                //if (queueBubble) {
+                if (0) {
+                    const count = parseInt(data.q_length) || 0;
+                    const oldCount = parseInt(queueBubble.getAttribute('data-count')) || 0;
+
+                    if (count > 0) {
+                        // Format number according to browser locale
+                        const formatter = new Intl.NumberFormat(navigator.language);
+                        queueBubble.textContent = formatter.format(count);
+                        queueBubble.setAttribute('data-count', count);
+                        queueBubble.classList.add('visible');
+
+                        // Add large-number class for numbers > 999
+                        if (count > 999) {
+                            queueBubble.classList.add('large-number');
+                        } else {
+                            queueBubble.classList.remove('large-number');
+                        }
+
+                        // Pulse animation if count changed
+                        if (count !== oldCount) {
+                            queueBubble.classList.remove('pulse');
+                            // Force reflow to restart animation
+                            void queueBubble.offsetWidth;
+                            queueBubble.classList.add('pulse');
+                        }
+                    } else {
+                        // Hide bubble when queue is empty
+                        queueBubble.classList.remove('visible', 'pulse', 'large-number');
+                        queueBubble.setAttribute('data-count', '0');
+                    }
+                }
+            })
+
+            socket.on('checking_now', function (data) {
+                console.log(`${data.event_timestamp} - Checking now update: ${data.count}`);
+                const formattedCount = parseInt(data.count).toLocaleString() || 'None';
+                checkingNowNodes.forEach(node => { node.textContent = formattedCount; });
+                document.body.classList.toggle('is-checking-now', parseInt(data.count) > 0);
+            })
+
+            // Listen for operation results
+            socket.on('operation_result', function (data) {
+                if (data.success) {
+                    console.log(`Socket.IO: Operation '${data.operation}' completed successfully for UUID ${data.uuid}`);
+                } else {
+                    console.error(`Socket.IO: Operation failed: ${data.error}`);
+                    alert(i18nT('requestProblem', 'There was a problem processing the request: %(error)s').split('%(error)s').join(data.error));
+                }
+            });
+
+            // Server-driven feedback for bulk checkbox operations (real count / error from the server)
+            socket.on('toast', function (data) {
+                if (data && data.message && window.Toast) {
+                    const fn = window.Toast[data.type] || window.Toast.info;
+                    fn(data.message);
+                }
+            });
+
             socket.on('watch_small_status_comment', function (data) {
                 console.log(`Socket.IO: Operation  watch_small_status_comment'${data.uuid}' status ${data.status}`);
                 $('tr[data-watch-uuid="' + data.uuid + '"] td.last-checked .status-text').html("&nbsp;").text(data.status);
