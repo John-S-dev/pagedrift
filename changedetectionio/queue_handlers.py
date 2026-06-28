@@ -421,3 +421,52 @@ class RecheckPriorityQueue:
             logger.critical(f"CRITICAL: Failed to emit get signals: {str(e)}")
 
 
+        Args:
+            executor: Optional ThreadPoolExecutor
+        """
+        logger.trace(f"NotificationQueue.async_get() called, executor={executor}")
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            item = await loop.run_in_executor(executor, lambda: self.get(block=True, timeout=1.0))
+            logger.trace(f"NotificationQueue.async_get() retrieved item: {item.get('uuid', 'unknown') if isinstance(item, dict) else 'unknown'}")
+            return item
+        except queue.Empty as e:
+            logger.trace(f"NotificationQueue.async_get() timed out - queue is empty")
+            raise e
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to async get notification: {type(e).__name__}: {str(e)}")
+            raise e
+    
+    def qsize(self) -> int:
+        """Get current queue size"""
+        try:
+            with self._lock:
+                return self._notification_queue.qsize()
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to get notification queue size: {str(e)}")
+            return 0
+
+    def empty(self) -> bool:
+        """Check if queue is empty"""
+        return self.qsize() == 0
+
+    def close(self):
+        """Close the queue"""
+        try:
+            # Nothing to close for threading.Queue
+            logger.debug("NotificationQueue closed successfully")
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to close NotificationQueue: {str(e)}")
+    
+    def _emit_notification_signal(self, item: Dict[str, Any]):
+        """Emit notification signal"""
+        try:
+            if self.notification_event_signal and isinstance(item, dict):
+                watch_uuid = item.get('uuid')
+                if watch_uuid:
+                    self.notification_event_signal.send(watch_uuid=watch_uuid)
+                else:
+                    self.notification_event_signal.send()
+        except Exception as e:
+            logger.critical(f"CRITICAL: Failed to emit notification signal: {str(e)}")
