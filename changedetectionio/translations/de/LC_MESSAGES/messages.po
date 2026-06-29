@@ -1245,6 +1245,48 @@ msgstr "Ignorieren Sie alle übereinstimmenden Zeilen"
 msgid "Ignore any lines matching excluding digits"
 msgstr "Ignorieren Sie alle übereinstimmenden Zeilen mit Ausnahme von Ziffern"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Choose a proxy for this watch"
+msgstr "Wählen Sie einen Proxy für diese Überwachung."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Using the current global default settings"
+msgstr "Verwendung der aktuellen globalen Standardeinstellungen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Show advanced options"
+msgstr "Erweiterte Optionen anzeigen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Run this code before performing change detection, handy for filling in fields and other actions"
+msgstr ""
+"Führen Sie diesen Code vor der Änderungserkennung aus. Er ist praktisch zum Ausfüllen von Feldern und für andere "
+"Aktionen."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Weitere Hilfe und Beispiele finden Sie hier"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "Variablen werden im Anforderungstext unterstützt"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "Variablen werden in den Werten der Anfrage-Header unterstützt."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "Alarm! Zusätzliche Header-Datei gefunden und wird dieser Überwachung hinzugefügt!"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Header können auch aus einer Datei in Ihrem Datenverzeichnis gelesen werden"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Lesen Sie hier mehr"
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Clear Queue"
 msgstr ""
