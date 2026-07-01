@@ -127,6 +127,47 @@ msgstr "Это должен быть файл резервной копии .zip
 msgid "Include groups"
 msgstr "Включить группы"
 
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Replace existing groups of the same UUID"
+msgstr "Заменить существующие группы с одним и тем же UUID."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include watches"
+msgstr "Включить часы"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Replace existing watches of the same UUID"
+msgstr "Заменить существующие часы с тем же UUID"
+
+#: changedetectionio/blueprint/backups/restore.py changedetectionio/blueprint/backups/templates/backup_restore.html
+msgid "Restore backup"
+msgstr "Восстановить резервную копию"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "A restore is already running, check back in a few minutes"
+msgstr "Восстановление уже запущено. Повторите попытку через несколько минут."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "No file uploaded"
+msgstr "Ни один файл не загружен"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "File must be a .zip backup file"
+msgstr "Файл должен быть файлом резервной копии .zip."
+
+#: changedetectionio/blueprint/backups/restore.py
+#, python-format
+msgid "Backup file is too large (max %(mb)s MB)"
+msgstr "Файл резервной копии слишком велик (максимум %(mb)s МБ)"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Invalid or corrupted zip file"
+msgstr "Неверный или поврежденный zip-файл."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Restore started in background, check back in a few minutes."
+msgstr "Восстановление началось в фоновом режиме. Повторите попытку через несколько минут."
+
 #: changedetectionio/blueprint/backups/templates/backup_create.html
 #: changedetectionio/blueprint/backups/templates/backup_restore.html
 msgid "Create"
