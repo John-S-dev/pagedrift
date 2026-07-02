@@ -1751,6 +1751,38 @@ paths:
             import requests
             
             headers = {'x-api-key': 'YOUR_API_KEY'}
+            tag_uuid = '550e8400-e29b-41d4-a716-446655440000'
+            response = requests.delete(f'http://localhost:5000/api/v1/tag/{tag_uuid}', headers=headers)
+            print(response.text)
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: Tag unique ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Tag deleted successfully
+
+
+  /notifications:
+    get:
+      operationId: getNotifications
+      tags: [Notifications]
+      summary: Get notification URLs
+      description: Return the notification URL list from the configuration
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            curl -X GET "http://localhost:5000/api/v1/notifications" \
+              -H "x-api-key: YOUR_API_KEY"
+        - lang: 'Python'
+          source: |
+            import requests
+            
+            headers = {'x-api-key': 'YOUR_API_KEY'}
             response = requests.get('http://localhost:5000/api/v1/notifications', headers=headers)
             print(response.json())
       responses:
