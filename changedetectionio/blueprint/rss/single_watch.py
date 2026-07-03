@@ -58,3 +58,58 @@ def construct_single_watch_routes(rss_blueprint, datastore):
         max_possible_diffs = len(dates) - 1
         num_diffs = min(rss_diff_length, max_possible_diffs) if rss_diff_length > 0 else max_possible_diffs
 
+        # Create RSS feed
+        fg = FeedGenerator()
+
+        # Set title: use "label (url)" if label differs from url, otherwise just url
+        watch_url = watch.get('url', '')
+        watch_label = get_watch_label(datastore, watch)
+
+        if watch_label != watch_url:
+            feed_title = f'changedetection.io - {watch_label} ({watch_url})'
+        else:
+            feed_title = f'changedetection.io - {watch_url}'
+
+        fg.title(feed_title)
+        fg.description('Changes')
+        fg.link(href='https://changedetection.io')
+
+        # Loop through history and create RSS entries for each diff
+        # Add entries in reverse order because feedgen reverses them
+        # This way, the newest change appears first in the final RSS
+
+        notification_service = NotificationService(datastore=datastore, notification_q=False)
+        for i in range(num_diffs - 1, -1, -1):
+            # Calculate indices for this diff (working backwards from newest)
+            # i=0: compare dates[-2] to dates[-1] (most recent change)
+            # i=1: compare dates[-3] to dates[-2] (previous change)
+            # etc.
+            date_index_to = -(i + 1)
+            date_index_from = -(i + 2)
+            timestamp_to = dates[date_index_to]
+            timestamp_from = dates[date_index_from]
+
+            # Get template and build notification context
+            n_body_template = get_rss_template(datastore, watch, rss_content_format,
+                                               RSS_TEMPLATE_HTML_DEFAULT, RSS_TEMPLATE_PLAINTEXT_DEFAULT)
+
+            n_object = build_notification_context(watch, timestamp_from, timestamp_to,
+                                                 watch_label, n_body_template, rss_content_format)
+
+            # Render notification with date indices
+            res = render_notification(n_object, notification_service, watch, datastore,
+                                     date_index_from, date_index_to)
+
+            # Create and populate feed entry
+            guid = f"{uuid}/{timestamp_to}"
+            fe = fg.add_entry()
+            title_suffix = f"Change @ {res['original_context']['change_datetime']}"
+            populate_feed_entry(fe, watch, res.get('body', ''), guid, timestamp_to,
+                              link={'href': watch.open_link_override or watch.get('url')}, title_suffix=title_suffix)
+            add_watch_categories(fe, watch, datastore)
+
+        response = make_response(fg.rss_str())
+        response.headers.set('Content-Type', 'application/rss+xml;charset=utf-8')
+        logger.debug(f"RSS Single watch built in {time.time()-now:.2f}s")
+
+        return response
