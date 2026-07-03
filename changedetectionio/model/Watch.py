@@ -414,6 +414,114 @@ class model(EntityPersistenceMixin, watch_base):
         # Sort by timestamp (key)
         sorted_items = sorted(self.history.items(), key=lambda x: int(x[0]))
 
+        keep_part = dict(sorted_items[-newest_n_items:])
+        delete_part = dict(sorted_items[:-newest_n_items])
+        logger.info( f"[{self.get('uuid')}] Trimming history to most recent {newest_n_items} items, keeping {len(keep_part)} items deleting {len(delete_part)} items.")
+
+        if delete_part:
+            for item in delete_part.items():
+                try:
+                    Path(item[1]).unlink(missing_ok=True)
+                except Exception as e:
+                    logger.critical(f"{str(e)}")
+                finally:
+                    logger.debug(f"[{self.get('uuid')}] Deleted {item[1]} history snapshot")
+        try:
+            dest = os.path.join(self.data_dir, self.history_index_filename)
+            output = "\r\n".join(
+                f"{k},{Path(v).name}"
+                for k, v in keep_part.items()
+            )+"\r\n"
+            self._write_atomic(dest=dest, data=output, mode='w')
+        except Exception as e:
+            logger.critical(f"{str(e)}")
+        finally:
+            logger.debug(f"[{self.get('uuid')}] Updated history index {dest}")
+
+        # reimport
+        bump = self.history
+        gc.collect()
+
+    # Save some text file to the appropriate path and bump the history
+    # result_obj from fetch_site_status.run()
+    def save_history_blob(self, contents, timestamp, snapshot_id):
+
+        logger.trace(f"{self.get('uuid')} - Updating {self.history_index_filename} with timestamp {timestamp}")
+
+        self.ensure_data_dir_exists()
+        skip_brotli = strtobool(os.getenv('DISABLE_BROTLI_TEXT_SNAPSHOT', 'False'))
+
+        # Binary data - detect file type and save without compression
+        if isinstance(contents, bytes):
+            try:
+                import puremagic
+                detections = puremagic.magic_string(contents[:2048])
+                ext = detections[0].extension if detections else 'bin'
+                # Strip leading dot if present (puremagic returns extensions like '.jfif')
+                ext = ext.lstrip('.')
+                if detections:
+                    logger.trace(f"Detected file type: {detections[0].mime_type} -> extension: {ext}")
+            except Exception as e:
+                logger.warning(f"puremagic detection failed: {e}, using 'bin' extension")
+                ext = 'bin'
+
+            snapshot_fname = f"{snapshot_id}.{ext}"
+            dest = os.path.join(self.data_dir, snapshot_fname)
+            self._write_atomic(dest, contents)
+            logger.trace(f"Saved binary snapshot as {snapshot_fname} ({len(contents)} bytes)")
+
+        # Text data - use brotli compression if enabled and above threshold
+        else:
+            if not skip_brotli and len(contents) > BROTLI_COMPRESS_SIZE_THRESHOLD:
+                # Compressed text
+                import brotli
+                snapshot_fname = f"{snapshot_id}.txt.br"
+                dest = os.path.join(self.data_dir, snapshot_fname)
+
+                if not os.path.exists(dest):
+                    try:
+                        actual_dest = _brotli_save(contents, dest, mode=brotli.MODE_TEXT, fallback_uncompressed=True)
+                        if actual_dest != dest:
+                            snapshot_fname = os.path.basename(actual_dest)
+                    except Exception as e:
+                        logger.error(f"{self.get('uuid')} - Brotli compression failed: {e}")
+                        # Fallback to uncompressed
+                        snapshot_fname = f"{snapshot_id}.txt"
+                        dest = os.path.join(self.data_dir, snapshot_fname)
+                        self._write_atomic(dest, contents.encode('utf-8'))
+            else:
+                # Plain text
+                snapshot_fname = f"{snapshot_id}.txt"
+                dest = os.path.join(self.data_dir, snapshot_fname)
+                self._write_atomic(dest, contents.encode('utf-8'))
+
+        # Append to history.txt atomically
+        index_fname = os.path.join(self.data_dir, self.history_index_filename)
+        index_line = f"{timestamp},{snapshot_fname}\n"
+
+        with open(index_fname, 'a', encoding='utf-8') as f:
+            f.write(index_line)
+            f.flush()
+            os.fsync(f.fileno())
+
+        # Update internal state
+        self.__newest_history_key = timestamp
+        self.__history_n += 1
+
+        # MANUAL CHAIN RESOLUTION: Watch → Global
+        # With Pydantic, this would become: maxlen = watch.resolved_history_snapshot_max_length
+        # @computed_field def resolved_history_snapshot_max_length(self) -> Optional[int]:
+        #     if self.history_snapshot_max_length: return self.history_snapshot_max_length
+        #     if tag := self._get_override_tag(): return tag.history_snapshot_max_length
+        #     return self._datastore.settings.history_snapshot_max_length
+        maxlen = self.get('history_snapshot_max_length') or self.get_global_setting('application', 'history_snapshot_max_length')
+
+        if maxlen and self.__history_n and self.__history_n > maxlen:
+            self.history_trim(newest_n_items=maxlen)
+
+        # @todo bump static cache of the last timestamp so we dont need to examine the file to set a proper ''viewed'' status
+        return snapshot_fname
+
         extension = None
 
         # If the caller already resolved the MIME type (e.g. from blob.type or a data URI),
