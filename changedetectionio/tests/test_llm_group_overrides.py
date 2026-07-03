@@ -40,3 +40,24 @@ def _page_text(res):
     return html.unescape(res.data.decode('utf-8', errors='replace'))
 
 
+# ---------------------------------------------------------------------------
+# Tag setup
+# ---------------------------------------------------------------------------
+
+def _add_tag_with_llm(datastore, title, llm_intent='', llm_change_summary='', ai=True):
+    """Create a tag with LLM fields set directly in the datastore.
+
+    `ai` is the group's single AI control (llm_backend_profile): True = On, False = Off,
+    None = leave it to each watch. Defaults to True because most cases here are about what
+    a group set to "On" hands down.
+    """
+    tag_uuid = datastore.add_tag(title)
+    tag = datastore.data['settings']['application']['tags'][tag_uuid]
+    if llm_intent:
+        tag['llm_intent'] = llm_intent
+    if llm_change_summary:
+        tag['llm_change_summary'] = llm_change_summary
+    tag['llm_backend_profile'] = ai
+    return tag_uuid
+
+
