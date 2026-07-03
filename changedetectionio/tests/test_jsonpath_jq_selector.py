@@ -9,6 +9,36 @@ import pytest
 import os
 jq_support = True
 
+try:
+    import jq
+except ModuleNotFoundError:
+    jq_support = False
+
+
+
+def test_jsonp_treated_as_plaintext():
+    from ..processors.magic import guess_stream_type
+
+    # JSONP content (server wrongly claims application/json) should be detected as plaintext
+    # Callback names are arbitrary identifiers, not always 'cb'
+    jsonp_content = 'jQuery123456({ "version": "8.0.41", "url": "https://example.com/app.apk" })'
+    result = guess_stream_type(http_content_header="application/json", content=jsonp_content)
+    assert result.is_json is False
+    assert result.is_plaintext is True
+
+    # Variation with dotted callback name e.g. jQuery.cb(...)
+    jsonp_dotted = 'some.callback({ "version": "1.0" })'
+    result = guess_stream_type(http_content_header="application/json", content=jsonp_dotted)
+    assert result.is_json is False
+    assert result.is_plaintext is True
+
+    # Real JSON should still be detected as JSON
+    json_content = '{ "version": "8.0.41", "url": "https://example.com/app.apk" }'
+    result = guess_stream_type(http_content_header="application/json", content=json_content)
+    assert result.is_json is True
+    assert result.is_plaintext is False
+
+
 def set_original_ext_response(datastore_path):
     data = """
         [
