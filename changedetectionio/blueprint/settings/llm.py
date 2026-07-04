@@ -29,6 +29,26 @@ class _LiteLLMWarningCapture(logging.Handler):
             pass
 
 
+def _humanize_litellm_error(raw: str) -> str:
+    # litellm warnings typically look like:
+    #   "Error getting valid models: Failed to get models: { 'error': { 'message': '...' } }"
+    # Pull the inner provider message when present; otherwise trim the boilerplate.
+    if not raw:
+        return raw
+    m = re.search(r'\{.*\}', raw, re.DOTALL)
+    if m:
+        try:
+            body = json.loads(m.group(0))
+            inner = (body.get('error') or {}).get('message') or body.get('message')
+            if inner:
+                return inner
+        except Exception:
+            pass
+    cleaned = re.sub(r'^Error getting valid models:\s*', '', raw)
+    cleaned = re.sub(r'^Failed to get models:\s*', '', cleaned).strip()
+    return cleaned[:500]
+
+
 def construct_llm_blueprint(datastore: ChangeDetectionStore):
     llm_blueprint = Blueprint('llm', __name__)
 
