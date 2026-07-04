@@ -1490,6 +1490,51 @@ msgstr "Oznaczono {} obserwacji"
 msgid "Watch not found"
 msgstr "Nie znaleziono obserwacji"
 
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Cleared snapshot history for watch {}"
+msgstr "Wyczyszczono historię migawek dla obserwacji {}"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "clear"
+msgstr "wyraźny"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "History clearing started in background"
+msgstr "Czyszczenie historii rozpoczęto w tle"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Incorrect confirmation text."
+msgstr "Nieprawidłowy tekst potwierdzenia."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "The watch by UUID {} does not exist."
+msgstr "Obserwacja o identyfikatorze UUID {} nie istnieje."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Deleted."
+msgstr "Usunięto."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Cloned, you are editing the new watch."
+msgstr "Sklonowano. Edytujesz nową obserwację."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Watch is already queued or being checked."
+msgstr "Obserwacja znajduje się już w kolejce lub jest właśnie sprawdzana."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Queued 1 watch for rechecking."
+msgstr "Dodano 1 obserwację do kolejki ponownego sprawdzenia."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Queued {count} watches for rechecking ({skipped_count} already queued or running)."
+msgstr ""
+"Dodano {count} obserwacji do kolejki ponownego sprawdzenia ({skipped_count} już znajduje się w kolejce lub jest w "
+"trakcie przetwarzania)."
+
 #: changedetectionio/blueprint/ui/queue.py
 #, python-brace-format
 msgid "Queue cleared ({} items removed)."
