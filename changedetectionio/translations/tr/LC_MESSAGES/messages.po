@@ -88,6 +88,47 @@ msgid ""
 "appear. Skip review additions."
 msgstr ""
 
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Watch group / tag"
+msgstr "İzleyici grubu / etiketi"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Watch this URL!"
+msgstr "Bu URL'yi izle!"
+
+#: changedetectionio/blueprint/add_watch_ui/templates/add-watch-ui.html
+msgid "Edit first then Watch"
+msgstr "Önce Düzenle sonra İzle"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "A backup is already running, check back in a few minutes"
+msgstr "Zaten bir yedekleme çalışıyor, birkaç dakika sonra tekrar kontrol edin"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Maximum number of backups reached, please remove some"
+msgstr "Maksimum yedekleme sayısına ulaşıldı, lütfen bazılarını kaldırın"
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backup building in background, check back in a few minutes."
+msgstr "Yedekleme arka planda oluşturuluyor, birkaç dakika sonra tekrar kontrol edin."
+
+#: changedetectionio/blueprint/backups/__init__.py
+msgid "Backups were deleted."
+msgstr "Yedeklemeler silindi."
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Backup zip file"
+msgstr "Yedek zip dosyası"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Must be a .zip backup file!"
+msgstr "Bir .zip yedek dosyası olmalıdır!"
+
+#: changedetectionio/blueprint/backups/restore.py
+msgid "Include groups"
+msgstr "Grupları dahil et"
+
 #: changedetectionio/blueprint/backups/restore.py
 msgid "Replace existing groups of the same UUID"
 msgstr "Aynı UUID'li mevcut grupları değiştir"
