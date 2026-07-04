@@ -51,6 +51,30 @@ function getVersionInfo() {
 }
 
 /**
+ * Helper: Walk through siblings in a given direction to find line boundary
+ */
+function findLineBoundary(node, container, searchBackwards = false) {
+    let currentNode = node;
+
+    while (currentNode && currentNode !== container) {
+        const sibling = searchBackwards ? currentNode.previousSibling : currentNode.nextSibling;
+        let currentSibling = sibling;
+
+        while (currentSibling) {
+            const result = findTextNodeWithNewline(currentSibling, searchBackwards);
+            if (result) {
+                return result;
+            }
+            currentSibling = searchBackwards ? currentSibling.previousSibling : currentSibling.nextSibling;
+        }
+
+        currentNode = currentNode.parentNode;
+    }
+
+    return null;
+}
+
+/**
  * Expands a selection range to include complete lines
  * If a user selects partial text, this ensures full lines are captured
  */
