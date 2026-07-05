@@ -5,6 +5,46 @@
 //$action-sidebar-width-collapsed: 64px — used by the resting inner-block width and the content-main left-padding in minimal mode
 //$action-sidebar-content-slot: 1100px — editable content column; .content-main max-width is now derived as content_slot + collapsed_width
 
+$action-sidebar-width-expanded: 200px;
+$action-sidebar-width-collapsed: 64px;
+$action-sidebar-content-slot: 1100px;
+
+// Desktop left rail — fixed positioning frame, full-height, but only the
+// inner item-list block captures hover. Empty area is pointer-events:none so
+// the top header stays clickable behind it.
+.action-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // Pin the rail to the viewport as a full-height column (like the demo's
+  // `height: 100vh; position: sticky`). align-self:flex-start stops the flex
+  // row from stretching it to the page-content height; sticky+100vh then keeps
+  // it viewport-tall and fixed in place while the content scrolls, so the
+  // footer list always rests at the bottom of the window.
+  align-self: flex-start;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 60;
+  pointer-events: none; // empty space doesn't intercept clicks/hovers
+  @media only screen and (max-width: $desktop-wide-breakpoint) {
+    // Hidden on mobile: the mobile drawer (hamburger) carries these items
+    display: none;
+  }
+
+  // MINIMAL MODE: the rail's footprint in the flex row is frozen at the
+  // collapsed width (+ the inner block's horizontal padding, which is
+  // content-box). The inner block is taken out of flow (absolute, below) so
+  // its hover expansion rolls out ON TOP of the page content instead of
+  // widening this flex item and reflowing `.app-main`.
+  body.actionsidebar-minimal & {
+    flex: 0 0 auto;
+    width: calc(#{$action-sidebar-width-collapsed} + #{$common-gap * 2});
+    overflow: visible;   // let the expanded inner block escape the frame
+  }
+}
+
 // The actual interactive item block — wraps only the items, not the whole height.
 //
 // Body-level classes drive the rail's display state (emitted by
