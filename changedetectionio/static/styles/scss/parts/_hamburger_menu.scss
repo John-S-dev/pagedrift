@@ -18,3 +18,46 @@
   }
 }
 
+.hamburger-icon {
+  width: 24px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /* actual stripes */
+  span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: var(--color-white);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: center;
+  }
+}
+
+.hamburger-menu.active {
+
+  /* actual stripes */
+  .hamburger-icon {
+    span {
+      background-color: var(--color-text);
+    }
+  }
+
+  .hamburger-icon span:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+  }
+
+  .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  .hamburger-icon span:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
+  }
+}
+
