@@ -1119,6 +1119,53 @@ msgid "(set via <code>LLM_TOKEN_BUDGET_MONTH</code>)"
 msgstr "(<code>LLM_TOKEN_BUDGET_MONTH</code>로 설정됨)"
 
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "0 = unlimited"
+msgstr "0 = 무제한"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "tokens (0 = unlimited)"
+msgstr "토큰(0 = 무제한)"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Current billing period"
+msgstr "현재 청구 기간"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "(set via <code>LLM_MAX_INPUT_CHARS</code>)"
+msgstr "(<code>LLM_MAX_INPUT_CHARS</code>로 설정됨)"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid "characters — currently enforcing: %(limit)s"
+msgstr "문자 - 현재 적용 중: %(limit)s"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid ""
+"tokens — skips AI evaluation on a watch once its usage within the current period (monthly) hits this cap (0 = "
+"unlimited)"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "No AI usage recorded yet."
+msgstr "아직 기록된 AI 사용량이 없습니다."
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Token budget"
+msgstr "토큰 예산"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "tokens per month (0 = unlimited)"
+msgstr "월별 토큰(0 = 무제한)"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "platform.openai.com → API keys"
+msgstr "platform.openai.com → API 키"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "console.anthropic.com → API keys"
+msgstr "console.anthropic.com → API 키"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "Testing…"
 msgstr "테스트 중..."
 

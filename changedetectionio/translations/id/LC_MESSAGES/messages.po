@@ -1920,3 +1920,44 @@ msgstr "Terapkan"
 msgid "Set proxy for selected"
 msgstr "Atur proksi untuk yang dipilih"
 
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Content Analysis"
+msgstr "Analisis Konten"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Word count (latest snapshot)"
+msgstr "Jumlah kata (snapshot terbaru)"
+
+#: changedetectionio/conditions/plugins/wordcount_plugin.py
+msgid "Word count is a simple measure of content length, calculated by splitting text on whitespace."
+msgstr "Jumlah kata adalah ukuran sederhana panjang konten, dihitung dengan memisahkan teks berdasarkan spasi."
+
+#: changedetectionio/content_fetchers/requests.py
+msgid "Basic fast Plaintext/HTTP Client"
+msgstr "Klien Plaintext/HTTP Dasar yang cepat"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html changedetectionio/flask_app.py
+#: changedetectionio/realtime/socket_server.py
+msgid "Not yet"
+msgstr "Belum"
+
+#: changedetectionio/flask_app.py
+msgid "0 seconds"
+msgstr "0 detik"
+
+#: changedetectionio/flask_app.py
+msgid "year"
+msgstr "tahun"
+
+#: changedetectionio/flask_app.py
+msgid "years"
+msgstr "tahun"
+
+#: changedetectionio/flask_app.py
+msgid "month"
+msgstr "bulan"
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr "bulan"
+
