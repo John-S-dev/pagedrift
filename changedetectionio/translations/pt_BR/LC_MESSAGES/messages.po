@@ -1485,3 +1485,50 @@ msgstr "usar o Fetcher Chrome/WebDriver"
 msgid "Variables are supported in the URL"
 msgstr "Variáveis são suportadas na URL"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "quando você estiver interessado em conteúdo novo."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "When content is merely moved in a list, it will also trigger an"
+msgstr "Quando o conteúdo é apenas movido em uma lista, ele também disparará uma"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "adição"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "considere ativar"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Only trigger when unique lines appear"
+msgstr "Disparar apenas quando linhas exclusivas aparecerem"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Good for websites that just move the content around, and you want to know when NEW content is added, compares new "
+"lines against all history for this watch."
+msgstr ""
+"Útil para sites que apenas movem o conteúdo de lugar. Se você quer saber quando um NOVO conteúdo é adicionado, isso "
+"compara novas linhas contra todo o histórico."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below."
+msgstr ""
+"Ajuda a reduzir mudanças detectadas causadas por sites que embaralham linhas, combine com <i>verificar linhas "
+"exclusivas</i> abaixo."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Remove any whitespace before and after each line of text"
+msgstr "Remover qualquer espaço em branco antes e depois de cada linha de texto"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI Intent preview"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Loading..."
+msgstr "Carregando..."
+
