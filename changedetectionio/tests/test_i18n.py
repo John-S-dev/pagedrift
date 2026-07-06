@@ -4,6 +4,40 @@ from flask import url_for
 from .util import live_server_setup, wait_for_all_checks
 
 
+def test_zh_TW(client, live_server, measure_memory_usage, datastore_path):
+    import time
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Be sure we got a session cookie
+    res = client.get(url_for("watchlist.index"), follow_redirects=True)
+
+    res = client.post(
+        url_for("set_language", locale="zh_Hant_TW"), # Traditional
+        follow_redirects=True
+    )
+    # HTML follows BCP 47 language tag rules, not underscore-based locale formats.
+    assert b'<html lang="zh-Hant-TW"' in res.data
+    assert b'Cannot set language without session cookie' not in res.data
+    assert '選擇語言'.encode() in res.data
+
+    # Check second set works
+    res = client.post(
+        url_for("set_language", locale="en_GB"),
+        follow_redirects=True
+    )
+    assert b'Cannot set language without session cookie' not in res.data
+    res = client.get(url_for("watchlist.index"), follow_redirects=True)
+    assert b"Select Language" in res.data, "Second set of language worked"
+
+    # Check arbitration between zh_Hant_TW<->zh
+    res = client.post(
+        url_for("set_language", locale="zh"), # Simplified chinese
+        follow_redirects=True
+    )
+    res = client.get(url_for("watchlist.index"), follow_redirects=True)
+    assert "选择语言".encode() in res.data, "Simplified chinese worked and it means the flask-babel cache worked"
+
+
 def test_language_switching(client, live_server, measure_memory_usage, datastore_path, monkeypatch):
     """
     Test that the language switching functionality works correctly.
