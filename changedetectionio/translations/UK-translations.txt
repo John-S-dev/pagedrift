@@ -995,6 +995,50 @@ msgid "Show advanced options"
 msgstr "Показати розширені налаштування"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Activate preview"
+msgstr "Активувати попередній перегляд"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Pro-tips:"
+msgstr "Поради:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Use the preview page to see your filters and triggers highlighted."
+msgstr "Використовуйте сторінку попереднього перегляду, щоб побачити підсвічування фільтрів і тригерів."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Limit trigger/ignore/block/extract to;"
+msgstr "Обмежити тригер/ігнор/блок/вилучення до;"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Note: Depending on the length and similarity of the text on each line, the algorithm may consider an"
+msgstr "Примітка: Залежно від довжини та схожості тексту, алгоритм може вважати це"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "instead of"
+msgstr "замість"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "replacement"
+msgstr "заміною"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "for example."
+msgstr "наприклад."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "додаванням"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "So it's always better to select"
+msgstr "Тому завжди краще обирати"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "when you're interested in new content."
+msgstr "коли вас цікавить новий контент."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "text"
 msgstr "текстові"
 
