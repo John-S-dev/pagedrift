@@ -9,6 +9,23 @@ from .util import live_server_setup, wait_for_all_checks, delete_all_watches
 from .. import strtobool
 
 
+def test_favicon_oversized_rejected(client, live_server, measure_memory_usage, datastore_path):
+    """Favicons larger than 1 MB must be silently dropped."""
+    import base64
+    import os
+
+    oversized = b'\x00' * (1 * 1024 * 1024 + 1)
+    oversized_b64 = base64.b64encode(oversized).decode()
+
+    uuid = client.application.config.get('DATASTORE').add_watch(url='https://localhost')
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+
+    result = watch.bump_favicon(url='https://example.com/big.png', favicon_base_64=oversized_b64, mime_type='image/png')
+
+    assert result is None, "bump_favicon should return None for oversized favicon"
+    assert watch.get_favicon_filename() is None, "No favicon file should have been written"
+
+
 def test_bad_access(client, live_server, measure_memory_usage, datastore_path):
 
     res = client.post(
