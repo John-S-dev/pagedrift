@@ -483,3 +483,59 @@ def get_fetcher_capabilities(watch, datastore):
     return caps.model_dump()
 
 
+def get_plugin_template_paths():
+    """Get list of plugin template directories for Jinja2 loader.
+
+    Scans both external pluggy plugins and built-in processor plugins.
+
+    Returns:
+        list: List of absolute paths to plugin template directories
+    """
+    template_paths = []
+
+    # Add the base processors/templates directory (as absolute path)
+    processors_templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'processors', 'templates')
+    if os.path.isdir(processors_templates_dir):
+        template_paths.append(processors_templates_dir)
+        logger.debug(f"Added base processors template path: {processors_templates_dir}")
+
+    # Scan built-in processor plugins
+    from changedetectionio.processors import find_processors
+    processor_list = find_processors()
+    for processor_module, processor_name in processor_list:
+        # Each processor is a module, check if it has a templates directory
+        if hasattr(processor_module, '__file__'):
+            processor_file = processor_module.__file__
+            if processor_file:
+                # Get the processor directory (e.g., processors/image_ssim_diff/)
+                processor_dir = os.path.dirname(os.path.abspath(processor_file))
+                templates_dir = os.path.join(processor_dir, 'templates')
+                if os.path.isdir(templates_dir):
+                    template_paths.append(templates_dir)
+                    logger.debug(f"Added processor template path: {templates_dir}")
+
+    # Get all registered external pluggy plugins
+    for plugin_name, plugin_obj in plugin_manager.list_name_plugin():
+        # Check if plugin has a templates directory
+        if hasattr(plugin_obj, '__file__'):
+            plugin_file = plugin_obj.__file__
+        elif hasattr(plugin_obj, '__module__'):
+            # Get the module file
+            module = sys.modules.get(plugin_obj.__module__)
+            if module and hasattr(module, '__file__'):
+                plugin_file = module.__file__
+            else:
+                continue
+        else:
+            continue
+
+        if plugin_file:
+            plugin_dir = os.path.dirname(os.path.abspath(plugin_file))
+            templates_dir = os.path.join(plugin_dir, 'templates')
+            if os.path.isdir(templates_dir):
+                template_paths.append(templates_dir)
+                logger.debug(f"Added plugin template path: {templates_dir}")
+
+    return template_paths
+
+
