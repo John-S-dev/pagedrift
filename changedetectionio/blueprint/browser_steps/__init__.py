@@ -179,3 +179,32 @@ def cleanup_expired_sessions():
     if expired_session_ids:
         logger.info(f"Cleaned up {len(expired_session_ids)} expired browsersteps session(s)")
 
+def cleanup_session_for_watch(watch_uuid):
+    """Cleanup a specific browsersteps session for a watch UUID"""
+    global browsersteps_sessions, browsersteps_watch_to_session
+
+    session_id = browsersteps_watch_to_session.get(watch_uuid)
+    if not session_id:
+        logger.debug(f"No browsersteps session found for watch {watch_uuid}")
+        return
+
+    logger.debug(f"Cleaning up browsersteps session {session_id} for watch {watch_uuid}")
+
+    session_data = browsersteps_sessions.get(session_id)
+    if session_data:
+        try:
+            run_async_in_browser_loop(_close_session_resources(session_data, label=f" for watch {watch_uuid}"))
+        except Exception as e:
+            logger.error(f"Error cleaning up session {session_id} for watch {watch_uuid}: {e}")
+
+        # Remove from sessions dict
+        del browsersteps_sessions[session_id]
+
+    # Remove from watch mapping
+    del browsersteps_watch_to_session[watch_uuid]
+
+    logger.debug(f"Cleaned up session for watch {watch_uuid}")
+
+    # Opportunistically cleanup any other expired sessions
+    cleanup_expired_sessions()
+
