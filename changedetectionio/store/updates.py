@@ -8,6 +8,13 @@ IMPORTANT: Each update could be run even when they have a new install and the sc
 Therefore - each `update_n` should be very careful about checking if it needs to actually run.
 """
 
+# Try to import orjson for faster JSON serialization
+try:
+    import orjson
+    HAS_ORJSON = True
+except ImportError:
+    HAS_ORJSON = False
+
 def create_backup_tarball(datastore_path, update_number):
     """
     Create a tarball backup of the entire datastore structure before running an update.
