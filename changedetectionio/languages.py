@@ -163,3 +163,33 @@ LANGUAGE_DATA = {
 }
 
 
+def get_available_languages():
+    """
+    Discover available languages by scanning the translations directory
+    Returns a dict of available languages with their metadata
+    """
+    translations_dir = Path(__file__).parent / 'translations'
+
+    available = {}
+
+    # Scan for translation directories
+    if translations_dir.exists():
+        for lang_dir in translations_dir.iterdir():
+            if lang_dir.is_dir() and lang_dir.name in LANGUAGE_DATA:
+                # Check if messages.po exists
+                po_file = lang_dir / 'LC_MESSAGES' / 'messages.po'
+                if po_file.exists():
+                    available[lang_dir.name] = LANGUAGE_DATA[lang_dir.name]
+
+    # If no English variants found, fall back to adding en_GB as default
+    if 'en_GB' not in available and 'en_US' not in available:
+        available['en_GB'] = LANGUAGE_DATA['en_GB']
+
+    return available
+
+
+def get_language_codes():
+    """Get list of available language codes"""
+    return list(get_available_languages().keys())
+
+
