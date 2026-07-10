@@ -1335,6 +1335,52 @@ msgstr "Header können auch aus einer Datei in Ihrem Datenverzeichnis gelesen we
 msgid "Read more here"
 msgstr "Lesen Sie hier mehr"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The Visual Selector tool lets you select the"
+msgstr "Mit dem visuellen Auswahltool können Sie Folgendes auswählen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "Text"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"elements that will be used for the change detection. It automatically fills-in the filters in the "
+"\"CSS/JSONPath/JQ/XPath Filters\" box of the"
+msgstr ""
+"Elemente, die für die Änderungserkennung verwendet werden. Es füllt automatisch die Filter im Feld „CSS/JSONPath/JQ"
+"/XPath-Filter” des"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "tab. Use"
+msgstr "Tab. Verwendung"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Umschalt+Klick"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "um mehrere Elemente auszuwählen."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "Auswahlmodus:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "Bereich zeichnen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "Einen Moment, Screenshot und Elementinformationen abrufen."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc)."
+msgstr ""
+"Leider funktioniert diese Funktion nur mit Fetchern, die Javascript und Screenshots unterstützen (wie z. B. "
+"Playwright usw.)."
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Clear Queue"
 msgstr ""
