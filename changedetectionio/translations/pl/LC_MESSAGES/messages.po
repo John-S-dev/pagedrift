@@ -1834,6 +1834,46 @@ msgstr "Liczba sprawdzeń"
 msgid "Consecutive filter failures"
 msgstr "Kolejne awarie filtrów"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "History length"
+msgstr "Długość historii"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Last fetch duration"
+msgstr "Czas trwania ostatniego pobrania"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Notification alert count"
+msgstr "Liczba powiadomień"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Server type reply"
+msgstr "Odpowiedź dotycząca typu serwera"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "Tak"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "Nie"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr "Tokeny AI (ostatnia weryfikacja)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr "Tokeny AI (łącznie)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "Pobierz najnowszą wersję HTML"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr "Pobierz pakiet danych obserwacji"
+
 #: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
 msgid "UnPause checks"
 msgstr "Wznów sprawdzanie"
