@@ -46,6 +46,29 @@ BASE_URL_NOT_SET_TEXT = '("Base URL" not set - see settings - notifications)'
 dictfilt = lambda x, y: dict([(i, x[i]) for i in x if i in set(y)])
 
 
+class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
+    __version_check = True
+
+    def __init__(self, datastore_path="/datastore", include_default_watches=True, version_tag="0.0.0"):
+        # Initialize parent class
+        super().__init__()
+
+        # Should only be active for docker
+        # logging.basicConfig(filename='/dev/stdout', level=logging.INFO)
+        self.datastore_path = datastore_path
+        self.start_time = time.time()
+        self.save_version_copy_json_db(version_tag)
+        self.reload_state(datastore_path=datastore_path, include_default_watches=include_default_watches, version_tag=version_tag)
+
+    def save_version_copy_json_db(self, version_tag):
+        """
+        Create version-tagged backup of changedetection.json.
+
+        This is called on version upgrades to preserve a backup in case
+        the new version has issues.
+        """
+        import re
+
     def _rehydrate_watches(self):
         """Rehydrate watch entities from stored data (converts dicts to Watch objects)."""
         watch_count = len(self.__data.get('watching', {}))
