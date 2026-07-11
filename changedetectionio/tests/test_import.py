@@ -34,3 +34,96 @@ https://example.com tag1, other tag"""
     res = client.get( url_for("watchlist.index"))
     res = client.get( url_for("watchlist.index"))
 
+'''
+
+    # Give the endpoint time to spin up
+    time.sleep(1)
+    delete_all_watches(client)
+    res = client.post(
+        url_for("imports.import_page"),
+        data={
+            "distill-io": distill_data,
+            "urls" : ''
+        },
+        follow_redirects=True,
+    )
+
+
+    assert b"Unable to read JSON file, was it broken?" not in res.data
+    assert b"1 Imported from Distill.io" in res.data
+
+    res = client.get( url_for("ui.ui_edit.edit_page", uuid="first"))
+
+    assert b"https://unraid.net/blog" in res.data
+    assert b"Unraid | News" in res.data
+
+
+    # flask/wtforms should recode this, check we see it
+    # wtforms encodes it like id=&#39 ,but html.escape makes it like id=&#x27
+    # - so just check it manually :(
+    #import json
+    #import html
+    #d = json.loads(distill_data)
+    # embedded_d=json.loads(d['data'][0]['config'])
+    # x=html.escape(embedded_d['selections'][0]['frames'][0]['includes'][0]['expr']).encode('utf-8')
+    assert b"xpath:(//div[@id=&#39;App&#39;]/div[contains(@class,&#39;flex&#39;)]/main[contains(@class,&#39;relative&#39;)]/section[contains(@class,&#39;relative&#39;)]/div[@class=&#39;container&#39;]/div[contains(@class,&#39;flex&#39;)]/div[contains(@class,&#39;w-full&#39;)])[1]" in res.data
+
+    # did the tags work?
+    res = client.get( url_for("watchlist.index"))
+
+    # check tags
+    assert b"nice stuff" in res.data
+    assert b"nerd-news" in res.data
+
+    delete_all_watches(client)
+    # Clear flask alerts
+    res = client.get(url_for("watchlist.index"))
+
+def test_import_custom_xlsx(client, live_server, measure_memory_usage, datastore_path):
+    """Test can upload a excel spreadsheet and the watches are created correctly"""
+
+    
+
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, 'import/spreadsheet.xlsx')
+    with open(filename, 'rb') as f:
+
+        data= {
+            'file_mapping': 'custom',
+            'custom_xlsx[col_0]': '1',
+            'custom_xlsx[col_1]': '3',
+            'custom_xlsx[col_2]': '5',
+            'custom_xlsx[col_3]': '4',
+            'custom_xlsx[col_type_0]': 'title',
+            'custom_xlsx[col_type_1]': 'url',
+            'custom_xlsx[col_type_2]': 'include_filters',
+            'custom_xlsx[col_type_3]': 'interval_minutes',
+            'xlsx_file': (io.BytesIO(f.read()), 'spreadsheet.xlsx')
+        }
+
+    res = client.post(
+        url_for("imports.import_page"),
+        data=data,
+        follow_redirects=True,
+    )
+
+    assert b'4 imported from custom .xlsx' in res.data
+    # Because this row was actually just a header with no usable URL, we should get an error
+    assert b'Error processing row number 1' in res.data
+
+    res = client.get(
+        url_for("watchlist.index")
+    )
+
+    assert b'Somesite results ABC' in res.data
+    assert b'City news results' in res.data
+
+    # Just find one to check over
+    for uuid, watch in live_server.app.config['DATASTORE'].data['watching'].items():
+        if watch.get('title') == 'Somesite results ABC':
+            filters = watch.get('include_filters')
+            assert filters[0] == '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]||//*[@id=\'content\']/div[3]/div[1]/div[1]||//*[@id=\'content\']/div[1]'
+            assert watch.get('time_between_check') == {'weeks': 0, 'days': 1, 'hours': 6, 'minutes': 24, 'seconds': 0}
+
+    delete_all_watches(client)
+
