@@ -65,3 +65,16 @@
   font-weight: bold;
 }
 
+@keyframes llm-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.2; }
+}
+
+.llm-budget-exceeded,
+.llm-error {
+  color: #c0392b;
+  font-weight: 600;
+  font-style: normal;
+  opacity: 1;
+}
+
