@@ -72,3 +72,28 @@ def set_back_in_stock_response(datastore_path):
         f.write(test_return_data)
     return None
 
+def set_price_response(datastore_path, price, nonce=''):
+    # JSON-LD product offer so the price + availability are extracted deterministically
+    # without needing a real browser (extruct parses the raw HTML).
+    # `nonce` injects throwaway body content so the page checksum differs (the check actually
+    # runs instead of short-circuiting) while the price stays the same.
+    test_return_data = """<html>
+       <head>
+       <script type="application/ld+json">
+       {"@context": "https://schema.org/", "@type": "Product", "name": "Test Product",
+        "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "%s",
+                   "availability": "https://schema.org/InStock"}}
+       </script>
+       </head>
+       <body>
+       <div id="sametext">Available!</div>
+       <!-- %s -->
+       </body>
+     </html>
+    """ % (price, nonce)
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
