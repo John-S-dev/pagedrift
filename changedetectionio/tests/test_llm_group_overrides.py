@@ -40,6 +40,25 @@ def _page_text(res):
     return html.unescape(res.data.decode('utf-8', errors='replace'))
 
 
+def _checkbox_is_checked(body, name):
+    """True when that checkbox renders as checked (attribute order is not guaranteed)."""
+    tag = _input_tag(body, name)
+    assert tag, f'no <input name="{name}"> in the page'
+    return 'checked' in tag
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _configure_llm(datastore):
+    """Enable a fake LLM so the AI section is visible in the edit form."""
+    app = datastore.data['settings']['application']
+    if 'llm' not in app:
+        app['llm'] = {}
+    app['llm'].update({'model': 'gpt-4o-mini', 'api_key': 'sk-test'})
+
+
 # ---------------------------------------------------------------------------
 # Tag setup
 # ---------------------------------------------------------------------------
