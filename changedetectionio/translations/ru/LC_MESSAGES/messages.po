@@ -1369,6 +1369,46 @@ msgid "Type in the word"
 msgstr "Введите слово"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Run this code before performing change detection, handy for filling in fields and other actions"
+msgstr "Запустите этот код перед обнаружением изменений, что удобно для заполнения полей и других действий."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Дополнительная помощь и примеры здесь"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "В теле запроса поддерживаются переменные."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "Переменные поддерживаются в значениях заголовка запроса."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "Тревога! Найден дополнительный файл заголовков, который будет добавлен в эти часы!"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Заголовки также можно прочитать из файла в вашем каталоге данных."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Подробнее здесь"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Не поддерживается браузером Selenium."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Включить поиск текста"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Пожалуйста, подождите, загрузка первого шага браузера может занять некоторое время."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Read a quick tutorial about"
 msgstr "Прочтите краткое руководство по"
 
