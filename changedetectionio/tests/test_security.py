@@ -9,6 +9,24 @@ from .util import live_server_setup, wait_for_all_checks, delete_all_watches
 from .. import strtobool
 
 
+def set_original_response(datastore_path):
+    test_return_data = """<html>
+    <head><title>head title</title></head>
+    <body>
+     Some initial text<br>
+     <p>Which is across multiple lines</p>
+     <br>
+     So let's see what happens.  <br>
+     <span class="foobar-detection" style='display:none'></span>
+     </body>
+     </html>
+    """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
 def test_favicon_oversized_rejected(client, live_server, measure_memory_usage, datastore_path):
     """Favicons larger than 1 MB must be silently dropped."""
     import base64
