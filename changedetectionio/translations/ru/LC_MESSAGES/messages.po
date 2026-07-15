@@ -4574,6 +4574,60 @@ msgstr "URL-адрес или заголовок в формате «%(title)s»
 msgid "URL or Title"
 msgstr "URL или заголовок"
 
+#: changedetectionio/templates/base.html
+msgid "Enter search term..."
+msgstr "Введите поисковый запрос..."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
+"<strong>Off</strong> &ndash; no AI for any watch in this group. <strong>Leave it to each watch</strong> &ndash; this "
+"group has no say; each watch uses its own AI settings."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is ON for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is OFF for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Describe what you care about. The AI evaluates every detected change against this and only notifies you when it "
+"matches."
+msgstr ""
+"Опишите, что вас волнует. ИИ сравнивает каждое обнаруженное изменение с этим и уведомляет вас только тогда, когда оно"
+" совпадает."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Set a change intent for all watches in this tag/group. Each watch can override with its own."
+msgstr ""
+"Установите намерение изменения для всех часов в этом теге/группе. Каждые часы могут переопределяться своими "
+"собственными."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "From group '%(name)s': %(value)s"
+msgstr "Из группы «%(name)s»: %(value)s"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "e.g. Alert me when the price drops below $300, or a new product is launched. Ignore footer and navigation changes."
+msgstr ""
+"например Сообщите мне, когда цена упадет ниже 300 долларов США или будет выпущен новый продукт. Игнорируйте нижний "
+"колонтитул и изменения навигации."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "e.g. Flag price changes or new product launches across all watches in this group"
+msgstr "например Сообщить об изменении цен или выпуске новых продуктов для всех часов в этой группе"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Examples:"
+msgstr "Примеры:"
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid "Only notify if the price drops below $200, or a limited-time deal is added"
 msgstr ""
