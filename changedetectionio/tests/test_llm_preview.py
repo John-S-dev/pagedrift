@@ -130,3 +130,30 @@ def test_preview_returns_llm_answer_for_price_intent(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# LLM failure → llm_evaluation is None, preview still works
+# ---------------------------------------------------------------------------
+
+def test_preview_llm_failure_does_not_break_preview(
+        client, live_server, measure_memory_usage, datastore_path):
+    """If the LLM call raises, preview_extract returns None — preview still works."""
+    uuid = _add_and_fetch(client, live_server, datastore_path, HTML_WITH_ARTICLES)
+    _configure_llm(client)
+
+    with patch('changedetectionio.llm.client.completion', side_effect=Exception('API timeout')):
+        res = client.post(
+            url_for("ui.ui_edit.watch_get_preview_rendered", uuid=uuid),
+            data={
+                'llm_intent': 'Tell me the number of articles',
+                'fetch_backend': 'html_requests',
+            },
+        )
+
+    assert res.status_code == 200
+    data = json.loads(res.data.decode('utf-8'))
+    # Filter content must still be returned
+    assert data.get('after_filter')
+    # preview_extract returns None on error (doesn't fail-open like evaluate_change)
+    assert data.get('llm_evaluation') is None
+
+    delete_all_watches(client)
