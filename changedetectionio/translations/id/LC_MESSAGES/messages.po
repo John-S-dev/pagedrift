@@ -2172,6 +2172,46 @@ msgstr "Terapkan"
 msgid "Set proxy for selected"
 msgstr "Atur proksi untuk yang dipilih"
 
+#: changedetectionio/conditions/__init__.py
+msgid "Not Equals"
+msgstr "Tidak Sama Dengan"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Contains"
+msgstr "Mengandung"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Choose one - Field"
+msgstr "Pilih satu - Bidang"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Does NOT Contain"
+msgstr "TIDAK Mengandung"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Starts With"
+msgstr "Teks Dimulai Dengan"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Ends With"
+msgstr "Teks Diakhiri Dengan"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length minimum"
+msgstr "Panjang minimum"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Length maximum"
+msgstr "Panjang maksimum"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Matches Regex"
+msgstr "Teks Cocok dengan Regex"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Does NOT Match Regex"
+msgstr "Teks TIDAK Cocok dengan Regex"
+
 #: changedetectionio/conditions/plugins/wordcount_plugin.py
 msgid "Content Analysis"
 msgstr "Analisis Konten"
