@@ -537,3 +537,7 @@ Thanks - Your omniscient changedetection.io installation.
         # {{{{ }}}} because this will be Jinja2 {{ }} tokens
         body = f"""Hello,
         
+Your configured browser step at position {step} for the web page watch {{{{watch_url}}}} did not appear on the page after {threshold} attempts, did the page change layout?
+
+The element may have moved and needs editing, or does it need a delay added?
+
