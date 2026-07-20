@@ -239,3 +239,33 @@ $(function () {
 
     const time_check_step_size_seconds=1;
 
+    // On load: reflect any persisted selection onto this page, then refresh the UI.
+    applySelectionToDom();
+    refreshSelectionUI();
+
+    setInterval(function () {
+        // Background ETA completion for 'checking now'
+        $(".watch-table .checking-now .last-checked").each(function () {
+            const eta_complete = parseFloat($(this).data('eta_complete'));
+            const fetch_duration = parseInt($(this).data('fetchduration'));
+
+            if (eta_complete + 2 > nowtimeserver && fetch_duration > 3) {
+                const remaining_seconds = Math.abs(eta_complete) - nowtimeserver - 1;
+
+                let r = Math.round((1.0 - (remaining_seconds / fetch_duration)) * 100);
+                if (r < 10) {
+                    r = 10;
+                }
+                if (r >= 90) {
+                    r = 100;
+                }
+                $(this).css('background-size', `${r}% 100%`);
+            } else {
+                // Snap to full complete
+                $(this).css('background-size', `100% 100%`);
+            }
+        });
+
+        nowtimeserver = nowtimeserver + time_check_step_size_seconds;
+    }, time_check_step_size_seconds * 1000);
+
