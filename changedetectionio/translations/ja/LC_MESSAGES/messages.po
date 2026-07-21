@@ -1907,6 +1907,46 @@ msgstr "選択してください - 演算子"
 msgid "Greater Than"
 msgstr "より大きい"
 
+#: changedetectionio/conditions/__init__.py
+msgid "Less Than"
+msgstr "より小さい"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Greater Than or Equal To"
+msgstr "以上"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Less Than or Equal To"
+msgstr "以下"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Equals"
+msgstr "等しい"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Not Equals"
+msgstr "等しくない"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Contains"
+msgstr "含む"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Choose one - Field"
+msgstr "選択してください - フィールド"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Does NOT Contain"
+msgstr "含まない"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Starts With"
+msgstr "テキストが次で始まる"
+
+#: changedetectionio/conditions/default_plugin.py
+msgid "Text Ends With"
+msgstr "テキストが次で終わる"
+
 #: changedetectionio/conditions/form.py
 msgid "Field is required."
 msgstr "フィールドは必須です。"
