@@ -2124,6 +2124,47 @@ msgstr "Pobierz najnowszą wersję HTML"
 msgid "Download watch data package"
 msgstr "Pobierz pakiet danych obserwacji"
 
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Nothing running"
+msgstr "Nic nie działa"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Check queue"
+msgstr "Sprawdź kolejkę"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Live view of what the workers are doing right now and what is waiting in line."
+msgstr "Podgląd na żywo tego, czym właśnie zajmują się procesy robocze i co czeka w kolejce."
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Workers"
+msgstr "Procesy robocze"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Running now"
+msgstr "Teraz w trakcie"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Queued"
+msgstr "W kolejce"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear Queue?"
+msgstr "Wyczyścić kolejkę?"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "<p>This will remove every pending check from the queue.</p><p>Running checks will continue.</p>"
+msgstr "<p>Spowoduje to usunięcie wszystkich oczekujących kontroli z kolejki.</p><p>Trwające kontrole będą kontynuowane.</p>"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear"
+msgstr "Wyczyść"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Clear Queue"
+msgstr "Wyczyść kolejkę"
+
 #: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
 msgid "UnPause checks"
 msgstr "Wznów sprawdzanie"
