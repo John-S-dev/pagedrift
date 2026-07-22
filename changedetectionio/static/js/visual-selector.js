@@ -717,6 +717,15 @@ window.initVisualSelector = function (opts) {
 };
 
 
+// ---------------------------------------------------------------------------
+// Auto-init for the watch Edit page (edit.html), preserving previous behaviour.
+// Detected by the presence of the `screenshot_url` global that edit.html sets.
+// ---------------------------------------------------------------------------
+$(document).ready(() => {
+    if (typeof screenshot_url === 'undefined') {
+        return; // Not the edit page - the Add Watch UI inits the selector itself
+    }
+
     const isImageProcessor = $('input[value="image_ssim_diff"]').is(':checked');
 
     const vs = window.initVisualSelector({
