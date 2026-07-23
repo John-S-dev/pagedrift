@@ -70,3 +70,33 @@ def set_html_content(datastore_path, content):
         f.write(test_return_data.encode('utf-8'))
 
 
+def test_rss_and_token(client, live_server, measure_memory_usage, datastore_path):
+    #   #  live_server_setup(live_server) # Setup on conftest per function
+
+    set_original_response(datastore_path=datastore_path)
+    rss_token = extract_rss_token_from_UI(client)
+
+    uuid = client.application.config.get('DATASTORE').add_watch(url=url_for('test_random_content_endpoint', _external=True))
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    set_modified_response(datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    # Add our URL to the import page
+    res = client.get(
+        url_for("rss.feed", token="bad token", _external=True),
+        follow_redirects=True
+    )
+
+    assert b"Access denied, bad token" in res.data
+
+    res = client.get(
+        url_for("rss.feed", token=rss_token, _external=True),
+        follow_redirects=True
+    )
+    assert b"Access denied, bad token" not in res.data
+    assert b"Random content" in res.data
+
+    delete_all_watches(client)
+
