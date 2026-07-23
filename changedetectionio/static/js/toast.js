@@ -180,3 +180,57 @@
     function updateProgress() {
       if (isPaused) return;
 
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      if (toast._progressBar) {
+        toast._progressBar.style.transform = `scaleX(${1 - progress})`;
+      }
+
+      if (progress >= 1) {
+        removeToast(toast);
+      } else {
+        animationFrame = requestAnimationFrame(updateProgress);
+      }
+    }
+
+    // Pause on hover
+    if (config.pauseOnHover) {
+      toast.addEventListener('mouseenter', () => {
+        isPaused = true;
+        remainingTime = duration - (Date.now() - startTime);
+        cancelAnimationFrame(animationFrame);
+      });
+
+      toast.addEventListener('mouseleave', () => {
+        isPaused = false;
+        startTime = Date.now();
+        duration = remainingTime;
+        animationFrame = requestAnimationFrame(updateProgress);
+      });
+    }
+
+    animationFrame = requestAnimationFrame(updateProgress);
+  }
+
+  /**
+   * Remove toast with animation
+   */
+  function removeToast(toast) {
+    if (!toast || !toast.parentElement) return;
+
+    toast.classList.add('toast-hide');
+
+    // Remove after animation
+    setTimeout(() => {
+      if (toast.parentElement) {
+        toast.parentElement.removeChild(toast);
+      }
+    }, 300);
+  }
+
+  // Convenience methods
+  function success(message, options = {}) {
+    return show(message, { ...options, type: 'success' });
+  }
+
