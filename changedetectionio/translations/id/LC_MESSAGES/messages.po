@@ -2335,3 +2335,43 @@ msgstr "Metode permintaan"
 msgid "Ignore status codes (process non-2xx status codes as normal)"
 msgstr "Abaikan kode status (proses kode status non-2xx seperti biasa)"
 
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "Nama dan URL Proksi wajib diisi."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "Buka halaman 'Riwayat' di tab baru"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "Pembaruan UI Realtime Diaktifkan"
+
+#: changedetectionio/forms.py
+msgid "Favicons Enabled"
+msgstr "Favicon Diaktifkan"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in watch overview list"
+msgstr "Gunakan <title> halaman dalam daftar ringkasan monitor"
+
+#: changedetectionio/forms.py
+msgid "Relative time format"
+msgstr "Format waktu relatif"
+
+#: changedetectionio/forms.py
+msgid "Long (1 minute ago)"
+msgstr "Panjang (1 menit yang lalu)"
+
+#: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr "Pendek (1m lalu)"
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr "Sidebar navigasi"
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr "Pemeriksaan keamanan token akses API diaktifkan"
+
