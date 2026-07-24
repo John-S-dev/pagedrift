@@ -1725,3 +1725,43 @@ msgstr "месяц"
 msgid "months"
 msgstr "месяцев"
 
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr "неделя"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "недель"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "день"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "дней"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "час"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "часов"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "минута"
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "минут"
+
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "секунда"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "секунды"
+
