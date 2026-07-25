@@ -782,3 +782,60 @@ def summarise_change(watch, datastore, diff: str, current_snapshot: str = '') ->
         raise
 
 
+# ---------------------------------------------------------------------------
+# Live-preview extraction (current content, no diff)
+# ---------------------------------------------------------------------------
+
+def preview_extract(watch, datastore, content: str) -> dict | None:
+    """
+    For the live-preview endpoint: extract relevant information from the
+    *current* page content according to the watch's intent.
+
+    Unlike evaluate_change (which compares a diff), this asks the LLM to
+    directly answer the intent against the current snapshot — giving the user
+    immediate feedback like "30 articles listed" or "Price: $149, 25% off".
+
+    Returns {'found': bool, 'answer': str} or None if LLM not configured / no intent.
+    """
+    cfg = _runtime_llm_config(datastore)
+    if not cfg:
+        return None
+
+    intent, _ = resolve_intent(watch, datastore)
+    if not intent or not content.strip():
+        return None
+
+    _check_input_size(content, _get_max_input_chars(datastore))
+    url = watch.get('url', '')
+    title = watch.get('page_title') or watch.get('title') or ''
+
+    system_prompt = build_preview_system_prompt()
+    user_prompt = build_preview_prompt(intent, content, url=url, title=title)
+    settings = get_llm_settings(datastore)
+
+    try:
+        raw, tokens, *_ = llm_client.completion(
+            model=cfg['model'],
+            messages=[
+                _cached_system(system_prompt, model=cfg['model']),
+                {'role': 'user', 'content': user_prompt},
+            ],
+            api_key=cfg.get('api_key'),
+            api_base=cfg.get('api_base'),
+            timeout=resolve_llm_timeout(cfg),
+            max_tokens=apply_local_token_multiplier(JSON_RESPONSE_MAX_TOKENS, cfg),
+            extra_body=_thinking_extra_body(cfg['model'], settings.thinking_budget),
+            debug=settings.debug,
+        )
+        accumulate_global_tokens(datastore, tokens, model=cfg['model'])
+        result = parse_preview_response(raw)
+        logger.debug(
+            f"LLM preview {watch.get('uuid')}: found={result['found']} "
+            f"tokens={tokens} answer={result['answer'][:80]}"
+        )
+        return result
+    except Exception as e:
+        logger.warning(f"LLM preview extraction failed for {watch.get('uuid')}: {e}")
+        return None
+
+
