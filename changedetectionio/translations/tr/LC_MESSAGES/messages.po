@@ -1618,6 +1618,52 @@ msgid "Read more here"
 msgstr "Daha fazlasını buradan okuyun"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The Visual Selector tool lets you select the"
+msgstr "Görsel Seçici aracı şunları seçmenizi sağlar"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "metin"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"elements that will be used for the change detection. It automatically fills-in the filters in the "
+"\"CSS/JSONPath/JQ/XPath Filters\" box of the"
+msgstr ""
+"değişiklik tespiti için kullanılacak öğeler. \"CSS/JSONPath/JQ/XPath Filtreleri\" kutusundaki filtreleri otomatik "
+"olarak doldurur"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "tab. Use"
+msgstr "sekme. Şunu kullanın"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Shift+Click"
+msgstr "Shift+Tıkla"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to select multiple items."
+msgstr "birden çok öğe seçmek için."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Selection Mode:"
+msgstr "Seçim Modu:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Draw area"
+msgstr "Çizim alanı"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "One moment, fetching screenshot and element information.."
+msgstr "Bir saniye, ekran görüntüsü ve öğe bilgileri getiriliyor.."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc)."
+msgstr ""
+"Üzgünüz, bu işlevsellik yalnızca Javascript ve ekran görüntülerini destekleyen getiricilerle (örneğin playwright vb.)"
+" çalışır."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Clone & Edit"
 msgstr "Klonla ve Düzenle"
 
