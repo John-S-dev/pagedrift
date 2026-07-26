@@ -1586,6 +1586,46 @@ msgstr "將用於變更檢測的元素。它會自動填入"
 msgid "tab. Use"
 msgstr "分頁的「CSS / JSONPath / JQ / XPath 過濾器」欄位。使用"
 
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Notification alert count"
+msgstr "通知警報次數"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Server type reply"
+msgstr "伺服器類型回應"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "是"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "否"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr "AI 權杖（上次檢查）"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr "AI 權杖（總計）"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "下載最新 HTML 快照"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr "下載監測任務資料包"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "刪除監測任務？"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "您確定要刪除以下對象的監測任務："
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Workers"
 msgstr "工作程序"
