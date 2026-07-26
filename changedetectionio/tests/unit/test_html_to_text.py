@@ -571,6 +571,57 @@ var also = 1;
         inside JSON data attributes like data-slider-atts. The HTML inside is JS-escaped, so
         closing tags appear as <\\/svg> rather than </svg>.
 
+        The old regex approach would find <svg> inside the attribute value, then fail to find
+        <\/svg> as a matching close tag, and scan forward to the next real </svg> in the DOM —
+        eating tens of kilobytes of actual page content in the process.
+        """
+        html = '''<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>
+<div class="slider" data-slider-atts="{&quot;prevArrow&quot;:&quot;<i class=\\&quot;icon\\&quot;><svg width=\\&quot;24\\&quot; height=\\&quot;24\\&quot; viewBox=\\&quot;0 0 24 24\\&quot; xmlns=\\&quot;http:\\/\\/www.w3.org\\/2000\\/svg\\&quot;><path d=\\&quot;M14 5L7 12L14 19\\&quot;\\/><\\/svg><\\/i>&quot;}">
+</div>
+<div class="content">
+    <h1>IMPORTANT CONTENT</h1>
+    <p>This text must not be eaten by the tag-stripping logic.</p>
+</div>
+<svg><circle cx="50" cy="50" r="40"/></svg>
+</body>
+</html>'''
+
+        text = html_to_text(html)
+
+        assert 'IMPORTANT CONTENT' in text, (
+            "Content after a JS-escaped tag in a data attribute was incorrectly stripped. "
+            "The tag-stripping logic is matching <tag> inside attribute values and scanning "
+            "forward to the next real closing tag in the DOM."
+        )
+        assert 'This text must not be eaten' in text
+
+    def test_script_inside_json_data_attribute_does_not_eat_content(self):
+        """Same issue as above but with <script> embedded in a data attribute with JS-escaped closing tag."""
+        html = '''<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>
+<div data-config="{&quot;template&quot;:&quot;<script type=\\&quot;text\\/javascript\\&quot;>var x=1;<\\/script>&quot;}">
+</div>
+<div>
+    <h1>MUST SURVIVE</h1>
+    <p>Real content after the data attribute with embedded script tag.</p>
+</div>
+<script>var real = 1;</script>
+</body>
+</html>'''
+
+        text = html_to_text(html)
+
+        assert 'MUST SURVIVE' in text, (
+            "Content after a JS-escaped <script> in a data attribute was incorrectly stripped."
+        )
+        assert 'Real content after the data attribute' in text
+
+
 if __name__ == '__main__':
     # Can run this file directly for quick testing
     unittest.main()
