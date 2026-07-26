@@ -1724,3 +1724,47 @@ msgstr "特惠"
 msgid "With errors"
 msgstr "有錯誤"
 
+#: changedetectionio/forms.py
+msgid "not set"
+msgstr "未設定"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "開始於"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "執行時長"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "使用時間排程器"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "執行時的選用時區"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "週一"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "週二"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "週三"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "週四"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "週五"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "週六"
+
