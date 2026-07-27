@@ -196,6 +196,17 @@ def save_entity_atomic(entity_dir, uuid, entity_dict, filename, entity_type, max
     save_json_atomic(entity_json, entity_dict, label=f"{entity_type} {uuid}", max_size_mb=max_size_mb)
 
 
+def save_watch_atomic(watch_dir, uuid, watch_dict):
+    """
+    Save a watch to disk using atomic write pattern.
+
+    Convenience wrapper around save_entity_atomic for watches.
+    Kept for backwards compatibility.
+    """
+    save_entity_atomic(watch_dir, uuid, watch_dict, "watch.json", "watch", max_size_mb=10)
+
+
+
 class _EntityFileMissing:
     """Sentinel: the directory exists but holds no file of this entity type."""
     __slots__ = ()
