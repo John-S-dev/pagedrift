@@ -38,3 +38,19 @@ xpath://body/div/span[contains(@class, 'example-class')]",
                     </li>
                     </ul>
 
+                </span>
+                    </div>
+                <fieldset class="pure-control-group">
+                    {{ render_field(form.subtractive_selectors, rows=5, placeholder=has_tag_filters_extra+"header
+footer
+nav
+.stockticker
+//*[contains(text(), 'Advertisement')]") }}
+                    <span class="pure-form-message-inline">
+                        <ul>
+                          <li> {{ _('Remove HTML element(s) by CSS and XPath selectors before text conversion.') }} </li>
+                          <li> {{ _("Don't paste HTML here, use only CSS and XPath selectors") }} </li>
+                          <li> {{ _('Add multiple elements, CSS or XPath selectors per line to ignore multiple parts of the HTML.') }} </li>
+                        </ul>
+                      </span>
+                </fieldset>
