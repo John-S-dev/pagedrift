@@ -86,6 +86,68 @@ def test_check_basic_change_detection_functionality(client, live_server, measure
     assert b'which has this one new line' in res.data
     assert b'CDATA' in res.data
 
+#
+    # Following the 'diff' link, it should no longer display as 'has-unread-changes' even after we recheck it a few times
+    res = client.get(url_for("ui.ui_diff.diff_history_page", uuid=uuid))
+    assert b'selected=""' in res.data, "Confirm diff history page loaded"
+
+    assert b'Which is across multiple lines' in res.data
+    # The linefeed should have been added ( @BR@ was replaced with a linefeed because this is htmlcolor kinda display )
+    assert b'Which is across multiple lines</span>\n' in res.data
+
+    # Check the [preview] pulls the right one
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+    assert b'which has this one new line' in res.data
+    assert b'Which is across multiple lines' not in res.data
+
+    wait_for_all_checks(client)
+
+
+    # Do this a few times.. ensures we don't accidently set the status
+    for n in range(2):
+        res = client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+        # Give the thread time to pick it up
+        wait_for_all_checks(client)
+
+        # It should report nothing found (no new 'has-unread-changes' class)
+        res = client.get(url_for("watchlist.index"))
+
+        assert b'has-unread-changes' not in res.data
+        assert b'class="has-unread-changes' not in res.data
+        assert b'head title' in res.data  # Should be ON by default
+        assert b'test-endpoint' in res.data
+
+    # Recheck it but only with a title change, content wasnt changed
+    set_original_response(datastore_path=datastore_path, extra_title=" and more")
+
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'head title and more' in res.data
+
+    # Be sure the last_viewed is going to be greater than the last snapshot
+    time.sleep(1)
+
+    # hit the mark all viewed link
+    res = client.post(url_for("ui.mark_all_viewed"), follow_redirects=True)
+
+    assert b'class="has-unread-changes' not in res.data
+    assert b'has-unread-changes' not in res.data
+
+    # #2458 "clear history" should make the Watch object update its status correctly when the first snapshot lands again
+    client.post(url_for("ui.clear_watch_history", uuid=uuid))
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'preview/' in res.data
+
+    #
+    # Cleanup everything
+    delete_all_watches(client)
+
 def test_title_scraper(client, live_server, measure_memory_usage, datastore_path):
 
     set_original_response(datastore_path=datastore_path)
