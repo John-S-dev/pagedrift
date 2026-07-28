@@ -1432,6 +1432,50 @@ msgstr ""
 msgid "Use system defaults"
 msgstr "Использовать системные настройки по умолчанию"
 
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Add a new organisational tag"
+msgstr "Добавить новый организационный тег"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Groups allows you to manage filters and notifications for multiple watches under a single organisational tag."
+msgstr "Группы позволяют управлять фильтрами и уведомлениями для нескольких часов под одним организационным тегом."
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "# Watches"
+msgstr "# Часы"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Tag / Label name"
+msgstr "Имя тега/метки"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "No website organisational tags/groups configured"
+msgstr "Организационные теги/группы веб-сайта не настроены."
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/templates/menu.html
+msgid "Mute notifications"
+msgstr "Отключить уведомления"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Recheck"
+msgstr "Перепроверить"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/blueprint/ui/edit.py
+#: changedetectionio/blueprint/watchlist/templates/watch-overview-single-row.html
+msgid "Edit"
+msgstr "Редактировать"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+msgid "Delete Group?"
+msgstr "Удалить группу?"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html
+#, python-format
+msgid "<p>Are you sure you want to delete group <strong>%(title)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p>Вы уверены, что хотите удалить группу <strong>%(title)s</strong>?</p><p>Это действие невозможно отменить.</p>"
+
 #: changedetectionio/blueprint/ui/__init__.py
 #, python-brace-format
 msgid "{} watches updated"
