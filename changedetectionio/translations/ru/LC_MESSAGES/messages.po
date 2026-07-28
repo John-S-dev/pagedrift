@@ -1870,3 +1870,46 @@ msgstr "секунда"
 msgid "seconds"
 msgstr "секунды"
 
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid JSONPath expression. (%(error)s)"
+msgstr "«%(expression)s» не является допустимым выражением JSONPath. (%(error)s)"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
+msgstr "«%(expression)s» не является допустимым выражением jq. (%(error)s)"
+
+#: changedetectionio/forms.py
+msgid "Empty value not allowed."
+msgstr "Пустое значение не допускается."
+
+#: changedetectionio/forms.py
+msgid "Invalid value."
+msgstr "Недопустимое значение."
+
+#: changedetectionio/forms.py
+msgid "Group tag"
+msgstr "Тег группы"
+
+#: changedetectionio/blueprint/ui/templates/queue.html changedetectionio/blueprint/watchlist/templates/watch-overview.html
+#: changedetectionio/forms.py
+msgid "Watch"
+msgstr "Смотреть"
+
+#: changedetectionio/forms.py
+msgid "Processor"
+msgstr "Процессор"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Browser"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr "Редактировать > Смотреть"
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr "Метод выборки"
+
