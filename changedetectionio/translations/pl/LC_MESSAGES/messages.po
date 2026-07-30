@@ -2735,3 +2735,49 @@ msgstr "Nieprawidłowa składnia szablonu: %(error)s"
 msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
 msgstr "Nieprawidłowa składnia szablonu w nagłówku „%(header)s”: %(error)s"
 
+#: changedetectionio/languages.py
+#, python-format
+msgid "%smo ago"
+msgstr "%smo temu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %smo"
+msgstr "w %smo"
+
+#: changedetectionio/languages.py
+msgid "1yr ago"
+msgstr "1 rok temu"
+
+#: changedetectionio/languages.py
+msgid "in 1yr"
+msgstr "za rok"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%syr ago"
+msgstr "%syr temu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %syr"
+msgstr "w %syr"
+
+#: changedetectionio/processors/extract.py
+msgid "No matches found while scanning all of the watch history for that RegEx."
+msgstr "Podczas przeszukiwania całej historii obserwacji pod kątem tego wyrażenia regularnego nie znaleziono żadnych wyników."
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+msgid "Not enough history to compare. Need at least 2 snapshots."
+msgstr "Brak wystarczających danych historycznych do porównania. Potrzebne są co najmniej 2 migawki."
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+#, python-brace-format
+msgid "Failed to load screenshots: {}"
+msgstr "Nie udało się załadować zrzutów ekranu: {}"
+
+#: changedetectionio/processors/image_ssim_diff/difference.py
+#, python-brace-format
+msgid "Failed to calculate diff: {}"
+msgstr "Nie udało się obliczyć różnicy: {}"
+
