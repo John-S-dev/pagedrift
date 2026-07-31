@@ -2659,3 +2659,46 @@ msgstr "Počet změn, které se mají zobrazit v kanálu RSS sledování"
 msgid "Should contain zero or more attempts"
 msgstr "Mělo by obsahovat nula nebo více pokusů"
 
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "RegEx k extrahování"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Extrahujte data"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "právě teď"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "za chvíli"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "před %ss"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "za %ss"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "před 1m"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "za 1m"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "před %sm"
+

@@ -131,3 +131,80 @@ def test_bad_access(client, live_server, measure_memory_usage, datastore_path):
 
     assert b'Watch protocol is not permitted or invalid URL format' in res.data
 
+def test_login_redirect_safe_urls(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that safe redirect URLs work correctly in login flow.
+    This verifies the fix for open redirect vulnerabilities while maintaining
+    legitimate redirect functionality for both authenticated and unauthenticated users.
+    """
+
+    # Test 1: Accessing /login?redirect=/settings when not logged in
+    # Should show the login form with redirect parameter preserved
+    res = client.get(
+        url_for("login", redirect="/settings"),
+        follow_redirects=False
+    )
+    # Should show login form
+    assert res.status_code == 200
+    # Check that the redirect is preserved in the hidden form field
+    assert b'name="redirect"' in res.data
+
+    # Test 2: Valid internal redirect with query parameters
+    res = client.get(
+        url_for("login", redirect="/settings?tab=notifications"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    # Check that the redirect is preserved
+    assert b'value="/settings?tab=notifications"' in res.data
+
+    # Test 3: Malicious external URL should be blocked and default to watchlist
+    res = client.get(
+        url_for("login", redirect="https://evil.com/phishing"),
+        follow_redirects=False
+    )
+    # Should show login form
+    assert res.status_code == 200
+    # The redirect parameter in the form should NOT contain the evil URL
+    # Check the actual input value, not just anywhere in the page
+    assert b'value="https://evil.com' not in res.data
+    assert b'value="/evil.com' not in res.data
+    assert b'name="redirect"' in res.data
+
+    # Test 4: Double-slash attack should be blocked
+    res = client.get(
+        url_for("login", redirect="//evil.com"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    # Should not have the malicious URL in the redirect input value
+    assert b'value="//evil.com"' not in res.data
+
+    # Test 5: Protocol handler exploit should be blocked
+    res = client.get(
+        url_for("login", redirect="javascript:alert(document.domain)"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    # Should not have javascript: in the redirect input value
+    assert b'value="javascript:' not in res.data
+
+    # Test 6: At-symbol obfuscation attack should be blocked
+    res = client.get(
+        url_for("login", redirect="//@evil.com"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    # Should not have the malicious URL in the redirect input value
+    assert b'value="//@evil.com"' not in res.data
+
+    # Test 7: Multiple slashes attack should be blocked
+    res = client.get(
+        url_for("login", redirect="////evil.com"),
+        follow_redirects=False
+    )
+    assert res.status_code == 200
+    # Should not have the malicious URL in the redirect input value
+    assert b'value="////evil.com"' not in res.data
+
+
