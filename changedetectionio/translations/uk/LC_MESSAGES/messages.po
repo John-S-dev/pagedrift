@@ -2561,3 +2561,43 @@ msgstr "Тіло <description> RSS будується з"
 msgid "RSS \"System default\" template override"
 msgstr "Перевизначення шаблону RSS \"Системний за замовчуванням\""
 
+#: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "Видалити пароль"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "Рендерити контент тегу anchor"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "Дозволити анонімний доступ до історії завдань при увімкненому паролі"
+
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "Приховати заглушені завдання з RSS-стрічки"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "Увімкнути режим RSS-рідера "
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "Кількість змін для показу в RSS-стрічці завдання"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "Має містити нуль або більше спроб"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "Кількість разів, яку фільтр може бути відсутнім перед надсиланням сповіщення"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "Ключ API"
+
