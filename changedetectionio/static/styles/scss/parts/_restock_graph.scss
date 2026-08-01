@@ -127,3 +127,35 @@
   &.rg-status-high { background: rgba(231, 76, 60, 0.16); color: #e74c3c; }
 }
 
+.rg-tooltip {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  z-index: 5;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background: var(--color-background, #fff);
+  color: var(--color-text, #222);
+  border: 1px solid var(--color-border-notification, rgba(127, 127, 127, 0.4));
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+#restock-history-table {
+  margin-left: auto;   // centre the table horizontally within its container
+  margin-right: auto;
+
+  td, th { text-align: left; }
+}
+
+.restock-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;   // centre the title + download link above the centred table
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
