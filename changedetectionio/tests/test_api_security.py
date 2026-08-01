@@ -13,6 +13,14 @@ from .util import live_server_setup, wait_for_all_checks, wait_for_watch_history
 import os
 
 
+def is_valid_uuid(val):
+    try:
+        uuid_module.UUID(str(val))
+        return True
+    except ValueError:
+        return False
+
+
 # ============================================================================
 # TIER 1: CRITICAL SECURITY TESTS
 # ============================================================================
