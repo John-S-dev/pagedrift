@@ -45,3 +45,37 @@ atom_feed_with_default_ns = """<?xml version="1.0" encoding="UTF-8"?>
   </entry>
 </feed>"""
 
+# RSS feed without default namespace
+rss_feed_no_default_ns = """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel Title</title>
+    <description>Channel Description</description>
+    <item>
+      <title>Item 1 Title</title>
+      <description>Item 1 Description</description>
+    </item>
+    <item>
+      <title>Item 2 Title</title>
+      <description>Item 2 Description</description>
+    </item>
+  </channel>
+</rss>"""
+
+# RSS 2.0 feed with namespace prefix (not default)
+rss_feed_with_ns_prefix = """<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     version="2.0">
+  <channel>
+    <title>Channel Title</title>
+    <atom:link href="http://example.com/feed" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Item Title</title>
+      <dc:creator>Author Name</dc:creator>
+    </item>
+  </channel>
+</rss>"""
+
+
