@@ -405,3 +405,20 @@ async function shareImage(platform, jpegDataUrl) {
     window.open(shareUrl, '_blank', 'width=600,height=400');
 }
 
+/**
+ * Update button UI state
+ */
+function setButtonState(button, isLoading, originalHtml = '') {
+    if (!button) return;
+
+    if (isLoading) {
+        button.innerHTML = 'Generating...';
+        button.style.opacity = "0.5";
+        button.style.pointerEvents = "none";
+    } else {
+        button.innerHTML = originalHtml;
+        button.style.opacity = "1";
+        button.style.pointerEvents = "auto";
+    }
+}
+
