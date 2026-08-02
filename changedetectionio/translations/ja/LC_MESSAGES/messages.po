@@ -4379,6 +4379,46 @@ msgstr "スケジュールの時間制限"
 msgid "Business hours"
 msgstr "営業時間"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "週末"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "リセット"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "警告：1つ以上の「曜日」の期間が翌日まで延長されています。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "これは意図しない結果を引き起こす可能性があります。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "スケジューラーの使用に関する詳細なヘルプと例"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "タイムスケジュールを使用しますか？"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "まずタイムゾーン設定を確認/保存してください"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "トリガーされたテキスト"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "このテキストが表示され、かつドキュメントに何か変更があった場合に変更をトリガーします。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "無視されたテキスト"
+
 #: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
 msgid "Ignored for calculating changes, but still shown."
 msgstr "変更の計算では無視されますが、表示はされます。"
