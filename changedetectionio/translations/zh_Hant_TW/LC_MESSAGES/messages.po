@@ -975,6 +975,62 @@ msgstr "啟用 AI 功能即表示您個人同意賠償並使本軟體的創作�
 msgid "I have read and understood the above. I accept full responsibility and indemnify the creator(s) of this software."
 msgstr "我已閱讀並理解上述內容。我承擔全部責任並保障本軟體創作者免受損害。"
 
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/templates/_common_fields.html
+msgid "Note"
+msgstr "注意"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"AI / LLM is configured via environment variables (<code>LLM_MODEL=%(model)s</code>%(api_base)s). Remove the "
+"<code>LLM_MODEL</code> environment variable to configure via this form instead."
+msgstr "AI / LLM 是透過環境變數（<code>LLM_MODEL=%(model)s</code>%(api_base)s）設定的。請移除 <code>LLM_MODEL</code> 環境變數以改為透過此表單進行設定。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "select a provider"
+msgstr "選擇供應商"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "OpenAI-compatible (vLLM, LM Studio, llama.cpp)"
+msgstr "與 OpenAI 相容（vLLM、LM Studio、llama.cpp）"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Only needed for Ollama or custom/self-hosted endpoints. Leave blank for cloud providers."
+msgstr "僅適用於 Ollama 或自訂 / 自行架設的端點。雲端供應商請留空。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+#, python-format
+msgid ""
+"Reasoning models (Qwen3, DeepSeek-R1, Gemma 3, etc.) emit chain-of-thought before the final answer. This multiplier "
+"scales every <code>max_tokens</code> cap for this endpoint to leave reasoning room. Defaults to %(default)s; raise it"
+" if responses come back truncated or empty, lower it (down to 1x) if you want tighter limits on a paid endpoint. "
+"Applied to Ollama and OpenAI-compatible endpoints — other cloud providers (OpenAI, Anthropic, Gemini) keep their "
+"original tight caps."
+msgstr ""
+"推理模型（Qwen3、DeepSeek-R1、Gemma 3 等）會在給出最終答案之前輸出思考鏈（Chain-of-thought）。此乘數會放大該端點的每個 <code>max_tokens</code> "
+"上限，以留出推理空間。預設為 %(default)s；如果回應遭到截斷或為空，請將其調高；如果您希望在付費端點上設定更嚴格的限制，請將其調低（最低至 1x）。套用至 Ollama 和與 OpenAI 相容的端點 — "
+"其他雲端供應商（OpenAI、Anthropic、Gemini）則保持其原本嚴格的上限。"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Load available models"
+msgstr "載入可用模型"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Available models"
+msgstr "可用模型"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "choose a model"
+msgstr "選擇模型"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Enter API key and click 'Load available models'"
+msgstr "輸入 API 金鑰並點擊「載入可用模型」"
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
+msgid "Remove AI / LLM configuration?"
+msgstr "是否移除 AI / LLM 設定？"
+
 #: changedetectionio/blueprint/settings/templates/settings_llm_tab.html
 msgid "This will remove your saved AI provider, model, and API key."
 msgstr "這將會移除您儲存的 AI 供應商、模型和 API 金鑰。"
