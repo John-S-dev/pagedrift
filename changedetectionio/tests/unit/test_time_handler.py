@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+"""
+Comprehensive tests for time_handler module refactored to use arrow.
+
 class TestAmIInsideTime(unittest.TestCase):
     """Tests for the am_i_inside_time function."""
 
