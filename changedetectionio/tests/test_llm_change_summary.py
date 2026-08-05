@@ -16,6 +16,16 @@ from flask import url_for
 
 from changedetectionio.tests.util import wait_for_all_checks, delete_all_watches
 
+HTML_V1 = "<html><body><ul><li>Item A</li><li>Item B</li></ul></body></html>"
+HTML_V2 = "<html><body><ul><li>Item A</li><li>Item B</li><li>Item C — NEW</li></ul></body></html>"
+
+
+def _set_response(datastore_path, content):
+    import os
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(content)
+
+
 # ---------------------------------------------------------------------------
 # Notification token behaviour
 # ---------------------------------------------------------------------------
