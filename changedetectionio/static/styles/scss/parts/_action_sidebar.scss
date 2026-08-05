@@ -299,6 +299,24 @@ body.actionsidebar-minimal:not(.actionsidebar-no-expand) .action-sidebar-inner:f
   }
 }
 
+// Always-expanded mode: labels and badges are visible at rest (no hover gate),
+// and the main content gutter grows from 64px → 240px to keep the rail from
+// overlapping page content.
+body.actionside-bar-on {
+  .action-sidebar .action-sidebar-item {
+    .action-label {
+      opacity: 1;
+      transform: translateX(0);
+      transition: none;
+    }
+    .action-badge {
+      opacity: 1;
+      transition: none;
+    }
+  }
+
+}
+
 .action-icon {
   flex: 0 0 auto;
   width: 24px;
