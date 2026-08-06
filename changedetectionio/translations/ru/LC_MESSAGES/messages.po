@@ -1567,6 +1567,49 @@ msgstr ""
 msgid "Proxy updated on {} watches"
 msgstr ""
 
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Invalid proxy selected"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "{} watches were tagged"
+msgstr "{} часы были помечены"
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/watchlist/__init__.py
+msgid "Watch not found"
+msgstr "Часы не найдены"
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "Cleared snapshot history for watch {}"
+msgstr "Очищена история снимков для просмотра {}."
+
+#: changedetectionio/blueprint/ui/__init__.py changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "clear"
+msgstr "прозрачный"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "History clearing started in background"
+msgstr "Очистка истории началась в фоновом режиме"
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Incorrect confirmation text."
+msgstr "Неверный текст подтверждения."
+
+#: changedetectionio/blueprint/ui/__init__.py
+#, python-brace-format
+msgid "The watch by UUID {} does not exist."
+msgstr "Часы по UUID {} ​​не существуют."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Deleted."
+msgstr "Удален."
+
+#: changedetectionio/blueprint/ui/__init__.py
+msgid "Cloned, you are editing the new watch."
+msgstr "Клонированные, вы редактируете новые часы."
+
 #: changedetectionio/blueprint/ui/edit.py
 msgid "No watches to edit"
 msgstr "Нет часов для редактирования"
