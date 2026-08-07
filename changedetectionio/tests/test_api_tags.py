@@ -40,6 +40,42 @@ def test_api_tags_listing(client, live_server, measure_memory_usage, datastore_p
     assert res.json[new_tag_uuid]['title'] == tag_title
     assert res.json[new_tag_uuid]['notification_muted'] == False
 
+    wait_for_all_checks()
+    after_check_time = live_server.app.config['DATASTORE'].data['watching'][watch_uuid].get('last_checked')
+
+    assert before_check_time != after_check_time
+
+    # Delete tag
+    res = client.delete(
+        url_for("tag", uuid=new_tag_uuid),
+        headers={'x-api-key': api_key}
+    )
+    assert res.status_code == 204
+
+    # Verify tag is gone
+    res = client.get(
+        url_for("tags"),
+        headers={'x-api-key': api_key}
+    )
+    assert res.status_code == 200
+    assert new_tag_uuid not in res.get_data(as_text=True)
+
+    # Verify tag was removed from watch
+    res = client.get(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key}
+    )
+    assert res.status_code == 200
+    assert new_tag_uuid not in res.json.get('tags', [])
+
+    # Delete the watch
+    res = client.delete(
+        url_for("watch", uuid=watch_uuid),
+        headers={'x-api-key': api_key},
+    )
+    assert res.status_code == 204
+
+
 def test_api_tag_restock_processor_config(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that a tag/group can be created and updated with processor_config_restock_diff via the API.
