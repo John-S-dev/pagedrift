@@ -2444,3 +2444,43 @@ msgstr "텍스트 추출 전 대기 시간(초)"
 msgid "Should contain one or more seconds"
 msgstr "1초 이상을 포함해야 합니다."
 
+#: changedetectionio/forms.py
+msgid "AI thinking budget (tokens)"
+msgstr "AI 추론 예산 (토큰)"
+
+#: changedetectionio/forms.py
+msgid "Off (no thinking)"
+msgstr "끄기 (추론 없음)"
+
+#: changedetectionio/forms.py
+msgid "Max AI summary length (tokens)"
+msgstr "최대 AI 요약 길이 (토큰)"
+
+#: changedetectionio/forms.py
+msgid "When monthly token budget is reached"
+msgstr "월간 토큰 예산에 도달한 경우"
+
+#: changedetectionio/forms.py
+msgid "Skip AI summarisation only (watch still checks)"
+msgstr "AI 요약만 건너뛰기 (모니터링 확인은 계속)"
+
+#: changedetectionio/forms.py
+msgid "Skip the watch check entirely"
+msgstr "모니터링 확인 전체 건너뛰기"
+
+#: changedetectionio/forms.py
+msgid "Watchlist \"Summary\" link compares"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Previous version (second-last vs latest)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "추출할 정규식"
+
