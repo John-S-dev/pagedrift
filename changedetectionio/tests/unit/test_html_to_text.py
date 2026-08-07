@@ -8,3 +8,6 @@ import threading
 import unittest
 from queue import Queue
 
+from changedetectionio.html_tools import html_to_text
+
+
