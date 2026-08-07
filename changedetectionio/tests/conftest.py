@@ -61,3 +61,22 @@ def environment(mocker):
     return fixed_datetime
 
 
+def format_memory_human(bytes_value):
+    """Format memory in human-readable units (KB, MB, GB)"""
+    if bytes_value < 1024:
+        return f"{bytes_value} B"
+    elif bytes_value < 1024 ** 2:
+        return f"{bytes_value / 1024:.2f} KB"
+    elif bytes_value < 1024 ** 3:
+        return f"{bytes_value / (1024 ** 2):.2f} MB"
+    else:
+        return f"{bytes_value / (1024 ** 3):.2f} GB"
+
+def track_memory(memory_usage, ):
+    process = psutil.Process(os.getpid())
+    while not memory_usage["stop"]:
+        current_rss = process.memory_info().rss
+        memory_usage["peak"] = max(memory_usage["peak"], current_rss)
+        memory_usage["current"] = current_rss  # Keep updating current
+        time.sleep(0.01)  # Adjust the sleep time as needed
+
