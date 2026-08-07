@@ -63,3 +63,42 @@ def set_xmlns_purl_content(datastore_path, extra=""):
 
 
 
+def set_original_cdata_xml(datastore_path):
+    test_return_data = """<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<channel>
+<title>Security Bulletins on wetscale</title>
+<link>https://wetscale.com/security-bulletins/</link>
+<description>Recent security bulletins from wetscale</description>
+<lastBuildDate>Fri, 10 Oct 2025 14:58:11 GMT</lastBuildDate>
+<docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+<generator>wetscale.com</generator>
+<language>en-US</language>
+<copyright>© 2025 wetscale Inc. All rights reserved.</copyright>
+<atom:link href="https://wetscale.com/security-bulletins/index.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>TS-2025-005</title>
+<link>https://wetscale.com/security-bulletins/#ts-2025-005</link>
+<guid>https://wetscale.com/security-bulletins/#ts-2025-005</guid>
+<pubDate>Thu, 07 Aug 2025 00:00:00 GMT</pubDate>
+<description><p>Wet noodles escape<br><p>they also found themselves outside</p> </description>
+</item>
+
+
+<item>
+<title>TS-2025-004</title>
+<link>https://wetscale.com/security-bulletins/#ts-2025-004</link>
+<guid>https://wetscale.com/security-bulletins/#ts-2025-004</guid>
+<pubDate>Tue, 27 May 2025 00:00:00 GMT</pubDate>
+<description>
+    <![CDATA[ <img class="type:primaryImage" src="https://testsite.com/701c981da04869e.jpg"/><p>The days of Terminator and The Matrix could be closer. But be positive.</p><p><a href="https://testsite.com">Read more link...</a></p> ]]>
+</description>
+</item>
+    </channel>
+    </rss>
+            """
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+
+
+
