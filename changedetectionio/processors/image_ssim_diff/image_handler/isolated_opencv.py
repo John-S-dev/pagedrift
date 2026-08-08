@@ -522,6 +522,29 @@ def _worker_calculate_percentage(conn, img_bytes_from, img_bytes_to, pixel_diffe
             gray_from = cv2.GaussianBlur(gray_from, (ksize, ksize), blur_sigma)
             gray_to = cv2.GaussianBlur(gray_to, (ksize, ksize), blur_sigma)
 
+        # Calculate difference
+        diff = cv2.absdiff(gray_from, gray_to)
+
+        # Apply threshold
+        _, thresholded = cv2.threshold(diff, int(pixel_difference_threshold), 255, cv2.THRESH_BINARY)
+
+        # Calculate percentage
+        total_pixels = thresholded.size
+        changed_pixels = np.count_nonzero(thresholded)
+        change_percentage = (changed_pixels / total_pixels) * 100.0
+
+        conn.send(float(change_percentage))
+
+    except Exception as e:
+        print(f"[{time.time():.3f}] [Worker] Calculate percentage error: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        # Send error info as dict so parent can re-raise
+        conn.send({'error': str(e), 'traceback': traceback.format_exc()})
+    finally:
+        conn.close()
+
+
 async def calculate_change_percentage_isolated(img_bytes_from, img_bytes_to, pixel_difference_threshold, blur_sigma, max_width, max_height):
     """
     Calculate change percentage in isolated subprocess (async-safe).
