@@ -6,3 +6,10 @@ info:
     
     REST API for managing Page watches, Group tags, and Notifications.
     
+    changedetection.io can be driven by its built in simple API, in the examples below you will also find `curl` command line and `python` examples to help you get started faster.
+    
+    ## Where to find my API key?
+    
+    The API key can be easily found under the **SETTINGS** then **API** tab of changedetection.io dashboard.  
+    Simply click the API key to automatically copy it to your clipboard.
+    
