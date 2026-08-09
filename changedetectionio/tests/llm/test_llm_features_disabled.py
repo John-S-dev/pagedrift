@@ -66,3 +66,25 @@ def test_llm_features_disabled_hides_ui(client, live_server, monkeypatch):
     assert b'id="by-element-toggle-group"' in res.data
 
 
+def test_llm_features_enabled_by_default(client, live_server, monkeypatch):
+    """When LLM_FEATURES_DISABLED is unset, the AI / LLM surfaces are still rendered."""
+    monkeypatch.delenv('LLM_FEATURES_DISABLED', raising=False)
+
+    from changedetectionio.llm.evaluator import is_llm_features_disabled
+    assert is_llm_features_disabled() is False
+
+    res = client.get(url_for('settings.settings_page'))
+    assert res.status_code == 200
+    # The AI / LLM settings tab anchor should be present when not disabled
+    assert b'href="#ai"' in res.data
+
+    # With an LLM configured, the Add-watch page offers both ways of narrowing a watch,
+    # so "Select by element" goes back to being an opt-in checkbox.
+    monkeypatch.setenv('LLM_MODEL', 'gemini/gemini-2.5-flash')
+    from changedetectionio.blueprint.add_watch_ui import browser_config
+    monkeypatch.setattr(browser_config, 'list_visual_browser_choices',
+                        lambda datastore: [('html_webdriver', 'WebDriver Chrome/Javascript')])
+    res = client.get(url_for('add_watch_ui.add_watch_ui_index'))
+    assert res.status_code == 200
+    assert b'name="llm_intent"' in res.data
+    assert b'id="by-element-toggle"' in res.data
