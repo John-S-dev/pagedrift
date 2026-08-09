@@ -411,6 +411,55 @@ class fetcher(Fetcher):
                 # The actual screenshot - this always base64 and needs decoding! horrible! huge CPU usage
                 self.screenshot = await capture_full_page_async(page=self.page, screenshot_format=self.screenshot_format, watch_uuid=watch_uuid, lock_viewport_elements=self.lock_viewport_elements)
 
+                # Force aggressive memory cleanup - screenshots are large and base64 decode creates temporary buffers
+                await self.page.request_gc()
+                gc.collect()
+
+            except ScreenshotUnavailable:
+                # Re-raise screenshot unavailable exceptions
+                raise ScreenshotUnavailable(url=url, status_code=self.status_code)
+
+            finally:
+                # Clean up resources properly with timeouts to prevent hanging
+                try:
+                    if hasattr(self, 'page') and self.page:
+                        await self.page.request_gc()
+                        await asyncio.wait_for(self.page.close(), timeout=5.0)
+                        logger.debug(f"Successfully closed page for {url}")
+                except asyncio.TimeoutError:
+                    logger.warning(f"Timed out closing page for {url} (5s)")
+                except Exception as e:
+                    logger.warning(f"Error closing page for {url}: {e}")
+                finally:
+                    self.page = None
+
+                try:
+                    if context:
+                        await asyncio.wait_for(context.close(), timeout=5.0)
+                        logger.debug(f"Successfully closed context for {url}")
+                except asyncio.TimeoutError:
+                    logger.warning(f"Timed out closing context for {url} (5s)")
+                except Exception as e:
+                    logger.warning(f"Error closing context for {url}: {e}")
+                finally:
+                    context = None
+
+                try:
+                    if browser:
+                        await asyncio.wait_for(browser.close(), timeout=5.0)
+                        logger.debug(f"Successfully closed browser connection for {url}")
+                except asyncio.TimeoutError:
+                    logger.warning(f"Timed out closing browser connection for {url} (5s)")
+                except Exception as e:
+                    logger.warning(f"Error closing browser for {url}: {e}")
+                finally:
+                    browser = None
+
+                # Force Python GC to release Playwright resources immediately
+                # Playwright objects can have circular references that delay cleanup
+                gc.collect()
+
+
 # Create module-level instance for plugin registration
 playwright_plugin = PlaywrightFetcherPlugin()
 
