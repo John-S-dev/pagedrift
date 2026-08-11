@@ -53,6 +53,58 @@ def is_visual_capable(fetch_backend, datastore):
     return not missing
 
 
+def resolve_backend(fetch_backend, datastore):
+    """The concrete fetcher name behind a choice, so 'system' can be acted on.
+
+    Needed because acquire_browser_for_fetcher() looks the name up as a class: handing
+    it 'system' would skip a fetcher that launches its own browser (CloakBrowser) and
+    fall through to the CDP endpoint instead.
+    """
+    from changedetectionio import content_fetchers
+
+    _fetcher_class, resolved, _custom_url = content_fetchers.resolve_content_fetcher(
+        {'fetch_backend': fetch_backend or SYSTEM_DEFAULT}, datastore)
+    return resolved
+
+
+def list_visual_browser_choices(datastore):
+    """(value, label) for every fetcher that can drive the visual selector.
+
+    is_visual_capable() logs each candidate's capabilities as it goes, so a user
+    wondering why their browser isn't in the list can see the missing flag at debug
+    level.
+    """
+    from changedetectionio import content_fetchers
+
+    choices = [(name, str(description)) for name, description in content_fetchers.available_fetchers()
+               if is_visual_capable(name, datastore)]
+    logger.debug(f"Add-watch browsers offered for the live preview: "
+                 f"{[name for name, _label in choices] or 'none'}")
+    return choices
+
+
+def has_visual_browser(datastore):
+    """True when at least one installed browser can render a live preview.
+
+    Gates the whole Add-Watch page (sidebar link + the route itself): without one there
+    is nothing for the visual selector to work on, so the page can only fail.
+    """
+    return bool(list_visual_browser_choices(datastore))
+
+
+def default_visual_browser(datastore):
+    """Which browser the Add-Watch page should start on.
+
+    'system' when the global default happens to be capable (so the new watch keeps
+    following the system setting), otherwise the first capable browser, and None when
+    there is nothing usable at all.
+    """
+    if is_visual_capable(SYSTEM_DEFAULT, datastore):
+        return SYSTEM_DEFAULT
+    choices = list_visual_browser_choices(datastore)
+    return choices[0][0] if choices else None
+
+
 def system_default_description(datastore):
     """Label for whatever backend 'system' currently points at."""
     from changedetectionio import content_fetchers
