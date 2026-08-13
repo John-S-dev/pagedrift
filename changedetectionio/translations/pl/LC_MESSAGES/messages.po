@@ -3124,3 +3124,45 @@ msgstr "Nie udało się załadować zrzutów ekranu: {}"
 msgid "Failed to calculate diff: {}"
 msgstr "Nie udało się obliczyć różnicy: {}"
 
+#: changedetectionio/processors/restock_diff/processor.py
+msgid "Re-stock & Price detection for pages with a SINGLE product"
+msgstr "Wykrywanie uzupełnienia zapasów i zmian cen na stronach zawierających JEDEN produkt"
+
+#: changedetectionio/processors/restock_diff/processor.py
+msgid "Detects if the product goes back to in-stock"
+msgstr "Wykrywa, czy produkt ponownie pojawił się w magazynie"
+
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Price & stock history"
+msgstr "Historia cen i stanów magazynowych"
+
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Download as XLSX"
+msgstr "Pobierz jako plik XLSX"
+
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "When"
+msgstr "Kiedy"
+
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Stock"
+msgstr "Zapasy"
+
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "Not enough price data points yet to draw a graph - keep monitoring and the price history will appear here."
+msgstr ""
+"Nie ma jeszcze wystarczającej liczby danych dotyczących cen, aby wygenerować wykres — proszę śledzić zmiany, a "
+"historia cen pojawi się w tym miejscu."
+
+#: changedetectionio/processors/templates/extract.html
+msgid "Screenshot"
+msgstr "Zrzut ekranu"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "This tool will extract text data from all of the watch history."
+msgstr "To narzędzie wyodrębni dane tekstowe z całej historii obserwacji."
+
+#: changedetectionio/processors/templates/extract.html
+msgid "A <strong>RegEx</strong> is a pattern that identifies exactly which part inside of the text that you want to extract."
+msgstr "<strong>Wyrażenie regularne</strong> to wzorzec, który dokładnie określa, którą część tekstu chcesz wyodrębnić."
+
