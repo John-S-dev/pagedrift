@@ -390,6 +390,34 @@
   gap: 0.65rem;
 }
 
+.llm-usage-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+
+  .llm-usage-row-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.6;
+    min-width: 12rem;
+    flex-shrink: 0;
+  }
+
+  .llm-usage-row-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.88rem;
+  }
+}
+
+.llm-field-hint {
+  font-size: 0.8rem;
+  opacity: 0.55;
+}
+
 .llm-env-badge {
   font-size: 0.79rem;
   opacity: 0.6;
