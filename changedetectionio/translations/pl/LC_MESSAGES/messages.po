@@ -2354,6 +2354,45 @@ msgstr "Pobierz najnowszą wersję HTML"
 msgid "Download watch data package"
 msgstr "Pobierz pakiet danych obserwacji"
 
+#: changedetectionio/blueprint/ui/templates/preview.html
+msgid "Screenshot requires a Content Fetcher ( Sockpuppetbrowser, selenium, etc ) that supports screenshots."
+msgstr ""
+"Do wykonania zrzutu ekranu potrzebny jest program do pobierania treści (np. Sockpuppetbrowser, Selenium itp.), który "
+"obsługuje funkcję tworzenia zrzutów ekranu."
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+#, python-format
+msgid "Worker %(num)s"
+msgstr "Proces roboczy %(num)s"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "— idle"
+msgstr "— bezczynność"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "running"
+msgstr "uruchomione"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "idle"
+msgstr "bezczynny"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "done"
+msgstr "gotowe"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "cancel"
+msgstr "anuluj"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "No workers configured and queue is empty"
+msgstr "Nie skonfigurowano żadnych procesów roboczych, a kolejka jest pusta"
+
+#: changedetectionio/blueprint/ui/templates/queue.html
+msgid "Watch no longer exists"
+msgstr "Obserwacja już nie istnieje"
+
 #: changedetectionio/blueprint/ui/templates/queue.html
 msgid "Nothing running"
 msgstr "Nic nie działa"
