@@ -73,3 +73,23 @@ def construct_tag_routes(rss_blueprint, datastore):
                 timestamp_to = dates[-1]
                 timestamp_from = dates[-2]
 
+                # Generate GUID for this entry
+                guid = generate_watch_guid(watch, timestamp_to)
+                n_body_template = get_rss_template(datastore, watch, rss_content_format,
+                                                   RSS_TEMPLATE_HTML_DEFAULT, RSS_TEMPLATE_PLAINTEXT_DEFAULT)
+
+                n_object = build_notification_context(watch, timestamp_from, timestamp_to,
+                                                     watch_label, n_body_template, rss_content_format)
+
+                # Render notification
+                res = render_notification(n_object, notification_service, watch, datastore)
+
+                # Create and populate feed entry
+                fe = fg.add_entry()
+                title_suffix = f"Change @ {res['original_context']['change_datetime']}"
+                populate_feed_entry(fe, watch, res['body'], guid, timestamp_to, link=diff_link, title_suffix=title_suffix)
+                add_watch_categories(fe, watch, datastore)
+
+        response = make_response(fg.rss_str())
+        response.headers.set('Content-Type', 'application/rss+xml;charset=utf-8')
+        return response
