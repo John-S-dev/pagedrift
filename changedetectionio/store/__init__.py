@@ -136,6 +136,86 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         # Base definition for all watchers (deepcopy part of #569)
         self.generic_definition = deepcopy(Watch.model(datastore_path=datastore_path, __datastore=self.__data, default={}))
 
+        # Load build SHA if available (Docker deployments)
+        if path.isfile('changedetectionio/source.txt'):
+            with open('changedetectionio/source.txt') as f:
+                self.__data['build_sha'] = f.read()
+
+        # Check if datastore already exists
+        changedetection_json = os.path.join(self.datastore_path, "changedetection.json")
+        changedetection_json_old_schema = os.path.join(self.datastore_path, "url-watches.json")
+
+        if os.path.exists(changedetection_json):
+            # Run schema updates if needed
+            # Pass current schema version from loaded datastore (defaults to 0 if not set)
+            # Load existing datastore (changedetection.json + watch.json files)
+            logger.info("Loading existing datastore")
+            self._load_state()
+            current_schema = self.data['settings']['application'].get('schema_version', 0)
+            self.run_updates(current_schema_version=current_schema)
+
+        # Legacy datastore detected - trigger migration, even works if the schema is much before the migration step.
+        elif os.path.exists(changedetection_json_old_schema):
+
+            logger.critical(f"Legacy datastore detected at {changedetection_json_old_schema}, loading and running updates")
+            self._load_state(main_settings_filename="url-watches.json")
+            # update 26 will load the whole old config from disk to __data
+            current_schema = self.__data['settings']['application'].get('schema_version', 0)
+            self.run_updates(current_schema_version=current_schema)
+            # Probably tags were also shifted to disk and many other changes, so best to reload here.
+            self._load_state()
+
+        else:
+            # No datastore yet - check if this is a fresh install or legacy migration
+            self.init_fresh_install(include_default_watches=include_default_watches,
+                                    version_tag=version_tag)
+            # Maybe they copied a bunch of watch subdirs across too
+            self._load_state()
+
+    def init_fresh_install(self, include_default_watches, version_tag):
+      # Generate app_guid FIRST (required for all operations)
+        if "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ:
+            self.__data['app_guid'] = "test-" + str(uuid_builder.uuid4())
+        else:
+            self.__data['app_guid'] = str(uuid_builder.uuid4())
+
+        # Generate RSS access token
+        self.__data['settings']['application']['rss_access_token'] = secrets.token_hex(16)
+
+        # Generate API access token
+        self.__data['settings']['application']['api_access_token'] = secrets.token_hex(16)
+        logger.warning(f"No datastore found, creating new datastore at {self.datastore_path}")
+
+        # Set schema version to latest (no updates needed)
+        latest_update_available = self.get_updates_available().pop()
+        logger.info(f"Marking fresh install to schema version {latest_update_available}")
+        self.__data['settings']['application']['schema_version'] = latest_update_available
+
+        # Add default watches if requested
+        if include_default_watches:
+            self.add_watch(
+                url='https://news.ycombinator.com/',
+                tag='Tech news',
+                extras={'fetch_backend': 'html_requests'}
+            )
+            self.add_watch(
+                url='https://changedetection.io/CHANGELOG.txt',
+                tag='changedetection.io',
+                extras={'fetch_backend': 'html_requests'}
+            )
+
+        # Create changedetection.json immediately
+        try:
+            self._save_settings()
+            logger.info("Created changedetection.json for new datastore")
+        except Exception as e:
+            logger.error(f"Failed to create initial changedetection.json: {e}")
+
+
+
+        # Set version tag
+        self.__data['version_tag'] = version_tag
+
         # Validate proxies.json if it exists
         _ = self.proxy_list  # Just to test parsing
 
