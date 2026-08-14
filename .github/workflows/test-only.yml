@@ -109,3 +109,43 @@ jobs:
           for v in violations:
               print(v)
 
+          if count > BASELINE_LIMIT:
+              print(f"\nERROR: {count} fragmented gettext calls exceed the baseline of {BASELINE_LIMIT}.")
+              print("Consolidate adjacent _() calls into a single entire-sentence msgid.")
+              print("See https://github.com/dgtlmoon/changedetection.io/issues/4074 for patterns.")
+              sys.exit(1)
+          PYEOF
+
+  test-application-3-11:
+    # Always run
+    needs: [lint-code, lint-translations, lint-template-i18n]
+    uses: ./.github/workflows/test-stack-reusable-workflow.yml
+    with:
+      python-version: '3.11'
+
+  test-application-3-12:
+    # Only run on push to master (including PR merges)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [lint-code, lint-translations, lint-template-i18n]
+    uses: ./.github/workflows/test-stack-reusable-workflow.yml
+    with:
+      python-version: '3.12'
+      skip-pypuppeteer: true
+
+  test-application-3-13:
+    # Only run on push to master (including PR merges)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [lint-code, lint-translations, lint-template-i18n]
+    uses: ./.github/workflows/test-stack-reusable-workflow.yml
+    with:
+      python-version: '3.13'
+      skip-pypuppeteer: true
+
+
+  test-application-3-14:
+    #if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [lint-code, lint-translations, lint-template-i18n]
+    uses: ./.github/workflows/test-stack-reusable-workflow.yml
+    with:
+      python-version: '3.14'
+      skip-pypuppeteer: false
