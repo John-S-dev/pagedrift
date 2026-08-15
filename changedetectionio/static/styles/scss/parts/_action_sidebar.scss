@@ -459,3 +459,30 @@ body.actionside-bar-on {
 }
 
 
+/** top logo stuff */
+#action-sidebar-logo {
+  padding-top: $common-gap*2;
+  padding-left: $common-gap;
+}
+
+.actionsidebar-minimal {
+  #checking-now-stats-sidebar {
+    display: none;
+  }
+  #cdio-logo {
+    #logo-expanded {
+      display: none;
+    }
+  }
+
+  &.action-side-bar-expanded {
+    #checking-now-stats-sidebar{
+      display: block;
+    }
+    #cdio-logo {
+      #logo-expanded {
+        display: inline-block;
+      }
+    }
+  }
+
