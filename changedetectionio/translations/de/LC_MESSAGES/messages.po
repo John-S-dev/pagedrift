@@ -1708,6 +1708,47 @@ msgstr "Aktueller Screenshot"
 msgid "Extract Data"
 msgstr "Daten extrahieren"
 
+#: changedetectionio/blueprint/ui/templates/diff.html changedetectionio/blueprint/ui/templates/preview.html
+#: changedetectionio/processors/restock_diff/templates/restock_diff/difference.html
+msgid "No screenshot available just yet! Try rechecking the page."
+msgstr "Derzeit ist kein Screenshot verfügbar! Versuchen Sie es später erneut."
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Screenshot requires Playwright/WebDriver enabled"
+msgstr "Für den Screenshot ist die Aktivierung von Playwright/WebDriver erforderlich"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Request"
+msgstr "Anfrage"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Browser Steps"
+msgstr "Browserschritte"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Visual Filter Selector"
+msgstr "Visuelle Filterauswahl"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Conditions"
+msgstr "Bedingungen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Stats"
+msgstr "Statistiken"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Some sites use JavaScript to create the content, for this you should"
+msgstr "Einige Websites verwenden JavaScript, um den Inhalt zu erstellen. Dazu sollten Sie"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "use the Chrome/WebDriver Fetcher"
+msgstr "Verwenden Sie den Chrome/WebDriver Fetcher"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the URL"
+msgstr "Variablen werden in der URL unterstützt"
+
 #: changedetectionio/blueprint/ui/templates/edit.html
 msgid "help and examples here"
 msgstr "Hilfe und Beispiele finden Sie hier"
