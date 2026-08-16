@@ -2164,3 +2164,48 @@ msgstr "Le corps et le titre de la notification sont requis lorsqu'une URL de no
 msgid "'%s' is not a valid AppRise URL."
 msgstr "'%s' n'est pas une URL AppRise valide."
 
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Bloquer la détection des modifications lorsque le texte correspond"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Exécuter JavaScript avant la détection des modifications"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Proxy"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Envoyer une notification lorsque le filtre n'est plus trouvé sur la page"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "Activé"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Notifications"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Muet"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Joindre une capture d'écran à la notification (si possible)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Correspondance"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Faites correspondre tous les éléments suivants"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Faites correspondre l'un des éléments suivants"
+
