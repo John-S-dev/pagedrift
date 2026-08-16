@@ -29,3 +29,13 @@ info:
       Retrieve favicon images associated with monitored web pages. These are used in the dashboard interface 
       to visually identify different watches in your monitoring list.
       
+  - name: Plugin API Extensions
+    description: |
+      ## How Processor Plugins Extend the API
+
+      changedetection.io uses a **processor plugin** system to handle different types of change detection.
+      Each processor lives in `changedetectionio/processors/<name>/` and may include an `api.yaml` file
+      that extends the core Watch schema with processor-specific configuration fields.
+
+      ### How it works
+
