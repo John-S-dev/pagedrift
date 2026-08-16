@@ -1899,6 +1899,46 @@ msgid "Current screenshot from most recent request"
 msgstr "Captura de pantalla actual de la solicitud más reciente"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "help and examples here"
+msgstr "ayuda y ejemplos aquí"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Organisational tag/group name used in the main listing page"
+msgstr "Etiqueta organizativa/nombre de grupo utilizado en la página principal del listado"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Also automatically applied by URL pattern:"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Automatically uses the page title if found, you can also use your own title/description here"
+msgstr "Utiliza automáticamente el título de la página si la encuentra, también puede usar su propio título/descripción aquí"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Extra Page Title and Link options"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Optional - links in the list, history and notifications open this URL instead. Does not change the URL being checked."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The interval/amount of time between each check."
+msgstr "El intervalo/cantidad de tiempo entre cada verificación."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Set to empty to use system settings default"
+msgstr "Establecer en vacío para usar la configuración predeterminada del sistema"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Connect using Bright Data and Oxylabs Proxies, find out more here."
+msgstr "Conéctese utilizando Bright Data y Oxylabs Proxies; obtenga más información aquí."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Check/Scan all"
+msgstr "Verificar/Escanear todo"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Not supported by Selenium browser"
 msgstr "No es compatible con el navegador Selenium"
 
