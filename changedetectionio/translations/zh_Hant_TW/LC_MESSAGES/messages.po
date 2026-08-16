@@ -1519,6 +1519,50 @@ msgstr "已更新監測任務 - 已取消暫停！"
 msgid "Updated watch."
 msgstr "已更新監測任務。"
 
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "to confirm that you understand."
+msgstr "以確認您已了解。"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Clear History!"
+msgstr "清除歷史記錄！"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Share diff as image"
+msgstr "將差異分享為圖片"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Share as Image"
+msgstr "分享為圖片"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Ignore any lines matching"
+msgstr "忽略任何符合的行"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Ignore any lines matching excluding digits"
+msgstr "忽略任何符合（排除數字）的行"
+
+#. 'From' labels the older snapshot version selector on the diff page
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgctxt "diff version"
+msgid "From"
+msgstr "從"
+
+#. 'To' labels the newer snapshot version selector on the diff page
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgctxt "diff version"
+msgid "To"
+msgstr "到"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Words"
+msgstr "字"
+
+#: changedetectionio/blueprint/ui/templates/diff.html
+msgid "Lines"
+msgstr "行"
+
 #: changedetectionio/blueprint/ui/templates/diff.html
 msgid "Ignore Whitespace"
 msgstr "忽略空白"
