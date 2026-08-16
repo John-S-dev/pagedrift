@@ -1744,6 +1744,50 @@ msgstr "Riwayat tidak cukup (diperlukan 2 snapshot) untuk menampilkan halaman pe
 msgid "Monthly AI token budget of %(budget)s tokens reached (%(used)s used). Resets next month."
 msgstr "Anggaran token AI bulanan sebesar %(budget)s token tercapai (%(used)s digunakan). Direset bulan depan."
 
+#: changedetectionio/blueprint/ui/edit.py
+msgid "No watches to edit"
+msgstr "Tidak ada monitor untuk diedit"
+
+#: changedetectionio/blueprint/ui/edit.py
+#, python-brace-format
+msgid "No watch with the UUID {} found."
+msgstr "Tidak ditemukan monitor dengan UUID {}."
+
+#: changedetectionio/blueprint/ui/edit.py
+#, python-brace-format
+msgid "Switched to mode - {}."
+msgstr "Beralih ke mode - {}."
+
+#: changedetectionio/blueprint/ui/edit.py
+#, python-brace-format
+msgid "Could not load '{}' processor, processor plugin might be missing. Please select a different processor."
+msgstr "Tidak dapat memuat prosesor '{}', plugin prosesor mungkin tidak tersedia. Silakan pilih prosesor lain."
+
+#: changedetectionio/blueprint/ui/edit.py
+#, python-brace-format
+msgid "Could not load '{}' processor, processor plugin might be missing."
+msgstr "Tidak dapat memuat prosesor '{}', plugin prosesor mungkin tidak tersedia."
+
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "System settings default"
+msgstr "Default pengaturan sistem"
+
+#: changedetectionio/blueprint/ui/edit.py changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Default"
+msgstr "Default"
+
+#: changedetectionio/blueprint/ui/edit.py
+msgid "Updated watch - unpaused!"
+msgstr "Monitor diperbarui - jeda dinonaktifkan!"
+
+#: changedetectionio/blueprint/ui/edit.py
+msgid "Updated watch."
+msgstr "Monitor diperbarui."
+
+#: changedetectionio/blueprint/ui/preview.py
+msgid "Preview unavailable - No fetch/check completed or triggers not reached"
+msgstr "Pratinjau tidak tersedia - Belum ada pengambilan/pemeriksaan selesai atau pemicu belum tercapai"
+
 #: changedetectionio/blueprint/ui/preview.py
 msgid "Diff"
 msgstr "Perbedaan"
