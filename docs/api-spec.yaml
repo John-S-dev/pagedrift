@@ -19,6 +19,16 @@ info:
     
     The API can be found at `/api/v1/`, so for example if you run changedetection.io locally on port 5000, then URL would be `http://localhost:5000/api/v1/watch/cc0cfffa-f449-477b-83ea-0caafd1dc091/history`.
     
+    For example: `x-api-key: YOUR_API_KEY`
+    
+  version: 0.1.9
+  contact:
+    name: ChangeDetection.io
+    url: https://github.com/dgtlmoon/changedetection.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
       Set the query argument `html` to any value to retrieve the last HTML fetched, the system only keeps the last two 
       (2) HTML files fetched.
       
