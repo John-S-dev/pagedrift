@@ -2818,6 +2818,47 @@ msgid "Send a notification when the filter can no longer be found on the page"
 msgstr "Enviar una notificación cuando el filtro ya no se pueda encontrar en la página"
 
 #: changedetectionio/forms.py
+msgid "On"
+msgstr "On"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Silenciado"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Adjunte captura de pantalla a la notificación (cuando sea posible)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Coincidencia"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Coincide con todo lo siguiente"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Coincide con cualquiera de los siguientes"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "Usar página <title> en la lista"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr "Número de elementos del historial por monitor que se deben conservar"
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "El cuerpo debe estar vacío cuando el método de solicitud está configurado en GET"
+
+#: changedetectionio/forms.py
 msgid "Favicons Enabled"
 msgstr "Favicones habilitados"
 
