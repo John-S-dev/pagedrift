@@ -540,3 +540,116 @@ class perform_site_check(difference_detection_processor):
                 else:
                     update_obj['restock']['in_stock'] = False
 
+        # Main detection method
+        fetched_md5 = None
+
+        # Maintain 'last_price' = the price from *before the last actual price change*, for the
+        # watch-list up/down arrow (get_price_change_percent). Only move it when the price really
+        # changed; on an unchanged check we MUST preserve it, otherwise frequent re-checks of a
+        # stable price would overwrite last_price with the current price and the arrow would vanish.
+        # Display only - the % threshold/change detection below compares against the stored 'price'.
+        old_restock = watch.get('restock') or {}
+        old_price = old_restock.get('price')
+        new_price = update_obj['restock'].get('price')
+        if new_price is not None and new_price != old_price:
+            update_obj['restock']['last_price'] = old_price          # price moved: remember what we moved from (None on first detection)
+            logger.debug(f"{watch.get('uuid')} price changed '{old_price}' -> '{new_price}', setting 'last_price' to '{old_price}'.")
+        else:
+            update_obj['restock']['last_price'] = old_restock.get('last_price')  # unchanged: keep the existing reference
+
+        if not self.fetcher.instock_data and not itemprop_availability.get('availability') and not itemprop_availability.get('price'):
+            raise ProcessorException(
+                message=f"Unable to extract restock data for this page unfortunately. (Got code {self.fetcher.get_last_status_code()} from server), no embedded stock information was found and nothing interesting in the text, try using this watch with Chrome.",
+                url=watch.get('url'),
+                status_code=self.fetcher.get_last_status_code(),
+                screenshot=self.fetcher.screenshot,
+                xpath_data=self.fetcher.xpath_data
+                )
+
+        logger.debug(f"self.fetcher.instock_data is - '{self.fetcher.instock_data}' and itemprop_availability.get('availability') is {itemprop_availability.get('availability')}")
+        # Nothing automatic in microdata found, revert to scraping the page
+        if self.fetcher.instock_data and itemprop_availability.get('availability') is None:
+            # 'Possibly in stock' comes from stock-not-in-stock.js when no string found above the fold.
+            # Careful! this does not really come from chrome/js when the watch is set to plaintext
+            update_obj['restock']["in_stock"] = True if self.fetcher.instock_data == 'Possibly in stock' else False
+            logger.debug(f"Watch UUID {watch.get('uuid')} restock check returned instock_data - '{self.fetcher.instock_data}' from JS scraper.")
+
+        # Very often websites will lie about the 'availability' in the metadata, so if the scraped version says its NOT in stock, use that.
+        if self.fetcher.instock_data and self.fetcher.instock_data != 'Possibly in stock':
+            if update_obj['restock'].get('in_stock'):
+                logger.warning(
+                    f"Lie detected in the availability machine data!! when scraping said its not in stock!! itemprop was '{itemprop_availability}' and scraped from browser was '{self.fetcher.instock_data}' update obj was {update_obj['restock']} ")
+                logger.warning(f"Setting instock to FALSE, scraper found '{self.fetcher.instock_data}' in the body but metadata reported not-in-stock")
+                update_obj['restock']["in_stock"] = False
+
+        # What we store in the snapshot
+        price = update_obj.get('restock').get('price') if update_obj.get('restock').get('price') else ""
+        snapshot_content = f"In Stock: {update_obj.get('restock').get('in_stock')} - Price: {price}"
+
+        # Main detection method
+        fetched_md5 = hashlib.md5(snapshot_content.encode('utf-8')).hexdigest()
+
+        # The main thing that all this at the moment comes down to :)
+        changed_detected = False
+        logger.debug(f"Watch UUID {watch.get('uuid')} restock check - Previous MD5: {watch.get('previous_md5')}, Fetched MD5 {fetched_md5}")
+
+        # out of stock -> back in stock only?
+        if watch.get('restock') and watch['restock'].get('in_stock') != update_obj['restock'].get('in_stock'):
+            # Yes if we only care about it going to instock, AND we are in stock
+            if restock_settings.get('in_stock_processing') == 'in_stock_only' and update_obj['restock']['in_stock']:
+                changed_detected = True
+
+            if restock_settings.get('in_stock_processing') == 'all_changes':
+                # All cases
+                changed_detected = True
+
+        if restock_settings.get('follow_price_changes') and watch.get('restock') and update_obj.get('restock') and update_obj['restock'].get('price'):
+            price = float(update_obj['restock'].get('price'))
+            # Compare against the previous check's price (the value 'price' held before this check).
+            # That old stored 'price' is the correct reference point - last_price now mirrors it for
+            # display, but reading 'price' directly avoids any off-by-one from last_price's own update.
+            if watch['restock'].get('price'):
+                previous_price = float(watch['restock'].get('price'))
+                logger.debug(
+                    f"{watch.get('uuid')} Comparing NEW price '{price}' against previous check's price '{previous_price}' -> "
+                    f"price {'CHANGED' if price != previous_price else 'unchanged'}")
+                # It was different, but negate it further down
+                if price != previous_price:
+                    changed_detected = True
+
+            # Minimum/maximum price limit
+            if update_obj.get('restock') and update_obj['restock'].get('price'):
+                logger.debug(
+                    f"{watch.get('uuid')} - Change was detected, 'price_change_max' is '{restock_settings.get('price_change_max', '')}' 'price_change_min' is '{restock_settings.get('price_change_min', '')}', price from website is '{update_obj['restock'].get('price', '')}'.")
+                if update_obj['restock'].get('price'):
+                    min_limit = float(restock_settings.get('price_change_min')) if restock_settings.get('price_change_min') else None
+                    max_limit = float(restock_settings.get('price_change_max')) if restock_settings.get('price_change_max') else None
+
+                    price = float(update_obj['restock'].get('price'))
+                    logger.debug(f"{watch.get('uuid')} after float conversion - Min limit: '{min_limit}' Max limit: '{max_limit}' Price: '{price}'")
+                    if min_limit or max_limit:
+                        if is_between(number=price, lower=min_limit, upper=max_limit):
+                            # Price was between min/max limit, so there was nothing todo in any case
+                            logger.trace(f"{watch.get('uuid')} {price} is between {min_limit} and {max_limit}, nothing to check, forcing changed_detected = False (was {changed_detected})")
+                            changed_detected = False
+                        else:
+                            logger.trace(f"{watch.get('uuid')} {price} is between {min_limit} and {max_limit}, continuing normal comparison")
+
+                    # Price comparison by % - against the previous check's price
+                    if watch['restock'].get('price') and changed_detected and restock_settings.get('price_change_threshold_percent'):
+                        previous_price = float(watch['restock'].get('price'))
+                        pc = float(restock_settings.get('price_change_threshold_percent'))
+                        change = abs((price - previous_price) / previous_price * 100)
+                        logger.debug(
+                            f"{watch.get('uuid')} % threshold check - comparing NEW price '{price}' against previous "
+                            f"check's price '{previous_price}' = {change:.3f}% change (threshold {pc}%)")
+                        if change and change <= pc:
+                            logger.debug(f"{watch.get('uuid')} Override change-detected to FALSE because % threshold ({pc}%) was {change:.3f}%")
+                            changed_detected = False
+                        else:
+                            logger.debug(f"{watch.get('uuid')} Price change was {change:.3f}% , (threshold {pc}%)")
+
+        # Always record the new checksum
+        update_obj["previous_md5"] = fetched_md5
+
+        return changed_detected, update_obj, snapshot_content.strip()
