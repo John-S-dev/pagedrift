@@ -51,3 +51,48 @@ def test_get_headers(url, body, expected_content_type):
         assert headers.get("Content-Type") == expected_content_type
 
 
+@pytest.mark.parametrize(
+    "url,expected_params",
+    [
+        ("get://localhost:9999?param1=value1", {"param1": "value1"}),
+        ("get://localhost:9999?param1=value1&-param2=ignored", {"param1": "value1"}),
+        ("get://localhost:9999?param1=value1&+header=test", {"param1": "value1"}),
+        (
+            "get://localhost:9999?encoded%20param=encoded%20value",
+            {"encoded param": "encoded value"},
+        ),
+    ],
+)
+def test_get_params(url, expected_params):
+    """Test parameter extraction with URL encoding and exclusion logic."""
+    parsed_url = apprise_parse_url(url)
+    params = _get_params(parsed_url)
+    assert dict(params) == expected_params
+
+
+@pytest.mark.parametrize(
+    "url,schema,method",
+    [
+        ("get://localhost:9999", "get", "GET"),
+        ("post://localhost:9999", "post", "POST"),
+        ("delete://localhost:9999", "delete", "DELETE"),
+    ],
+)
+@patch("requests.request")
+def test_apprise_custom_api_call_success(mock_request, url, schema, method):
+    """Test successful API calls with different HTTP methods and schemas."""
+    mock_request.return_value.raise_for_status.return_value = None
+
+    meta = {"url": url, "schema": schema}
+    result = apprise_http_custom_handler(
+        body="test body", title="Test Title", notify_type="info", meta=meta
+    )
+
+    assert result is True
+    mock_request.assert_called_once()
+
+    call_args = mock_request.call_args
+    assert call_args[1]["method"] == method.upper()
+    assert call_args[1]["url"].startswith("http")
+
+
