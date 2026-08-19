@@ -49,3 +49,12 @@ info:
 
       ### How it works
 
+      At startup, changedetection.io scans all installed processors for an `api.yaml` file. Any schemas
+      and code samples defined there are deep-merged into the live API specification, making the
+      processor's configuration fields valid on all watch create and update requests.
+
+      The live, fully-merged spec is always available at `/api/v1/full-spec` — use that URL with
+      Swagger UI or Redoc to see the complete schema for your specific installation.
+
+      ---
+
