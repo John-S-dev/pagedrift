@@ -11,6 +11,36 @@ from .util import live_server_setup, wait_for_all_checks, delete_all_watches
 
 
 
+def set_response_with_multiple_index(datastore_path):
+    data= """<!DOCTYPE html>
+<html>
+<body>
+
+<!-- NOTE!! CHROME WILL ADD TBODY HERE IF ITS NOT THERE!! -->
+<table style="width:100%">
+  <tr>
+    <th>Person 1</th>
+    <th>Person 2</th>
+    <th>Person 3</th>
+  </tr>
+  <tr>
+    <td>Emil</td>
+    <td>Tobias</td>
+    <td>Linus</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>14</td>
+    <td>10</td>
+  </tr>
+</table>
+</body>
+</html>
+"""
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(data)
+
+
 def set_original_response(datastore_path):
     test_return_data = """<html>
     <header>
