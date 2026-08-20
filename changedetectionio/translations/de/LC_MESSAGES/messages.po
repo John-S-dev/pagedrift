@@ -2198,3 +2198,45 @@ msgstr ""
 msgid "Extracted number after 'Filters & Triggers'"
 msgstr ""
 
+# Context
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "An"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Stumm"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Screenshot an Benachrichtigung anhängen (sofern möglich)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Übereinstimmung"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Passen Sie alle folgenden Punkte an"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Entspricht einer der folgenden Bedingungen"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "Verwenden Sie Seite <title> in der Liste"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "Der Textkörper muss leer sein, wenn die Anforderungsmethode auf GET gesetzt ist"
+
