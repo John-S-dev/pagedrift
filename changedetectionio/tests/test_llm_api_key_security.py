@@ -42,6 +42,38 @@ def _key_in_response(response, key=CANARY_KEY) -> bool:
     return key in body
 
 
+# ---------------------------------------------------------------------------
+# Watch endpoints
+# ---------------------------------------------------------------------------
+
+def test_watch_get_does_not_expose_llm_api_key(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET /api/v1/watch/<uuid> must not contain the LLM API key."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+
+    test_url = url_for('test_endpoint', _external=True)
+    res = client.post(
+        '/api/v1/watch',
+        data=json.dumps({'url': test_url}),
+        headers={'content-type': 'application/json', 'x-api-key': api_token},
+        follow_redirects=True,
+    )
+    assert res.status_code == 201
+    uuid = res.json.get('uuid')
+
+    res = client.get(
+        f'/api/v1/watch/{uuid}',
+        headers={'x-api-key': api_token},
+    )
+    assert res.status_code == 200
+    assert not _key_in_response(res), \
+        "LLM API key leaked in GET /api/v1/watch/<uuid> response"
+
+    delete_all_watches(client)
+
+
 def test_tag_get_does_not_expose_llm_api_key(
         client, live_server, measure_memory_usage, datastore_path):
     """GET /api/v1/tag/<uuid> must not contain the LLM API key."""
