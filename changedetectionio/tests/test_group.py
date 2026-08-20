@@ -113,3 +113,23 @@ def test_setup_group_tag(client, live_server, measure_memory_usage, datastore_pa
     assert b"first-imported=1" in res.data
     delete_all_watches(client)
 
+def test_tag_import_singular(client, live_server, measure_memory_usage, datastore_path):
+    
+
+    test_url = url_for('test_endpoint', _external=True)
+    res = client.post(
+        url_for("imports.import_page"),
+        data={"urls": test_url + " test-tag, test-tag\r\n"+ test_url + "?x=1 test-tag, test-tag\r\n"},
+        follow_redirects=True
+    )
+    assert b"2 Imported" in res.data
+
+    res = client.get(
+        url_for("tags.tags_overview_page"),
+        follow_redirects=True
+    )
+    # Should be only 1 tag because they both had the same
+    assert len(live_server.app.config['DATASTORE'].data['settings']['application'].get('tags')) ==1
+
+    delete_all_watches(client)
+
