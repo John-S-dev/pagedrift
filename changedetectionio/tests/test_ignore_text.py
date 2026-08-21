@@ -87,3 +87,90 @@ def set_modified_ignore_response(datastore_path, ver_stamp="123"):
         f.write(test_return_data)
 
 
+# When adding some ignore text, it should not trigger a change, even if something else on that line changes
+def _run_test_global_ignore(client, datastore_path, as_source=False, extra_ignore=""):
+    ignore_text = "XXXXX\r\nYYYYY\r\nZZZZZ\r\n"+extra_ignore
+
+    set_original_ignore_response(datastore_path=datastore_path)
+
+    # Goto the settings page, add our ignore text
+    res = client.post(
+        url_for("settings.settings_page"),
+        data={
+            "requests-time_between_check-minutes": 180,
+            "application-ignore_whitespace": "y",
+            "application-global_ignore_text": ignore_text,
+            'application-fetch_backend': "html_requests"
+        },
+        follow_redirects=True
+    )
+    assert b"Settings updated." in res.data
+
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    if as_source:
+        # Switch to source mode so we can test that too!
+        test_url = "source:"+test_url
+
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    #Adding some ignore text should not trigger a change
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"ignore_text": "something irrelevent but just to check", "url": test_url, 'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"Updated watch." in res.data
+    wait_for_all_checks(client)
+    # Check it saved
+    res = client.get(
+        url_for("settings.settings_page"),
+    )
+
+    for i in ignore_text.splitlines():
+        assert bytes(i.encode('utf-8')) in res.data
+
+
+    # Trigger a check
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    # It should report nothing found (no new 'has-unread-changes' class), adding random ignore text should not cause a change
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' not in res.data
+    assert b'/test-endpoint' in res.data
+#####
+
+    # Make a change which includes the ignore text, it should be ignored and no 'change' triggered
+    # It adds text with "ZZZZzzzz" and "ZZZZ" is in the ignore list
+    # And tweaks the ver_stamp which should be picked up by global regex ignore
+    set_modified_ignore_response(ver_stamp=time.time(), datastore_path=datastore_path)
+
+    # Trigger a check
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # It should report nothing found (no new 'has-unread-changes' class)
+    res = client.get(url_for("watchlist.index"))
+
+    assert b'has-unread-changes' not in res.data
+    assert b'/test-endpoint' in res.data
+
+    # Just to be sure.. set a regular modified change that will trigger it
+    set_modified_original_ignore_response(datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' in res.data
+
+    delete_all_watches(client)
+
+def test_check_global_ignore_text_functionality(client, live_server, measure_memory_usage, datastore_path):
+    
+    _run_test_global_ignore(client, as_source=False, datastore_path=datastore_path)
+
