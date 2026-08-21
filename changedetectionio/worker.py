@@ -43,3 +43,35 @@ def set_watch_minitext_status(watch, status):
     signal('watch_small_status_comment').send(watch_uuid=watch['uuid'], status=safe_status)
 
 
+async def async_update_worker(worker_id, q, notification_q, app, datastore, executor=None):
+    """
+    Async worker function that processes watch check jobs from the queue.
+
+    Args:
+        worker_id: Unique identifier for this worker
+        q: AsyncSignalPriorityQueue containing jobs to process
+        notification_q: Standard queue for notifications
+        app: Flask application instance
+        datastore: Application datastore
+        executor: ThreadPoolExecutor for queue operations (optional)
+
+    Returns:
+        "restart" if worker should restart, "shutdown" for clean exit
+    """
+    # Set a descriptive name for this task
+    task = asyncio.current_task()
+    if task:
+        task.set_name(f"async-worker-{worker_id}")
+
+    # Read restart policy from environment
+    max_jobs = int(os.getenv("WORKER_MAX_JOBS", "10"))
+    max_runtime_seconds = int(os.getenv("WORKER_MAX_RUNTIME", "3600"))  # 1 hour default
+
+    jobs_processed = 0
+    start_time = time.time()
+
+    # Log thread name for debugging
+    import threading
+    thread_name = threading.current_thread().name
+    logger.info(f"Starting async worker {worker_id} on thread '{thread_name}' (max_jobs={max_jobs}, max_runtime={max_runtime_seconds}s)")
+
