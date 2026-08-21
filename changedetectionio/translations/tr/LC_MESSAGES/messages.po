@@ -2455,6 +2455,46 @@ msgid "week"
 msgstr "hafta"
 
 #: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr ".xlsx dosyası yükle"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr ".xlsx dosyası olmalıdır!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Dosya eşleme"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Operasyon"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Seçici"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "değer"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Remove elements"
 msgstr "Öğeleri kaldır"
 
