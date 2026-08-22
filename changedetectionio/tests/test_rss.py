@@ -70,6 +70,17 @@ def set_html_content(datastore_path, content):
         f.write(test_return_data.encode('utf-8'))
 
 
+def test_rss_feed_empty(client, live_server, measure_memory_usage, datastore_path):
+
+    rss_token = extract_rss_token_from_UI(client)
+
+    res = client.get(
+        url_for("rss.feed", token=rss_token, _external=True),
+        follow_redirects=True
+    )
+    assert res.status_code == 200
+    assert b'xml' in res.data
+
 def test_rss_and_token(client, live_server, measure_memory_usage, datastore_path):
     #   #  live_server_setup(live_server) # Setup on conftest per function
 
