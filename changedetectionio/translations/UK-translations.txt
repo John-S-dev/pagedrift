@@ -2873,6 +2873,50 @@ msgstr "Регулярний вираз - приклад"
 msgid "Don't forget to consider the white-space at the start of a line"
 msgstr "Не забудьте врахувати пробіли на початку рядка"
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "type flags (more"
+msgstr "прапори типу (більше"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "information here"
+msgstr "інформації тут"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Keyword example - example"
+msgstr "Ключове слово - приклад"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Use groups to extract just that text - example"
+msgstr "Використовуйте групи для вилучення тільки цього тексту - приклад"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "returns a list of years only"
+msgstr "повертає тільки список років"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr "Приклад - рядки, що містять ключове слово"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr "Один рядок на регулярний вираз/збіг"
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr "Вхід"
+
+#: changedetectionio/templates/menu.html
+msgid "GROUPS"
+msgstr "ГРУПИ"
+
+#: changedetectionio/templates/menu.html
+msgid "SETTINGS"
+msgstr "НАЛАШТУВАННЯ"
+
+#: changedetectionio/templates/menu.html
+msgid "IMPORT"
+msgstr "ІМПОРТ"
+
 #: changedetectionio/templates/menu.html
 msgid "Resume automatic scheduling"
 msgstr "Відновити авто-планування"
