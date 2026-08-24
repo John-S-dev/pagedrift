@@ -2002,6 +2002,53 @@ msgid "When content is merely moved in a list, it will also trigger an"
 msgstr "Когда контент просто перемещается в списке, это также вызывает"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "addition"
+msgstr "добавление"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "consider enabling"
+msgstr "рассмотреть возможность включения"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Only trigger when unique lines appear"
+msgstr "Срабатывает только при появлении уникальных строк"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid ""
+"Good for websites that just move the content around, and you want to know when NEW content is added, compares new "
+"lines against all history for this watch."
+msgstr ""
+"Подходит для веб-сайтов, которые просто перемещают контент, и вы хотите знать, когда добавляется НОВЫЙ контент, "
+"сравнивает новые строки со всей историей для этих часов."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Helps reduce changes detected caused by sites shuffling lines around, combine with <i>check unique lines</i> below."
+msgstr ""
+"Помогает уменьшить количество обнаруженных изменений, вызванных перетасовкой строк на сайтах. В сочетании с "
+"<i>проверьте уникальные строки</i> ниже."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Remove any whitespace before and after each line of text"
+msgstr "Удалите все пробелы до и после каждой строки текста."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI Intent preview"
+msgstr "Предварительный просмотр намерений ИИ"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "The Visual Selector tool lets you select the"
+msgstr "Инструмент «Визуальный выбор» позволяет выбрать"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "text"
+msgstr "текст"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid ""
 "elements that will be used for the change detection. It automatically fills-in the filters in the "
 "\"CSS/JSONPath/JQ/XPath Filters\" box of the"
