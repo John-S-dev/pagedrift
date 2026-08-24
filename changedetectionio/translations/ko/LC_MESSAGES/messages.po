@@ -2868,3 +2868,43 @@ msgstr ""
 msgid "RegEx to extract"
 msgstr "추출할 정규식"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "재입고 감지"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "재고 있음만 감지 (품절 -> 재고 있음)"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "모든 재고 상태 변경"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "끄기, 재고 상태/재입고 추적 안 함"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "다음 가격 미만이면 알림 트리거"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "제한 없음"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "다음 가격 초과이면 알림 트리거"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "이전 확인 대비 가격 변동 기준(%)"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "0에서 100 사이여야 합니다."
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "가격 변동 추적"
+
