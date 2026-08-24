@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 from operator import truediv
 
+from flask import make_response, request, current_app
+from flask import url_for
+import logging
+import time
+import os
+import threading
+
+# Thread-safe global storage for test endpoint content
+# Avoids filesystem cache issues in parallel tests
+_test_endpoint_content_lock = threading.Lock()
+_test_endpoint_content = {}
+
 def write_test_file_and_sync(filepath, content, mode='w'):
     """
     Write test data to file and ensure it's synced to disk.
