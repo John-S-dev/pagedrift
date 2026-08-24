@@ -4827,3 +4827,43 @@ msgstr "Alihkan Mode Terang/Gelap"
 msgid "Toggle light/dark mode"
 msgstr "Alihkan mode terang/gelap"
 
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Add a page watch"
+msgstr "Tambahkan monitor halaman"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Page Watches"
+msgstr "Monitor Halaman"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Unread changes"
+msgstr "Perubahan belum dibaca"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Watch Groups"
+msgstr "Grup Monitor"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Import lists of web pages"
+msgstr "Impor daftar halaman web"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Browsers (coming soon)"
+msgstr "Browser (segera hadir)"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Browsers"
+msgstr "Browser"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "soon"
+msgstr "segera"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Search, or Use Alt+S Key"
+msgstr "Cari, atau Gunakan Tombol Alt+S"
+
+#: changedetectionio/templates/sidebar-nav.html
+msgid "Queue"
+msgstr "Antrean"
+
