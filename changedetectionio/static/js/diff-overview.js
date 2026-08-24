@@ -108,6 +108,53 @@ $(document).ready(function () {
         }
     }
 
+    const article = $('#difference')[0];
+
+    // We could also add the  'touchend' event for touch devices, but since
+    // most iOS/Android browsers already show a dialog when you select
+    // text (often with a Share option) we'll skip that
+    if (article) {
+        article.addEventListener('mousedown', clean, false);
+    }
+
+    // Because they might 'mouse up' outside the article but on the page
+    const d_page = $(".difference-page")[0]
+    if (d_page ) {
+        d_page.addEventListener('mouseup', dragTextHandler, false);
+    }
+
+
+    $('#highlightSnippetActions a').bind('click', function (e) {
+        if (!window.getSelection().toString().trim().length) {
+            alert('Oops no text selected!');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: highlight_submit_ignore_url,
+            data: {'mode': $(this).data('mode'), 'selection': window.getSelection().toString()},
+            statusCode: {
+                400: function () {
+                    // More than likely the CSRF token was lost when the server restarted
+                    alert("There was a problem processing the request, please reload the page.");
+                }
+            }
+        }).done(function (data) {
+            // @todo some feedback
+            alert("'Ignore' Filters for this watch were updated.")
+            clean();
+
+        }).fail(function (data) {
+            console.log(data);
+            alert('There was an error communicating with the server.');
+        })
+    });
+
+    function clean(event) {
+        $('#bottom-horizontal-offscreen').hide();
+    }
+
     // Listen for Escape key press
     window.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
