@@ -6,6 +6,21 @@
 import unittest
 import os
 
+from changedetectionio import diff
+from changedetectionio.diff import (
+    REMOVED_PLACEMARKER_OPEN,
+    REMOVED_PLACEMARKER_CLOSED,
+    ADDED_PLACEMARKER_OPEN,
+    ADDED_PLACEMARKER_CLOSED,
+    CHANGED_PLACEMARKER_OPEN,
+    CHANGED_PLACEMARKER_CLOSED,
+    CHANGED_INTO_PLACEMARKER_OPEN,
+    CHANGED_INTO_PLACEMARKER_CLOSED,
+    extract_changed_from,
+    extract_changed_to,
+)
+
+
     def test_expected_diff_patch_output(self):
         base_dir = os.path.dirname(__file__)
         with open(base_dir + "/test-content/before.txt", 'r') as f:
