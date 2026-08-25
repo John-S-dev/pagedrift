@@ -85,3 +85,48 @@ msgstr ""
 msgid "Sunday"
 msgstr ""
 
+#: changedetectionio/forms.py:251
+msgid "Weeks"
+msgstr ""
+
+#: changedetectionio/forms.py:251 changedetectionio/forms.py:252
+#: changedetectionio/forms.py:253 changedetectionio/forms.py:254
+#: changedetectionio/forms.py:255 changedetectionio/forms.py:956
+msgid "Should contain zero or more seconds"
+msgstr ""
+
+#: changedetectionio/forms.py:252
+msgid "Days"
+msgstr ""
+
+#: changedetectionio/forms.py:253
+msgid "Hours"
+msgstr ""
+
+#: changedetectionio/forms.py:254
+msgid "Minutes"
+msgstr ""
+
+#: changedetectionio/forms.py:255
+msgid "Seconds"
+msgstr ""
+
+#: changedetectionio/forms.py:460
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr ""
+
+#: changedetectionio/forms.py:489
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr ""
+
+#: changedetectionio/forms.py:562 changedetectionio/forms.py:581
+#, python-format
+msgid "RegEx '%s' is not a valid regular expression."
+msgstr ""
+
+#: changedetectionio/forms.py:622 changedetectionio/forms.py:637
+#, python-format
+msgid "'%s' is not a valid XPath expression. (%s)"
+msgstr ""
+
