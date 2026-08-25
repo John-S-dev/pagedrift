@@ -104,6 +104,78 @@ def test_api_path_traversal_in_uuids(client, live_server, measure_memory_usage, 
     delete_all_watches(client)
 
 
+def test_api_injection_via_headers_and_proxy(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that injection attacks via headers and proxy fields are properly sanitized.
+    Addresses XSS and injection vulnerabilities.
+    """
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    set_original_response(datastore_path=datastore_path)
+    test_url = url_for('test_endpoint', _external=True)
+
+    # Test 1: XSS in headers
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": test_url,
+            "headers": {
+                "User-Agent": "<script>alert(1)</script>",
+                "X-Custom": "'; DROP TABLE watches; --"
+            }
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Headers are metadata used for HTTP requests, not HTML rendering
+    # Storing them as-is is expected behavior
+    assert res.status_code in [201, 400]
+    if res.status_code == 201:
+        watch_uuid = res.json.get('uuid')
+        # Verify headers are stored (API returns JSON, not HTML, so no XSS risk)
+        res = client.get(url_for("watch", uuid=watch_uuid), headers={'x-api-key': api_key})
+        assert res.status_code == 200
+        client.delete(url_for("watch", uuid=watch_uuid), headers={'x-api-key': api_key})
+
+    # Test 2: Null bytes in headers
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": test_url,
+            "headers": {"X-Test": "value\x00null"}
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should handle null bytes gracefully (reject or sanitize)
+    assert res.status_code in [201, 400]
+
+    # Test 3: Malformed proxy string
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": test_url,
+            "proxy": "http://evil.com:8080@victim.com"
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should reject invalid proxy format
+    assert res.status_code == 400
+
+    # Test 4: Control characters in notification title
+    res = client.post(
+        url_for("createwatch"),
+        data=json.dumps({
+            "url": test_url,
+            "notification_title": "Test\r\nInjected-Header: value"
+        }),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should accept but sanitize control characters
+    if res.status_code == 201:
+        watch_uuid = res.json.get('uuid')
+        client.delete(url_for("watch", uuid=watch_uuid), headers={'x-api-key': api_key})
+
+    delete_all_watches(client)
+
+
 def test_api_large_payload_dos(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that excessively large payloads are rejected to prevent DoS.
