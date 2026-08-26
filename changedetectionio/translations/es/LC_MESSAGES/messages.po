@@ -2775,6 +2775,46 @@ msgid "'%(expression)s' is not a valid jq expression. (%(error)s)"
 msgstr "'%(expression)s' no es una expresión jq válida. (%(error)s)"
 
 #: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Subir archivo .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "¡Debe ser un archivo .xlsx!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Mapeo de archivos"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Operación"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Selector"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "valor"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Group Tag"
 msgstr ""
 
