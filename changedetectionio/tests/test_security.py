@@ -455,6 +455,26 @@ def test_login_redirect_with_password(client, live_server, measure_memory_usage,
     del client.application.config['DATASTORE'].data['settings']['application']['password']
 
 
+def test_login_redirect_from_protected_page(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test the complete redirect flow: accessing a protected page while logged out
+    should redirect to login with the page URL, then redirect back after login.
+    This is the real-world scenario where users try to access /edit/uuid or /settings
+    and need to login first.
+    """
+    import base64
+    import hashlib
+
+    # Add a watch first
+    set_original_response(datastore_path=datastore_path)
+    res = client.post(
+        url_for("imports.import_page"),
+        data={"urls": url_for('test_endpoint', _external=True)},
+        follow_redirects=True
+    )
+    assert b"1 Imported" in res.data
+    wait_for_all_checks(client)
+
     # Set a password
     password = "test123"
     salt = os.urandom(32)
