@@ -292,3 +292,13 @@ function dataURLtoBlob(dataURL) {
     return new Blob([ab], { type: mimeString });
 }
 
+/**
+ * Download the image
+ */
+function downloadImage(jpegDataUrl) {
+    const a = document.createElement("a");
+    a.href = jpegDataUrl;
+    a.download = "changedetection-diff-" + Date.now() + ".jpg";
+    a.click();
+}
+
