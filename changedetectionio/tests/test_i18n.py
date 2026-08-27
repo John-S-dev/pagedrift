@@ -405,3 +405,44 @@ def test_time_unit_translations(client, live_server, measure_memory_usage, datas
     assert "使用預設通知".encode() not in res.data, "Should not have incorrect '使用預設通知' (Use default notification)"
 
 
+def test_session_locale_overrides_accept_language(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that session locale preference overrides browser Accept-Language header.
+
+    Scenario:
+    1. Browser auto-detects zh-TW (Traditional Chinese) from Accept-Language header
+    2. User explicitly selects Korean language
+    3. On subsequent page loads, Korean should be shown (not Traditional Chinese)
+       even though the Accept-Language header still says zh-TW
+
+    This tests the session override behavior for issue #3779.
+    """
+    from flask import url_for
+
+    # Step 1: Clear session and make first request with zh-TW header (auto-detect)
+    with client.session_transaction() as sess:
+        sess.clear()
+
+    res = client.get(
+        url_for("watchlist.index"),
+        headers={'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.8'},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Should initially get Traditional Chinese from auto-detect
+    assert '選擇語言'.encode() in res.data, "Expected Traditional Chinese '選擇語言' from auto-detect"
+    assert b'<html lang="zh-Hant-TW"' in res.data, "Expected zh-Hant-TW language tag"
+    assert b'<span class="fi fi-tw fis" id="language-selector-flag">' in res.data, \
+        "Expected Taiwan flag 'fi fi-tw' from auto-detect"
+
+    # Step 2: User explicitly selects Korean language
+    res = client.post(
+        url_for("set_language", locale="ko"),
+        headers={'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.8'},  # Browser still sends zh-TW
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
