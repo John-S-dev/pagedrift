@@ -159,6 +159,10 @@
         return requests[namespace];
     };
 
+})(jQuery);
+
+
+
 function toggleOpacity(checkboxSelector, fieldSelector, inverted) {
     const checkbox = document.querySelector(checkboxSelector);
     const fields = document.querySelectorAll(fieldSelector);
