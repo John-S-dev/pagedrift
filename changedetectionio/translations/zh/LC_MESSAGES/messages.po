@@ -2652,6 +2652,47 @@ msgid "Added lines"
 msgstr "新增行"
 
 #: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "替换/更改的行"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "删除的行"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "关键字触发器 - 触发/等待文本"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "文本匹配时阻止变更检测"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "在变更检测前执行 JavaScript"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "代理"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "当页面上找不到该过滤器时发送通知"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "开启"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "通知"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "静音"
+
+#: changedetectionio/forms.py
 msgid "Replace {{diff}} notification token with AI summary"
 msgstr ""
 
