@@ -220,3 +220,108 @@ def main():
         # Must be absolute so that send_from_directory doesnt try to make it relative to backend/
         datastore_path = os.path.join(os.getcwd(), "../datastore")
 
+        # Start monitor in background thread
+        monitor_thread = threading.Thread(target=batch_mode_monitor, daemon=True, name="BatchModeMonitor")
+        monitor_thread.start()
+        logger.info("Batch mode enabled: Will exit after all queued items are processed")
+
+    # Get the SocketIO instance from the Flask app (created in flask_app.py)
+    from changedetectionio.flask_app import socketio_server
+    global socketio
+    socketio = socketio_server
+
+    signal.signal(signal.SIGTERM, sigshutdown_handler)
+    signal.signal(signal.SIGINT, sigshutdown_handler)
+    
+    # Custom signal handler for memory cleanup
+    def sigusr_clean_handler(_signo, _stack_frame):
+        from changedetectionio.gc_cleanup import memory_cleanup
+        logger.info('SIGUSR1 received: Running memory cleanup')
+        return memory_cleanup(app)
+
+    # Register the SIGUSR1 signal handler
+    # Only register the signal handler if running on Linux
+    if platform.system() == "Linux":
+        signal.signal(signal.SIGUSR1, sigusr_clean_handler)
+    else:
+        logger.info("SIGUSR1 handler only registered on Linux, skipped.")
+
+    app.config['datastore_path'] = datastore_path
+
+
+    @app.context_processor
+    def inject_template_globals():
+        from changedetectionio.llm.evaluator import get_llm_config as _get_llm_config
+        from flask_login import current_user
+        has_password = datastore.data['settings']['application']['password'] != False
+        # Don't reveal the running version to anonymous visitors when password protection is enabled (#2190)
+        show_version = current_user.is_authenticated or not has_password
+        return dict(right_sticky="v"+__version__ if show_version else None,
+                    new_version_available=app.config['NEW_VERSION_AVAILABLE'],
+                    has_password=has_password,
+                    socket_io_enabled=datastore.data['settings']['application'].get('ui', {}).get('socket_io_enabled', True),
+                    all_paused=datastore.data['settings']['application'].get('all_paused', False),
+                    all_muted=datastore.data['settings']['application'].get('all_muted', False),
+                    llm_configured=bool(_get_llm_config(datastore)),
+                    unread_changes_count=datastore.unread_changes_count,
+                    )
+
+    # Monitored websites will not receive a Referer header when a user clicks on an outgoing link.
+    @app.after_request
+    def hide_referrer(response):
+        if strtobool(os.getenv("HIDE_REFERER", 'false')):
+            response.headers["Referrer-Policy"] = "same-origin"
+
+        return response
+
+    # Proxy sub-directory support
+    # Set environment var USE_X_SETTINGS=1 on this script
+    # And then in your proxy_pass settings
+    #
+    #         proxy_set_header Host "localhost";
+    #         proxy_set_header X-Forwarded-Prefix /app;
+
+
+    if os.getenv('USE_X_SETTINGS'):
+        logger.info("USE_X_SETTINGS is ENABLED")
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app,
+            x_for=1,      # X-Forwarded-For (client IP)
+            x_proto=1,    # X-Forwarded-Proto (http/https)
+            x_host=1,     # X-Forwarded-Host (original host)
+            x_port=1,     # X-Forwarded-Port (original port)
+            x_prefix=1    # X-Forwarded-Prefix (URL prefix)
+        )
+
+
+    # In batch mode, skip starting the HTTP server - just keep workers running
+    if batch_mode:
+        logger.info("Batch mode: Skipping HTTP server startup, workers will process queue")
+        logger.info("Batch mode: Main thread will wait for shutdown signal")
+        # Keep main thread alive until batch monitor triggers shutdown
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            logger.info("Batch mode: Keyboard interrupt received")
+            pass
+    else:
+        # Normal mode: Start HTTP server
+        # SocketIO instance is already initialized in flask_app.py
+        if socketio_server:
+            if ssl_mode:
+                logger.success(f"SSL mode enabled, attempting to start with '{ssl_cert_file}' and '{ssl_privkey_file}' in {os.getcwd()}")
+                socketio.run(app, host=host, port=int(port), debug=False,
+                             ssl_context=(ssl_cert_file, ssl_privkey_file), allow_unsafe_werkzeug=True)
+            else:
+                socketio.run(app, host=host, port=int(port), debug=False, allow_unsafe_werkzeug=True)
+        else:
+            # Run Flask app without Socket.IO if disabled
+            logger.info("Starting Flask app without Socket.IO server")
+            if ssl_mode:
+                logger.success(f"SSL mode enabled, attempting to start with '{ssl_cert_file}' and '{ssl_privkey_file}' in {os.getcwd()}")
+                app.run(host=host, port=int(port), debug=False,
+                        ssl_context=(ssl_cert_file, ssl_privkey_file))
+            else:
+                app.run(host=host, port=int(port), debug=False)
