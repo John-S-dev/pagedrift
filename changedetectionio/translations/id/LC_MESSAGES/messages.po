@@ -3225,3 +3225,47 @@ msgstr "Format Konten RSS"
 msgid "RSS <description> body built from"
 msgstr "Isi <description> RSS dibuat dari"
 
+#: changedetectionio/languages.py
+msgid "1h ago"
+msgstr "1j lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1h"
+msgstr "dalam 1j"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sh ago"
+msgstr "%sj lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sh"
+msgstr "dalam %sj"
+
+#: changedetectionio/languages.py
+msgid "1d ago"
+msgstr "1h lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1d"
+msgstr "dalam 1h"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sd ago"
+msgstr "%sh lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sd"
+msgstr "dalam %sh"
+
+#: changedetectionio/languages.py
+msgid "1w ago"
+msgstr "1mgg lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1w"
+msgstr "dalam 1mgg"
+
