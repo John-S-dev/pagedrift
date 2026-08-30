@@ -2808,3 +2808,43 @@ msgstr "Yinelenen metin satırlarını kaldır"
 msgid "Sort text alphabetically"
 msgstr "Metni alfabetik olarak sırala"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "Herhangi bir kullanılabilirlik değişikliği"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "Kapalı, kullanılabilirliği/yeniden stoklamayı takip etme"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "Bildirimi tetiklemek için fiyatın altında"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "Sınır yok"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "Bildirimi tetiklemek için fiyatın üstünde"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "Önceki kontrolden bu yana fiyat değişiklikleri için eşik (%)"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "0 ile 100 arasında olmalıdır"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "Fiyat değişikliklerini takip et"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Restock & Price Detection"
+msgstr "Yeniden Stoklama ve Fiyat Tespiti"
+
+#: changedetectionio/processors/restock_diff/processor.py
+msgid "Re-stock & Price detection for pages with a SINGLE product"
+msgstr "TEK bir ürüne sahip sayfalar için Yeniden Stoklama ve Fiyat tespiti"
+
