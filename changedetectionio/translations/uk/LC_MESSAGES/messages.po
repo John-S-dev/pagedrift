@@ -3014,6 +3014,46 @@ msgid "Request method"
 msgstr "Метод запиту"
 
 #: changedetectionio/forms.py
+msgid "Ignore status codes (process non-2xx status codes as normal)"
+msgstr "Ігнорувати коди статусу (обробляти коди не-2xx як звичайно)"
+
+#: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "Спрацьовувати лише при появі унікальних рядків у всій історії"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Видалити дублікати рядків тексту"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Сортувати текст за алфавітом"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Прибирати проігноровані рядки"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Обрізати пробіли до та після тексту"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Додані рядки"
+
+#: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Замінені/змінені рядки"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Видалені рядки"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Ключові слова-тригери - Спрацювати/чекати текст"
+
+#: changedetectionio/forms.py
 msgid "Treat empty pages as a change?"
 msgstr "Вважати порожні сторінки зміною?"
 
