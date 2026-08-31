@@ -1668,6 +1668,47 @@ msgstr "显示第 <b>{start} - {end}</b> 条{record_name}，共 <b>{total}</b> �
 msgid "queued items"
 msgstr ""
 
+#: changedetectionio/blueprint/ui/queue.py
+#, python-brace-format
+msgid "Queue cleared ({} items removed)."
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "This will remove version history (snapshots) for ALL watches, but keep your list of URLs!"
+msgstr "这将删除所有监控项的版本历史（快照），但会保留 URL 列表！"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "You may like to use the"
+msgstr "你可能需要先使用"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "BACKUP"
+msgstr "备份"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "link first."
+msgstr "链接。"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Confirmation text"
+msgstr "确认文本"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Type in the word"
+msgstr "请输入单词"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "to confirm that you understand."
+msgstr "以确认你已理解。"
+
+#: changedetectionio/blueprint/ui/templates/clear_all_history.html
+msgid "Clear History!"
+msgstr "清除历史记录！"
+
+#: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
+msgid "Share diff as image"
+msgstr "将差异分享为图片"
+
 #: changedetectionio/blueprint/ui/templates/diff-offscreen-options.html
 msgid "Share as Image"
 msgstr "分享为图片"
