@@ -88,3 +88,17 @@ def watch_matches_filters(datastore, watch, f):
     return watch_in_context(datastore, watch, f) and watch_passes_status(watch, f) and watch_passes_search(watch, f)
 
 
+def matching_watch_uuids(datastore, args):
+    """UUIDs of every watch matching the watch-list filters in `args` (no pagination)."""
+    f = list_filters_from_args(datastore, args)
+    return [uuid for uuid, watch in datastore.data['watching'].items() if watch_matches_filters(datastore, watch, f)]
+
+
+# The query-string keys that define a watch-list view.
+FILTER_KEYS = ('tag', 'processor', 'unread', 'with_errors', 'deals', 'q')
+
+
+def filter_query_args(args):
+    """The active filter params (drop blanks) — used to redirect back to the same
+    filtered view after a bulk action so the operator doesn't lose their filters."""
+    return {k: args.get(k) for k in FILTER_KEYS if args.get(k)}
