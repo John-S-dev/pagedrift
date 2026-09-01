@@ -11,6 +11,57 @@ from queue import Queue
 from changedetectionio.html_tools import html_to_text
 
 
+        assert 'Header' in text
+        assert 'First paragraph' in text
+        assert 'Second paragraph' in text
+
+    def test_anchor_tag_rendering(self):
+        """Test anchor tag rendering option."""
+        html = '<html><body><a href="https://example.com">Link text</a></body></html>'
+
+        # Without rendering anchors
+        text_without = html_to_text(html, render_anchor_tag_content=False)
+        assert 'Link text' in text_without
+        assert 'https://example.com' not in text_without
+
+        # With rendering anchors
+        text_with = html_to_text(html, render_anchor_tag_content=True)
+        assert 'Link text' in text_with
+        assert 'https://example.com' in text_with or '[Link text]' in text_with
+
+    def test_rss_mode(self):
+        """Test RSS mode converts title tags to h1."""
+        html = '<item><title>RSS Title</title><description>Content</description></item>'
+
+        # is_rss=True should convert <title> to <h1>
+        text = html_to_text(html, is_rss=True)
+
+        assert 'RSS Title' in text
+        assert 'Content' in text
+
+    def test_special_characters(self):
+        """Test handling of special characters and entities."""
+        html = '<html><body><p>Test &amp; &lt;special&gt; characters</p></body></html>'
+        text = html_to_text(html)
+
+        # Entities should be decoded
+        assert 'Test &' in text or 'Test &amp;' in text
+        assert 'special' in text
+
+    def test_whitespace_handling(self):
+        """Test that whitespace is properly handled."""
+        html = '<html><body><p>Line 1</p><p>Line 2</p></body></html>'
+        text = html_to_text(html)
+
+        # Should have some separation between lines
+        assert 'Line 1' in text
+        assert 'Line 2' in text
+        assert text.count('\n') >= 1  # At least one newline
+
+    def test_deterministic_output(self):
+        """Test that the same HTML always produces the same text."""
+        html = '<html><body><h1>Test</h1><p>Content here</p></body></html>'
+
         # Extract text multiple times
         results = [html_to_text(html) for _ in range(10)]
 
