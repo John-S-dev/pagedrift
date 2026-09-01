@@ -246,6 +246,146 @@ def iter_entity_dirs(datastore_path):
         return
 
 
+def load_watch_from_file(watch_json, uuid, rehydrate_entity_func, missing_ok=False):
+    """
+    Load a watch from its JSON file.
+
+    Args:
+        watch_json: Path to the watch.json file
+        uuid: Watch UUID
+        rehydrate_entity_func: Function to convert dict to Watch object
+        missing_ok: When True, a missing file returns ENTITY_FILE_MISSING instead of
+                    logging an error. Used by load_all_watches, which walks every
+                    datastore subdirectory - some of those are tag dirs, not watches.
+
+    Returns:
+        Watch object, ENTITY_FILE_MISSING if absent and missing_ok, else None
+    """
+    try:
+        # Open first, then take the size from the already-open fd. Doing it this way
+        # costs one syscall instead of stat()+open(), which matters when this is
+        # called once per directory across a large datastore.
+        try:
+            f = open(watch_json, 'rb')
+        except (FileNotFoundError, NotADirectoryError):
+            if missing_ok:
+                return ENTITY_FILE_MISSING
+            logger.error(f"Watch file not found: {watch_json} for watch {uuid}")
+            return None
+
+        with f:
+            file_size = os.fstat(f.fileno()).st_size
+            MAX_WATCH_SIZE = 10 * 1024 * 1024  # 10MB
+            if file_size > MAX_WATCH_SIZE:
+                logger.critical(
+                    f"CORRUPTED WATCH DATA: Watch {uuid} file is unexpectedly large: "
+                    f"{file_size / 1024 / 1024:.2f}MB (max: {MAX_WATCH_SIZE / 1024 / 1024}MB). "
+                    f"File: {watch_json}. This indicates a bug or data corruption. "
+                    f"Watch will be skipped."
+                )
+                return None
+            raw = f.read()
+
+        watch_data = orjson.loads(raw) if HAS_ORJSON else json.loads(raw.decode('utf-8'))
+
+        # Rehydrate and return watch object
+        watch_obj = rehydrate_entity_func(uuid, watch_data)
+        return watch_obj
+
+    except json.JSONDecodeError as e:
+        logger.critical(
+            f"CORRUPTED WATCH DATA: Failed to parse JSON for watch {uuid}. "
+            f"File: {watch_json}. Error: {e}. "
+            f"Watch will be skipped and may need manual recovery from backup."
+        )
+        return None
+    except ValueError as e:
+        # orjson raises ValueError for invalid JSON
+        if "invalid json" in str(e).lower() or HAS_ORJSON:
+            logger.critical(
+                f"CORRUPTED WATCH DATA: Failed to parse JSON for watch {uuid}. "
+                f"File: {watch_json}. Error: {e}. "
+                f"Watch will be skipped and may need manual recovery from backup."
+            )
+            return None
+        # Re-raise if it's not a JSON parsing error
+        raise
+    except Exception as e:
+        logger.error(f"Failed to load watch {uuid} from {watch_json}: {e}")
+        return None
+
+
+def load_all_watches(datastore_path, rehydrate_entity_func):
+    """
+    Load all watches from individual watch.json files.
+
+    SYNCHRONOUS loading: Blocks until all watches are loaded.
+    This ensures data consistency - web server won't accept requests
+    until all watches are available. Progress logged every 100 watches.
+
+    Args:
+        datastore_path: Path to the datastore directory
+        rehydrate_entity_func: Function to convert dict to Watch object
+
+    Returns:
+        Dictionary of uuid -> Watch object
+    """
+    start_time = time.perf_counter()
+    logger.info("Loading watches from individual watch.json files...")
+
+    watching = {}
+
+    if not os.path.exists(datastore_path):
+        return watching
+
+    # One scandir over the datastore, then open each {uuid}/watch.json directly.
+    # `total` counts candidate directories, so it includes tag dirs that hold no
+    # watch.json - it is an upper bound used only for progress logging.
+    scan_start = time.perf_counter()
+    entity_dirs = list(iter_entity_dirs(datastore_path))
+    scan_time = time.perf_counter() - scan_start
+
+    total = len(entity_dirs)
+    logger.debug(f"Scanned {total} datastore directories in {scan_time:.3f}s")
+
+    loaded = 0
+    failed = 0
+    skipped = 0
+
+    for uuid_dir, dir_path in entity_dirs:
+        watch_json = os.path.join(dir_path, "watch.json")
+        watch = load_watch_from_file(watch_json, uuid_dir, rehydrate_entity_func, missing_ok=True)
+        if watch is ENTITY_FILE_MISSING:
+            # Not a watch directory (e.g. holds tag.json instead) - not an error
+            skipped += 1
+        elif watch:
+            watching[uuid_dir] = watch
+            loaded += 1
+
+            if loaded % 100 == 0:
+                logger.info(f"Loaded {loaded}/{total} watches...")
+        else:
+            # load_watch_from_file already logged the specific error
+            failed += 1
+
+    if skipped:
+        logger.debug(f"Skipped {skipped} directories with no watch.json")
+
+    elapsed = time.perf_counter() - start_time
+    load_rate = loaded / elapsed if elapsed > 0 else 0
+
+    if failed > 0:
+        logger.critical(
+            f"LOAD COMPLETE: {loaded} watches loaded successfully, "
+            f"{failed} watches FAILED to load (corrupted or invalid) "
+            f"in {elapsed:.2f}s ({load_rate:.0f} watches/sec)"
+        )
+    else:
+        logger.info(f"Loaded {loaded} watches from disk in {elapsed:.2f}s ({load_rate:.0f} watches/sec)")
+
+    return watching
+
+
 def load_tag_from_file(tag_json, uuid, rehydrate_entity_func, missing_ok=False):
     """
     Load a tag from its JSON file.
