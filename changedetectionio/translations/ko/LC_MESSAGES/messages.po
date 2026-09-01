@@ -2174,6 +2174,46 @@ msgid "Last fetch duration"
 msgstr "최근 가져오기 소요 시간"
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Notification alert count"
+msgstr "알림 경고 수"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Server type reply"
+msgstr "서버 유형 응답"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "예"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "아니오"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr "AI 토큰 (최근 확인)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr "AI 토큰 (전체)"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "최신 HTML 스냅샷 다운로드"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr "모니터링 데이터 패키지 다운로드"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "모니터링을 삭제하시겠습니까?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "다음 모니터링을 삭제하시겠습니까?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "This action cannot be undone."
 msgstr "이 작업은 취소할 수 없습니다."
 
