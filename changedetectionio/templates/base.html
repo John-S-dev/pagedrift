@@ -220,6 +220,80 @@
             </div>
         </div>
 
+        <div class="content-wrapper">
+          <div class="content-main">
+
+            {% if header %}
+              <header><h3>{{ header }}</h3></header>
+            {% endif %}
+            {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %}
+              <ul class="messages">
+                {% for category, message in messages %}
+                  <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% endwith %}
+            {% if session['share-link'] %}
+              <ul class="messages with-share-link">
+                <li class="message">
+                  {{ _('Share this link:') }}
+                  <span id="share-link">{{ session['share-link'] }}</span>
+                  <img style="height: 1em; display: inline-block" src="{{url_for('static_content', group='images', filename='copy.svg')}}" >
+                </li>
+              </ul>
+            {% endif %}
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+    </section>
+      </div><!-- /.app-main -->
+    </div><!-- /.app -->
+    <script src="{{url_for('static_content', group='js', filename='toggle-theme.js')}}" defer></script>
+    <script src="{{url_for('static_content', group='js', filename='hamburger-menu.js')}}" defer></script>
+    <script src="{{url_for('static_content', group='js', filename='sidebar.js')}}" defer></script>
+    <script src="{{url_for('static_content', group='js', filename='menu-pop.js')}}" defer></script>
+
+    <div id="checking-now-fixed-tab" style="display: none;"><span class="spinner"></span><span class="status-text">&nbsp;{{ _('Checking now') }}</span></div>
+    <div id="realtime-conn-error" style="display:none">{{ _('Real-time updates offline') }}</div>
+    {% if bottom_horizontal_offscreen_contents %}
+        <div id="bottom-horizontal-offscreen" style="display:none">
+            {{ bottom_horizontal_offscreen_contents|safe }}
+        </div>
+    {% endif %}
+
+    <!-- Language Selection Modal -->
+    <dialog id="language-modal" class="modal-dialog" aria-labelledby="language-modal-title">
+      <div class="modal-header">
+        <h2 class="modal-title" id="language-modal-title">{{ _('Select Language') }}</h2>
+      </div>
+      <div class="modal-body">
+        <div class="language-list">
+          {% for locale, lang_data in available_languages.items()|sort %}
+          <form method="POST" action="{{ url_for('set_language', locale=locale, redirect=request.path) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="language-option" data-locale="{{ locale }}">
+              <span class="lang-option {{ lang_data.flag }}"></span> <span class="language-name">{{ lang_data.name }}</span>
+            </button>
+          </form>
+          {% endfor %}
+        </div>
+        <div>
+            <form method="POST" action="{{ url_for('ui.delete_locale_language_session_var_if_it_exists', redirect=request.path) }}" style="display: inline;">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="bare-btn">{{ _('Auto-detect from browser') }}</button>
+            </form>
+        </div>
+        <div>
+            {{ _('Language support is in beta, please help us improve by opening a PR on GitHub with any updates.') }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="pure-button" id="close-language-modal">{{ _('Cancel') }}</button>
+      </div>
+    </dialog>
+
       // Temporarily use flex wrap to check if wrapping occurs
       ul.style.display = 'flex';
       ul.style.flexWrap = 'wrap';
