@@ -2576,6 +2576,46 @@ msgstr "0 秒"
 msgid "year"
 msgstr "年"
 
+#: changedetectionio/flask_app.py
+msgid "years"
+msgstr "年"
+
+#: changedetectionio/flask_app.py
+msgid "month"
+msgstr "月"
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr "月"
+
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr "週"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "週"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "天"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "天"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "小時"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "小時"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "分鐘"
+
 #: changedetectionio/forms.py
 msgid "not set"
 msgstr "未設定"
