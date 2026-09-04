@@ -108,3 +108,22 @@ def set_more_modified_response(datastore_path):
     return None
 
 
+def set_empty_text_response(datastore_path):
+    test_return_data = """<html><body></body></html>"""
+
+    write_test_file_and_sync(os.path.join(datastore_path, "endpoint-content.txt"), test_return_data)
+
+    return None
+
+def wait_for_notification_endpoint_output(datastore_path):
+    '''Apprise can take a few seconds to fire'''
+    #@todo - could check the apprise object directly instead of looking for this file
+    from os.path import isfile
+    notification_file = os.path.join(datastore_path, "notification.txt")
+    for i in range(1, 20):
+        time.sleep(1)
+        if isfile(notification_file):
+            return True
+
+    return False
+
