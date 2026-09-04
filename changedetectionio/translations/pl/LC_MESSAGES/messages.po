@@ -3492,6 +3492,46 @@ msgstr "To narzędzie wyodrębni dane tekstowe z całej historii obserwacji."
 msgid "A <strong>RegEx</strong> is a pattern that identifies exactly which part inside of the text that you want to extract."
 msgstr "<strong>Wyrażenie regularne</strong> to wzorzec, który dokładnie określa, którą część tekstu chcesz wyodrębnić."
 
+#: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
+msgid "Show advanced help and tips"
+msgstr "Pokaż zaawansowaną pomoc i wskazówki"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "(lub"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "obsługuje maksymalnie"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2 000 znaków"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "tekstu powiadomienia, w tym tytułu."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr ""
+"Boty nie mogą wysyłać wiadomości do innych botów, dlatego należy podać identyfikator czatu użytkownika, który nie "
+"jest botem."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr ""
+"obsługuje jedynie bardzo ograniczony zakres kodu HTML i może nie działać poprawnie w przypadku przesłania dodatkowych"
+" tagów,"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(lub użyj formatu zwykłego tekstu/Markdown)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "w przypadku bezpośrednich wywołań API (lub pomijając"
+
 #: changedetectionio/templates/_helpers.html
 msgid "First confirm/save your Time Zone Settings"
 msgstr "Najpierw sprawdź i zapisz ustawienia strefy czasowej"
