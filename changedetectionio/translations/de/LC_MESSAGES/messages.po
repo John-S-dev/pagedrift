@@ -2589,3 +2589,49 @@ msgstr ""
 msgid "Body must be empty when Request Method is set to GET"
 msgstr "Der Textkörper muss leer sein, wenn die Anforderungsmethode auf GET gesetzt ist"
 
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "vor %ss"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "in %ss"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "vor 1Min"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "in 1Min"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "vor %sMin"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sm"
+msgstr "in %sMin"
+
+#: changedetectionio/languages.py
+msgid "1h ago"
+msgstr "vor 1Std"
+
+#: changedetectionio/languages.py
+msgid "in 1h"
+msgstr "in 1Std"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sh ago"
+msgstr "vor %sStd"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sh"
+msgstr "in %sStd"
+
