@@ -3284,3 +3284,45 @@ msgstr "Reabastecimiento y detección de precios"
 msgid "Re-stock & Price detection for pages with a SINGLE product"
 msgstr "Reabastecimiento y detección de precios para páginas con un ÚNICO producto"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "plantillas en el título, el cuerpo y la URL de la notificación, y tokens desde abajo."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "Mostrar token/marcadores de posición"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "Token"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "Descripción"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "La URL de la instancia de changetection.io que está ejecutando."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "La URL que se está viendo."
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
+"endpoint or RSS feed but you want to link to the real page."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The UUID of the watch."
+msgstr "El UUID del monitor."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The page title of the watch, uses <title> if not set, falls back to URL"
+msgstr "El título de la página del monitor, utiliza <title> si no se establece, vuelve a la URL"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The watch group / tag"
+msgstr "El grupo/etiqueta del monitor"
+

@@ -3572,3 +3572,55 @@ msgstr "Potwierdź czynność"
 msgid "Are you sure?"
 msgstr "Jesteś pewien?"
 
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
+"<strong>Off</strong> &ndash; no AI for any watch in this group. <strong>Leave it to each watch</strong> &ndash; this "
+"group has no say; each watch uses its own AI settings."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is ON for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is OFF for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Describe what you care about. The AI evaluates every detected change against this and only notifies you when it "
+"matches."
+msgstr ""
+"Opisz, na czym Ci zależy. Sztuczna inteligencja porównuje każdą wykrytą zmianę z tym opisem i powiadamia Cię tylko "
+"wtedy, gdy wystąpi zbieżność."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Set a change intent for all watches in this tag/group. Each watch can override with its own."
+msgstr "Ustaw zamiar zmiany dla wszystkich obserwacji w tym tagu/grupie. Każda obserwacja może nadpisać ten zamiar własnym."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "From group '%(name)s': %(value)s"
+msgstr "Z grupy „%(name)s”: %(value)s"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "e.g. Alert me when the price drops below $300, or a new product is launched. Ignore footer and navigation changes."
+msgstr ""
+"np. Powiadom mnie, gdy cena spadnie poniżej 300 dolarów lub pojawi się nowy produkt. Zignoruj zmiany w stopce i "
+"nawigacji."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "e.g. Flag price changes or new product launches across all watches in this group"
+msgstr "np. sygnalizuj zmiany cen lub premiery nowych produktów we wszystkich obserwacjach w tej grupie"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Examples:"
+msgstr "Przykłady:"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Only notify if the price drops below $200, or a limited-time deal is added"
+msgstr "Powiadom mnie tylko wtedy, gdy cena spadnie poniżej 200 dolarów lub pojawi się oferta ograniczona czasowo"
+
