@@ -115,3 +115,12 @@ tags:
       The `paths` section in `api.yaml` is used only for injecting additional `x-code-samples` into
       existing endpoints — you cannot define new routes via plugin.
 
+      #### READ — Retrieve the monitor
+
+      The response JSON includes `processor_config_restock_diff` alongside all standard watch fields:
+
+      ```bash
+      curl -X GET "http://localhost:5000/api/v1/watch/cc0cfffa-f449-477b-83ea-0caafd1dc091" \
+        -H "x-api-key: YOUR_API_KEY"
+      ```
+
