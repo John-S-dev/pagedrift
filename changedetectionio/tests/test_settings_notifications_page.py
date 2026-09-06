@@ -66,3 +66,21 @@ def test_notifications_page_renders_form_inputs(
         "tabs.js not loaded — the tab UI won't activate"
 
 
+def test_notifications_page_get_renders_stored_values(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET /settings/notifications must render the values currently in storage."""
+    ds = client.application.config.get('DATASTORE')
+    _seed_notification_config(ds)
+
+    res = client.get(url_for('settings.notifications.apprise'))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+
+    assert 'json://example.invalid/preserved' in body, \
+        "Stored notification URL must be rendered in the form"
+    assert 'Preserved title' in body
+    assert 'Preserved body' in body
+    assert 'https://preserved.example/' in body, \
+        "Stored base_url must be rendered in the form"
+
+
