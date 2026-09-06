@@ -284,6 +284,7 @@ def test_set_language_with_redirect(client, live_server, measure_memory_usage, d
     # Should not redirect to evil.com
     assert 'evil.com' not in res.location
 
+
 def test_time_unit_translations(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that time unit labels (Hours, Minutes, Seconds) and Chrome Extension
