@@ -3244,6 +3244,46 @@ msgstr ""
 msgid "Default AI Change Summary prompt"
 msgstr ""
 
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box must be in format: x,y,width,height (integers only)"
+msgstr "El cuadro delimitador debe tener el formato: x,y,ancho,alto (solo números enteros)"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values must be non-negative"
+msgstr "Los valores del cuadro delimitador no deben ser negativos"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values are too large"
+msgstr "Los valores del cuadro delimitador son demasiado grandes"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode must be either \"element\" or \"draw\""
+msgstr "El modo de selección debe ser \"elemento\" o \"dibujo\""
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Minimum Change Percentage"
+msgstr "Porcentaje mínimo de cambio"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Pixel Difference Sensitivity"
+msgstr "Sensibilidad de diferencia de píxeles"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Use global default"
+msgstr "Usar valor predeterminado global"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding Box"
+msgstr "Cuadro delimitador"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection Mode"
+msgstr "Modo de selección"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode value is too long"
+msgstr "El valor del modo de selección es demasiado largo"
+
 #: changedetectionio/processors/restock_diff/forms.py
 msgid "Any availability changes"
 msgstr "Cualquier cambio de disponibilidad"
