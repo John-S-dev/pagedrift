@@ -2848,6 +2848,46 @@ msgstr "Yinelenen metin satırlarını kaldır"
 msgid "Sort text alphabetically"
 msgstr "Metni alfabetik olarak sırala"
 
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "Sessize alınan izleyicileri RSS akışından gizle"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "RSS okuyucu modunu etkinleştir "
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "İzleyici RSS akışında gösterilecek değişiklik sayısı"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "Sıfır veya daha fazla deneme içermelidir"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "Bir bildirim göndermeden önce filtrenin eksik olabileceği sayı"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "API Anahtarı"
+
+#: changedetectionio/forms.py
+msgid "API Base URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Token multiplier for local reasoning models"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Default AI Change Summary prompt"
+msgstr ""
+
 #: changedetectionio/languages.py
 #, python-format
 msgid "%ss ago"
