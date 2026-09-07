@@ -2514,6 +2514,47 @@ msgstr "Tümünü yeniden kontrol et"
 msgid "in '%(title)s'"
 msgstr "'%(title)s' içinde"
 
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Mark viewed"
+msgstr "Görüldü olarak işaretle"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Use default notification"
+msgstr "Varsayılan bildirimi kullan"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear errors"
+msgstr "Hataları temizle"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear Histories"
+msgstr "Geçmişleri Temizle"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "<p>Are you sure you want to clear history for the selected items?</p><p>This action cannot be undone.</p>"
+msgstr "<p>Seçili öğeler için geçmişi temizlemek istediğinizden emin misiniz?</p><p>Bu işlem geri alınamaz.</p>"
+
+#. Universally recognized; typically left as-is. dennis-ignore: W302
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "OK"
+msgstr "Tamam"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear/reset history"
+msgstr "Geçmişi temizle/sıfırla"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Delete Watches?"
+msgstr "İzleyiciler Silinsin mi?"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "<p><strong>Are you sure you want to delete the selected watches?</strong></p><p>This action cannot be undone.</p>"
+msgstr "<p><strong>Seçili izleyicileri silmek istediğinizden emin misiniz?</strong></p><p>Bu işlem geri alınamaz.</p>"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/templates/base.html
+msgid "Close"
+msgstr ""
+
 #: changedetectionio/conditions/default_plugin.py
 msgid "Page text after 'Filters & Triggers'"
 msgstr ""
