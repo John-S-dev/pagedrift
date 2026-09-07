@@ -124,3 +124,12 @@ tags:
         -H "x-api-key: YOUR_API_KEY"
       ```
 
+      ---
+
+      For the complete schema-validated documentation including all processor fields, fetch the live spec
+      and load it into Swagger UI or Redoc:
+
+      ```
+      GET /api/v1/full-spec
+      ```
+
