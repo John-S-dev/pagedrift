@@ -3156,6 +3156,47 @@ msgid "Wait seconds before extracting text"
 msgstr "Liczba sekund oczekiwania przed wyodrębnieniem tekstu"
 
 #: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr "Selektor CSS lub xPath"
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "wartość"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr "Wartość"
+
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr "Adres URL strony internetowej"
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Group Tag"
+msgstr "Etykieta grupy"
+
+#: changedetectionio/forms.py
+msgid "Time Between Check"
+msgstr "Odstęp między sprawdzeniami"
+
+#: changedetectionio/forms.py
+msgid "Use global settings for time between check and scheduler."
+msgstr "W przypadku funkcji sprawdzania i harmonogramu należy stosować ustawienia globalne dotyczące czasu."
+
+#: changedetectionio/forms.py
+msgid "AI Change Intent - Notify me when.."
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings_llm_tab.html changedetectionio/blueprint/ui/templates/diff.html
+#: changedetectionio/forms.py
+msgid "AI Change Summary"
+msgstr "Podsumowanie zmian AI"
+
+#: changedetectionio/forms.py
 msgid "Replaced/changed lines"
 msgstr "Wymienione/zmienione linie"
 
