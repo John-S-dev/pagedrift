@@ -115,6 +115,16 @@ tags:
       The `paths` section in `api.yaml` is used only for injecting additional `x-code-samples` into
       existing endpoints — you cannot define new routes via plugin.
 
+      ---
+
+      ### Built-in plugin: `restock_diff`
+
+      The `restock_diff` processor is always shipped with changedetection.io. It monitors product
+      availability and price changes using structured data (JSON-LD / schema.org microdata) and
+      text heuristics. It is activated by setting `"processor": "restock_diff"` on a watch.
+
+      It adds the `processor_config_restock_diff` block to the Watch schema with these fields:
+
       #### READ — Retrieve the monitor
 
       The response JSON includes `processor_config_restock_diff` alongside all standard watch fields:
