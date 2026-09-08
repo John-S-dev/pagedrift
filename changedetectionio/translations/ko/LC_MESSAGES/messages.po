@@ -4481,6 +4481,55 @@ msgstr "LLM 기반 요약이 아직 활성화되지 않았습니다. 시작하�
 msgid "Go to AI / LLM Settings"
 msgstr "AI / LLM 설정으로 이동"
 
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "검색"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "URL or Title in '%(title)s'"
+msgstr "'%(title)s'의 URL 또는 제목"
+
+#: changedetectionio/templates/base.html
+msgid "URL or Title"
+msgstr "URL 또는 제목"
+
+#: changedetectionio/templates/base.html
+msgid "Enter search term..."
+msgstr "검색어를 입력하세요..."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
+"<strong>Off</strong> &ndash; no AI for any watch in this group. <strong>Leave it to each watch</strong> &ndash; this "
+"group has no say; each watch uses its own AI settings."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is ON for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is OFF for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Describe what you care about. The AI evaluates every detected change against this and only notifies you when it "
+"matches."
+msgstr "관심 있는 내용을 설명하세요. AI가 감지된 모든 변경 사항을 이 기준과 비교해 일치할 때만 알립니다."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Set a change intent for all watches in this tag/group. Each watch can override with its own."
+msgstr "이 태그/그룹의 모든 모니터링에 판단 기준을 설정합니다. 각 모니터링에서 자체 설정으로 재정의할 수 있습니다."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "From group '%(name)s': %(value)s"
+msgstr ""
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid "e.g. Alert me when the price drops below $300, or a new product is launched. Ignore footer and navigation changes."
 msgstr "예: 가격이 $300 아래로 떨어지거나 새 제품이 출시되면 알려줘. 푸터와 내비게이션 변경은 무시."
