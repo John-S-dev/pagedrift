@@ -2986,6 +2986,46 @@ msgstr ""
 msgid "Append to the inherited prompt"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Browser URLs must start with wss:// or ws://"
+msgstr "URL-адреса браузера должны начинаться с wss:// или ws://."
+
+#: changedetectionio/forms.py
+msgid "Plaintext requests"
+msgstr "Открытые текстовые запросы"
+
+#: changedetectionio/forms.py
+msgid "Chrome requests"
+msgstr "Запросы Chrome"
+
+#: changedetectionio/forms.py
+msgid "Default proxy"
+msgstr "Прокси по умолчанию"
+
+#: changedetectionio/forms.py
+msgid "Random jitter seconds ± check"
+msgstr "Случайное дрожание в секундах ± проверка"
+
+#: changedetectionio/forms.py
+msgid "Number of fetch workers"
+msgstr "Количество работников по выборке"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 50"
+msgstr "Должно быть от 1 до 50"
+
+#: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Запрашивает таймаут в секундах"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "Должно быть от 1 до 999"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Переопределения User-Agent по умолчанию"
+
 #: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
 msgid "API Key"
 msgstr "API-ключ"
