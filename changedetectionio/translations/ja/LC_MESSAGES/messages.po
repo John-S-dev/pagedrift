@@ -2800,6 +2800,47 @@ msgid "Not a valid timezone name"
 msgstr "有効なタイムゾーン名ではありません"
 
 #: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "日曜日"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "週"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "0秒以上の値を入力してください"
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "日"
+
+#: changedetectionio/forms.py
+msgid "Hours"
+msgstr "時間"
+
+#: changedetectionio/forms.py
+msgid "Minutes"
+msgstr "分"
+
+#: changedetectionio/forms.py
+msgid "Seconds"
+msgstr "秒"
+
+#: changedetectionio/forms.py
+msgid "Unknown fetch method."
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Notification Body and Title is required when a Notification URL is used"
+msgstr "通知URLを使用する場合は通知本文とタイトルが必要です"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "'%s' is not a valid AppRise URL."
+msgstr "'%s' は有効なAppRise URLではありません。"
+
+#: changedetectionio/forms.py
 #, python-format
 msgid "RegEx '%s' is not a valid regular expression."
 msgstr "正規表現 '%s' は有効な正規表現ではありません。"
