@@ -3142,6 +3142,48 @@ msgstr "0から100の間で指定してください"
 msgid "Follow price changes"
 msgstr "価格変動を追跡"
 
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "ウォッチのプロトコルが許可されていないか、URL形式が無効です"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "すべての通知の本文 — 以下を使用できます："
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "通知のタイトル、本文、URLでテンプレートを使用し、以下のトークンも利用できます。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "トークン/プレースホルダーを表示"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "トークン"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "説明"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "実行中の changedetection.io インスタンスのURL。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "監視中のURL。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
+"endpoint or RSS feed but you want to link to the real page."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The UUID of the watch."
+msgstr "ウォッチのUUID。"
+
 #: changedetectionio/templates/_common_fields.html
 msgid "The page title of the watch, uses <title> if not set, falls back to URL"
 msgstr "ウォッチのページタイトル。設定されていない場合は <title> を使用し、それもなければURLにフォールバックします。"
