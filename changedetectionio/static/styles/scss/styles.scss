@@ -920,6 +920,24 @@ ul {
     width: 5em;
 }
 
+#api-key {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#api-key-copy {
+  color: var(--color-api-key);
+}
+
+.button-green {
+  background-color: var(--color-background-button-green);
+}
+
+.button-red {
+  background-color: var(--color-background-button-red);
+}
+
 .noselect {
   -webkit-touch-callout: none;
   /* iOS Safari */
