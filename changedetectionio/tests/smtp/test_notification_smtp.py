@@ -30,6 +30,8 @@ def get_last_message_from_smtp_server():
     return data
 
 
+# Requires running the test SMTP server
+
 def test_check_notification_email_formats_default_HTML(client, live_server, measure_memory_usage, datastore_path):
     ##  live_server_setup(live_server) # Setup on conftest per function
     set_original_response(datastore_path=datastore_path)
