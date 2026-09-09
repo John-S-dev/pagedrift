@@ -302,3 +302,75 @@ function downloadImage(jpegDataUrl) {
     a.click();
 }
 
+/**
+ * Copy image to clipboard
+ */
+async function copyImageToClipboard(jpegDataUrl) {
+    try {
+        const blob = dataURLtoBlob(jpegDataUrl);
+        await navigator.clipboard.write([
+            new ClipboardItem({ 'image/jpeg': blob })
+        ]);
+        alert(i18nT('imgCopied', 'Image copied to clipboard!'));
+    } catch (error) {
+        console.error('Failed to copy image:', error);
+        alert(i18nT('imgCopyFailed', 'Failed to copy image. Your browser may not support this feature.'));
+    }
+}
+
+/**
+ * Share via Web Share API or fallback to platform-specific sharing
+ */
+async function shareImage(platform, jpegDataUrl) {
+    const url = getTargetUrl();
+    const shareText = `Check out this change detected on ${url} via changedetection.io`;
+    const filename = "changedetection-diff-" + Date.now() + ".jpg";
+
+    // Try Web Share API first (works on mobile and some desktop browsers)
+    if (platform === 'native' && navigator.share) {
+        try {
+            const blob = dataURLtoBlob(jpegDataUrl);
+            const file = new File([blob], filename, { type: 'image/jpeg' });
+
+            await navigator.share({
+                title: 'Change Detection Diff',
+                text: shareText,
+                files: [file]
+            });
+            return;
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error('Web Share API failed:', error);
+            }
+            return;
+        }
+    }
+
+    // Platform-specific fallbacks
+    const encodedText = encodeURIComponent(shareText);
+    const encodedUrl = encodeURIComponent(url);
+
+    let shareUrl;
+    switch (platform) {
+        case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
+            break;
+        case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
+            break;
+        case 'linkedin':
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+            break;
+        case 'reddit':
+            shareUrl = `https://reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent('Change Detection Diff')}`;
+            break;
+        case 'email':
+            shareUrl = `mailto:?subject=${encodeURIComponent('Change Detection Diff')}&body=${encodedText}`;
+            break;
+        default:
+            return;
+    }
+
+    window.open(shareUrl, '_blank', 'width=600,height=400');
+}
+
