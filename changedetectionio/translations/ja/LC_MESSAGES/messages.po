@@ -3012,6 +3012,46 @@ msgstr "RSS <description> 本文の構築元"
 msgid "RSS \"System default\" template override"
 msgstr "RSS「システムデフォルト」テンプレートの上書き"
 
+#: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "パスワードを削除"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "アンカータグのコンテンツをレンダリング"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "パスワードが有効な場合でもウォッチ履歴ページへの匿名アクセスを許可"
+
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "ミュートされたウォッチをRSSフィードから非表示にする"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "RSSリーダーモードを有効化 "
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "ウォッチRSSフィードに表示する変更件数"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "0以上の試行回数を入力してください"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "通知を送信する前にフィルタが見つからない回数"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "APIキー"
+
 #: changedetectionio/languages.py
 msgid "1mo ago"
 msgstr ""

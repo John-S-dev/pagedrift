@@ -169,3 +169,48 @@
   transition: transform linear;
 }
 
+// Dark mode adjustments
+html[data-darkmode=true] {
+  .toast {
+    background: var(--color-grey-300);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .toast-close:hover {
+    background: var(--color-grey-400);
+  }
+}
+
+// Mobile adjustments
+@media only screen and (max-width: 768px) {
+  .toast-container {
+    left: 50% !important;
+    right: auto !important;
+    top: 80px !important;
+    transform: translateX(-50%) !important;
+    align-items: center;
+
+    &.toast-bottom-right,
+    &.toast-bottom-center,
+    &.toast-bottom-left {
+      top: auto !important;
+      bottom: 80px !important;
+    }
+  }
+
+  .toast {
+    min-width: auto;
+    max-width: none;
+    width: 80vw;
+    transform: translateY(-100px);
+
+    &.toast-show {
+      transform: translateY(0);
+    }
+
+    &.toast-hide {
+      transform: translateY(-100px) scale(0.95);
+    }
+  }
+}
+
