@@ -468,3 +468,36 @@ def test_single_send_test_notification_on_watch(client, live_server, measure_mem
         assert 'Current snapshot: Example text: example test' in x
     os.unlink(os.path.join(datastore_path, "notification.txt"))
 
+def _test_color_notifications(client, notification_body_token, datastore_path):
+
+    set_original_response(datastore_path=datastore_path)
+
+    if os.path.isfile(os.path.join(datastore_path, "notification.txt")):
+        os.unlink(os.path.join(datastore_path, "notification.txt"))
+
+
+    test_notification_url = url_for('test_notification_endpoint', _external=True).replace('http://', 'post://')+"?xxx={{ watch_url }}&+custom-header=123"
+
+
+    # otherwise other settings would have already existed from previous tests in this file
+    res = client.post(
+        url_for("settings.notifications.apprise"),
+        data={
+            "notification_body": notification_body_token,
+            "notification_format": "htmlcolor",
+            "notification_urls": test_notification_url,
+            "notification_title": "New ChangeDetection.io Notification - {{ watch_url }}",
+        },
+        follow_redirects=True
+    )
+    assert b'Settings updated' in res.data
+
+    test_url = url_for('test_endpoint', _external=True)
+    res = client.post(
+        url_for("ui.ui_views.form_quick_watch_add"),
+        data={"url": test_url, "tags": 'nice one'},
+        follow_redirects=True
+    )
+
+    assert b"Watch added" in res.data
+
