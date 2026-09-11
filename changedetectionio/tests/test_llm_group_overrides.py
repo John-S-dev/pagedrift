@@ -575,3 +575,28 @@ def test_tag_append_mode_ignored_when_group_overrides_disabled(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# AI on/off per watch, and per group when the group overrides — #4204
+# ---------------------------------------------------------------------------
+
+def test_watch_edit_has_ai_enabled_checkbox(
+        client, live_server, measure_memory_usage, datastore_path):
+    """Every watch gets its own AI on/off switch, on by default."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    watch_uuid = _create_watch(client, url_for('test_endpoint', _external=True), api_token)
+
+    res = client.get(url_for('ui.ui_edit.edit_page', uuid=watch_uuid))
+    body = res.data.decode('utf-8', errors='replace')
+
+    assert 'name="llm_backend_profile"' in body, \
+        "watch edit page is missing the AI on/off checkbox (#4204)"
+    assert _checkbox_is_checked(body, 'llm_backend_profile'), \
+        "AI should default to on for a new watch"
+    # No group involved, so no override note
+    assert 'overrides this' not in _page_text(res)
+
+    delete_all_watches(client)
+
+
