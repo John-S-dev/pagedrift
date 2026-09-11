@@ -2612,6 +2612,51 @@ msgstr "Processeur"
 msgid "Browser"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "URL de base pour les notifications"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Téléchargez le fichier .xlsx"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Il doit s'agir d'un fichier .xlsx !"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Type de mappage de fichiers."
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "Options de l'interface utilisateur"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Mode de sélection :"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "Pause"
+
 #: changedetectionio/conditions/form.py changedetectionio/forms.py
 msgid "Value"
 msgstr ""
