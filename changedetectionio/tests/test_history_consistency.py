@@ -10,3 +10,6 @@ from .util import wait_for_all_checks, delete_all_watches
 import brotli
 
 
+
+    delete_all_watches(client)
+
