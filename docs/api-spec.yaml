@@ -149,6 +149,31 @@ tags:
 
       It adds the `processor_config_restock_diff` block to the Watch schema with these fields:
 
+      | Field | Type | Default | Description |
+      |---|---|---|---|
+      | `in_stock_processing` | string | `in_stock_only` | `in_stock_only` — only alert Out-of-Stock→In-Stock · `all_changes` — alert any availability change · `off` — disable stock tracking |
+      | `follow_price_changes` | boolean | `true` | Monitor and alert on price changes |
+      | `price_change_min` | number\|null | — | Alert when price drops **below** this value |
+      | `price_change_max` | number\|null | — | Alert when price rises **above** this value |
+      | `price_change_threshold_percent` | number\|null | — | Minimum % change since the original price to trigger an alert |
+
+      #### CREATE — Add a restock/price monitor
+
+      ```bash
+      curl -X POST "http://localhost:5000/api/v1/watch" \
+        -H "x-api-key: YOUR_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "url": "https://example.com/product/widget",
+          "processor": "restock_diff",
+          "processor_config_restock_diff": {
+            "in_stock_processing": "in_stock_only",
+            "follow_price_changes": true,
+            "price_change_threshold_percent": 5
+          }
+        }'
+      ```
+
       #### READ — Retrieve the monitor
 
       The response JSON includes `processor_config_restock_diff` alongside all standard watch fields:
