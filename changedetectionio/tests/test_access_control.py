@@ -173,3 +173,42 @@ def test_check_access_control(app, client, live_server, measure_memory_usage, da
         assert b"Password protection removed." in res.data
         assert b"/logout" not in res.data
 
+        ############################################################
+        # Be sure a blank password doesnt setup password protection
+        ############################################################
+        res = c.post(
+            url_for("settings.settings_page"),
+            data={"application-password": "",
+                  "requests-time_between_check-minutes": 180,
+                  'application-fetch_backend': "html_requests"},
+            follow_redirects=True
+        )
+
+        assert b"Password protection enabled" not in res.data
+
+        # Now checking the diff access
+        # Enable password check and diff page access bypass
+        res = c.post(
+            url_for("settings.settings_page"),
+            data={"application-password": "foobar",
+                  # Should be disabled
+                  "application-shared_diff_access": "",
+                  "requests-time_between_check-minutes": 180,
+                  'application-fetch_backend': "html_requests"},
+            follow_redirects=True
+        )
+
+        assert b"Password protection enabled." in res.data
+
+        # Check we hit the login
+        res = c.get(url_for("watchlist.index"), follow_redirects=True)
+        # Should be logged out
+        assert b"Login" in res.data
+
+        # Access to screenshots should be limited by 'shared_diff_access'
+        res = c.get(url_for('static_content', group='screenshot', filename='random-uuid-that-will-403.png'))
+        assert res.status_code == 403
+
+        # The diff page should return something valid when logged out
+        res = c.get(url_for("ui.ui_diff.diff_history_page", uuid="first"))
+        assert b'Random content' not in res.data
