@@ -130,3 +130,56 @@ from changedetectionio.html_tools import html_to_text
             "The thread-local parser fix may not be working correctly."
         )
 
+        print(f"✓ Thread-safety test passed: {len(md5_values)} conversions, all identical")
+
+    def test_thread_safety_basic(self):
+        """Verify basic thread safety - multiple threads can call html_to_text simultaneously."""
+        results = []
+        errors = []
+
+        def worker():
+            """Worker that converts HTML to text."""
+            try:
+                html = '<html><body><h1>Test</h1><p>Content</p></body></html>'
+                text = html_to_text(html)
+                results.append(text)
+            except Exception as e:
+                errors.append(e)
+
+        # Launch 10 threads simultaneously
+        threads = [threading.Thread(target=worker) for _ in range(10)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        # Should have no errors
+        assert len(errors) == 0, f"Thread-safety errors occurred: {errors}"
+
+        # All results should be identical
+        assert len(set(results)) == 1, "All threads should produce identical output"
+
+        print(f"✓ Basic thread-safety test passed: {len(results)} threads, no errors")
+
+    def test_large_html_with_bloated_head(self):
+        """
+        Test that html_to_text can handle large HTML documents with massive <head> bloat.
+
+        SPAs often dump 10MB+ of styles, scripts, and other bloat into the <head> section.
+        This can cause inscriptis to silently exit when processing very large documents.
+        The fix strips <style>, <script>, <svg>, <noscript>, <link>, <meta>, and HTML comments
+        before processing, allowing extraction of actual body content.
+        """
+        # Generate massive style block (~5MB)
+        large_style = '<style>' + '.class{color:red;}\n' * 200000 + '</style>\n'
+
+        # Generate massive script block (~5MB)
+        large_script = '<script>' + 'console.log("bloat");\n' * 200000 + '</script>\n'
+
+        # Generate lots of SVG bloat (~3MB)
+        svg_bloat = '<svg><path d="M0,0 L100,100"/></svg>\n' * 50000
+
+        # Generate meta/link tags (~2MB)
+        meta_bloat = '<meta name="description" content="bloat"/>\n' * 50000
+        link_bloat = '<link rel="stylesheet" href="bloat.css"/>\n' * 50000
+
