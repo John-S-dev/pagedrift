@@ -1893,6 +1893,51 @@ msgid "URL"
 msgstr "URL"
 
 #: changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Проксі"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Надіслати сповіщення, коли фільтр більше не може бути знайдений на сторінці"
+
+#: changedetectionio/forms.py
+msgid "Muted"
+msgstr "Заглушено"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "Увімк"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/blueprint/tags/templates/edit-tag.html
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Notifications"
+msgstr "Сповіщення"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Прикріпити скріншот до сповіщення (де можливо)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Збіг"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Збіг усіх наступних умов"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Збіг будь-якої з наступних умов"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "Використовувати <title> сторінки у списку"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr "Кількість збережених записів історії для кожного завдання"
+
+#: changedetectionio/forms.py
 msgid "Chrome requests"
 msgstr "Запити Chrome"
 
