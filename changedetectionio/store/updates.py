@@ -264,3 +264,59 @@ class DatastoreUpdatesMixin:
         for uuid, watch in self.data['watching'].items():
             history = []
 
+        saved_count = 0
+        for uuid, watch in self.data['watching'].items():
+            try:
+                watch.commit()
+                saved_count += 1
+
+                if saved_count % 100 == 0:
+                    logger.info(f"  Progress: {saved_count}/{watch_count} watches migrated...")
+
+            except Exception as e:
+                logger.error(f"Failed to save watch {uuid}: {e}")
+                raise Exception(
+                    f"Migration failed: Could not save watch {uuid}. "
+                    f"url-watches.json remains intact, safe to retry. Error: {e}"
+                )
+
+        logger.critical(f"Phase 1 complete: Saved {saved_count} watches")
+
+        # Phase 2: Verify all files exist
+        logger.critical("Phase 2/4: Verifying all watch.json files were created...")
+
+        missing = []
+        for uuid in self.data['watching'].keys():
+            watch_json = os.path.join(self.datastore_path, uuid, "watch.json")
+            if not os.path.isfile(watch_json):
+                missing.append(uuid)
+
+        if missing:
+            raise Exception(
+                f"Migration failed: {len(missing)} watch files missing: {missing[:5]}... "
+                f"url-watches.json remains intact, safe to retry."
+            )
+
+        logger.critical(f"Phase 2 complete: Verified {watch_count} watch files")
+
+        # Phase 3: Create new settings file
+        logger.critical("Phase 3/4: Creating changedetection.json...")
+
+        try:
+            self._save_settings()
+        except Exception as e:
+            logger.error(f"Failed to create changedetection.json: {e}")
+            raise Exception(
+                f"Migration failed: Could not create changedetection.json. "
+                f"url-watches.json remains intact, safe to retry. Error: {e}"
+            )
+
+        # Phase 4: Verify settings file exists
+        logger.critical("Phase 4/4: Verifying changedetection.json exists...")
+        changedetection_json_new_schema=os.path.join(self.datastore_path, "changedetection.json")
+        if not os.path.isfile(changedetection_json_new_schema):
+            import sys
+            logger.critical("Migration failed, changedetection.json not found after update ran!")
+            sys.exit(1)
+
+
