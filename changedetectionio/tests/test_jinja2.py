@@ -130,3 +130,31 @@ def test_substract_time(environment):
     assert finalRender == "Wed, 09 Dec 2015 23:22:01"
 
 
+def test_regex_replace_basic():
+    """Test basic regex_replace functionality."""
+
+    # Simple word replacement
+    finalRender = render("{{ 'hello world' | regex_replace('world', 'universe') }}")
+    assert finalRender == "hello universe"
+
+def test_regex_replace_with_groups():
+    """Test regex_replace with capture groups (issue #3501 use case)."""
+
+    # Transform HTML table data as described in the issue
+    template = "{{ '<td>thing</td><td>other</td>' | regex_replace('<td>([^<]+)</td><td>([^<]+)</td>', 'ThingLabel: \\\\1\\nOtherLabel: \\\\2') }}"
+    finalRender = render(template)
+    assert "ThingLabel: thing" in finalRender
+    assert "OtherLabel: other" in finalRender
+
+def test_regex_replace_multiple_matches():
+    """Test regex_replace replacing multiple occurrences."""
+
+    finalRender = render("{{ 'foo bar foo baz' | regex_replace('foo', 'qux') }}")
+    assert finalRender == "qux bar qux baz"
+
+def test_regex_replace_count_parameter():
+    """Test regex_replace with count parameter to limit replacements."""
+
+    finalRender = render("{{ 'foo bar foo baz' | regex_replace('foo', 'qux', 1) }}")
+    assert finalRender == "qux bar foo baz"
+
