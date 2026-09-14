@@ -2967,6 +2967,51 @@ msgstr "處理器"
 msgid "Browser"
 msgstr "瀏覽器"
 
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "通知基礎 URL 覆寫"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr "未設定"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
+#: changedetectionio/forms.py
+msgid "Save"
+msgstr "儲存"
+
+#: changedetectionio/forms.py
+msgid "URLs"
+msgstr "URL 列表"
+
+#: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "上傳 .xlsx 檔案"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "必須是 .xlsx 檔案！"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "檔案對應"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "操作"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "選擇器"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr "CSS 或 xPath 選擇器"
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "值"
+
 #: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
 msgid "Append to the inherited prompt"
 msgstr ""
