@@ -743,3 +743,76 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
         if watch.get('proxy') and watch.get('proxy') in list(self.proxy_list.keys()):
             return watch.get('proxy')
 
+        # not valid (including None), try the system one
+        else:
+            system_proxy_id = self.data['settings']['requests'].get('proxy')
+            # Is not None and exists
+            if self.proxy_list.get(system_proxy_id):
+                return system_proxy_id
+
+        # Fallback - Did not resolve anything, or doesnt exist, use the first available
+        if system_proxy_id is None or not self.proxy_list.get(system_proxy_id):
+            first_default = list(self.proxy_list)[0]
+            return first_default
+
+        return None
+
+    @property
+    def has_extra_headers_file(self):
+        filepath = os.path.join(self.datastore_path, 'headers.txt')
+        return os.path.isfile(filepath)
+
+    def get_all_base_headers(self):
+        headers = {}
+        # Global app settings
+        headers.update(self.data['settings'].get('headers', {}))
+
+        return headers
+
+    def get_all_headers_in_textfile_for_watch(self, uuid):
+        from ..model.App import parse_headers_from_text_file
+        headers = {}
+
+        # Global in /datastore/headers.txt
+        filepath = os.path.join(self.datastore_path, 'headers.txt')
+        try:
+            if os.path.isfile(filepath):
+                headers.update(parse_headers_from_text_file(filepath))
+        except Exception as e:
+            logger.error(f"ERROR reading headers.txt at {filepath} {str(e)}")
+
+        watch = self.data['watching'].get(uuid)
+        if watch:
+
+            # In /datastore/xyz-xyz/headers.txt
+            filepath = os.path.join(watch.data_dir, 'headers.txt')
+            try:
+                if os.path.isfile(filepath):
+                    headers.update(parse_headers_from_text_file(filepath))
+            except Exception as e:
+                logger.error(f"ERROR reading headers.txt at {filepath} {str(e)}")
+
+            # In /datastore/tag-name.txt
+            tags = self.get_all_tags_for_watch(uuid=uuid)
+            for tag_uuid, tag in tags.items():
+                fname = "headers-" + re.sub(r'[\W_]', '', tag.get('title')).lower().strip() + ".txt"
+                filepath = os.path.join(self.datastore_path, fname)
+                try:
+                    if os.path.isfile(filepath):
+                        headers.update(parse_headers_from_text_file(filepath))
+                except Exception as e:
+                    logger.error(f"ERROR reading headers.txt at {filepath} {str(e)}")
+
+        return headers
+
+    def get_tag_overrides_for_watch(self, uuid, attr):
+        tags = self.get_all_tags_for_watch(uuid=uuid)
+        ret = []
+
+        if tags:
+            for tag_uuid, tag in tags.items():
+                if attr in tag and tag[attr]:
+                    ret = [*ret, *tag[attr]]
+
+        return ret
+
