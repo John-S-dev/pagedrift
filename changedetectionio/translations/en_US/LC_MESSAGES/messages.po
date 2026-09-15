@@ -3223,6 +3223,50 @@ msgid "Should be between 1 and 50"
 msgstr ""
 
 #: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Replace {{diff}} notification token with AI summary"
 msgstr ""
 
