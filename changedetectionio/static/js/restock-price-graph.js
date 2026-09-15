@@ -89,6 +89,61 @@
         const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
         if (n === 2) return `M ${xs[0].toFixed(1)} ${ys[0].toFixed(1)} L ${xs[1].toFixed(1)} ${ys[1].toFixed(1)}`;
 
+        const dx = [], slope = [];
+        for (let i = 0; i < n - 1; i++) {
+            const h = xs[i + 1] - xs[i];
+            dx.push(h);
+            slope.push(h === 0 ? 0 : (ys[i + 1] - ys[i]) / h);
+        }
+
+        const m = new Array(n);
+        m[0] = slope[0];
+        m[n - 1] = slope[n - 2];
+        for (let i = 1; i < n - 1; i++) {
+            // Local extremum (slope changes sign) → flat tangent so the curve doesn't overshoot.
+            m[i] = (slope[i - 1] * slope[i] <= 0) ? 0 : (slope[i - 1] + slope[i]) / 2;
+        }
+        // Fritsch–Carlson: clamp tangents so each segment stays monotone (no overshoot).
+        for (let i = 0; i < n - 1; i++) {
+            if (slope[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+            const a = m[i] / slope[i], b = m[i + 1] / slope[i], s = a * a + b * b;
+            if (s > 9) {
+                const t = 3 / Math.sqrt(s);
+                m[i] = t * a * slope[i];
+                m[i + 1] = t * b * slope[i];
+            }
+        }
+
+        let d = `M ${xs[0].toFixed(1)} ${ys[0].toFixed(1)}`;
+        for (let i = 0; i < n - 1; i++) {
+            const h = dx[i];
+            const c1x = xs[i] + h / 3, c1y = ys[i] + m[i] * h / 3;
+            const c2x = xs[i + 1] - h / 3, c2y = ys[i + 1] - m[i + 1] * h / 3;
+            d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${xs[i + 1].toFixed(1)} ${ys[i + 1].toFixed(1)}`;
+        }
+        return d;
+    }
+
+    function draw($container, series, currency, i18n, summary, height) {
+        height = height || HEIGHT;
+        // Only points that actually have a price can sit on the line.
+        const data = (series || []).filter(p => p.price !== null && p.price !== undefined);
+        if (data.length < 2) {
+            $container.html($('<p class="pure-form-message-inline"></p>').text(i18n.no_data));
+            return;
+        }
+
+        const width = Math.max($container.width() || 0, 320);
+        const innerH = height - PAD.top - PAD.bottom;
+
+        const prices = data.map(p => p.price);
+        let dataMin = Math.min.apply(null, prices), dataMax = Math.max.apply(null, prices);
+        if (dataMin === dataMax) { dataMin -= 1; dataMax += 1; }
+        // Pad the value domain ~10% top & bottom so the (smoothed, possibly overshooting) line
+        // and the min/max labels sit inside the plot area instead of being clipped at the edges.
+        const vpad = (dataMax - dataMin) * 0.1;
+        const domMin = dataMin - vpad, domMax = dataMax + vpad, range = domMax - domMin;
+
         const ticks = [dataMax, (dataMin + dataMax) / 2, dataMin];
 
         // Widen the left gutter to fit the price labels (e.g. "CZK12.34") so a long currency
