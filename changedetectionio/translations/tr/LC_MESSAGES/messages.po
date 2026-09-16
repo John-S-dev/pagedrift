@@ -2719,6 +2719,46 @@ msgstr "ay"
 msgid "week"
 msgstr "hafta"
 
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "hafta"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "gün"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "gün"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "saat"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "saat"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "dakika"
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "dakika"
+
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "saniye"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "saniye"
+
+#: changedetectionio/flask_app.py
+msgid "Already logged in"
+msgstr "Zaten giriş yapılmış"
+
 #: changedetectionio/forms.py
 msgid "Hours"
 msgstr "Saat"
