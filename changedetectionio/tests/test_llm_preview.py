@@ -7,6 +7,21 @@ These tests verify the full backend path:
   JS POSTs llm_intent → prepare_filter_prevew() applies it to tmp_watch
   → preview_extract() is called → llm_evaluation appears in JSON response
 
+The response uses {'found': bool, 'answer': str} — NOT the diff-evaluation
+{'important', 'summary'} shape, because preview asks the LLM to extract from
+the current content directly (e.g. "30 articles listed") rather than compare
+a diff.
+"""
+
+import json
+import time
+from unittest.mock import patch
+
+from flask import url_for
+
+from changedetectionio.tests.util import wait_for_all_checks, delete_all_watches
+
+
 HTML_WITH_ARTICLES = """<html><body>
 <ul id="articles">
   <li>Article One</li>
