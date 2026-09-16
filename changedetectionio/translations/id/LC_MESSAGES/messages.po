@@ -3313,6 +3313,52 @@ msgstr "1mgg lalu"
 msgid "in 1w"
 msgstr "dalam 1mgg"
 
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sw ago"
+msgstr "%smgg lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sw"
+msgstr "dalam %smgg"
+
+#: changedetectionio/languages.py
+msgid "1mo ago"
+msgstr "1bln lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1mo"
+msgstr "dalam 1bln"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%smo ago"
+msgstr "%sbln lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %smo"
+msgstr "dalam %sbln"
+
+#: changedetectionio/languages.py
+msgid "1yr ago"
+msgstr "1th lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1yr"
+msgstr "dalam 1th"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%syr ago"
+msgstr "%sth lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %syr"
+msgstr "dalam %sth"
+
 #: changedetectionio/processors/text_json_diff/processor.py
 msgid "Webpage Text/HTML, JSON and PDF changes"
 msgstr "Perubahan Teks/HTML Halaman Web, JSON, dan PDF"
