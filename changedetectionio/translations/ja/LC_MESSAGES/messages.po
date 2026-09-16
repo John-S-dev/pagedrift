@@ -2922,6 +2922,50 @@ msgid "Not a valid timezone name"
 msgstr "有効なタイムゾーン名ではありません"
 
 #: changedetectionio/forms.py
+msgid "not set"
+msgstr "未設定"
+
+#: changedetectionio/forms.py
+msgid "Start At"
+msgstr "開始時刻"
+
+#: changedetectionio/forms.py
+msgid "Run duration"
+msgstr "実行期間"
+
+#: changedetectionio/forms.py
+msgid "Use time scheduler"
+msgstr "タイムスケジューラを使用"
+
+#: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "実行するタイムゾーン（任意）"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "月曜日"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "火曜日"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "水曜日"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "木曜日"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "金曜日"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "土曜日"
+
+#: changedetectionio/forms.py
 msgid "Sunday"
 msgstr "日曜日"
 
