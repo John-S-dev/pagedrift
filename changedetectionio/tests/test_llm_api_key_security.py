@@ -165,6 +165,28 @@ def test_tag_list_does_not_expose_llm_api_key(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# Settings HTML page — key must not appear in the form source HTML
+# ---------------------------------------------------------------------------
+
+def test_settings_page_does_not_render_llm_api_key_in_plaintext(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    The settings page renders the API key form.  Because the field uses
+    PasswordField, WTForms must NOT embed the current key value in the HTML
+    (PasswordField intentionally omits the value attribute for security).
+    """
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+
+    res = client.get(url_for('settings.settings_page'))
+    assert res.status_code == 200
+    body = res.data.decode('utf-8', errors='replace')
+    assert CANARY_KEY not in body, \
+        "LLM API key appeared in plaintext in the settings page HTML source. " \
+        "The llm_api_key field must be a PasswordField so the value is never rendered."
+
+
 def test_settings_form_preserves_api_key_when_submitted_blank(
         client, live_server, measure_memory_usage, datastore_path):
     """
