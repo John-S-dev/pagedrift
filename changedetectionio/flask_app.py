@@ -440,6 +440,100 @@ def _jinja2_filter_seconds_precise(timestamp):
     return format(int(time.time() - timestamp), ',d')
 
 
+@app.template_filter('format_duration')
+def _jinja2_filter_format_duration(seconds):
+    """Format a duration in seconds into human readable string like '5 days, 3 hours, 30 minutes'"""
+    from datetime import timedelta
+
+    if not seconds or seconds < 0:
+        return gettext('0 seconds')
+
+    td = timedelta(seconds=int(seconds))
+
+    # Calculate components
+    years = td.days // 365
+    remaining_days = td.days % 365
+    months = remaining_days // 30
+    remaining_days = remaining_days % 30
+    weeks = remaining_days // 7
+    days = remaining_days % 7
+
+    hours = td.seconds // 3600
+    minutes = (td.seconds % 3600) // 60
+    secs = td.seconds % 60
+
+    # Build parts list
+    parts = []
+    if years > 0:
+        parts.append(f"{years} {gettext('year') if years == 1 else gettext('years')}")
+    if months > 0:
+        parts.append(f"{months} {gettext('month') if months == 1 else gettext('months')}")
+    if weeks > 0:
+        parts.append(f"{weeks} {gettext('week') if weeks == 1 else gettext('weeks')}")
+    if days > 0:
+        parts.append(f"{days} {gettext('day') if days == 1 else gettext('days')}")
+    if hours > 0:
+        parts.append(f"{hours} {gettext('hour') if hours == 1 else gettext('hours')}")
+    if minutes > 0:
+        parts.append(f"{minutes} {gettext('minute') if minutes == 1 else gettext('minutes')}")
+    if secs > 0 or not parts:
+        parts.append(f"{secs} {gettext('second') if secs == 1 else gettext('seconds')}")
+
+    return ", ".join(parts)
+
+
+@app.template_filter('fetcher_status_icons')
+def _jinja2_filter_fetcher_status_icons(fetcher_name):
+    """Get status icon HTML for a given fetcher.
+
+    This filter checks both built-in fetchers and plugin fetchers for status icons.
+
+    Args:
+        fetcher_name: The fetcher name (e.g., 'html_webdriver', 'html_js_zyte')
+
+    Returns:
+        str: HTML string containing status icon elements
+    """
+    from flask import url_for
+    from markupsafe import Markup
+
+    from changedetectionio import content_fetchers
+    from changedetectionio.pluggy_interface import collect_fetcher_status_icons
+
+    icon_data = None
+
+    # First check if it's a plugin fetcher (plugins have priority)
+    plugin_icon_data = collect_fetcher_status_icons(fetcher_name)
+    if plugin_icon_data:
+        icon_data = plugin_icon_data
+    # Check if it's a built-in fetcher
+    elif hasattr(content_fetchers, fetcher_name):
+        fetcher_class = getattr(content_fetchers, fetcher_name)
+        if hasattr(fetcher_class, 'get_status_icon_data'):
+            icon_data = fetcher_class.get_status_icon_data()
+
+    # Build HTML from icon data
+    if icon_data and isinstance(icon_data, dict):
+        # Use 'group' from icon_data if specified, otherwise default to 'images'
+        group = icon_data.get('group', 'images')
+
+        # Try to use url_for, but fall back to manual URL building if endpoint not registered yet
+        try:
+            icon_url = url_for('static_content', group=group, filename=icon_data['filename'])
+        except:
+            # Fallback: build URL manually respecting APPLICATION_ROOT
+            from flask import request
+
+            app_root = request.script_root if hasattr(request, 'script_root') else ''
+            icon_url = f"{app_root}/static/{group}/{icon_data['filename']}"
+
+        style_attr = f' style="{icon_data["style"]}"' if icon_data.get('style') else ''
+        html = f'<img class="status-icon" src="{icon_url}" alt="{icon_data["alt"]}" title="{icon_data["title"]}"{style_attr}>'
+        return Markup(html)
+
+    return ''
+
+
 _RE_SANITIZE_TAG = re.compile(r'[^a-zA-Z0-9]')
 
 
