@@ -3001,6 +3001,47 @@ msgid "Added lines"
 msgstr ""
 
 #: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr ""
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr ""
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Attach screenshot to notification (where possible)"
 msgstr ""
 
