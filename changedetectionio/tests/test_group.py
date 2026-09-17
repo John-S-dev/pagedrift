@@ -151,3 +151,5 @@ def test_tag_import_singular(client, live_server, measure_memory_usage, datastor
 
     delete_all_watches(client)
 
+def test_tag_add_in_ui(client, live_server, measure_memory_usage, datastore_path):
+    
