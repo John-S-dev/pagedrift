@@ -3269,6 +3269,50 @@ msgstr "Format Konten RSS"
 msgid "RSS <description> body built from"
 msgstr "Isi <description> RSS dibuat dari"
 
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "RegEx untuk diekstrak"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Ekstrak sebagai CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "baru saja"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "sekarang juga"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "%sdtk lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "dalam %sdtk"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "1m lalu"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "dalam 1m"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "%sm lalu"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sm"
+msgstr "dalam %sm"
+
 #: changedetectionio/languages.py
 msgid "1h ago"
 msgstr "1j lalu"
