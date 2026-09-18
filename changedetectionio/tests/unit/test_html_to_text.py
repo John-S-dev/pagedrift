@@ -221,3 +221,58 @@ class TestHtmlToText(unittest.TestCase):
         meta_bloat = '<meta name="description" content="bloat"/>\n' * 50000
         link_bloat = '<link rel="stylesheet" href="bloat.css"/>\n' * 50000
 
+        The fix strips display:none and visibility:hidden styles from the body tag before
+        processing, allowing text extraction from client-side rendered applications.
+        """
+        # Test case 1: Basic display:none
+        html1 = '''<!DOCTYPE html>
+<html lang="en">
+<head><title>What's New – Fluxguard</title></head>
+<body style="display:none">
+    <h1>Important Heading</h1>
+    <p>This is actual content that should be extracted.</p>
+    <div>
+        <p>First paragraph with meaningful text.</p>
+        <p>Second paragraph with more content.</p>
+    </div>
+</body>
+</html>'''
+
+        text1 = html_to_text(html1)
+
+        # Before fix: would return ~33 newlines, len(text) ~= 33
+        # After fix: should extract actual content, len(text) > 100
+        assert len(text1) > 100, f"Expected substantial text output, got {len(text1)} chars"
+        assert 'Important Heading' in text1, "Failed to extract heading from display:none body"
+        assert 'actual content' in text1, "Failed to extract paragraph from display:none body"
+        assert 'First paragraph' in text1, "Failed to extract nested content"
+
+        # Should not be mostly newlines
+        newline_ratio = text1.count('\n') / len(text1)
+        assert newline_ratio < 0.5, f"Output is mostly newlines ({newline_ratio:.2%}), content not extracted"
+
+        # Test case 2: visibility:hidden (another hiding pattern)
+        html2 = '<html><body style="visibility:hidden"><h1>Hidden Content</h1><p>Test paragraph.</p></body></html>'
+        text2 = html_to_text(html2)
+
+        assert 'Hidden Content' in text2, "Failed to extract content from visibility:hidden body"
+        assert 'Test paragraph' in text2, "Failed to extract paragraph from visibility:hidden body"
+
+        # Test case 3: Mixed styles (display:none with other CSS)
+        html3 = '<html><body style="color: red; display:none; font-size: 12px"><p>Mixed style content</p></body></html>'
+        text3 = html_to_text(html3)
+
+        assert 'Mixed style content' in text3, "Failed to extract content from body with mixed styles"
+
+        # Test case 4: Case insensitivity (DISPLAY:NONE uppercase)
+        html4 = '<html><body style="DISPLAY:NONE"><p>Uppercase style</p></body></html>'
+        text4 = html_to_text(html4)
+
+        assert 'Uppercase style' in text4, "Failed to handle uppercase DISPLAY:NONE"
+
+        # Test case 5: Space variations (display: none vs display:none)
+        html5 = '<html><body style="display: none"><p>With spaces</p></body></html>'
+        text5 = html_to_text(html5)
+
+        assert 'With spaces' in text5, "Failed to handle 'display: none' with space"
+
