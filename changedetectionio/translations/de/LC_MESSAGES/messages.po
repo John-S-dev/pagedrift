@@ -2818,6 +2818,50 @@ msgid "Content Analysis"
 msgstr ""
 
 #: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Optionale Zeitzone zum Ausführen"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Montag"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Dienstag"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Donnerstag"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Freitag"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Samstag"
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Sonntag"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Wochen"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "Sollte null oder mehr Sekunden enthalten"
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "Tage"
+
+#: changedetectionio/forms.py
 msgid "Empty value not allowed."
 msgstr "Leerer Wert nicht zulässig."
 
