@@ -20,3 +20,17 @@ import asyncio
 import unittest
 from unittest.mock import patch
 
+from changedetectionio.browser_steps.browser_steps import steppable_browser_interface
+from changedetectionio.validate_url import (
+    is_fetch_url_allowed,
+    is_special_purpose_ip,
+    validate_fetch_url,
+    validate_fetch_url_async,
+)
+
+# tests/conftest.py sets ALLOW_IANA_RESTRICTED_ADDRESSES=true for the functional suite, so the
+# locked-down default has to be re-asserted explicitly rather than assumed.
+LOCKED_DOWN = {'ALLOW_IANA_RESTRICTED_ADDRESSES': 'false', 'ALLOW_FILE_URI': 'false'}
+OPTED_IN = {'ALLOW_IANA_RESTRICTED_ADDRESSES': 'true', 'ALLOW_FILE_URI': 'true'}
+
+
