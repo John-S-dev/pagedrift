@@ -567,3 +567,24 @@ def _test_color_notifications(client, notification_body_token, datastore_path):
 
     assert b"Watch added" in res.data
 
+    wait_for_all_checks(client)
+
+    set_modified_response(datastore_path=datastore_path)
+
+
+    res = client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    assert b'Queued 1 watch for rechecking.' in res.data
+
+    wait_for_all_checks(client)
+    wait_for_notification_endpoint_output(datastore_path=datastore_path)
+
+    with open(os.path.join(datastore_path, "notification.txt"), 'r') as f:
+        x = f.read()
+        s = f'<span style="{HTML_CHANGED_STYLE}" role="note" aria-label="Changed text" title="Changed text">Which is across multiple lines</span><br>'
+        assert s in x
+
+    client.post(
+        url_for("ui.form_delete", uuid="all"),
+        follow_redirects=True
+    )
+
