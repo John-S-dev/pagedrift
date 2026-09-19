@@ -576,6 +576,56 @@ from changedetectionio.auth_decorator import (
 )
 
 
+# When nobody is logged in Flask-Login's current_user is set to an AnonymousUser object.
+class User(flask_login.UserMixin):
+    id = None
+
+    def set_password(self, password):
+        return True
+
+    def get_user(self, email="defaultuser@changedetection.io"):
+        return self
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
+    # Compare given password against JSON store or Env var
+    def check_password(self, password):
+        import base64
+        import hashlib
+
+        # Can be stored in env (for deployments) or in the general configs
+        raw_salt_pass = os.getenv("SALTED_PASS", False)
+
+        if not raw_salt_pass:
+            raw_salt_pass = datastore.data['settings']['application'].get('password')
+
+        raw_salt_pass = base64.b64decode(raw_salt_pass)
+        salt_from_storage = raw_salt_pass[:32]  # 32 is the length of the salt
+
+        # Use the exact same setup you used to generate the key, but this time put in the password to check
+        new_key = hashlib.pbkdf2_hmac(
+            'sha256',
+            password.encode('utf-8'),  # Convert the password to bytes
+            salt_from_storage,
+            100000,
+        )
+        new_key = salt_from_storage + new_key
+
+        return new_key == raw_salt_pass
+
+    pass
+
+
 def clean_startup_state(datastore):
     """One-shot validation/repair of persisted settings at app startup.
 
