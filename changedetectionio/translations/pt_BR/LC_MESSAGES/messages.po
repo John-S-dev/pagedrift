@@ -3058,6 +3058,46 @@ msgstr "Proxy"
 msgid "Send a notification when the filter can no longer be found on the page"
 msgstr "Enviar uma notificação quando o filtro não puder mais ser encontrado na página"
 
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "Ocultar monitoramentos silenciados do feed RSS"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "Ativar modo de leitor RSS"
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "Número de mudanças a exibir no feed RSS do monitoramento"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "Deve conter zero ou mais tentativas"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "Número de vezes que o filtro pode estar ausente antes de enviar uma notificação"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "Chave da API"
+
+#: changedetectionio/forms.py
+msgid "API Base URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Token multiplier for local reasoning models"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Default AI Change Summary prompt"
+msgstr ""
+
 #: changedetectionio/languages.py
 msgid "1d ago"
 msgstr ""
