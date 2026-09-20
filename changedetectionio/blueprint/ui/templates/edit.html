@@ -438,6 +438,128 @@ Math: {{ 1 + 1 }}") }}
             <div class="tab-pane-inner visual-selector-ui" id="visualselector">
                 <img class="beta-logo" src="{{url_for('static_content', group='images', filename='beta-logo.png')}}" alt="New beta functionality">
 
+                <fieldset>
+                    <div class="pure-control-group">
+                        {% if capabilities.supports_screenshots and capabilities.supports_xpath_element_data %}
+                            {% if visual_selector_data_ready %}
+                                <span class="pure-form-message-inline" id="visual-selector-heading">
+                                    {{ _('The Visual Selector tool lets you select the') }} <i>{{ _('text') }}</i> {{ _('elements that will be used for the change detection. It automatically fills-in the filters in the "CSS/JSONPath/JQ/XPath Filters" box of the') }} <a href="#filters-and-triggers">{{ _('Filters & Triggers') }}</a> {{ _('tab. Use') }} <strong>{{ _('Shift+Click') }}</strong> {{ _('to select multiple items.') }}
+                                </span>
+
+                                {% if watch['processor'] == 'image_ssim_diff' %} {# @todo, integrate with image_ssim_diff selector better, use some extra form ? #}
+                                <div id="selection-mode-controls" style="margin: 10px 0; padding: 10px; background: var(--color-background-tab); border-radius: 5px;">
+                                    <label style="font-weight: 600; margin-right: 15px;">{{ _('Selection Mode:') }}</label>
+                                    <label style="margin-right: 15px;">
+                                        <input type="radio" name="selector-mode" value="element" style="margin-right: 5px;">
+                                        {{ _('Select by element') }}
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="selector-mode" value="draw" checked style="margin-right: 5px;">
+                                        {{ _('Draw area') }}
+                                    </label>
+                                    {{ render_field(form.processor_config_bounding_box) }}
+                                    {{ render_field(form.processor_config_selection_mode) }}
+                                </div>
+                                {% endif %}
+
+                                <div id="selector-header">
+                                    <a id="clear-selector" class="pure-button button-secondary button-xsmall" style="font-size: 70%">{{ _('Clear selection') }}</a>
+                                    <!-- visual selector IMG will try to load, it will either replace this or on error replace it with some handy text -->
+                                    <i class="fetching-update-notice" style="font-size: 80%;">{{ _('One moment, fetching screenshot and element information..') }}</i>
+                                </div>
+                                <div id="selector-wrapper" style="display: none">
+                                    <!-- request the screenshot and get the element offset info ready -->
+                                    <!-- use img src ready load to know everything is ready to map out -->
+                                    <!-- @todo: maybe something interesting like a field to select 'elements that contain text... and their parents n' -->
+                                    <img id="selector-background" >
+                                    <canvas id="selector-canvas"></canvas>
+                                </div>
+                                <div id="selector-current-xpath" style="overflow-x: hidden"><strong>{{ _('Currently:') }}</strong>&nbsp;<span class="text">{{ _('Loading...') }}</span></div>
+                            {%  else %}
+                                <strong>{{ _('Visual Selector data is not ready, watch needs to be checked atleast once.') }}</strong>
+                            {%  endif %}
+                    {% else %}
+                        <p>
+                            <strong>{{ _('Sorry, this functionality only works with fetchers that support Javascript and screenshots (such as playwright etc).') }}<br>
+                            {{ _('You need to') }} <a href="#request">{{ _('Set the fetch method') }}</a> {{ _('to one that supports Javascript and screenshots.') }}</strong>
+                        </p>
+                    {% endif %}
+                    </div>
+                </fieldset>
+            </div>
+            {% endif %}
+            <div class="tab-pane-inner" id="stats">
+                <div class="pure-control-group">
+                    <style>
+                    #stats-table tr > td:first-child {
+                        font-weight: bold;
+                    }
+                    </style>
+                    <table class="pure-table" id="stats-table">
+                        <tbody>
+                        <tr>
+                            <td>{{ _('Check count') }}</td>
+                            <td>{{ "{:,}".format( watch.check_count) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('Consecutive filter failures') }}</td>
+                            <td>{{ "{:,}".format( watch.consecutive_filter_failures) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('History length') }}</td>
+                            <td>{{ "{:,}".format(watch.history|length) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('Last fetch duration') }}</td>
+                            <td>{{ watch.fetch_time }}s</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('Notification alert count') }}</td>
+                            <td>{{ watch.notification_alert_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('Server type reply') }}</td>
+                            <td>{{ watch.get('remote_server_reply') }}</td>
+                        </tr>
+                        <tr>
+                            <td><code>capabilities.supports_xpath_element_data</code></td>
+                            <td>{{ _('Yes') if capabilities.supports_xpath_element_data else _('No') }}</td>
+                        </tr>
+                        <tr>
+                            <td><code>capabilities.supports_screenshots</code></td>
+                            <td>{{ _('Yes') if capabilities.supports_screenshots else _('No') }}</td>
+                        </tr>
+                        <tr>
+                            <td><code>capabilities.supports_visual_selector</code></td>
+                            <td>{{ _('Yes') if capabilities.supports_visual_selector else _('No') }}</td>
+                        </tr>
+                        <tr>
+                            <td><code>supports_browser_steps</code></td>
+                            <td>{{ _('Yes') if capabilities.supports_browser_steps else _('No') }}</td>
+                        </tr>
+                        <tr>
+                            <td><code>visual_selector_data_ready</code></td>
+                            <td>{{ _('Yes') if visual_selector_data_ready else _('No') }}</td>
+                        </tr>
+                        {% if not llm_features_disabled and settings_application.get('llm', {}).get('model') %}
+                        <tr>
+                            <td>{{ _('AI tokens (last check)') }}</td>
+                            <td>{{ "{:,}".format(watch.get('llm_last_tokens_used') or 0) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ _('AI tokens (total)') }}</td>
+                            <td>{{ "{:,}".format(watch.get('llm_tokens_used_cumulative') or 0) }}</td>
+                        </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    {% if ui_edit_stats_extras %}
+                    <div class="plugin-stats-extras"> <!-- from pluggy plugin -->
+                        {{ ui_edit_stats_extras|safe }}
+                    </div>
+                    {% endif %}
+
                     {% if watch.history_n %}
                         <p>
                              <a href="{{url_for('ui.ui_edit.watch_get_latest_html', uuid=uuid)}}" class="pure-button button-small">{{ _('Download latest HTML snapshot') }}</a>
