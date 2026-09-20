@@ -3033,3 +3033,51 @@ msgstr "RSS <description> corps construit à partir de"
 msgid "RSS \"System default\" template override"
 msgstr "Ecraser le template RSS par défaut"
 
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Extraire des données"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "à l'instant"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "bientôt"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "il y a %ss"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "dans %ss"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "il y a 1min"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "dans 1min"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "il y a %smin"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sm"
+msgstr "dans %smin"
+
+#: changedetectionio/languages.py
+msgid "1h ago"
+msgstr "il y a 1h"
+
+#: changedetectionio/languages.py
+msgid "in 1h"
+msgstr "dans 1h"
+
