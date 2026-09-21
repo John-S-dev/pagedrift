@@ -264,6 +264,102 @@ class DatastoreUpdatesMixin:
         for uuid, watch in self.data['watching'].items():
             history = []
 
+            if watch.get('history', False):
+                for d, p in watch['history'].items():
+                    d = int(d)  # Used to be keyed as str, we'll fix this now too
+                    history.append("{},{}\n".format(d, p))
+
+                if len(history):
+                    target_path = os.path.join(self.datastore_path, uuid)
+                    if os.path.exists(target_path):
+                        with open(os.path.join(target_path, "history.txt"), "w") as f:
+                            f.writelines(history)
+                    else:
+                        logger.warning(f"Datastore history directory {target_path} does not exist, skipping history import.")
+
+                # No longer needed, dynamically pulled from the disk when needed.
+                # But we should set it back to a empty dict so we don't break if this schema runs on an earlier version.
+                # In the distant future we can remove this entirely
+                self.data['watching'][uuid]['history'] = {}
+
+    def update_3(self):
+        """We incorrectly stored last_changed when there was not a change, and then confused the output list table."""
+        # see https://github.com/dgtlmoon/changedetection.io/pull/835
+        return
+
+    def update_4(self):
+        """`last_changed` not needed, we pull that information from the history.txt index."""
+        for uuid, watch in self.data['watching'].items():
+            try:
+                # Remove it from the struct
+                del(watch['last_changed'])
+            except:
+                continue
+        return
+
+    def update_5(self):
+        """
+        If the watch notification body, title look the same as the global one, unset it, so the watch defaults back to using the main settings.
+        In other words - the watch notification_title and notification_body are not needed if they are the same as the default one.
+        """
+        current_system_body = self.data['settings']['application']['notification_body'].translate(TRANSLATE_WHITESPACE_TABLE)
+        current_system_title = self.data['settings']['application']['notification_body'].translate(TRANSLATE_WHITESPACE_TABLE)
+        for uuid, watch in self.data['watching'].items():
+            try:
+                watch_body = watch.get('notification_body', '')
+                if watch_body and watch_body.translate(TRANSLATE_WHITESPACE_TABLE) == current_system_body:
+                    # Looks the same as the default one, so unset it
+                    watch['notification_body'] = None
+
+                watch_title = watch.get('notification_title', '')
+                if watch_title and watch_title.translate(TRANSLATE_WHITESPACE_TABLE) == current_system_title:
+                    # Looks the same as the default one, so unset it
+                    watch['notification_title'] = None
+            except Exception as e:
+                continue
+        return
+
+    def update_7(self):
+        """
+        We incorrectly used common header overrides that should only apply to Requests.
+        These are now handled in content_fetcher::html_requests and shouldnt be passed to Playwright/Selenium.
+        """
+        # These were hard-coded in early versions
+        for v in ['User-Agent', 'Accept', 'Accept-Encoding', 'Accept-Language']:
+            if self.data['settings']['headers'].get(v):
+                del self.data['settings']['headers'][v]
+
+    def update_8(self):
+        """Convert filters to a list of filters css_filter -> include_filters."""
+        for uuid, watch in self.data['watching'].items():
+            try:
+                existing_filter = watch.get('css_filter', '')
+                if existing_filter:
+                    watch['include_filters'] = [existing_filter]
+            except:
+                continue
+        return
+
+    def update_9(self):
+        """Convert old static notification tokens to jinja2 tokens."""
+        # Each watch
+        # only { } not {{ or }}
+        r = r'(?<!{){(?!{)(\w+)(?<!})}(?!})'
+        for uuid, watch in self.data['watching'].items():
+            try:
+                n_body = watch.get('notification_body', '')
+                if n_body:
+                    watch['notification_body'] = re.sub(r, r'{{\1}}', n_body)
+
+                n_title = watch.get('notification_title')
+                if n_title:
+                    watch['notification_title'] = re.sub(r, r'{{\1}}', n_title)
+
+                n_urls = watch.get('notification_urls')
+                if n_urls:
+                    for i, url in enumerate(n_urls):
+                        watch['notification_urls'][i] = re.sub(r, r'{{\1}}', url)
+
         saved_count = 0
         for uuid, watch in self.data['watching'].items():
             try:
