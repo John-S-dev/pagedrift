@@ -2944,6 +2944,46 @@ msgid "months"
 msgstr "bulan"
 
 #: changedetectionio/flask_app.py
+msgid "week"
+msgstr "minggu"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "minggu"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "hari"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "hari"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "jam"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "jam"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "menit"
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "menit"
+
+#: changedetectionio/flask_app.py
+msgid "second"
+msgstr "detik"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/flask_app.py
+msgid "seconds"
+msgstr "detik"
+
+#: changedetectionio/flask_app.py
 msgid "Already logged in"
 msgstr "Sudah masuk"
 
