@@ -3735,3 +3735,47 @@ msgstr "すべての通知のフォーマット"
 msgid "Discord does not render HTML — switch to"
 msgstr "Discord は HTML をレンダリングしません。"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "Plain Text"
+msgstr "プレーンテキスト"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "format to avoid"
+msgstr " 形式に切り替えて、通知で "
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr " などの HTML エンティティがそのまま表示されるのを回避してください。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "エントリー"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "アクション"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "後に行/ルールを追加"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "この行/ルールを削除"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "現在のスナップショットに対してこのルールを検証"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "時間/曜日スケジュールを設定"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "スケジュールの時間制限"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "営業時間"
+
