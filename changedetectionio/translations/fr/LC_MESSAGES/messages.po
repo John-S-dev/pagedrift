@@ -2004,6 +2004,46 @@ msgid "Run this code before performing change detection, handy for filling in fi
 msgstr ""
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "More help and examples here"
+msgstr "Plus d'aide et d'exemples ici"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request body"
+msgstr "Les variables sont prises en charge dans le corps de la requête"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Variables are supported in the request header values"
+msgstr "Les variables sont prises en charge dans les valeurs d'en-tête de requête"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Alert! Extra headers file found and will be added to this watch!"
+msgstr "Alerte! Fichier d'en-têtes supplémentaire trouvé et sera ajouté à cette montre !"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Headers can be also read from a file in your data-directory"
+msgstr "Les en-têtes peuvent également être lus à partir d'un fichier dans votre répertoire de données"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Read more here"
+msgstr "Lire la suite ici"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Not supported by Selenium browser"
+msgstr "Non pris en charge par le navigateur Selenium"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Turn on text finder"
+msgstr "Activer la recherche de texte"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Please wait, first browser step can take a little time to load.."
+msgstr "Veuillez patienter, le chargement de la première étape du navigateur peut prendre un peu de temps."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Click here to Start"
+msgstr "Cliquez ici pour commencer"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Activate preview"
 msgstr "Aperçu"
 
