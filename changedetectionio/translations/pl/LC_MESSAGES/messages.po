@@ -3069,6 +3069,46 @@ msgid "years"
 msgstr "lata"
 
 #: changedetectionio/flask_app.py
+msgid "month"
+msgstr "miesiąc"
+
+#: changedetectionio/flask_app.py
+msgid "months"
+msgstr "miesiące"
+
+#: changedetectionio/flask_app.py
+msgid "week"
+msgstr "tydzień"
+
+#: changedetectionio/flask_app.py
+msgid "weeks"
+msgstr "tygodnie"
+
+#: changedetectionio/flask_app.py
+msgid "day"
+msgstr "dzień"
+
+#: changedetectionio/flask_app.py
+msgid "days"
+msgstr "dni"
+
+#: changedetectionio/flask_app.py
+msgid "hour"
+msgstr "godzina"
+
+#: changedetectionio/flask_app.py
+msgid "hours"
+msgstr "godziny"
+
+#: changedetectionio/flask_app.py
+msgid "minute"
+msgstr "minuta"
+
+#: changedetectionio/flask_app.py
+msgid "minutes"
+msgstr "minuty"
+
+#: changedetectionio/flask_app.py
 msgid "second"
 msgstr "sekunda"
 
