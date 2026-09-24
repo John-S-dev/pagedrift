@@ -400,6 +400,202 @@ def main():
         datastore.data['settings']['application']['all_paused'] = all_paused
         logger.info(f"Setting all watches paused: {all_paused}")
 
+    # Register built-in restock plugins (deferred here to avoid circular imports at module load time)
+    from changedetectionio.pluggy_interface import inject_datastore_into_plugins, register_builtin_restock_plugins
+    register_builtin_restock_plugins()
+
+    # Inject datastore into plugins that need access to settings
+    inject_datastore_into_plugins(datastore)
+
+    # Step 1: Add URLs with their options (if provided via -u flags)
+    added_watch_uuids = []
+    if urls_to_add:
+        logger.info(f"Adding {len(urls_to_add)} URL(s) from command line")
+        for idx, url in enumerate(urls_to_add):
+            extras = url_options.get(idx, {})
+            if extras:
+                logger.debug(f"Adding watch {idx}: {url} with options: {extras}")
+            else:
+                logger.debug(f"Adding watch {idx}: {url}")
+
+            new_uuid = datastore.add_watch(url=url, extras=extras)
+            if new_uuid:
+                added_watch_uuids.append(new_uuid)
+                logger.success(f"Added watch: {url} (UUID: {new_uuid})")
+            else:
+                logger.error(f"Failed to add watch: {url}")
+
+    app = changedetection_app(app_config, datastore)
+
+    # Step 2: Queue newly added watches (if -u was provided in batch mode)
+    # This must happen AFTER app initialization so update_q is available
+    if batch_mode and added_watch_uuids:
+        from changedetectionio.flask_app import update_q
+        from changedetectionio import queuedWatchMetaData, worker_pool
+
+        logger.info(f"Batch mode: Queuing {len(added_watch_uuids)} newly added watches")
+        for watch_uuid in added_watch_uuids:
+            try:
+                worker_pool.queue_item_async_safe(
+                    update_q,
+                    queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': watch_uuid})
+                )
+                logger.debug(f"Queued newly added watch: {watch_uuid}")
+            except Exception as e:
+                logger.error(f"Failed to queue watch {watch_uuid}: {e}")
+
+    # Step 3: Queue watches for recheck (if -r was provided)
+    # This must happen AFTER app initialization so update_q is available
+    if recheck_watches is not None:
+        from changedetectionio.flask_app import update_q
+        from changedetectionio import queuedWatchMetaData, worker_pool
+
+        watches_to_queue = []
+        if recheck_watches == 'all':
+            # Queue all watches, excluding those already queued in batch mode
+            all_watches = list(datastore.data['watching'].keys())
+            if batch_mode and added_watch_uuids:
+                # Exclude newly added watches that were already queued in batch mode
+                watches_to_queue = [uuid for uuid in all_watches if uuid not in added_watch_uuids]
+                logger.info(f"Queuing {len(watches_to_queue)} existing watches for recheck ({len(added_watch_uuids)} newly added watches already queued)")
+            else:
+                watches_to_queue = all_watches
+                logger.info(f"Queuing all {len(watches_to_queue)} watches for recheck")
+        else:
+            # Queue specific UUIDs
+            watches_to_queue = recheck_watches
+            logger.info(f"Queuing {len(watches_to_queue)} specific watches for recheck")
+
+        queued_count = 0
+        for watch_uuid in watches_to_queue:
+            if watch_uuid in datastore.data['watching']:
+                try:
+                    worker_pool.queue_item_async_safe(
+                        update_q,
+                        queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': watch_uuid})
+                    )
+                    queued_count += 1
+                    logger.debug(f"Queued watch for recheck: {watch_uuid}")
+                except Exception as e:
+                    logger.error(f"Failed to queue watch {watch_uuid}: {e}")
+            else:
+                logger.warning(f"Watch UUID not found in datastore: {watch_uuid}")
+
+        logger.success(f"Successfully queued {queued_count} watches for recheck")
+
+    # Step 4: Setup batch mode monitor (if -b was provided)
+    if batch_mode:
+        from changedetectionio.flask_app import update_q
+
+        # Safety check: Ensure Flask app is not already running on this port
+        # Batch mode should never run alongside the web server
+        import socket
+        test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        try:
+            # Try to bind to the configured host:port (no SO_REUSEADDR - strict check)
+            test_socket.bind((host, port))
+            test_socket.close()
+            logger.debug(f"Batch mode: Port {port} is available (Flask app not running)")
+        except OSError as e:
+            test_socket.close()
+            # errno 98 = EADDRINUSE (Linux)
+            # errno 48 = EADDRINUSE (macOS)
+            # errno 10048 = WSAEADDRINUSE (Windows)
+            if e.errno in (48, 98, 10048) or "Address already in use" in str(e) or "already in use" in str(e).lower():
+                logger.critical(f"ERROR: Batch mode cannot run - port {port} is already in use")
+                logger.critical(f"The Flask web server appears to be running on {host}:{port}")
+                logger.critical(f"Batch mode is designed for standalone operation (CI/CD, cron jobs, etc.)")
+                logger.critical(f"Please either stop the Flask web server, or use a different port with -p PORT")
+                sys.exit(1)
+            else:
+                # Some other socket error - log but continue (might be network configuration issue)
+                logger.warning(f"Port availability check failed with unexpected error: {e}")
+                logger.warning(f"Continuing with batch mode anyway - be aware of potential conflicts")
+
+        def queue_watches_for_recheck(datastore, iteration):
+            """Helper function to queue watches for recheck"""
+            watches_to_queue = []
+            if recheck_watches == 'all':
+                all_watches = list(datastore.data['watching'].keys())
+                if batch_mode and added_watch_uuids and iteration == 1:
+                    # Only exclude newly added watches on first iteration
+                    watches_to_queue = [uuid for uuid in all_watches if uuid not in added_watch_uuids]
+                else:
+                    watches_to_queue = all_watches
+                logger.info(f"Batch mode (iteration {iteration}): Queuing all {len(watches_to_queue)} watches")
+            elif recheck_watches:
+                watches_to_queue = recheck_watches
+                logger.info(f"Batch mode (iteration {iteration}): Queuing {len(watches_to_queue)} specific watches")
+
+            queued_count = 0
+            for watch_uuid in watches_to_queue:
+                if watch_uuid in datastore.data['watching']:
+                    try:
+                        worker_pool.queue_item_async_safe(
+                            update_q,
+                            queuedWatchMetaData.PrioritizedItem(priority=1, item={'uuid': watch_uuid})
+                        )
+                        queued_count += 1
+                    except Exception as e:
+                        logger.error(f"Failed to queue watch {watch_uuid}: {e}")
+                else:
+                    logger.warning(f"Watch UUID not found in datastore: {watch_uuid}")
+            logger.success(f"Batch mode (iteration {iteration}): Successfully queued {queued_count} watches")
+            return queued_count
+
+        def batch_mode_monitor():
+            """Monitor queue and workers, shutdown or repeat when work is complete"""
+            import time
+
+            # Track iterations if repeat mode is enabled
+            current_iteration = 1
+            total_iterations = recheck_repeat_count if recheck_watches and recheck_repeat_count > 1 else 1
+
+            if total_iterations > 1:
+                logger.info(f"Batch mode: Will repeat recheck {total_iterations} times")
+            else:
+                logger.info("Batch mode: Waiting for all queued items to complete...")
+
+            # Wait a bit for workers to start processing
+            time.sleep(3)
+
+            try:
+                while current_iteration <= total_iterations:
+                    logger.info(f"Batch mode: Waiting for iteration {current_iteration}/{total_iterations} to complete...")
+
+                    # Use the shared wait_for_all_checks function
+                    completed = worker_pool.wait_for_all_checks(update_q, timeout=300)
+
+                    if not completed:
+                        logger.warning(f"Batch mode: Iteration {current_iteration} timed out after 300 seconds")
+
+                    logger.success(f"Batch mode: Iteration {current_iteration}/{total_iterations} completed")
+
+                    # Check if we need to repeat
+                    if current_iteration < total_iterations:
+                        logger.info(f"Batch mode: Starting iteration {current_iteration + 1}...")
+                        current_iteration += 1
+
+                        # Re-queue watches for next iteration
+                        queue_watches_for_recheck(datastore, current_iteration)
+
+                        # Brief pause before continuing
+                        time.sleep(2)
+                    else:
+                        # All iterations complete
+                        logger.success(f"Batch mode: All {total_iterations} iterations completed, initiating shutdown")
+                        # Trigger shutdown
+                        import os, signal
+                        os.kill(os.getpid(), signal.SIGTERM)
+                        return
+
+            except Exception as e:
+                logger.error(f"Batch mode monitor error: {e}")
+                logger.error(f"Initiating emergency shutdown")
+                import os, signal
+                os.kill(os.getpid(), signal.SIGTERM)
+
         # Start monitor in background thread
         monitor_thread = threading.Thread(target=batch_mode_monitor, daemon=True, name="BatchModeMonitor")
         monitor_thread.start()
