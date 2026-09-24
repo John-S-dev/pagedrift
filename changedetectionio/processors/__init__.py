@@ -393,6 +393,94 @@ def generate_processor_badge_colors(processor_name):
     }
 
 
+@lru_cache(maxsize=1)
+def get_processor_badge_css():
+    """
+    Generate CSS for all processor badges with auto-generated colors.
+    This creates CSS rules for both light and dark modes for each processor.
+
+    :return: A string containing CSS rules for all processor badges
+    """
+    processor_classes = find_processors()
+    css_rules = []
+
+    for module, sub_package_name in processor_classes:
+        colors = generate_processor_badge_colors(sub_package_name)
+
+        # Light mode rule
+        # Double class (.processor-badge.processor-badge-{name}) bumps specificity so the
+        # color survives the browser's a:visited rule now that the badge is rendered as a link.
+        css_rules.append(
+            f".processor-badge.processor-badge-{sub_package_name} {{\n"
+            f"  background-color: {colors['light']['bg']};\n"
+            f"  color: {colors['light']['color']};\n"
+            f"}}"
+        )
+
+        # Dark mode rule
+        css_rules.append(
+            f"html[data-darkmode=\"true\"] .processor-badge.processor-badge-{sub_package_name} {{\n"
+            f"  background-color: {colors['dark']['bg']};\n"
+            f"  color: {colors['dark']['color']};\n"
+            f"}}"
+        )
+
+    return '\n\n'.join(css_rules)
+
+
+def save_processor_config(datastore, watch_uuid, config_data):
+    """
+    Save processor-specific configuration to JSON file.
+
+    This is a shared helper function used by both the UI edit form and API endpoints
+    to consistently handle processor configuration storage.
+
+    Args:
+        datastore: The application datastore instance
+        watch_uuid: UUID of the watch
+        config_data: Dictionary of configuration data to save (with processor_config_* prefix removed)
+
+    Returns:
+        bool: True if saved successfully, False otherwise
+    """
+    if not config_data:
+        return True
+
+    try:
+        from changedetectionio.processors.base import difference_detection_processor
+
+        # Get processor name from watch
+        watch = datastore.data['watching'].get(watch_uuid)
+        if not watch:
+            logger.error(f"Cannot save processor config: watch {watch_uuid} not found")
+            return False
+
+        processor_name = watch.get('processor', 'text_json_diff')
+
+        # The processor name becomes a filename below, and it is not enum-validated on every
+        # write path (/imports/import accepts it verbatim), so treat it as untrusted: a value
+        # like '../../../../tmp/pwned' would otherwise escape the watch directory.
+        # update_extra_watch_config() also contains the path, this is the second layer.
+        if not re.fullmatch(r'[A-Za-z0-9_-]+', processor_name or ''):
+            logger.error(f"Refusing to save processor config: unsafe processor name {processor_name!r} "
+                         f"on watch {watch_uuid}")
+            return False
+
+        # Create a processor instance to access config methods
+        processor_instance = difference_detection_processor(datastore, watch_uuid)
+
+        # Use processor name as filename so each processor keeps its own config
+        config_filename = f'{processor_name}.json'
+        processor_instance.update_extra_watch_config(config_filename, config_data)
+
+        logger.debug(f"Saved processor config to {config_filename}: {config_data}")
+        return True
+
+    except Exception as e:
+        logger.error(f"Failed to save processor config: {e}")
+        return False
+
+
 def extract_processor_config_from_form_data(form_data):
     """
     Extract processor_config_* fields from form data and return separate dicts.
