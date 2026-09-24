@@ -2243,6 +2243,46 @@ msgstr ""
 "Playwright usw.)."
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "to one that supports Javascript and screenshots."
+msgstr "zu einer, die Javascript und Screenshots unterstützt."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Check count"
+msgstr "Anzahl prüfen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Consecutive filter failures"
+msgstr "Aufeinanderfolgende Filterausfälle"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "History length"
+msgstr "Länge des Verlaufs"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Last fetch duration"
+msgstr "Dauer des letzten Abrufs"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Notification alert count"
+msgstr "Anzahl der Benachrichtigungsalarme"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Server type reply"
+msgstr "Antwort vom Servertyp"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "Ja"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "Nein"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (last check)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Clone & Edit"
 msgstr "Klonen und bearbeiten"
 
