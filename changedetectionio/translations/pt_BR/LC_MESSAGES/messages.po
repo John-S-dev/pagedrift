@@ -3191,3 +3191,43 @@ msgstr "Texto que acionou o gatilho dos filtros"
 msgid "(upgraded)"
 msgstr ""
 
+#: changedetectionio/templates/_common_fields.html
+msgid "For JSON payloads, use"
+msgstr "Para payloads JSON, use"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "without quotes for automatic escaping, for example -"
+msgstr "sem aspas para escape automático, por exemplo -"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "URL encoding, use"
+msgstr "Codificação de URL, use"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for example -"
+msgstr "por exemplo -"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Regular-expression replace, use"
+msgstr "Substituição por expressão regular, use"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For a complete reference of all Jinja2 built-in filters, users can refer to the"
+msgstr "Para uma referência completa de todos os filtros nativos do Jinja2, os usuários podem consultar o"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Format for all notifications"
+msgstr "Formato para todas as notificações"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Discord does not render HTML — switch to"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Plain Text"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "format to avoid"
+msgstr ""
+
