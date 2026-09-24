@@ -11,6 +11,15 @@ Run from the tests/ directory:
     python -m unittest unit/test_temporary_watch_seed.py
 """
 
+import json
+import os
+import shutil
+import tempfile
+import time
+import unittest
+import uuid
+import zlib
+
 from changedetectionio.store import ChangeDetectionStore
 
 
