@@ -3192,6 +3192,46 @@ msgid "in %sh"
 msgstr "in %sStd"
 
 #: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box must be in format: x,y,width,height (integers only)"
+msgstr "Der Begrenzungsrahmen muss folgendes Format haben: x, y, Breite, Höhe (nur Ganzzahlen)"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values must be non-negative"
+msgstr "Begrenzungsrahmenwerte dürfen nicht negativ sein"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding box values are too large"
+msgstr "Die Werte des Begrenzungsrahmens sind zu groß"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode must be either \"element\" or \"draw\""
+msgstr "Der Auswahlmodus muss entweder „Element“ oder „Draw“ sein."
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Minimum Change Percentage"
+msgstr "Mindeständerungsprozentsatz"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Pixel Difference Sensitivity"
+msgstr "Pixeldifferenzempfindlichkeit"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Use global default"
+msgstr "Verwenden Sie Systemstandards"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Bounding Box"
+msgstr "Begrenzungsrahmen"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection Mode"
+msgstr "Auswahlmodus:"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Selection mode value is too long"
+msgstr "Der Wert für den Auswahlmodus ist zu lang"
+
+#: changedetectionio/processors/image_ssim_diff/forms.py
 msgid "Screenshot Comparison"
 msgstr "Screenshot-Vergleich"
 
