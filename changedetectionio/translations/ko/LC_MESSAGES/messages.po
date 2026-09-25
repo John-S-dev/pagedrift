@@ -3372,3 +3372,45 @@ msgstr ""
 msgid "The UUID of the watch."
 msgstr "모니터링 UUID입니다."
 
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "변경 계산에서는 무시하지만 화면에는 표시합니다."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr "차단 텍스트"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr "이 텍스트 존재 시 변경 감지 안 함."
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr "설정 섹션"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr ""
+
