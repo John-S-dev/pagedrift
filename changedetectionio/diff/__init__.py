@@ -162,6 +162,207 @@ def same_slicer(lst: List[str], start: int, end: int) -> List[str]:
     """Return a slice of the list, or a single element if start == end."""
     return lst[start:end] if start != end else [lst[start]]
 
+def customSequenceMatcher(
+    before: List[str],
+    after: List[str],
+    include_equal: bool = False,
+    include_removed: bool = True,
+    include_added: bool = True,
+    include_replaced: bool = True,
+    include_change_type_prefix: bool = True,
+    word_diff: bool = False,
+    context_lines: int = 0,
+    case_insensitive: bool = False,
+    ignore_junk: bool = False,
+    tokenizer: str = 'words_and_html'
+) -> Iterator[List[str]]:
+    """
+    Compare two sequences and yield differences based on specified parameters.
+
+    Args:
+        before (List[str]): Original sequence
+        after (List[str]): Modified sequence
+        include_equal (bool): Include unchanged parts
+        include_removed (bool): Include removed parts
+        include_added (bool): Include added parts
+        include_replaced (bool): Include replaced parts
+        include_change_type_prefix (bool): Add prefixes to indicate change types
+        word_diff (bool): Use word-level diffing for replaced lines (controls inline rendering)
+        context_lines (int): Number of unchanged lines to show around changes (like grep -C)
+        case_insensitive (bool): Perform case-insensitive comparison
+        ignore_junk (bool): Ignore whitespace-only changes
+        tokenizer (str): Name of tokenizer to use from TOKENIZERS registry (default: 'words_and_html')
+
+    Yields:
+        List[str]: Differences between sequences
+    """
+    # Prepare sequences for comparison (lowercase if case-insensitive, normalize whitespace if ignore_junk)
+    def prepare_line(line):
+        if case_insensitive:
+            line = line.lower()
+        if ignore_junk:
+            # Normalize whitespace: replace multiple spaces/tabs with single space
+            line = WHITESPACE_NORMALIZE_RE.sub(' ', line)
+        return line
+
+    compare_before = [prepare_line(line) for line in before]
+    compare_after = [prepare_line(line) for line in after]
+
+    cruncher = difflib.SequenceMatcher(isjunk=lambda x: x in " \t", a=compare_before, b=compare_after)
+
+    # When context_lines is set and include_equal is False, we need to track which equal lines to include
+    if context_lines > 0 and not include_equal:
+        opcodes = list(cruncher.get_opcodes())
+        # Mark equal ranges that should be included based on context
+        included_equal_ranges = set()
+
+        for i, (tag, alo, ahi, blo, bhi) in enumerate(opcodes):
+            if tag != 'equal':
+                # Include context lines before this change
+                for j in range(max(0, i - 1), i):
+                    if opcodes[j][0] == 'equal':
+                        prev_alo, prev_ahi = opcodes[j][1], opcodes[j][2]
+                        # Include last N lines of the previous equal block
+                        context_start = max(prev_alo, prev_ahi - context_lines)
+                        for line_num in range(context_start, prev_ahi):
+                            included_equal_ranges.add(line_num)
+
+                # Include context lines after this change
+                for j in range(i + 1, min(len(opcodes), i + 2)):
+                    if opcodes[j][0] == 'equal':
+                        next_alo, next_ahi = opcodes[j][1], opcodes[j][2]
+                        # Include first N lines of the next equal block
+                        context_end = min(next_ahi, next_alo + context_lines)
+                        for line_num in range(next_alo, context_end):
+                            included_equal_ranges.add(line_num)
+
+    # Remember! gmail, outlook etc dont support <style> must be inline.
+    # Gmail: strips <ins> and <del> tags entirely.
+    for tag, alo, ahi, blo, bhi in cruncher.get_opcodes():
+        if tag == 'equal':
+            if include_equal:
+                yield before[alo:ahi]
+            elif context_lines > 0:
+                # Only include equal lines that are in the context range
+                context_lines_to_include = [before[i] for i in range(alo, ahi) if i in included_equal_ranges]
+                if context_lines_to_include:
+                    yield context_lines_to_include
+        elif include_removed and tag == 'delete':
+            if include_change_type_prefix:
+                yield [f'{REMOVED_PLACEMARKER_OPEN}{line}{REMOVED_PLACEMARKER_CLOSED}' for line in same_slicer(before, alo, ahi)]
+            else:
+                yield same_slicer(before, alo, ahi)
+        elif include_replaced and tag == 'replace':
+            before_lines = same_slicer(before, alo, ahi)
+            after_lines = same_slicer(after, blo, bhi)
+
+            # Use inline word-level diff for single line replacements when word_diff is enabled
+            if word_diff and len(before_lines) == 1 and len(after_lines) == 1:
+                inline_diff, has_changes = render_inline_word_diff(before_lines[0], after_lines[0], ignore_junk=ignore_junk, tokenizer=tokenizer, include_change_type_prefix=include_change_type_prefix)
+                # Check if there are any actual changes (not just whitespace when ignore_junk is enabled)
+                if ignore_junk and not has_changes:
+                    # No real changes, skip this line
+                    continue
+                yield [inline_diff]
+            else:
+                # Fall back to line-level diff for multi-line changes
+                if include_change_type_prefix:
+                    yield [f'{CHANGED_PLACEMARKER_OPEN}{line}{CHANGED_PLACEMARKER_CLOSED}' for line in before_lines] + \
+                          [f'{CHANGED_INTO_PLACEMARKER_OPEN}{line}{CHANGED_INTO_PLACEMARKER_CLOSED}' for line in after_lines]
+                else:
+                    yield before_lines + after_lines
+        elif include_added and tag == 'insert':
+            if include_change_type_prefix:
+                yield [f'{ADDED_PLACEMARKER_OPEN}{line}{ADDED_PLACEMARKER_CLOSED}' for line in same_slicer(after, blo, bhi)]
+            else:
+                yield same_slicer(after, blo, bhi)
+
+def render_diff(
+    previous_version_file_contents: str,
+    newest_version_file_contents: str,
+    include_equal: bool = False,
+    include_removed: bool = True,
+    include_added: bool = True,
+    include_replaced: bool = True,
+    include_change_type_prefix: bool = True,
+    patch_format: bool = False,
+    word_diff: bool = True,
+    context_lines: int = 0,
+    case_insensitive: bool = False,
+    ignore_junk: bool = False,
+    tokenizer: str = 'words_and_html'
+) -> str:
+    """
+    Render the difference between two file contents.
+
+    Args:
+        previous_version_file_contents (str): Original file contents
+        newest_version_file_contents (str): Modified file contents
+        include_equal (bool): Include unchanged parts
+        include_removed (bool): Include removed parts
+        include_added (bool): Include added parts
+        include_replaced (bool): Include replaced parts
+        include_change_type_prefix (bool): Add prefixes to indicate change types
+        patch_format (bool): Use patch format for output
+        word_diff (bool): Use word-level diffing for replaced lines (controls inline rendering)
+        context_lines (int): Number of unchanged lines to show around changes (like grep -C)
+        case_insensitive (bool): Perform case-insensitive comparison, By default the test_json_diff/process.py is case sensitive, so this follows same logic
+        ignore_junk (bool): Ignore whitespace-only changes
+        tokenizer (str): Name of tokenizer to use from TOKENIZERS registry (default: 'words_and_html')
+
+    Returns:
+        str: Rendered difference
+    """
+    newest_lines = [line.rstrip() for line in (newest_version_file_contents or '').splitlines()]
+    previous_lines = [line.rstrip() for line in (previous_version_file_contents or '').splitlines()]
+    now = time.time()
+    logger.debug(
+        f"diff options: "
+        f"include_equal={include_equal}, "
+        f"include_removed={include_removed}, "
+        f"include_added={include_added}, "
+        f"include_replaced={include_replaced}, "
+        f"include_change_type_prefix={include_change_type_prefix}, "
+        f"patch_format={patch_format}, "
+        f"word_diff={word_diff}, "
+        f"context_lines={context_lines}, "
+        f"case_insensitive={case_insensitive}, "
+        f"ignore_junk={ignore_junk}, "
+        f"tokenizer={tokenizer}"
+    )
+    if patch_format:
+        patch = difflib.unified_diff(previous_lines, newest_lines)
+        return "\n".join(patch)
+
+    rendered_diff = customSequenceMatcher(
+        before=previous_lines,
+        after=newest_lines,
+        include_equal=include_equal,
+        include_removed=include_removed,
+        include_added=include_added,
+        include_replaced=include_replaced,
+        include_change_type_prefix=include_change_type_prefix,
+        word_diff=word_diff,
+        context_lines=context_lines,
+        case_insensitive=case_insensitive,
+        ignore_junk=ignore_junk,
+        tokenizer=tokenizer
+    )
+
+    def flatten(lst: List[Union[str, List[str]]]) -> str:
+        result = []
+        for x in lst:
+            if isinstance(x, list):
+                result.extend(x)
+            else:
+                result.append(x)
+        return "\n".join(result)
+
+    logger.debug(f"Diff generated in {time.time() - now:.2f}s")
+
+    return flatten(rendered_diff)
+
+
 # Export main public API
 __all__ = [
     'render_diff',
