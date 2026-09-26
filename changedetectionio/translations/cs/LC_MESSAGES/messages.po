@@ -3067,6 +3067,47 @@ msgid "Use global settings for time between check and scheduler."
 msgstr "Použít globální nastavení pro čas mezi kontrolou a plánovačem."
 
 #: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Nahrazené/upravené řádky"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Odstraněné řádky"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Spouštěče klíčových slov – Spouštění/čekání na text"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Blokovat detekci změn, když se text shoduje"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Spusťte JavaScript před detekcí změn"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/forms.py
+msgid "Proxy"
+msgstr "Proxy"
+
+#: changedetectionio/forms.py
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr "Odeslat upozornění pokud filtr již na stránce nelze najít"
+
+#: changedetectionio/forms.py
+msgid "On"
+msgstr "Zapnuto"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Oznámení"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Ztlumit"
+
+#: changedetectionio/forms.py
 msgid "Attach screenshot to notification (where possible)"
 msgstr "Připojit snímek obrazovky k oznámení (pokud je to možné)"
 
