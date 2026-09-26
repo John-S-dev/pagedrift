@@ -3772,6 +3772,49 @@ msgid "Without (added) prefix or colors"
 msgstr "（追加済み）プレフィックスや色なし"
 
 #: changedetectionio/templates/_common_fields.html
+msgid "Add email notification:"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add to list"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add an email address"
+msgstr "メールアドレスを追加"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Send test notification"
+msgstr "テスト通知を送信"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Notification debug logs"
+msgstr "通知デバッグログ"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Processing.."
+msgstr "処理中.."
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Use <a target=\"newwindow\" href=\"%(url)s\">AppRise Notification URLs</a> for notification to just about any service!"
+msgstr "<a target=\"newwindow\" href=\"%(url)s\">AppRise 通知URL</a> を使えば、ほぼすべてのサービスへの通知に対応できます！"
+
+# 訳注: 日本語を斜体にすると字形が崩れるため、強調表示は<strong>に置き換える。
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/_common_fields.html
+msgid "<i>Please read the notification services wiki here for important configuration notes</i>"
+msgstr "<strong>重要な設定に関するメモについては、通知サービスのWikiをこちらでお読みください</strong>"
+
+#: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
+msgid "Show advanced help and tips"
+msgstr "詳細なヘルプとヒントを表示"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "（または"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "Customise notifications"
 msgstr ""
 

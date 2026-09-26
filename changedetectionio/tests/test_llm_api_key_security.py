@@ -166,6 +166,61 @@ def test_tag_list_does_not_expose_llm_api_key(
 
 
 # ---------------------------------------------------------------------------
+# System / global endpoints
+# ---------------------------------------------------------------------------
+
+def test_system_info_does_not_expose_llm_api_key(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET /api/v1/systeminfo must not contain the LLM API key."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+
+    res = client.get('/api/v1/systeminfo', headers={'x-api-key': api_token})
+    assert res.status_code == 200
+    assert not _key_in_response(res), \
+        "LLM API key leaked in GET /api/v1/systeminfo response"
+
+    delete_all_watches(client)
+
+
+def test_notifications_api_does_not_expose_llm_api_key(
+        client, live_server, measure_memory_usage, datastore_path):
+    """GET/POST/PUT /api/v1/notifications must not contain the LLM API key."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+
+    # GET
+    res = client.get('/api/v1/notifications', headers={'x-api-key': api_token})
+    assert res.status_code == 200
+    assert not _key_in_response(res), \
+        "LLM API key leaked in GET /api/v1/notifications response"
+
+    # POST — add a notification URL; response must not echo back LLM config
+    res = client.post(
+        '/api/v1/notifications',
+        headers={'x-api-key': api_token, 'content-type': 'application/json'},
+        data=json.dumps({'notification_urls': ['json://localhost/']}),
+    )
+    assert res.status_code in (200, 201, 400)  # 400 if URL invalid on server; still no key
+    assert not _key_in_response(res), \
+        "LLM API key leaked in POST /api/v1/notifications response"
+
+    # PUT — replace notification URLs; response must not include LLM config
+    res = client.put(
+        '/api/v1/notifications',
+        headers={'x-api-key': api_token, 'content-type': 'application/json'},
+        data=json.dumps({'notification_urls': ['json://localhost/']}),
+    )
+    assert res.status_code in (200, 201, 400)
+    assert not _key_in_response(res), \
+        "LLM API key leaked in PUT /api/v1/notifications response"
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
 # Settings HTML page — key must not appear in the form source HTML
 # ---------------------------------------------------------------------------
 
