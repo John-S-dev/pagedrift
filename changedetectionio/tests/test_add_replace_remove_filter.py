@@ -39,3 +39,75 @@ def set_original(datastore_path, excluding=None, add_line=None):
     with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
         f.write(test_return_data)
 
+# def test_setup(client, live_server, measure_memory_usage, datastore_path):
+   #  live_server_setup(live_server) # Setup on conftest per function
+
+def test_check_removed_line_contains_trigger(client, live_server, measure_memory_usage, datastore_path):
+
+    # Give the endpoint time to spin up
+    set_original(datastore_path=datastore_path)
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # Goto the edit page, add our ignore text
+    # Add our URL to the import page
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"trigger_text": 'The golden line',
+              "url": test_url,
+              'fetch_backend': "html_requests",
+              'filter_text_removed': 'y',
+              "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+
+    assert b"Updated watch." in res.data
+    wait_for_all_checks(client)
+    set_original(excluding='Something irrelevant', datastore_path=datastore_path)
+
+    # A line thats not the trigger should not trigger anything
+    res = client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    assert b'Queued 1 watch for rechecking.' in res.data
+    wait_for_all_checks(client)
+    time.sleep(0.5)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' not in res.data
+
+    # The trigger line is REMOVED,  this should trigger
+    set_original(excluding='The golden line', datastore_path=datastore_path)
+
+    # Check in the processor here what's going on, its triggering empty-reply and no change.
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' in res.data
+
+    time.sleep(1)
+
+    # Now add it back, and we should not get a trigger
+    client.post(url_for("ui.mark_all_viewed"), follow_redirects=True)
+    time.sleep(0.2)
+
+    time.sleep(1)
+    set_original(excluding=None, datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    time.sleep(1)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' not in res.data
+
+    # Remove it again, and we should get a trigger
+    set_original(excluding='The golden line', datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' in res.data
+
+    delete_all_watches(client)
+
+
