@@ -3222,6 +3222,46 @@ msgstr ""
 msgid "Replace the inherited prompt"
 msgstr ""
 
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Append to the inherited prompt"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "AI enabled for this watch?"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "CSS/JSONPath/JQ/XPath Filters"
+msgstr "CSS/JSONPath/JQ/XPath フィルタ"
+
+#: changedetectionio/forms.py
+msgid "Remove elements"
+msgstr "要素を削除"
+
+#: changedetectionio/forms.py
+msgid "Extract lines containing"
+msgstr "指定テキストを含む行を抽出"
+
+#: changedetectionio/forms.py
+msgid "Extract text"
+msgstr "テキストを抽出"
+
+#: changedetectionio/blueprint/imports/templates/import.html changedetectionio/forms.py
+msgid "Title"
+msgstr "タイトル"
+
+#: changedetectionio/forms.py
+msgid "Ignore lines containing"
+msgstr "次を含む行を無視"
+
+#: changedetectionio/forms.py
+msgid "Request body"
+msgstr "リクエストボディ"
+
+#: changedetectionio/forms.py
+msgid "Request method"
+msgstr "リクエストメソッド"
+
 #: changedetectionio/forms.py
 msgid "Ignore status codes (process non-2xx status codes as normal)"
 msgstr "ステータスコードを無視（2xx以外のステータスコードを通常通り処理）"
