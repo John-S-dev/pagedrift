@@ -4029,3 +4029,43 @@ msgstr ""
 msgid "Each line is processed separately (think of each line as \"OR\")"
 msgstr "Każdy wiersz jest przetwarzany osobno (każdy wiersz należy traktować jako „LUB”)"
 
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Powiadomienia są wyciszone – kliknij, aby je włączyć"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr "Powiadomienia włączone"
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr "Wyloguj się"
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "EDYTUJ"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Wykrywanie zmian na stronie internetowej i powiadamianie o nich."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "Włącz/wyłącz tryb AI"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "Włącz/wyłącz tryb AI"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Włącz/wyłącz tryb jasny/ciemny"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle light/dark mode"
+msgstr "Włącz/wyłącz tryb jasny/ciemny"
+
