@@ -3329,6 +3329,46 @@ msgstr "Ignorar espacios en blanco"
 msgid "Screenshot: Minimum Change Percentage"
 msgstr ""
 
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Debe estar entre 0 y 100"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "Contraseña"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "Tamaño del paginador"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "Debe ser al menos cero (deshabilitado)"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "Formato de contenido RSS"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "RSS<description>cuerpo construido a partir de"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "Anulación de plantilla RSS \"Predeterminada del sistema\""
+
+#: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "Quitar contraseña"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "Representar el contenido de la etiqueta de anclaje"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "Permitir el acceso anónimo a la página del historial de visualización cuando la contraseña esté habilitada"
+
 #: changedetectionio/forms.py
 msgid "Hide muted watches from RSS feed"
 msgstr "Ocultar monitores silenciados del feed RSS"
