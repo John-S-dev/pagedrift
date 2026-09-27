@@ -175,3 +175,37 @@ window.watchOverviewI18n = {
     </form>
 </div>
 
+    <div id="stats_row">
+        <div class="left">{%- if watches|length >= pagination.per_page -%}{{ pagination.info }}{%- endif -%}
+            {# Live count of selected rows; %(count)s is filled (locale-formatted) by watch-overview.js #}
+            <div id="records-selected" class="records-selected" data-template="{{ _('%(count)s records selected') }}" style="display: none;"></div>
+        </div>
+    </div>
+
+
+
+    {%- if search_q -%}<div id="search-result-info">{{ _('Searching') }} "<strong><i>{{search_q}}</i></strong>"</div>{%- endif -%}
+
+
+    {%- set sort_order = sort_order or 'asc' -%}
+    {%- set sort_attribute = sort_attribute or 'last_changed'  -%}
+    {%- set pagination_page = request.args.get('page', 0) -%}
+    {%- set cols_required = 6 -%}
+    {%- if any_has_restock_price_processor -%}
+        {%- set cols_required = cols_required + 1 -%}
+    {%- endif -%}
+    {%- set wrapper_classes = [
+        'has-unread-changes' if unread_changes_count else '',
+        'has-error' if errored_count else '',
+    ] -%}
+    <div id="watch-table-wrapper" class="{{ wrapper_classes | reject('equalto', '') | join(' ') }}">
+        <div id="tag-lister" class="{% if active_tag %}active-tag{% endif %}">
+            <a id="tag-all" href="{{ filter_url(tag=None) }}" class="pure-button button-tag {{'active' if not active_tag_uuid }}">{{ _('All') }}</a>
+            <!-- tag list -->
+            {%- for uuid, tag in tags -%}
+                {%- if tag != "" -%}
+                    <a href="{{ filter_url(tag=uuid) }}" class="pure-button button-tag tag-{{ tag.title|sanitize_tag_class }} {{'active' if active_tag_uuid == uuid }}">{{ tag.title }}</a>
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+
