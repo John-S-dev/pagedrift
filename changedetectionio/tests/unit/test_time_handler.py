@@ -43,6 +43,69 @@ class TestAmIInsideTime(unittest.TestCase):
         time_str = yesterday.format('HH:mm')
         duration = 30  # Only 30 minutes
 
+        self.assertTrue(result, "Current time should be within 24 hour window")
+
+    def test_case_insensitive_day(self):
+        """Test that day of week is case insensitive."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        day_of_week = now.format('dddd').lower()  # lowercase day
+        time_str = now.format('HH:00')
+        duration = 60
+
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        self.assertTrue(result, "Lowercase day should work")
+
+    def test_edge_case_midnight(self):
+        """Test edge case at exactly midnight."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        day_of_week = now.format('dddd')
+        time_str = "00:00"
+        duration = 60
+
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        # Should be true if we're in the first hour of the day
+        if now.hour == 0:
+            self.assertTrue(result)
+
+    def test_edge_case_end_of_day(self):
+        """Test edge case near end of day."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        day_of_week = now.format('dddd')
+        time_str = "23:45"
+        duration = 30  # 30 minutes crosses midnight
+
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        # Result depends on current time
+        self.assertIsInstance(result, bool)
+
+    def test_24_hour_schedule_from_midnight(self):
+        """Test 24-hour schedule starting at midnight covers entire day."""
+        timezone_str = 'UTC'
+        # Test at a specific time: Monday 00:00
+        test_time = arrow.get('2024-01-01 00:00:00', 'YYYY-MM-DD HH:mm:ss').replace(tzinfo=timezone_str)
+        day_of_week = test_time.format('dddd')  # Monday
+
         # Mock current time for testing
         with unittest.mock.patch('arrow.now', return_value=test_time):
             result = time_handler.am_i_inside_time(
