@@ -3725,6 +3725,52 @@ msgstr "0から100の間で指定してください"
 msgid "Follow price changes"
 msgstr "価格変動を追跡"
 
+#: changedetectionio/processors/templates/extract.html
+msgid "A <strong>RegEx</strong> is a pattern that identifies exactly which part inside of the text that you want to extract."
+msgstr "<strong>正規表現</strong> は、抽出したいテキスト内の部分を正確に特定するためのパターンです。"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "For example, to extract only the numbers from text"
+msgstr "例えば、テキストから数値のみを抽出するには"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "Raw text"
+msgstr "元のテキスト"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "RegEx to extract:"
+msgstr "抽出用の正規表現："
+
+#: changedetectionio/processors/templates/extract.html
+msgid "Be sure to test your RegEx here."
+msgstr "ここで正規表現をテストしてください。"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "Each RegEx group bracket"
+msgstr "正規表現の各グループ括弧"
+
+#: changedetectionio/processors/templates/extract.html
+msgid "will be in its own column, the first column value is always the date."
+msgstr "は独立したカラムとなり、最初のカラムの値は常に日付です。"
+
+#: changedetectionio/processors/text_json_diff/processor.py
+msgid "Webpage Text/HTML, JSON and PDF changes"
+msgstr "ウェブページのテキスト/HTML、JSONおよびPDFの変更"
+
+#: changedetectionio/processors/text_json_diff/processor.py
+msgid "Detects all text changes where possible"
+msgstr "可能な限りすべてのテキスト変更を検知します"
+
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Watch limit reached ({current}/{limit} watches). Cannot add more watches."
+msgstr "ウォッチの上限に達しました（{current}/{limit} ウォッチ）。これ以上ウォッチを追加できません。"
+
+#: changedetectionio/store/__init__.py
+#, python-brace-format
+msgid "Error fetching metadata for {}"
+msgstr "{} のメタデータ取得中にエラーが発生しました"
+
 #: changedetectionio/store/__init__.py
 msgid "Watch protocol is not permitted or invalid URL format"
 msgstr "ウォッチのプロトコルが許可されていないか、URL形式が無効です"
