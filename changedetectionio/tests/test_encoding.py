@@ -56,3 +56,34 @@ def test_utf8_content_without_charset_header(client, live_server, datastore_path
     assert '日本語'.encode('utf-8') in res.data
 
 
+def test_shiftjis_with_meta_charset(client, live_server, datastore_path):
+    """Server returns Shift-JIS content with no charset in HTTP header, but the HTML
+    declares <meta charset="Shift-JIS">. We should use the meta tag, not chardet.
+    Real-world case: https://github.com/dgtlmoon/changedetection.io/issues/3952
+    """
+    from .util import write_test_file_and_sync
+    japanese_text = '日本語のページ'
+    html = f'<html><head><meta http-equiv="Content-Type" content="text/html;charset=Shift-JIS"></head><body><p>{japanese_text}</p></body></html>'
+    write_test_file_and_sync(os.path.join(datastore_path, "endpoint-content.txt"), html.encode('shift_jis'), mode='wb')
+
+    test_url = url_for('test_endpoint', content_type="text/html", _external=True)
+    client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.get(url_for("ui.ui_preview.preview_page", uuid="first"), follow_redirects=True)
+    assert japanese_text.encode('utf-8') in res.data
+
+
+def set_html_response(datastore_path):
+    test_return_data = """
+<html><body><span class="nav_second_img_text">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铸大国重器，挺制造脊梁，致力能源未来，赋能美好生活。
+                                  </span>
+</body></html>
+    """
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(test_return_data)
+    return None
+
+
