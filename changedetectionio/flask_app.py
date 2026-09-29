@@ -376,6 +376,19 @@ def _watch_is_checking_now(watch_obj, format="%Y-%m-%d %H:%M:%S"):
     return worker_pool.is_watch_running(watch_obj['uuid'])
 
 
+@app.template_global('get_watch_queue_position')
+def _get_watch_queue_position(watch_obj):
+    """Get the position of a watch in the queue"""
+    uuid = watch_obj['uuid']
+    return update_q.get_uuid_position(uuid)
+
+
+@app.template_global('get_current_worker_count')
+def _get_current_worker_count():
+    """Get the current number of operational workers"""
+    return worker_pool.get_worker_count()
+
+
 @app.template_global('get_worker_status_info')
 def _get_worker_status_info():
     """Get detailed worker status information for display"""
