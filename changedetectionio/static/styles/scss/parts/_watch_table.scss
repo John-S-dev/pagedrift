@@ -419,6 +419,31 @@ body.watch-selection-active #checkbox-operations {
     }*/
 }
 
+body.watch-selection-active  {
+  /* because its confusing to be in checkbox selection mode AND see these buttons which apply always to all watches */
+  #buttons-for-all-watches {
+      display: none !important;
+  }
+}
+#buttons-for-all-watches {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: $common-gap;
+  margin: 0;
+
+  /* Always in the DOM so realtime can reveal/hide it in any open tab (it used to be
+     {% if unread_count %}'d away, so another tab could never show it). Revealed by
+     body.has-any-unviewed - a body class rather than a selector tied to this toolbar,
+     so it keeps working if the button moves, and it follows the same convention as
+     body.has-queue / body.is-checking-now. Set server-side via extra_classes and kept
+     live by the general_stats_update socket event. */
+  #post-list-mark-views {
+    display: none;
+  }
+}
+
 #watch-table-wrapper {
   display: inline-block; /* so the tabs at the bottom align */
   width: 100%; /* so the table always grows to the tab sizes if theres lots of tabs and full is OK too */
