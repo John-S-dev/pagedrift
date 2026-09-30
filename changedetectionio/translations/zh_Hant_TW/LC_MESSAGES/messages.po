@@ -3214,6 +3214,50 @@ msgid "Default User-Agent overrides"
 msgstr "預設 User-Agent 覆寫"
 
 #: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "將空白頁面視為變更？"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "忽略文字"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "忽略空白"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr "截圖：最小變更百分比"
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "必須介於 0 到 100 之間"
+
+#: changedetectionio/forms.py changedetectionio/templates/login.html
+msgid "Password"
+msgstr "密碼"
+
+#: changedetectionio/forms.py
+msgid "Pager size"
+msgstr "分頁大小"
+
+#: changedetectionio/forms.py
+msgid "Should be atleast zero (disabled)"
+msgstr "應至少為 0（停用）"
+
+#: changedetectionio/forms.py
+msgid "RSS Content format"
+msgstr "RSS 內容格式"
+
+#: changedetectionio/forms.py
+msgid "RSS <description> body built from"
+msgstr "RSS <description> 內容建立自"
+
+#: changedetectionio/forms.py
+msgid "RSS \"System default\" template override"
+msgstr "RSS「系統預設」範本覆寫"
+
+#: changedetectionio/forms.py
 msgid "Extract as CSV"
 msgstr "提取為 CSV"
 
