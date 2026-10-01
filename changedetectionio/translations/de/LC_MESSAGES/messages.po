@@ -2283,6 +2283,46 @@ msgid "AI tokens (last check)"
 msgstr ""
 
 #: changedetectionio/blueprint/ui/templates/edit.html
+msgid "AI tokens (total)"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download latest HTML snapshot"
+msgstr "Laden Sie den neuesten HTML-Snapshot herunter"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Download watch data package"
+msgstr ""
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Delete Watch?"
+msgstr "Überwachung löschen?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to delete the watch for:"
+msgstr "Sind Sie sicher, dass Sie die Überwachung löschen möchten für:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This action cannot be undone."
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear History?"
+msgstr "Verlauf löschen?"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Are you sure you want to clear all history for:"
+msgstr "Sind Sie sicher, dass Sie den gesamten Verlauf löschen möchten für:"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "This will remove all snapshots and previous versions. This action cannot be undone."
+msgstr "Dadurch werden alle Snapshots und früheren Versionen entfernt. Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: changedetectionio/blueprint/ui/templates/edit.html
+msgid "Clear History"
+msgstr "Verlauf löschen"
+
+#: changedetectionio/blueprint/ui/templates/edit.html
 msgid "Clone & Edit"
 msgstr "Klonen und bearbeiten"
 
