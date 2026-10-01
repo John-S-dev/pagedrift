@@ -469,6 +469,8 @@ def cleanup_error_artifacts(uuid, datastore):
         if os.path.isfile(full_path):
             os.unlink(full_path)
 
+
+
 async def send_content_changed_notification(watch_uuid, notification_q, datastore):
     """Helper function to queue notifications using the new notification service"""
     try:
