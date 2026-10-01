@@ -171,3 +171,87 @@ def test_import_custom_xlsx(client, live_server, measure_memory_usage, datastore
 
     delete_all_watches(client)
 
+def test_import_watchete_xlsx(client, live_server, measure_memory_usage, datastore_path):
+    """Test can upload a excel spreadsheet and the watches are created correctly"""
+
+    
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, 'import/spreadsheet.xlsx')
+    with open(filename, 'rb') as f:
+
+        data= {
+            'file_mapping': 'wachete',
+            'xlsx_file': (io.BytesIO(f.read()), 'spreadsheet.xlsx')
+        }
+
+    res = client.post(
+        url_for("imports.import_page"),
+        data=data,
+        follow_redirects=True,
+    )
+
+    assert b'4 imported from Wachete .xlsx' in res.data
+
+    res = client.get(
+        url_for("watchlist.index")
+    )
+
+    assert b'Somesite results ABC' in res.data
+    assert b'City news results' in res.data
+
+    # Just find one to check over
+    for uuid, watch in live_server.app.config['DATASTORE'].data['watching'].items():
+        if watch.get('title') == 'Somesite results ABC':
+            filters = watch.get('include_filters')
+            assert filters[0] == '/html[1]/body[1]/div[4]/div[1]/div[1]/div[1]||//*[@id=\'content\']/div[3]/div[1]/div[1]||//*[@id=\'content\']/div[1]'
+            assert watch.get('time_between_check') == {'weeks': 0, 'days': 1, 'hours': 6, 'minutes': 24, 'seconds': 0}
+            assert watch.get('fetch_backend') == 'html_requests' # Has inactive 'dynamic wachet'
+
+        if watch.get('title') == 'JS website':
+            assert watch.get('fetch_backend') == 'html_webdriver' # Has active 'dynamic wachet'
+
+        if watch.get('title') == 'system default website':
+            assert watch.get('fetch_backend') == 'system' # uses default if blank
+
+    delete_all_watches(client)
+
+
+def test_import_wachete_xlsx_row_counter(client, live_server, measure_memory_usage, datastore_path):
+    """Row counter in Wachete XLSX import must advance even after a failed row.
+
+    Regression: row_id was only incremented in the try/else (on success), so
+    after any failure the counter froze and all subsequent errors cited the
+    stale number.  With the enumerate() fix, row 5 must say "row 5", not "row 3".
+    """
+    import openpyxl
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    # Header row (row 1)
+    ws.append(['Name', 'Id', 'Url', 'Interval (min)', 'XPath', 'Dynamic Wachet', 'Portal Wachet', 'Folder'])
+    # Row 2: valid
+    ws.append(['Site A', '001', 'https://example.com/a', 60, None, None, None, None])
+    # Row 3: bad URL — must report row 3
+    ws.append(['Site B', '002', 'not-a-valid-url', 60, None, None, None, None])
+    # Row 4: valid
+    ws.append(['Site C', '003', 'https://example.com/c', 60, None, None, None, None])
+    # Row 5: bad URL — must report row 5, not "row 3" (the pre-fix stale value)
+    ws.append(['Site D', '004', 'also-not-valid', 60, None, None, None, None])
+
+    xlsx_bytes = io.BytesIO()
+    wb.save(xlsx_bytes)
+    xlsx_bytes.seek(0)
+
+    res = client.post(
+        url_for("imports.import_page"),
+        data={'file_mapping': 'wachete', 'xlsx_file': (xlsx_bytes, 'test.xlsx')},
+        follow_redirects=True,
+    )
+
+    assert b'2 imported from Wachete .xlsx' in res.data
+    assert b'Error processing row number 3' in res.data
+    assert b'Error processing row number 5' in res.data
+
+    delete_all_watches(client)
+
+
