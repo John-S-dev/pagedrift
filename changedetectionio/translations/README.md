@@ -225,3 +225,37 @@ Babel auto-discovers the new language on subsequent runs.
 
 ---
 
+## Dennis linter
+
+We use [mozilla/dennis](https://github.com/mozilla/dennis) to enforce technical correctness in `.po` and `.pot` files.
+See the [Table of Warnings and Errors](https://dennis.readthedocs.io/en/latest/linting.html#table-of-warnings-and-errors)
+for the full list of rules.
+
+### Running the linter locally
+
+To match the CI checks, run the following commands:
+
+```bash
+# Check for errors only (always enforced)
+dennis-cmd lint --errorsonly changedetectionio/translations/
+
+# Check for warnings (excluding W302 unchanged translations)
+dennis-cmd lint --excluderules=W302 changedetectionio/translations/
+```
+
+### Common problems and resolutions
+
+#### HTML tag mismatch (`W303`)
+
+The `W303` rule ensures that HTML tags in the `msgstr` match the `msgid`. This is crucial for catching broken markup (e.g., missing closing tags).
+
+##### Handling intentional deviations
+
+Some W303 warnings are intentional.
+Use the `dennis-ignore: W303` comment in the source files (templates or Python code) within a `TRANSLATORS` comment to suppress these warnings.
+This ensures the ignore instruction is extracted into the `.po` files.
+
+- **CJK italic policy**: When replacing `<i>` with locale-conventional quotation marks, tags will no longer match.
+
+**Examples in Jinja2 templates:**
+
