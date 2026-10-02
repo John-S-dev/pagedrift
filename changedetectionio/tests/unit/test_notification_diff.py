@@ -331,3 +331,40 @@ Line 3 with tabs and spaces"""
         self.assertEqual(extract_changed_from(raw), "$99\n$5")
         self.assertEqual(extract_changed_to(raw),   "$149\n$12")
 
+        raw = diff.render_diff(before, after, word_diff=True, include_change_type_prefix=False)
+
+        self.assertNotIn('PLACEMARKER', raw)
+        self.assertIn('50', raw)
+        self.assertIn('75', raw)
+
+    def test_word_diff_with_prefix_still_wraps(self):
+        """Default include_change_type_prefix=True must still wrap tokens."""
+        before = "73"
+        after = "100"
+
+        raw = diff.render_diff(before, after, word_diff=True, include_change_type_prefix=True)
+
+        self.assertIn('PLACEMARKER', raw)
+
+    def test_word_diff_no_prefix_exact_output(self):
+        """Pin exact output for include_change_type_prefix=False to catch regressions.
+
+        Whole-line replacement: old and new values separated by newline, no markers.
+        Inline partial replacement: equal tokens kept, changed tokens (both old and new)
+        appended without markers — this means old+new are concatenated in place.
+        """
+        # Whole-line replaced: both values on separate lines, clean
+        raw = diff.render_diff('73', '100', word_diff=True, include_change_type_prefix=False)
+        self.assertEqual(raw, '73\n100')
+
+        # Inline word replacement: equal context preserved, old+new token concatenated in-place
+        raw = diff.render_diff('the price is 50 dollars', 'the price is 75 dollars',
+                               word_diff=True, include_change_type_prefix=False)
+        self.assertEqual(raw, 'the price is 5075 dollars')
+
+        # Sanity: with prefix the whole-line case is fully wrapped
+        raw = diff.render_diff('73', '100', word_diff=True, include_change_type_prefix=True)
+        self.assertEqual(raw, '@changed_PLACEMARKER_OPEN73@changed_PLACEMARKER_CLOSED\n'
+                               '@changed_into_PLACEMARKER_OPEN100@changed_into_PLACEMARKER_CLOSED')
+
+
