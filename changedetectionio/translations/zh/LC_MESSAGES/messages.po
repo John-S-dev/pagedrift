@@ -3229,6 +3229,46 @@ msgid "Muted"
 msgstr "静音"
 
 #: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "请求超时（秒）"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "应介于 1 到 999 之间"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "默认 User-Agent 覆盖"
+
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "名称和代理 URL 都是必填项。"
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "在新标签页中打开“历史记录”"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "启用实时界面更新"
+
+#: changedetectionio/forms.py
+msgid "Favicons Enabled"
+msgstr "启用站点图标"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in watch overview list"
+msgstr "在监控概览列表中使用页面 <title>"
+
+#: changedetectionio/forms.py
+msgid "Relative time format"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Long (1 minute ago)"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Short (1m ago)"
 msgstr ""
 
