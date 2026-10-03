@@ -259,3 +259,11 @@ def test_api_tag_restock_processor_config(client, live_server, measure_memory_us
     assert res.status_code == 400
     assert b'Validation failed' in res.data
 
+    # Clean up
+    res = client.delete(
+        url_for("tag", uuid=tag_uuid),
+        headers={'x-api-key': api_key}
+    )
+    assert res.status_code == 204
+
+
