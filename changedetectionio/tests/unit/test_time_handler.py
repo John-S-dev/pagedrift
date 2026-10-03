@@ -43,6 +43,59 @@ class TestAmIInsideTime(unittest.TestCase):
         time_str = yesterday.format('HH:mm')
         duration = 30  # Only 30 minutes
 
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        self.assertFalse(result, "Yesterday's time should not be within current schedule")
+
+    def test_timezone_pacific_within_schedule(self):
+        """Test with US/Pacific timezone."""
+        timezone_str = 'US/Pacific'
+        now = arrow.now(timezone_str)
+        day_of_week = now.format('dddd')
+        time_str = now.format('HH:00')
+        duration = 120  # 2 hours
+
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        self.assertTrue(result)
+
+    def test_timezone_tokyo_within_schedule(self):
+        """Test with Asia/Tokyo timezone."""
+        timezone_str = 'Asia/Tokyo'
+        now = arrow.now(timezone_str)
+        day_of_week = now.format('dddd')
+        time_str = now.format('HH:00')
+        duration = 90  # 1.5 hours
+
+        result = time_handler.am_i_inside_time(
+            day_of_week=day_of_week,
+            time_str=time_str,
+            timezone_str=timezone_str,
+            duration=duration
+        )
+
+        self.assertTrue(result)
+
+    def test_schedule_crossing_midnight(self):
+        """Test schedule that crosses midnight."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+
+        # Set schedule to start 23:30 with 120 minute duration (crosses midnight)
+        day_of_week = now.format('dddd')
+        time_str = "23:30"
+        duration = 120  # 2 hours - goes into next day
+
         self.assertTrue(result, "Current time should be within 24 hour window")
 
     def test_case_insensitive_day(self):
