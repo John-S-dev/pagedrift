@@ -3444,6 +3444,46 @@ msgid "Use LLM as a fallback for extracting price and restock info"
 msgstr "Используйте LLM в качестве запасного варианта для получения информации о ценах и пополнении запасов."
 
 #: changedetectionio/forms.py
+msgid "Enable LLM debug logging"
+msgstr "Включить ведение журнала отладки LLM"
+
+#: changedetectionio/forms.py
+msgid "AI thinking budget (tokens)"
+msgstr "Бюджет мышления ИИ (токены)"
+
+#: changedetectionio/forms.py
+msgid "Off (no thinking)"
+msgstr "Выкл. (не думая)"
+
+#: changedetectionio/forms.py
+msgid "Max AI summary length (tokens)"
+msgstr "Максимальная длина сводки AI (токены)"
+
+#: changedetectionio/forms.py
+msgid "When monthly token budget is reached"
+msgstr "Когда будет достигнут ежемесячный бюджет токенов"
+
+#: changedetectionio/forms.py
+msgid "Skip AI summarisation only (watch still checks)"
+msgstr "Пропустить только обобщение AI (смотреть еще проверяет)"
+
+#: changedetectionio/forms.py
+msgid "Skip the watch check entirely"
+msgstr "Полностью пропустить проверку часов"
+
+#: changedetectionio/forms.py
+msgid "Watchlist \"Summary\" link compares"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Previous version (second-last vs latest)"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "RegEx to extract"
 msgstr "RegEx для извлечения"
 
@@ -3695,6 +3735,58 @@ msgstr "Токен"
 #: changedetectionio/templates/_common_fields.html
 msgid "Description"
 msgstr "Описание"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The diff output - patch in unified format"
+msgstr "Вывод diff - патч в едином формате"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"Only the changed words/values from the previous version — e.g. the old price. Best when a single value changes per "
+"line; multiple changed fragments are joined by newline."
+msgstr ""
+"Только измененные слова/значения из предыдущей версии — например. старая цена. Лучше всего, когда в каждой строке "
+"меняется одно значение; несколько измененных фрагментов объединяются новой строкой."
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"Only the changed words/values from the new version — e.g. the new price. Best when a single value changes per line; "
+"multiple changed fragments are joined by newline."
+msgstr ""
+"Только измененные слова/значения из новой версии — например. новая цена. Лучше всего, когда в каждой строке меняется "
+"одно значение; несколько измененных фрагментов объединяются новой строкой."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The current snapshot text contents value, useful when combined with JSON or CSS filters"
+msgstr "Текущее значение текстового содержимого снимка, полезно в сочетании с фильтрами JSON или CSS."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Text that tripped the trigger from filters"
+msgstr "Текст, вызывающий срабатывание триггера фильтров"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(upgraded)"
+msgstr "(обновлено)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"When AI Change Summary is configured, contains the AI-generated description instead of the raw diff. Falls back to "
+"raw diff when not configured."
+msgstr ""
+"Если настроена сводка изменений AI, она содержит описание, созданное AI, вместо необработанных различий. Возвращается"
+" к необработанным различиям, если они не настроены."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Always the raw +/- diff, regardless of AI Change Summary setting."
+msgstr "Всегда необработанная разница +/-, независимо от настройки сводки изменений AI."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The AI Change Summary text (same as the upgraded {{diff}} — explicit reference)."
+msgstr "Текст сводки изменений AI (тот же, что и в обновленном {{diff}} — явная ссылка)."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The AI Change Intent that was evaluated."
+msgstr "Намерение изменения ИИ, которое было оценено."
 
 #: changedetectionio/templates/_helpers.html
 msgid "More help and examples about using the scheduler"
