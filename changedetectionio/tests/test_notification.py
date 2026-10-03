@@ -633,6 +633,15 @@ def test_html_color_notifications(client, live_server, measure_memory_usage, dat
     _test_color_notifications(client, '{{diff(word_diff=false)}}', datastore_path=datastore_path)
 
 
+def test_plaintext_watch_custom_html_in_notification_body_not_escaped(client, live_server, measure_memory_usage, datastore_path):
+    # Diff/snapshot values are escaped for HTML notifications (covered by
+    # test_html_watch_diff_content_escaped_in_html_notification). What this test
+    # locks in is that the *surrounding* template HTML is left alone in every case.
+    _test_custom_html_in_notification_body_not_escaped(client, datastore_path, content_type="text/plain")
+    _test_custom_html_in_notification_body_not_escaped(client, datastore_path, content_type="text/html")
+    _test_custom_html_in_notification_body_not_escaped(client, datastore_path, content_type=None)
+
+
 def test_source_url_diff_content_escaped_in_html_notification(client, live_server, measure_memory_usage, datastore_path):
     """
     GHSA-q8xq-qg4x-wphg — companion to the inscriptis test. `source:`-prefixed
