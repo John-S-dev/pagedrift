@@ -87,6 +87,88 @@ def set_modified_ignore_response(datastore_path, ver_stamp="123"):
         f.write(test_return_data)
 
 
+# Ignore text now just removes it entirely, is a LOT more simpler code this way
+
+def test_check_ignore_text_functionality(client, live_server, measure_memory_usage, datastore_path):
+
+    # Use a mix of case in ZzZ to prove it works case-insensitive.
+    ignore_text = "XXXXX\r\nYYYYY\r\nzZzZZ\r\nnew ignore stuff"
+    set_original_ignore_response(datastore_path=datastore_path)
+
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # Goto the edit page, add our ignore text
+    # Add our URL to the import page
+    res = client.post(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+        data={"ignore_text": ignore_text, "url": test_url, 'fetch_backend': "html_requests", "time_between_check_use_default": "y"},
+        follow_redirects=True
+    )
+    assert b"Updated watch." in res.data
+
+    # Check it saved
+    res = client.get(
+        url_for("ui.ui_edit.edit_page", uuid="first"),
+    )
+    assert bytes(ignore_text.encode('utf-8')) in res.data
+
+    # Trigger a check
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # It should report nothing found (no new 'has-unread-changes' class)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' not in res.data
+    assert b'/test-endpoint' in res.data
+
+
+    res = client.get(url_for("ui.ui_preview.preview_page", uuid="first"))
+    # nothing ignored because none of the text matched
+    assert b'ignored_line_numbers = []' in res.data
+
+    #  Make a change
+    set_modified_ignore_response(datastore_path=datastore_path)
+
+    # Trigger a check
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # It should report nothing found (no new 'has-unread-changes' class)
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' not in res.data
+    assert b'/test-endpoint' in res.data
+
+
+
+    # Just to be sure.. set a regular modified change..
+    set_modified_original_ignore_response(datastore_path=datastore_path)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.get(url_for("watchlist.index"))
+    assert b'has-unread-changes' in res.data
+
+    res = client.get(url_for("ui.ui_preview.preview_page", uuid="first"))
+
+    # SHOULD BE be in the preview, it was added in set_modified_original_ignore_response()
+    # and we have "new ignore stuff" in ignore_text
+    # it is only ignored, it is not removed (it will be highlighted too)
+    assert b'new ignore stuff' in res.data
+    # Data for the highlighting is present (this is done in JS for now)
+    assert b'ignored_line_numbers = [8]' in res.data
+
+    delete_all_watches(client)
+
 # When adding some ignore text, it should not trigger a change, even if something else on that line changes
 def _run_test_global_ignore(client, datastore_path, as_source=False, extra_ignore=""):
     ignore_text = "XXXXX\r\nYYYYY\r\nZZZZZ\r\n"+extra_ignore
