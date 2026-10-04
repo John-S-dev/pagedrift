@@ -816,3 +816,78 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
 
         return ret
 
+    def tag_exists_by_name(self, tag_name):
+        # Check if any tag dictionary has a 'title' attribute matching the provided tag_name
+        tags = self.__data['settings']['application']['tags'].values()
+        return next((v for v in tags if v.get('title', '').lower() == tag_name.lower()),
+                    None)
+
+    def any_watches_have_processor_by_name(self, processor_name):
+        for watch in self.data['watching'].values():
+            if watch.get('processor') == processor_name:
+                return True
+        return False
+
+    def search_watches_for_url(self, query, tag_limit=None, partial=False):
+        """Search watches by URL, title, or error messages
+
+        Args:
+            query (str): Search term to match against watch URLs, titles, and error messages
+            tag_limit (str, optional): Optional tag name to limit search results
+            partial: (bool, optional): sub-string matching
+
+        Returns:
+            list: List of UUIDs of watches that match the search criteria
+        """
+        matching_uuids = []
+        query = query.lower().strip()
+        tag = self.tag_exists_by_name(tag_limit) if tag_limit else False
+
+        for uuid, watch in self.data['watching'].items():
+            # Filter by tag if requested
+            if tag_limit:
+                if not tag.get('uuid') in watch.get('tags', []):
+                    continue
+
+            # Search in URL, title, or error messages
+            if partial:
+                if ((watch.get('title') and query in watch.get('title').lower()) or
+                        query in watch.get('url', '').lower() or
+                        (watch.get('last_error') and query in watch.get('last_error').lower())):
+                    matching_uuids.append(uuid)
+            else:
+                if ((watch.get('title') and query == watch.get('title').lower()) or
+                        query == watch.get('url', '').lower() or
+                        (watch.get('last_error') and query == watch.get('last_error').lower())):
+                    matching_uuids.append(uuid)
+
+        return matching_uuids
+
+    def get_unique_notification_tokens_available(self):
+        # Ask each type of watch if they have any extra notification token to add to the validation
+        extra_notification_tokens = {}
+        watch_processors_checked = set()
+
+        for watch_uuid, watch in self.__data['watching'].items():
+            processor = watch.get('processor')
+            if processor not in watch_processors_checked:
+                extra_notification_tokens.update(watch.extra_notification_token_values())
+                watch_processors_checked.add(processor)
+
+        return extra_notification_tokens
+
+    def get_unique_notification_token_placeholders_available(self):
+        # The actual description of the tokens, could be combined with get_unique_notification_tokens_available instead of doing this twice
+        extra_notification_tokens = []
+        watch_processors_checked = set()
+
+        for watch_uuid, watch in self.__data['watching'].items():
+            processor = watch.get('processor')
+            if processor not in watch_processors_checked:
+                extra_notification_tokens += watch.extra_notification_token_placeholder_info()
+                watch_processors_checked.add(processor)
+
+        return extra_notification_tokens
+
+    def add_notification_url(self, notification_url):
+
