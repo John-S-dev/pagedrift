@@ -3720,6 +3720,48 @@ msgstr ""
 msgid "This tool will extract text data from all of the watch history."
 msgstr ""
 
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "Протокол завдання не дозволено або невірний формат URL"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "Тіло для всіх сповіщень — Ви можете використовувати"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "шаблонізацію в заголовку, тілі та URL сповіщення, а також токени нижче."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "Показати токени/заповнювачі"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "Токен"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "Опис"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "URL екземпляра changedetection.io, який ви використовуєте."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "URL, за яким ведеться спостереження."
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
+"endpoint or RSS feed but you want to link to the real page."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The UUID of the watch."
+msgstr "UUID завдання."
+
 #: changedetectionio/templates/_common_fields.html
 msgid "Text that tripped the trigger from filters"
 msgstr "Текст, що викликав спрацювання фільтрів"
