@@ -3390,3 +3390,43 @@ msgstr "繪製模式 - 點擊並拖曳以選擇區域"
 msgid "Hover over elements to select"
 msgstr "將滑鼠懸停在元素上以進行選擇"
 
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr "過濾前的原始內容"
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr "主導覽列"
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr "分享此連結："
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "離線即時更新"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "選擇語言"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "從瀏覽器自動檢測"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "語言支援尚在 Beta 階段，請在 GitHub 上提交 PR 以協助我們改進。"
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr "AI / LLM 未設定"
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr "尚未啟用 LLM 驅動的摘要功能。請在「設定」中設定 AI 供應商以開始使用。"
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr "前往 AI / LLM 設定"
+
