@@ -324,3 +324,39 @@ jobs:
             exit 1
           fi
 
+          echo "✓ Extracted API key: ${API_KEY:0:8}..."
+
+          # Create a watch via API through nginx proxy subpath
+          echo "Creating watch via POST to /changedet-sub/api/v1/watch"
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "http://localhost:8080/changedet-sub/api/v1/watch" \
+            -H "x-api-key: ${API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "url": "https://example.com/test-nginx-proxy",
+              "tag": "nginx-test"
+            }')
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+
+          if [ "$HTTP_CODE" != "201" ]; then
+            echo "ERROR: Expected HTTP 201, got $HTTP_CODE"
+            echo "Response: $BODY"
+            exit 1
+          fi
+
+          echo "✓ Watch created successfully (HTTP 201)"
+
+          # Extract the watch UUID from response
+          WATCH_UUID=$(echo "$BODY" | grep -o '"uuid": *"[^"]*"' | cut -d'"' -f4)
+          echo "✓ Watch UUID: $WATCH_UUID"
+
+          # Update the watch via PUT through nginx proxy subpath
+          echo "Updating watch via PUT to /changedet-sub/api/v1/watch/${WATCH_UUID}"
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT "http://localhost:8080/changedet-sub/api/v1/watch/${WATCH_UUID}" \
+            -H "x-api-key: ${API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "paused": true
+            }')
+
