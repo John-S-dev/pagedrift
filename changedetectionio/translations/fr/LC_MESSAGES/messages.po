@@ -2661,6 +2661,51 @@ msgstr "Effacer les historiques"
 msgid "<p>Are you sure you want to clear history for the selected items?</p><p>This action cannot be undone.</p>"
 msgstr ""
 
+#. Universally recognized; typically left as-is. dennis-ignore: W302
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "OK"
+msgstr "D'ACCORD"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Clear/reset history"
+msgstr "Effacer/réinitialiser l'historique"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Delete Watches?"
+msgstr "Supprimer les montres ?"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "<p><strong>Are you sure you want to delete the selected watches?</strong></p><p>This action cannot be undone.</p>"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html changedetectionio/templates/base.html
+msgid "Close"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Web page"
+msgstr ""
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "Restock & Price"
+msgstr "Réapprovisionnement et prix"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "No web page change detection watches configured, please add a URL in the box above, or"
+msgstr "Aucune surveillance de site Web configurée, veuillez ajouter une URL dans la case ci-dessus, ou"
+
+#: changedetectionio/blueprint/watchlist/templates/watch-overview.html
+msgid "import a list"
+msgstr "importer une liste"
+
+#: changedetectionio/conditions/__init__.py
+msgid "Choose one - Operator"
+msgstr ""
+
+#: changedetectionio/conditions/__init__.py
+msgid "Greater Than"
+msgstr ""
+
 #: changedetectionio/conditions/default_plugin.py
 msgid "Length minimum"
 msgstr ""
