@@ -374,6 +374,35 @@
         ul.style.setProperty('--tab-width', '');
       }
 
+      return wrapped;
+    }
+
+    function check() {
+      let any = false;
+      document.querySelectorAll('ul').forEach(ul => {
+        if (ul.querySelector('.tab') && checkWrapping(ul)) any = true;
+      });
+      document.body.classList.toggle('wrapped-tabs', any);
+    }
+
+    check();
+    let timer;
+    window.addEventListener('resize', () => {
+      clearTimeout(timer);
+      timer = setTimeout(check, 100);
+    });
+
+    // Re-check wrapping when tabs are switched via anchors
+    window.addEventListener('hashchange', () => {
+      clearTimeout(timer);
+      // Use requestAnimationFrame + setTimeout to ensure DOM has settled
+      requestAnimationFrame(() => {
+        timer = setTimeout(check, 0);
+      });
+    });
+  })();
+  </script>
+
 
     <script src="{{url_for('static_content', group='js', filename='language-selector.js')}}" defer></script>
     <script src="{{url_for('static_content', group='js', filename='search-modal.js')}}" defer></script>
