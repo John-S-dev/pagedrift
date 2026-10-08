@@ -264,3 +264,47 @@ msgstr ""
 msgid "Removed lines"
 msgstr ""
 
+#: changedetectionio/forms.py:822
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr ""
+
+#: changedetectionio/forms.py:825
+msgid "Block change-detection while text matches"
+msgstr ""
+
+#: changedetectionio/forms.py:826
+msgid "Execute JavaScript before change detection"
+msgstr ""
+
+#: changedetectionio/forms.py:828 changedetectionio/forms.py:1052
+msgid "Save"
+msgstr ""
+
+#: changedetectionio/forms.py:830
+msgid "Proxy"
+msgstr ""
+
+#: changedetectionio/forms.py:832
+msgid "Send a notification when the filter can no longer be found on the page"
+msgstr ""
+
+#: changedetectionio/forms.py:833
+msgid "Notifications"
+msgstr ""
+
+#: changedetectionio/forms.py:833
+msgid "Muted"
+msgstr ""
+
+#: changedetectionio/forms.py:833
+msgid "On"
+msgstr ""
+
+#: changedetectionio/forms.py:834
+msgid "Attach screenshot to notification (where possible)"
+msgstr ""
+
+#: changedetectionio/forms.py:836
+msgid "Match"
+msgstr ""
+
