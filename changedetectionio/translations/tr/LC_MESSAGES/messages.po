@@ -3184,6 +3184,47 @@ msgid "Sort text alphabetically"
 msgstr "Metni alfabetik olarak sırala"
 
 #: changedetectionio/forms.py
+msgid "On"
+msgstr "Açık"
+
+#: changedetectionio/blueprint/tags/templates/edit-tag.html changedetectionio/blueprint/ui/templates/edit.html
+#: changedetectionio/forms.py changedetectionio/templates/sidebar-nav.html
+msgid "Notifications"
+msgstr "Bildirimler"
+
+#: changedetectionio/forms.py changedetectionio/templates/menu.html
+msgid "Muted"
+msgstr "Sessize alındı"
+
+#: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "Ekran görüntüsünü bildirime ekle (mümkün olan yerlerde)"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "Eşleştir"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "Aşağıdakilerin tümünü eşleştir"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "Aşağıdakilerden herhangi birini eşleştir"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "Listede sayfa <title>'ını kullan"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr "İzleyici başına tutulacak geçmiş öğesi sayısı"
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "İstek Yöntemi GET olarak ayarlandığında gövde boş olmalıdır"
+
+#: changedetectionio/forms.py
 msgid "Favicons Enabled"
 msgstr "Favicon'lar Etkin"
 
