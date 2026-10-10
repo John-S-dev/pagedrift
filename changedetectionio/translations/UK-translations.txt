@@ -2012,6 +2012,50 @@ msgstr "Ігнорувати коди статусу (обробляти код�
 msgid "Only trigger when unique lines appear in all history"
 msgstr "Спрацьовувати лише при появі унікальних рядків у всій історії"
 
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Видалити дублікати рядків тексту"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Сортувати текст за алфавітом"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Прибирати проігноровані рядки"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Обрізати пробіли до та після тексту"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Додані рядки"
+
+#: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Замінені/змінені рядки"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Видалені рядки"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Ключові слова-тригери - Спрацювати/чекати текст"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Блокувати виявлення змін, поки текст збігається"
+
+#: changedetectionio/forms.py
+msgid "Execute JavaScript before change detection"
+msgstr "Виконати JavaScript перед виявленням змін"
+
+#: changedetectionio/blueprint/tags/templates/groups-overview.html changedetectionio/forms.py
+msgid "Save"
+msgstr "Зберегти"
+
 #: changedetectionio/forms.py
 msgid "Proxy"
 msgstr "Проксі"
