@@ -3696,6 +3696,46 @@ msgstr ""
 msgid "format to avoid"
 msgstr ""
 
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Resetar"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Aviso: um ou mais de seus 'dias' tem uma duração que se estenderia para o dia seguinte."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Isso pode ter consequências indesejadas."
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Mais ajuda e exemplos sobre como usar o agendador"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Quer usar um agendamento de tempo?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Primeiro confirme/salve suas Configurações de Fuso Horário"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Texto disparador"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Dispara uma mudança se este texto aparecer E algo mudar no documento."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Texto ignorado"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Ignorado para cálculo de mudanças, mas ainda exibido."
+
 #: changedetectionio/templates/base.html
 msgid "Main navigation"
 msgstr ""
