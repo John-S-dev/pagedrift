@@ -557,6 +557,118 @@ async def async_update_worker(worker_id, q, notification_q, app, datastore, exec
                                                     timestamp=int(fetch_start_time),
                                                     snapshot_id=update_obj.get('previous_md5', 'none'))
 
+                            # Save AI summary file now that the new snapshot is committed —
+                            # watch.history.keys()[-1] now reflects the just-saved version,
+                            # so the cache filename matches what the UI will later look up.
+                            # Cache key must use build_summary_cache_prompt() with UI defaults so
+                            # the worker write and the UI read hash to the same prompt_hash.
+                            if update_obj.get('_llm_change_summary') and _llm_from_version:
+                                try:
+                                    from changedetectionio.llm.evaluator import (
+                                        get_effective_summary_prompt, build_summary_cache_prompt,
+                                    )
+                                    _llm_to_version = list(watch.history.keys())[-1]
+                                    from changedetectionio.llm.evaluator import get_llm_settings as _get_llm_settings_inner
+                                    _ls = _get_llm_settings_inner(datastore)
+                                    _llm_max_summary_tokens = _ls.max_summary_tokens
+                                    _llm_model = _ls.model
+                                    _llm_cache_prompt = build_summary_cache_prompt(
+                                        effective_prompt=get_effective_summary_prompt(watch, datastore),
+                                        max_summary_tokens=_llm_max_summary_tokens,
+                                        model=_llm_model,
+                                    )
+                                    watch.save_llm_diff_summary(
+                                        update_obj['_llm_change_summary'],
+                                        _llm_from_version,
+                                        _llm_to_version,
+                                        prompt=_llm_cache_prompt,
+                                    )
+                                except Exception as _fe:
+                                    logger.warning(f"Could not write change-summary file for {uuid}: {_fe}")
+
+                            empty_pages_are_a_change = datastore.data['settings']['application'].get('empty_pages_are_a_change', False)
+                            if update_handler.fetcher.content or (not update_handler.fetcher.content and empty_pages_are_a_change):
+                                watch.save_last_fetched_html(contents=update_handler.fetcher.content, timestamp=int(fetch_start_time))
+
+                            # Explicitly delete large content variables to free memory IMMEDIATELY after saving
+                            # These are no longer needed after being saved to history
+                            del contents
+
+                            # Send notifications on second+ check
+                            if watch.history_n >= 2:
+                                logger.info(f"Change detected in UUID {uuid} - {watch['url']}")
+                                if not watch.get('notification_muted'):
+                                    await send_content_changed_notification(uuid, notification_q, datastore)
+
+                    except Exception as e:
+
+                        logger.critical(f"Worker {worker_id} exception in process_changedetection_results")
+                        logger.exception(f"Worker {worker_id} full exception details:")
+                        datastore.update_watch(uuid=uuid, update_obj={'last_error': str(e)})
+
+
+                # Always record attempt count
+                count = watch.get('check_count', 0) + 1
+
+                final_updates = {'fetch_time': round(time.time() - fetch_start_time, 3),
+                                                                  'check_count': count,
+                                                                  }
+                # Record server header
+                try:
+                    server_header = str(update_handler.fetcher.get_all_headers().get('server', '') or "").strip().lower()[:255]
+                    if server_header:
+                        final_updates['remote_server_reply'] = server_header
+                except Exception as e:
+                    server_header = None
+                    pass
+
+                if update_handler: # Could be none or empty if the processor was not found
+                    # Always record page title (used in notifications, and can change even when the content is the same)
+                    if update_obj.get('content-type') and 'html' in update_obj.get('content-type'):
+                        try:
+                            page_title = html_tools.extract_title(data=update_handler.fetcher.content)
+                            if page_title:
+                                page_title = page_title.strip()[:2000]
+                                logger.debug(f"UUID: {uuid} Page <title> is '{page_title}'")
+                                final_updates['page_title'] = page_title
+                        except Exception as e:
+                            logger.exception(f"Worker {worker_id} full exception details:")
+                            logger.warning(f"UUID: {uuid} Exception when extracting <title> - {str(e)}")
+
+                    # Store favicon if necessary
+                    if update_handler.fetcher.favicon_blob and update_handler.fetcher.favicon_blob.get('base64'):
+                        watch.bump_favicon(url=update_handler.fetcher.favicon_blob.get('url'),
+                                           favicon_base_64=update_handler.fetcher.favicon_blob.get('base64'),
+                                           mime_type=update_handler.fetcher.favicon_blob.get('mime_type')
+                                           )
+
+                    datastore.update_watch(uuid=uuid, update_obj=final_updates)
+
+                    # NOW clear fetcher content - after all processing is complete
+                    # This is the last point where we need the fetcher data
+                    if update_handler and hasattr(update_handler, 'fetcher') and update_handler.fetcher:
+                        update_handler.fetcher.clear_content()
+
+                    # Explicitly delete update_handler to free all references
+                    if update_handler:
+                        del update_handler
+                        update_handler = None
+
+                # Force garbage collection
+                import gc
+                gc.collect()
+
+        except Exception as e:
+            # Store the processing exception for plugin finalization hook
+            processing_exception = e
+
+            logger.error(f"Worker {worker_id} unexpected error processing {uuid}: {e}")
+            logger.exception(f"Worker {worker_id} full exception details:")
+
+            # Also update the watch with error information
+            if datastore and uuid in datastore.data['watching']:
+                datastore.update_watch(uuid=uuid, update_obj={'last_error': f"Worker error: {str(e)}"})
+        
 def cleanup_error_artifacts(uuid, datastore):
     """Helper function to clean up error artifacts"""
     cleanup_files = ["last-error-screenshot.png", "last-error.txt"]
