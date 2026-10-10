@@ -234,6 +234,27 @@ tags:
 
       Only fields included in the request body are updated; omitted fields are left unchanged.
 
+      ```bash
+      curl -X PUT "http://localhost:5000/api/v1/watch/cc0cfffa-f449-477b-83ea-0caafd1dc091" \
+        -H "x-api-key: YOUR_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "processor_config_restock_diff": {
+            "in_stock_processing": "all_changes",
+            "follow_price_changes": true,
+            "price_change_min": 10.00,
+            "price_change_max": 500.00
+          }
+        }'
+      ```
+
+      #### DELETE — Remove the monitor
+
+      ```bash
+      curl -X DELETE "http://localhost:5000/api/v1/watch/cc0cfffa-f449-477b-83ea-0caafd1dc091" \
+        -H "x-api-key: YOUR_API_KEY"
+      ```
+
       ---
 
       For the complete schema-validated documentation including all processor fields, fetch the live spec
