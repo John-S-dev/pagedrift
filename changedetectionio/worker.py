@@ -293,6 +293,102 @@ async def async_update_worker(worker_id, q, notification_q, app, datastore, exec
                         else:
                             logger.debug(f"FilterNotFoundInResponse - {c} of threshold {threshold}..")
 
+                        datastore.update_watch(uuid=uuid, update_obj={'consecutive_filter_failures': c})
+                    else:
+                        logger.trace(f"FilterNotFoundInResponse - {uuid} - filter_failure_notification_send not enabled, skipping")
+
+                    process_changedetection_results = False
+
+                except content_fetchers_exceptions.checksumFromPreviousCheckWasTheSame as e:
+                    # Yes fine, so nothing todo, don't continue to process.
+                    process_changedetection_results = False
+                    changed_detected = False
+                    logger.debug(f'[{uuid}] - checksumFromPreviousCheckWasTheSame - Checksum from previous check was the same, nothing todo here.')
+                    # Reset the edited flag since we successfully completed the check
+                    watch.reset_watch_edited_flag()
+                    # Page was fetched successfully - clear any previous error state
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': False})
+                    cleanup_error_artifacts(uuid, datastore)
+                    
+                except content_fetchers_exceptions.BrowserConnectError as e:
+                    datastore.update_watch(uuid=uuid,
+                                         update_obj={'last_error': e.msg})
+                    process_changedetection_results = False
+                    
+                except content_fetchers_exceptions.BrowserFetchTimedOut as e:
+                    datastore.update_watch(uuid=uuid,
+                                         update_obj={'last_error': e.msg})
+                    process_changedetection_results = False
+                    
+                except content_fetchers_exceptions.BrowserStepsStepException as e:
+                    if not datastore.data['watching'].get(uuid):
+                        continue
+
+                    error_step = e.step_n
+                    from playwright._impl._errors import TimeoutError, Error
+
+                    # Generally enough info for TimeoutError (couldnt locate the element after default seconds)
+                    err_text = f"Browser step at position {error_step} could not run, check the watch, add a delay if necessary, view Browser Steps to see screenshot at that step."
+
+                    if e.original_e.name == "TimeoutError":
+                        # Just the first line is enough, the rest is the stack trace
+                        err_text += " Could not find the target."
+                    else:
+                        # Other Error, more info is good.
+                        err_text += " " + str(e.original_e).splitlines()[0]
+
+                    logger.debug(f"BrowserSteps exception at step {error_step} {str(e.original_e)}")
+
+                    datastore.update_watch(uuid=uuid,
+                                         update_obj={'last_error': err_text,
+                                                   'browser_steps_last_error_step': error_step})
+
+                    if watch.get('filter_failure_notification_send', False):
+                        c = watch.get('consecutive_filter_failures', 0)
+                        c += 1
+                        # Send notification if we reached the threshold?
+                        threshold = datastore.data['settings']['application'].get('filter_failure_notification_threshold_attempts', 0)
+                        logger.error(f"Step for {uuid} not found, consecutive_filter_failures: {c}")
+                        if threshold > 0 and c >= threshold:
+                            if not watch.get('notification_muted'):
+                                await send_step_failure_notification(watch_uuid=uuid, step_n=e.step_n, notification_q=notification_q, datastore=datastore)
+                            c = 0
+
+                        datastore.update_watch(uuid=uuid, update_obj={'consecutive_filter_failures': c})
+
+                    process_changedetection_results = False
+
+                except content_fetchers_exceptions.EmptyReply as e:
+                    # Some kind of custom to-str handler in the exception handler that does this?
+                    err_text = "EmptyReply - try increasing 'Wait seconds before extracting text', Status Code {}".format(e.status_code)
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
+                                                                'last_check_status': e.status_code})
+                    process_changedetection_results = False
+                    
+                except content_fetchers_exceptions.ScreenshotUnavailable as e:
+                    err_text = "Screenshot unavailable, page did not render fully in the expected time or page was too long - try increasing 'Wait seconds before extracting text'"
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
+                                                                'last_check_status': e.status_code})
+                    process_changedetection_results = False
+                    
+                except content_fetchers_exceptions.JSActionExceptions as e:
+                    err_text = "Error running JS Actions - Page request - "+e.message
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot, as_error=True)
+                        e.screenshot = None  # Free memory immediately
+                    datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
+                                                                'last_check_status': e.status_code})
+                    process_changedetection_results = False
+                    
+                except content_fetchers_exceptions.PageUnloadable as e:
+                    err_text = "Page request from server didnt respond correctly"
+                    if e.message:
+                        err_text = "{} - {}".format(err_text, e.message)
+
+                    if e.screenshot:
+                        watch.save_screenshot(screenshot=e.screenshot, as_error=True)
+                        e.screenshot = None  # Free memory immediately
+
                     datastore.update_watch(uuid=uuid, update_obj={'last_error': err_text,
                                                                 'last_check_status': e.status_code,
                                                                 'has_ldjson_price_data': None})
