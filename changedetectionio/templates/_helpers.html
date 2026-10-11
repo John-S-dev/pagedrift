@@ -111,6 +111,74 @@
   {{ field(**kwargs)|safe }}
 {% endmacro %}
 
+{% macro render_fieldlist_with_inline_errors(fieldlist) %}
+  {# Specialized macro for FieldList(FormField(...)) that renders errors inline with each field #}
+  <div {% if fieldlist.errors %} class="error" {% endif %}>{{ _(fieldlist.label.text | string) }}</div>
+  <div {% if fieldlist.errors %} class="error" {% endif %}>
+    <ul id="{{ fieldlist.id }}">
+      {% for entry in fieldlist %}
+        <li {% if entry.errors %} class="error" {% endif %}>
+          <label for="{{ entry.id }}" {% if entry.errors %} class="error" {% endif %}>{{ _(fieldlist.label.text | string) }}-{{ loop.index0 }}</label>
+          <table id="{{ entry.id }}" {% if entry.errors %} class="error" {% endif %}>
+            <tbody>
+              {% for subfield in entry %}
+                <tr {% if subfield.errors %} class="error" {% endif %}>
+                  <th {% if subfield.errors %} class="error" {% endif %}><label for="{{ subfield.id }}" {% if subfield.errors %} class="error" {% endif %}>{{ subfield.label.text | string }}</label></th>
+                  <td {% if subfield.errors %} class="error" {% endif %}>
+                    {{ subfield(**kwargs)|safe }}
+                    {% if subfield.errors %}
+                      <ul class="errors">
+                        {% for error in subfield.errors %}
+                          <li class="error">{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endmacro %}
+
+{% macro render_conditions_fieldlist_of_formfields_as_table(fieldlist, table_id="rulesTable") %}
+  <div class="fieldlist_formfields" id="{{ table_id }}">
+    <div class="fieldlist-header">
+      {% for subfield in fieldlist[0] %}
+        <div class="fieldlist-header-cell">{{ subfield.label.text | string }}</div>
+      {% endfor %}
+      <div class="fieldlist-header-cell">{{ _('Actions') }}</div>
+    </div>
+    <div class="fieldlist-body">
+      {% for form_row in fieldlist %}
+        <div class="fieldlist-row {% if form_row.errors %}error-row{% endif %}">
+          {% for subfield in form_row %}
+            <div class="fieldlist-cell">
+
+              {{ subfield()|safe }}
+              {% if subfield.errors %}
+                <ul class="errors">
+                  {% for error in subfield.errors %}
+                    <li class="error">{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <div class="fieldlist-cell fieldlist-actions">
+            <button type="button" class="addRuleRow" title="{{ _('Add a row/rule after') }}">+</button>
+            <button type="button" class="removeRuleRow" title="{{ _('Remove this row/rule') }}">-</button>
+            <button type="button" class="verifyRuleRow" title="{{ _('Verify this rule against current snapshot') }}">✓</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro render_time_schedule_form(form, available_timezones, timezone_default_config) %}
     <style>
     .day-schedule *, .day-schedule select {
