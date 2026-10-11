@@ -221,6 +221,77 @@ class TestHtmlToText(unittest.TestCase):
         meta_bloat = '<meta name="description" content="bloat"/>\n' * 50000
         link_bloat = '<link rel="stylesheet" href="bloat.css"/>\n' * 50000
 
+        # Generate HTML comments (~1MB)
+        comment_bloat = '<!-- This is bloat -->\n' * 50000
+
+        # Generate noscript bloat
+        noscript_bloat = '<noscript>Enable JavaScript</noscript>\n' * 10000
+
+        # Build the large HTML document
+        html = f'''<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    {large_style}
+    {large_script}
+    {svg_bloat}
+    {meta_bloat}
+    {link_bloat}
+    {comment_bloat}
+    {noscript_bloat}
+</head>
+<body>
+    <h1>Important Heading</h1>
+    <p>This is the actual content that should be extracted.</p>
+    <div>
+        <p>First paragraph with meaningful text.</p>
+        <p>Second paragraph with more content.</p>
+    </div>
+    <footer>Footer text</footer>
+</body>
+</html>
+'''
+
+        # Verify the HTML is actually large (should be ~20MB+)
+        html_size_mb = len(html) / (1024 * 1024)
+        assert html_size_mb > 15, f"HTML should be >15MB, got {html_size_mb:.2f}MB"
+
+        print(f"  Testing {html_size_mb:.2f}MB HTML document with bloated head...")
+
+        # This should not crash or silently exit
+        text = html_to_text(html)
+
+        # Verify we got actual text output (not empty/None)
+        assert text is not None, "html_to_text returned None"
+        assert len(text) > 0, "html_to_text returned empty string"
+
+        # Verify the actual body content was extracted
+        assert 'Important Heading' in text, "Failed to extract heading"
+        assert 'actual content that should be extracted' in text, "Failed to extract paragraph"
+        assert 'First paragraph with meaningful text' in text, "Failed to extract first paragraph"
+        assert 'Second paragraph with more content' in text, "Failed to extract second paragraph"
+        assert 'Footer text' in text, "Failed to extract footer"
+
+        # Verify bloat was stripped (output should be tiny compared to input)
+        text_size_kb = len(text) / 1024
+        assert text_size_kb < 1, f"Output too large ({text_size_kb:.2f}KB), bloat not stripped"
+
+        # Verify no CSS, script content, or SVG leaked through
+        assert 'color:red' not in text, "Style content leaked into text output"
+        assert 'console.log' not in text, "Script content leaked into text output"
+        assert '<path' not in text, "SVG content leaked into text output"
+        assert 'bloat.css' not in text, "Link href leaked into text output"
+
+        print(f"  ✓ Successfully processed {html_size_mb:.2f}MB HTML -> {text_size_kb:.2f}KB text")
+
+    def test_body_display_none_spa_pattern(self):
+        """
+        Test that html_to_text can extract content from pages with display:none body.
+
+        SPAs (Single Page Applications) often use <body style="display:none"> to hide content
+        until JavaScript loads and renders the page. inscriptis respects CSS display rules,
+        so without preprocessing, it would skip all content and return only newlines.
+
         The fix strips display:none and visibility:hidden styles from the body tag before
         processing, allowing text extraction from client-side rendered applications.
         """
