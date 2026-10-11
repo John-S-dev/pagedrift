@@ -220,6 +220,46 @@ msgstr ""
 msgid "File mapping"
 msgstr ""
 
+#: changedetectionio/forms.py:773
+msgid "Operation"
+msgstr ""
+
+#: changedetectionio/forms.py:776
+msgid "Selector"
+msgstr ""
+
+#: changedetectionio/forms.py:777
+msgid "value"
+msgstr ""
+
+#: changedetectionio/forms.py:789 changedetectionio/forms.py:951
+msgid "Time Between Check"
+msgstr ""
+
+#: changedetectionio/forms.py:797
+msgid "Use global settings for time between check and scheduler."
+msgstr ""
+
+#: changedetectionio/forms.py:799
+msgid "CSS/JSONPath/JQ/XPath Filters"
+msgstr ""
+
+#: changedetectionio/forms.py:801 changedetectionio/forms.py:997
+msgid "Remove elements"
+msgstr ""
+
+#: changedetectionio/forms.py:803
+msgid "Extract text"
+msgstr ""
+
+#: changedetectionio/forms.py:805
+msgid "Title"
+msgstr ""
+
+#: changedetectionio/forms.py:807
+msgid "Ignore lines containing"
+msgstr ""
+
 #: changedetectionio/forms.py:809
 msgid "Request body"
 msgstr ""
