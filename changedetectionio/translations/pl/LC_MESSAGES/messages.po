@@ -4012,6 +4012,51 @@ msgstr "argumenty, np."
 msgid "The diff output - only changes, additions, and removals —"
 msgstr "Wynik porównania — wyłącznie zmiany, dodania i usunięcia —"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "The current snapshot text contents value, useful when combined with JSON or CSS filters"
+msgstr "Aktualna wartość treści tekstowej migawki, przydatna w połączeniu z filtrami JSON lub CSS"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Text that tripped the trigger from filters"
+msgstr "Tekst, który spowodował uruchomienie filtra"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(upgraded)"
+msgstr "(zaktualizowano)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"When AI Change Summary is configured, contains the AI-generated description instead of the raw diff. Falls back to "
+"raw diff when not configured."
+msgstr ""
+"Po skonfigurowaniu opcji „AI Change Summary” wyświetlany jest opis wygenerowany przez sztuczną inteligencję zamiast "
+"surowego zestawienia różnic. Jeśli opcja nie jest skonfigurowana, domyślnie wyświetlane jest surowe zestawienie "
+"różnic."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Always the raw +/- diff, regardless of AI Change Summary setting."
+msgstr "Zawsze jest to różnica w wartościach surowych (+/-), niezależnie od ustawienia „Podsumowanie zmian AI”."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The AI Change Summary text (same as the upgraded {{diff}} — explicit reference)."
+msgstr "Tekst podsumowania zmian wygenerowany przez AI (odpowiada ulepszonej funkcji {{diff}} — wyraźne odniesienie)."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The AI Change Intent that was evaluated."
+msgstr "Oceniony zamiar zmiany AI."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Warning: Contents of"
+msgstr "Ostrzeżenie: Treść"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and"
+msgstr "oraz"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "depend on how the difference algorithm perceives the change."
+msgstr "zależy od tego, jak algorytm różnicowy interpretuje tę zmianę."
+
 #: changedetectionio/templates/_common_fields.html changedetectionio/templates/edit/include_subtract.html
 msgid "Show advanced help and tips"
 msgstr "Pokaż zaawansowaną pomoc i wskazówki"
