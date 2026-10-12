@@ -352,6 +352,44 @@ async def generate_diff_isolated(img_bytes_from, img_bytes_to, pixel_difference_
     return result
 
 
+def _worker_draw_bounding_box(conn, img_bytes, x, y, width, height, color, thickness):
+    """
+    Worker function for drawing bounding box on image.
+    """
+    import time
+    try:
+        import cv2
+
+        cv2.setNumThreads(1)
+        print(f"[{time.time():.3f}] [Worker] Draw bounding box worker starting", flush=True)
+
+        # Decode image
+        img = cv2.imdecode(np.frombuffer(img_bytes, np.uint8), cv2.IMREAD_COLOR)
+        if img is None:
+            print(f"[{time.time():.3f}] [Worker] Failed to decode image", flush=True)
+            conn.send(None)
+            return
+
+        # Draw rectangle (BGR format)
+        cv2.rectangle(img, (x, y), (x + width, y + height), color, thickness)
+
+        # Encode back to PNG
+        _, encoded = cv2.imencode('.png', img)
+        result_bytes = encoded.tobytes()
+
+        print(f"[{time.time():.3f}] [Worker] Bounding box drawn ({len(result_bytes)} bytes)", flush=True)
+        conn.send(result_bytes)
+
+    except Exception as e:
+        print(f"[{time.time():.3f}] [Worker] Draw bounding box error: {e}", flush=True)
+        import traceback
+        traceback.print_exc()
+        # Send error info as dict so parent can re-raise
+        conn.send({'error': str(e), 'traceback': traceback.format_exc()})
+    finally:
+        conn.close()
+
+
 async def draw_bounding_box_isolated(img_bytes, x, y, width, height, color=(255, 0, 0), thickness=3):
     """
     Draw bounding box on image in isolated subprocess (async-safe).
