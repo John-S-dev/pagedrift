@@ -537,6 +537,50 @@ window.initVisualSelector = function (opts) {
             return;
         }
 
+        if (!isDrawing) return;
+
+        if (resizeHandle) {
+            // Resize existing box
+            resizeBox(x, y);
+        } else {
+            // Draw new box
+            drawnBox.width = x - drawStartX;
+            drawnBox.height = y - drawStartY;
+        }
+
+        drawBox();
+    }
+
+    function handleDrawMouseUp(e) {
+        if (!isDrawing && !isDragging) return;
+
+        isDrawing = false;
+        isDragging = false;
+        resizeHandle = null;
+
+        if (drawnBox) {
+            // Normalize box (handle negative dimensions)
+            if (drawnBox.width < 0) {
+                drawnBox.x += drawnBox.width;
+                drawnBox.width = Math.abs(drawnBox.width);
+            }
+            if (drawnBox.height < 0) {
+                drawnBox.y += drawnBox.height;
+                drawnBox.height = Math.abs(drawnBox.height);
+            }
+
+            // Constrain to canvas bounds
+            drawnBox.x = Math.max(0, Math.min(drawnBox.x, c.width - drawnBox.width));
+            drawnBox.y = Math.max(0, Math.min(drawnBox.y, c.height - drawnBox.height));
+
+            // Save to form field (convert from scaled to natural coordinates)
+            const naturalX = Math.round(drawnBox.x / xScale);
+            const naturalY = Math.round(drawnBox.y / yScale);
+            const naturalWidth = Math.round(drawnBox.width / xScale);
+            const naturalHeight = Math.round(drawnBox.height / yScale);
+
+            $('#bounding_box').val(`${naturalX},${naturalY},${naturalWidth},${naturalHeight}`);
+
     const isImageProcessor = $('input[value="image_ssim_diff"]').is(':checked');
 
     const vs = window.initVisualSelector({
