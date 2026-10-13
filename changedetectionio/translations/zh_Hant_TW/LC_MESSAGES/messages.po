@@ -3379,6 +3379,46 @@ msgid "RSS \"System default\" template override"
 msgstr "RSS「系統預設」範本覆寫"
 
 #: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "移除密碼"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "渲染錨點標籤內容"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "啟用密碼時允許匿名存取監測歷史頁面"
+
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "從 RSS Feed 中隱藏已靜音的監測任務"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "啟用 RSS 閱讀器模式 "
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "在 RSS Feed 中顯示的變更數量"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "應包含 0 次或更多嘗試"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "發送通知前允許過濾器遺失的次數"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr "模型"
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "API 金鑰"
+
+#: changedetectionio/forms.py
 msgid "API Base URL"
 msgstr "API 基礎 URL"
 
