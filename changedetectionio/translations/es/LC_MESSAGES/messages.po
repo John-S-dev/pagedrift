@@ -3823,3 +3823,43 @@ msgstr "(o"
 msgid "only supports a maximum"
 msgstr "sólo admite un máximo"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Reiniciar"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Advertencia, uno o más de sus 'días' tienen una duración que se extendería hasta el día siguiente."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Esto podría tener consecuencias no deseadas."
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Más ayuda y ejemplos sobre el uso del planificador"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "¿Quieres utilizar un horario?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Primero confirme/guarde su configuración de zona horaria"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Texto activado"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Activa un cambio si aparece este texto Y algo cambia en el documento."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Texto ignorado"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Se ignora para calcular los cambios, pero aún se muestra."
+
