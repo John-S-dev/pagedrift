@@ -315,6 +315,15 @@ def validate_fetch_url(url):
         raise ValueError(reason)
 
 
+async def validate_fetch_url_async(url):
+    """validate_fetch_url() with the DNS lookup pushed to a thread so the event loop isn't blocked."""
+    import asyncio
+    loop = asyncio.get_running_loop()
+    ok, reason = await loop.run_in_executor(None, is_fetch_url_allowed, url)
+    if not ok:
+        raise ValueError(reason)
+
+
 def is_llm_api_base_safe(api_base):
     """SSRF guard for the LLM `api_base` setting (GHSA-jrxm-qjfh-g54f).
 
