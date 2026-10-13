@@ -3129,6 +3129,46 @@ msgid "Browser"
 msgstr "瀏覽器"
 
 #: changedetectionio/forms.py
+msgid "Edit > Watch"
+msgstr "編輯 > 監測任務"
+
+#: changedetectionio/forms.py
+msgid "Fetch Method"
+msgstr "抓取方式"
+
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr "通知內容"
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr "通知格式"
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr "通知標題"
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr "通知 URL 列表"
+
+#: changedetectionio/forms.py
+msgid "Processor - What do you want to achieve?"
+msgstr "處理器 - 您想要達成什麼目標？"
+
+#: changedetectionio/forms.py
+msgid "Default timezone for watch check scheduler"
+msgstr "監測排程的預設時區"
+
+#: changedetectionio/forms.py
+msgid "Wait seconds before extracting text"
+msgstr "提取文字前的等待秒數"
+
+#: changedetectionio/forms.py
+msgid "Should contain one or more seconds"
+msgstr "應包含 1 秒或更多秒"
+
+#: changedetectionio/forms.py
 msgid "Notification base URL override"
 msgstr "通知基礎 URL 覆寫"
 
