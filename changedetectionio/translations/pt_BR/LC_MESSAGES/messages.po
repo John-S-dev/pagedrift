@@ -3562,6 +3562,46 @@ msgstr "Falha ao calcular diff: {}"
 msgid "Bounding box value is too long"
 msgstr "O valor da bounding box é muito longo"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "Qualquer mudança de disponibilidade"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "Desligado, não seguir disponibilidade/estoque"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "Preço abaixo deste valor para disparar notificação"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "Sem limite"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "Preço acima deste valor para disparar notificação"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "Limite (%) para mudanças de preço desde a verificação anterior"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "Deve estar entre 0 e 100"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "Seguir mudanças de preço"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Restock & Price Detection"
+msgstr "Detecção de Estoque e Preço"
+
+#: changedetectionio/processors/restock_diff/processor.py
+msgid "Re-stock & Price detection for pages with a SINGLE product"
+msgstr "Detecção de Estoque e Preço para páginas com um ÚNICO produto"
+
 #: changedetectionio/processors/templates/extract.html
 msgid "Raw text"
 msgstr ""
