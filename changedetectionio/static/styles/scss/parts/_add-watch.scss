@@ -225,6 +225,26 @@ body {
         opacity: 0.8;
       }
 
+      #clear-selector {
+        margin-top: 0.5rem;
+      }
+    }
+
+    #quick-watch-llm-intent {
+      label {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+    }
+
+    #add-watch-submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  }
+}
+
 /* Give the Add Watch workspace a tall, near-full-height feel without forcing a 100vh
    fill (which overflowed by a few px once the box padding/border + toolbar were added on
    top). A bounded 90vh leaves headroom for the toolbar and never triggers a scrollbar.
