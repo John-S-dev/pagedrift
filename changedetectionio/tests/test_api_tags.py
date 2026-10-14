@@ -267,3 +267,19 @@ def test_api_tag_restock_processor_config(client, live_server, measure_memory_us
     assert res.status_code == 204
 
 
+def test_api_watch_tag_field_accepts_names_and_uuids(client, live_server, measure_memory_usage, datastore_path):
+    """The `tag` field on a watch takes tag *names*, `tags` takes UUIDs.
+
+    `tag` was documented as taking a UUID for years while the code fed it to add_tag(title),
+    so a UUID silently created a junk group *titled* with that UUID and never applied the tag
+    the caller asked for. Both spellings now resolve to the same tag.
+    """
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    datastore = live_server.app.config['DATASTORE']
+    test_url = url_for('test_endpoint', _external=True)
+    hdr = {'x-api-key': api_key, 'content-type': 'application/json'}
+
+    def titles_of(watch_uuid):
+        tags = datastore.data['settings']['application']['tags']
+        return sorted(tags[t].get('title') for t in datastore.data['watching'][watch_uuid].get('tags'))
+
