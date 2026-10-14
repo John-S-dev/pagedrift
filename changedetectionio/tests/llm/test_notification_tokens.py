@@ -124,3 +124,7 @@ class TestHandlerLlmTokenPopulation:
 # notification_service.py — _llm_result / _llm_intent wired from watch
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# End-to-end: Jinja2 template rendering with llm_summary / llm_intent
+# ---------------------------------------------------------------------------
+
