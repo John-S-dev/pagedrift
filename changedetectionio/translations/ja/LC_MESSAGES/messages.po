@@ -4243,6 +4243,56 @@ msgid ""
 msgstr ""
 
 #: changedetectionio/templates/edit/text-options.html
+msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr "トリガーテキストは、このモニターのCSS/JSONフィルタから出力される結果テキストから処理されます"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Each line is processed separately (think of each line as \"OR\")"
+msgstr "各行は個別に処理されます（各行を「OR」として考えてください）"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Note: Wrap in forward slash / to use regex example:"
+msgstr "注意：正規表現を使用する場合はスラッシュで囲んでください。例："
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "You can also use"
+msgstr "次も使用できます："
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "conditions"
+msgstr "条件"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "\"Page text\" - with Contains, Starts With, Not Contains and many more"
+msgstr "「ページテキスト」- 「含む」「始まる」「含まない」などの条件"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid ""
+"For example: Out of stock\n"
+"Sold out\n"
+"Not in stock\n"
+"Unavailable"
+msgstr ""
+"例：在庫切れ\n"
+"売り切れ\n"
+"在庫なし\n"
+"販売終了"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid ""
+"Block change-detection while this text is on the page, all text and regex are tested case-insensitive, good for "
+"waiting for when a product is available again"
+msgstr "このテキストがページにある間は変更検知をブロックします。すべてのテキストと正規表現は大文字小文字を区別せずにテストされます。製品が再入荷するまで待つのに便利です。"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Block text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr "ブロックテキストは、このモニターのCSS/JSONフィルタから出力される結果テキストから処理されます"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "All lines here must not exist (think of each line as \"OR\")"
+msgstr "ここのすべての行が存在しない必要があります（各行を「OR」として考えてください）"
+
+#: changedetectionio/templates/edit/text-options.html
 msgid "returns a list of years only"
 msgstr "年のリストのみを返します"
 
