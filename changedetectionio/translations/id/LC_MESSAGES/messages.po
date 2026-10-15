@@ -4440,6 +4440,46 @@ msgstr "Peringatan, satu atau beberapa 'hari' Anda memiliki durasi yang akan ber
 msgid "This could have unintended consequences."
 msgstr "Hal ini dapat menimbulkan konsekuensi yang tidak diinginkan."
 
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Bantuan dan contoh lainnya tentang penggunaan penjadwal"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Ingin menggunakan jadwal waktu?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Konfirmasi/simpan Pengaturan Zona Waktu Anda terlebih dahulu"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Teks pemicu"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Memicu perubahan jika teks ini muncul, DAN ada sesuatu yang berubah dalam dokumen."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Teks yang diabaikan"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Diabaikan saat menghitung perubahan, tetapi tetap ditampilkan."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr "Teks yang diblokir"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr "Deteksi perubahan tidak akan dilakukan karena teks ini ada."
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr "Bagian pengaturan"
+
 #: changedetectionio/templates/base.html
 msgid "Confirm Action"
 msgstr "Konfirmasi Tindakan"
