@@ -442,6 +442,77 @@ components:
           default: text_json_diff
           description: Optional processor mode to use for change detection. Defaults to `text_json_diff` if not specified.
 
+        # Restock/Price Detection
+        in_stock_only:
+          type: boolean
+          default: true
+          description: Only trigger on in-stock transitions (restock_diff processor)
+        follow_price_changes:
+          type: boolean
+          default: true
+          description: Monitor and track price changes (restock_diff processor)
+        price_change_threshold_percent:
+          type: [number, 'null']
+          description: Minimum price change percentage to trigger notification
+        has_ldjson_price_data:
+          type: [boolean, 'null']
+          description: Whether page has LD-JSON price data (auto-detected)
+          readOnly: true
+
+        # Notifications
+        notification_screenshot:
+          type: boolean
+          default: false
+          description: Include screenshot in notifications (if supported by notification URL)
+        filter_failure_notification_send:
+          type: boolean
+          default: true
+          description: Send notification when filters fail to match content
+
+        # History & Display
+        use_page_title_in_list:
+          type: [boolean, 'null']
+          description: Display page title in watch list (null = use system default)
+        history_snapshot_max_length:
+          type: [integer, 'null']
+          minimum: 1
+          maximum: 1000
+          description: Maximum number of history snapshots to keep (null = use system default)
+
+        # Scheduling
+        time_schedule_limit:
+          type: object
+          description: Weekly schedule limiting when checks can run
+          properties:
+            enabled:
+              type: boolean
+              default: false
+            monday:
+              $ref: '#/components/schemas/DaySchedule'
+            tuesday:
+              $ref: '#/components/schemas/DaySchedule'
+            wednesday:
+              $ref: '#/components/schemas/DaySchedule'
+            thursday:
+              $ref: '#/components/schemas/DaySchedule'
+            friday:
+              $ref: '#/components/schemas/DaySchedule'
+            saturday:
+              $ref: '#/components/schemas/DaySchedule'
+            sunday:
+              $ref: '#/components/schemas/DaySchedule'
+            timezone:
+              type: string
+              nullable: true
+              description: >-
+                Optional IANA timezone name the schedule is evaluated in, e.g.
+                "America/Los_Angeles". When empty or omitted, the global
+                scheduler_timezone_default is used, falling back to $TZ then UTC.
+                Must be a name recognised by the server's timezone database -
+                an unknown value is rejected with HTTP 400, because the scheduler
+                cannot resolve it and the watch would never be checked.
+              example: America/Los_Angeles
+
     Tag:
       allOf:
         - $ref: '#/components/schemas/WatchBase'
