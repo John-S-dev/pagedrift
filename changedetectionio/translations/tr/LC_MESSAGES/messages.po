@@ -3763,6 +3763,46 @@ msgstr "Daha Fazlası Burada"
 msgid "Add email notification:"
 msgstr ""
 
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "Giriş"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "Eylemler"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "Sonrasına bir satır/kural ekle"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "Bu satırı/kuralı kaldır"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "Bu kuralı mevcut anlık görüntüye karşı doğrula"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "Saatlik/hafta içi bir zamanlama ayarla"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Zamanlama sınırlarını ayarla"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "İş saatleri"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Hafta sonları"
+
 #: changedetectionio/templates/base.html
 #, python-format
 msgid ""
