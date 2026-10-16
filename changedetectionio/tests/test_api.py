@@ -745,6 +745,18 @@ def test_api_watch_PUT_update(client, live_server, measure_memory_usage, datasto
     delete_all_watches(client)
 
 
+    assert res.status_code == 200, "Should accept browser_steps array"
+    uuid = res.json[0]
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    assert len(watch['browser_steps']) == 2, "Should have 2 browser steps"
+    assert watch['browser_steps'][0]['operation'] == 'wait', "First step should be wait"
+    assert watch['browser_steps'][1]['operation'] == 'click', "Second step should be click"
+    assert watch['browser_steps'][1]['selector'] == 'button.submit', "Second step selector should be button.submit"
+
+    # Cleanup
+    delete_all_watches(client)
+
+
 def test_api_import_small_synchronous(client, live_server, measure_memory_usage, datastore_path):
     """Test that small imports (< threshold) are processed synchronously"""
     from changedetectionio.api.Import import IMPORT_SWITCH_TO_BACKGROUND_THRESHOLD
