@@ -348,3 +348,47 @@ msgstr ""
 msgid "Match"
 msgstr ""
 
+#: changedetectionio/forms.py:977
+msgid "Both a name, and a Proxy URL is required."
+msgstr ""
+
+#: changedetectionio/forms.py:981
+msgid "Open 'History' page in a new tab"
+msgstr ""
+
+#: changedetectionio/forms.py:982
+msgid "Realtime UI Updates Enabled"
+msgstr ""
+
+#: changedetectionio/forms.py:983
+msgid "Favicons Enabled"
+msgstr ""
+
+#: changedetectionio/forms.py:984
+msgid "Use page <title> in watch overview list"
+msgstr ""
+
+#: changedetectionio/forms.py:989
+msgid "API access token security check enabled"
+msgstr ""
+
+#: changedetectionio/forms.py:990
+msgid "Notification base URL override"
+msgstr ""
+
+#: changedetectionio/forms.py:994
+msgid "Treat empty pages as a change?"
+msgstr ""
+
+#: changedetectionio/forms.py:996
+msgid "Ignore Text"
+msgstr ""
+
+#: changedetectionio/forms.py:998
+msgid "Ignore whitespace"
+msgstr ""
+
+#: changedetectionio/forms.py:1005
+msgid "Must be between 0 and 100"
+msgstr ""
+
