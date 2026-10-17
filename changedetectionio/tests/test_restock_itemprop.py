@@ -210,6 +210,36 @@ def test_restock_itemprop_minmax(client, live_server, measure_memory_usage, data
     }
     _run_test_minmax_limit(client, extra_watch_edit_form=extras, datastore_path=datastore_path)
 
+def test_restock_itemprop_with_tag(client, live_server, measure_memory_usage, datastore_path):
+    
+
+    res = client.post(
+        url_for("tags.form_tag_add"),
+        data={"name": "test-tag"},
+        follow_redirects=True
+    )
+    assert b"Tag added" in res.data
+
+    res = client.post(
+        url_for("tags.form_tag_edit_submit", uuid="first"),
+        data={"name": "test-tag",
+              "processor_config_restock_diff-follow_price_changes": "y",
+              "processor_config_restock_diff-price_change_min": 900.0,
+              "processor_config_restock_diff-price_change_max": 1100.10,
+              "overrides_watch": "y", #overrides_watch should be restock_overrides_watch
+              },
+        follow_redirects=True
+    )
+
+    extras = {
+        "tags": "test-tag"
+    }
+
+    _run_test_minmax_limit(client, extra_watch_edit_form=extras,datastore_path=datastore_path)
+    delete_all_watches(client)
+
+
+
 def test_itemprop_percent_threshold(client, live_server, measure_memory_usage, datastore_path):
 
     delete_all_watches(client)
