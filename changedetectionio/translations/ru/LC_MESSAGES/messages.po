@@ -3243,6 +3243,46 @@ msgstr "Редактировать > Смотреть"
 msgid "Fetch Method"
 msgstr "Метод выборки"
 
+#: changedetectionio/forms.py
+msgid "Notification Body"
+msgstr "Орган уведомления"
+
+#: changedetectionio/forms.py
+msgid "Notification format"
+msgstr "Формат уведомления"
+
+#: changedetectionio/forms.py
+msgid "Notification Title"
+msgstr "Название уведомления"
+
+#: changedetectionio/forms.py
+msgid "Notification URL List"
+msgstr "Список URL-адресов уведомлений"
+
+#: changedetectionio/forms.py
+msgid "Processor - What do you want to achieve?"
+msgstr "Процессор. Чего вы хотите достичь?"
+
+#: changedetectionio/forms.py
+msgid "Default timezone for watch check scheduler"
+msgstr "Часовой пояс по умолчанию для планировщика проверки часов"
+
+#: changedetectionio/forms.py
+msgid "Wait seconds before extracting text"
+msgstr "Подождите несколько секунд, прежде чем извлекать текст."
+
+#: changedetectionio/forms.py
+msgid "Should contain one or more seconds"
+msgstr "Должно содержать одну или несколько секунд."
+
+#: changedetectionio/forms.py
+msgid "Notification base URL override"
+msgstr "Переопределение URL-адреса базы уведомлений"
+
+#: changedetectionio/forms.py
+msgid "Not set"
+msgstr "Не установлено"
+
 #: changedetectionio/blueprint/tags/form.py changedetectionio/blueprint/tags/templates/groups-overview.html
 #: changedetectionio/forms.py
 msgid "Save"
