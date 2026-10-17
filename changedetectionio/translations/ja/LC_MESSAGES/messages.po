@@ -3675,6 +3675,52 @@ msgid "RegEx to extract"
 msgstr "抽出する正規表現"
 
 #: changedetectionio/languages.py
+#, python-format
+msgid "%sh ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sh"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "1d ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "in 1d"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sd ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sd"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "1w ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+msgid "in 1w"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sw ago"
+msgstr ""
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sw"
+msgstr ""
+
+#: changedetectionio/languages.py
 msgid "1mo ago"
 msgstr ""
 
