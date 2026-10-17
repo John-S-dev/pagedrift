@@ -111,6 +111,30 @@ def test_rss_and_token(client, live_server, measure_memory_usage, datastore_path
 
     delete_all_watches(client)
 
+def test_basic_cdata_rss_markup(client, live_server, measure_memory_usage, datastore_path):
+    
+
+    set_original_cdata_xml(datastore_path)
+    # Rarely do endpoints give the right header, usually just text/xml, so we check also for <rss
+    # This also triggers the automatic CDATA text parser so the RSS goes back a nice content list
+    test_url = url_for('test_endpoint', content_type="text/xml; charset=UTF-8", _external=True)
+
+    # Add our URL to the import page
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    wait_for_all_checks(client)
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+    assert b'CDATA' not in res.data
+    assert b'<![' not in res.data
+    assert b'Hackers can access your computer' in res.data
+    assert b'The days of Terminator' in res.data
+    delete_all_watches(client)
+
 def test_rss_xpath_filtering(client, live_server, measure_memory_usage, datastore_path):
     
 
