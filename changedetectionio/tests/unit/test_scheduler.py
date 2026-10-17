@@ -102,3 +102,5 @@ class TestScheduler(unittest.TestCase):
         self.assertTrue(result, "Should work with extreme behind timezone")
 
 
+if __name__ == '__main__':
+    unittest.main()
