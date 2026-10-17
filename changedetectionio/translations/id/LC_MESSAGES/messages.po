@@ -4306,3 +4306,63 @@ msgstr "Teks pemicu diproses dari teks hasil yang keluar dari Filter CSS/JSON ap
 msgid "Each line is processed separately (think of each line as \"OR\")"
 msgstr "Setiap baris diproses secara terpisah (anggap setiap baris sebagai \"OR\")"
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "Note: Wrap in forward slash / to use regex example:"
+msgstr "Catatan: Bungkus dengan garis miring / untuk menggunakan regex, contoh:"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "You can also use"
+msgstr "Anda juga dapat menggunakan"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "conditions"
+msgstr "kondisi"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "\"Page text\" - with Contains, Starts With, Not Contains and many more"
+msgstr "\"Teks halaman\" - dengan Mengandung, Dimulai Dengan, Tidak Mengandung, dan banyak lainnya"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid ""
+"For example: Out of stock\n"
+"Sold out\n"
+"Not in stock\n"
+"Unavailable"
+msgstr ""
+"Contoh: Stok habis\n"
+"Terjual habis\n"
+"Tidak ada stok\n"
+"Tidak tersedia"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid ""
+"Block change-detection while this text is on the page, all text and regex are tested case-insensitive, good for "
+"waiting for when a product is available again"
+msgstr ""
+"Blokir deteksi perubahan selama teks ini ada di halaman, semua teks dan regex diuji tanpa membedakan huruf besar-"
+"kecil, berguna untuk menunggu hingga produk tersedia kembali"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Block text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr "Teks blokir diproses dari teks hasil yang keluar dari Filter CSS/JSON apa pun untuk monitor ini"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "All lines here must not exist (think of each line as \"OR\")"
+msgstr "Semua baris di sini tidak boleh ada (anggap setiap baris sebagai \"OR\")"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid ""
+"celsius\n"
+"temperature\n"
+"price"
+msgstr ""
+"celsius\n"
+"suhu\n"
+"harga"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Keep only lines that contain any of these words or phrases (plain text, case-insensitive)"
+msgstr ""
+"Pertahankan hanya baris yang mengandung salah satu kata atau frasa ini (teks biasa, tanpa membedakan huruf besar-"
+"kecil)"
+
