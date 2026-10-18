@@ -4029,6 +4029,46 @@ msgstr "Обмеження часу розкладу"
 msgid "Business hours"
 msgstr "Робочі години"
 
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Оновлення в реальному часі вимкнено"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Обрати мову"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Автовизначення з браузера"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr "Підтримка мов у бета-версії, будь ласка, допоможіть нам покращити її, відкривши PR на GitHub з оновленнями."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
 #: changedetectionio/templates/edit/text-options.html
 msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
 msgstr ""
