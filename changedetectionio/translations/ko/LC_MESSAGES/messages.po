@@ -4622,6 +4622,53 @@ msgid ""
 "edits to that prompt still reach this watch."
 msgstr ""
 
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Appending keeps the prompt inherited from global settings and adds your text after it, so later edits to that prompt "
+"still reach this group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "List each new item added with its name and price. Translate to English."
+msgstr "추가된 각 새 항목을 이름과 가격과 함께 나열하세요. 영어로 번역하세요."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Summarise what events were added or cancelled. Two sentences maximum."
+msgstr "추가되거나 취소된 이벤트를 요약하세요. 최대 두 문장으로 작성하세요."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Describe the price change: old price, new price, percentage difference."
+msgstr "가격 변경을 설명하세요: 이전 가격, 새 가격, 비율 차이."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "AI"
+msgstr "AI"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid ""
+"Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI Change Intent and AI "
+"Change Summary."
+msgstr "AI 판단 기준과 AI 변경 요약을 사용하려면 <a href=\"%(url)s\">설정 → AI / LLM</a>에서 AI / LLM 프로바이더를 설정하세요."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI features for this group."
+msgstr "이 그룹의 AI 기능을 사용하려면 <a href=\"%(url)s\">설정 → AI / LLM</a>에서 AI / LLM 프로바이더를 설정하세요."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Note!: //text() function does not work where the <element> contains <![CDATA[]]>"
+msgstr "참고: <element>에 <![CDATA[]]>가 포함된 경우 //text() 함수는 동작하지 않습니다."
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "One CSS, xPath 1 & 2, JSON Path/JQ selector per line, <i>any</i> rules that matches will be used."
+msgstr "한 줄에 CSS, XPath 1/2, JSON Path/JQ 선택자를 하나씩 입력하세요. 일치하는 규칙은 <i>모두</i> 사용됩니다."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Limit text to this CSS rule, only text matching this CSS rule is included."
+msgstr "이 CSS 규칙에 맞는 텍스트만 포함합니다."
+
 #: changedetectionio/templates/edit/include_subtract.html
 msgid "Prefix with <code>json:</code>, use <code>json:$</code> to force re-formatting if required,"
 msgstr "<code>json:</code> 접두사를 사용하세요. 필요하면 <code>json:$</code>로 강제 재포맷할 수 있습니다,"
