@@ -3705,6 +3705,50 @@ msgid ""
 "multiple changed fragments are joined by newline."
 msgstr ""
 
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "计划时间限制"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "工作时间"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "周末"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "重置"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "警告：一个或多个“天”的时长会延续到次日。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "这可能导致意外结果。"
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "有关使用调度器的更多帮助"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "想要使用时间计划吗?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "请先确认/保存你的时区设置"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "触发文本"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "当该文本出现且文档发生变化时触发变更。"
+
 #: changedetectionio/templates/base.html
 #, python-format
 msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
