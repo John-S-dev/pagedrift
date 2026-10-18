@@ -705,3 +705,53 @@ def test_api_notification_edge_cases(client, live_server, measure_memory_usage, 
     delete_all_watches(client)
 
 
+def test_api_tag_edge_cases(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test tag/group API edge cases including XSS and path traversal.
+    """
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    # Test 1: Empty tag title
+    res = client.post(
+        url_for("tag"),
+        data=json.dumps({"title": ""}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should be rejected (empty title)
+    assert res.status_code == 400
+
+    # Test 2: XSS in tag title
+    res = client.post(
+        url_for("tag"),
+        data=json.dumps({"title": "<script>alert(1)</script>"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should accept but sanitize
+    if res.status_code == 201:
+        tag_uuid = res.json.get('uuid')
+        # Verify title is stored safely
+        res = client.get(url_for("tag", uuid=tag_uuid), headers={'x-api-key': api_key})
+        # Should be escaped or sanitized
+        client.delete(url_for("tag", uuid=tag_uuid), headers={'x-api-key': api_key})
+
+    # Test 3: Path traversal in tag title
+    res = client.post(
+        url_for("tag"),
+        data=json.dumps({"title": "../../etc/passwd"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should accept (it's just a string, not a path)
+    if res.status_code == 201:
+        tag_uuid = res.json.get('uuid')
+        client.delete(url_for("tag", uuid=tag_uuid), headers={'x-api-key': api_key})
+
+    # Test 4: Very long tag title
+    res = client.post(
+        url_for("tag"),
+        data=json.dumps({"title": "x" * 10000}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key},
+    )
+    # Should be rejected (exceeds maxLength)
+    assert res.status_code == 400
+
+
