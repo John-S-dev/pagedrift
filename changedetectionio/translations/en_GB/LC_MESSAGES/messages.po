@@ -3958,6 +3958,47 @@ msgstr ""
 msgid "more help here"
 msgstr ""
 
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr ""
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr ""
+
 #: changedetectionio/templates/base.html
 msgid "Hover over elements to select"
 msgstr ""
