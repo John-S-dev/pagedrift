@@ -3984,6 +3984,46 @@ msgstr "Limites horaires"
 msgid "Business hours"
 msgstr ""
 
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Week-ends"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Plus d'aide sur le planificateur"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Voulez-vous utiliser un planificateur horaire?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Texte déclencheur"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Texte ignoré"
+
 #: changedetectionio/templates/base.html
 msgid "Content raw/before filters"
 msgstr ""
