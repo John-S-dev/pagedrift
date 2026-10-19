@@ -3011,6 +3011,50 @@ msgid "Monday"
 msgstr ""
 
 #: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Hours"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Minutes"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Seconds"
 msgstr ""
 
