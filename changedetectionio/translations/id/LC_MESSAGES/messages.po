@@ -3401,6 +3401,46 @@ msgid "Ignore status codes (process non-2xx status codes as normal)"
 msgstr "Abaikan kode status (proses kode status non-2xx seperti biasa)"
 
 #: changedetectionio/forms.py
+msgid "Only trigger when unique lines appear in all history"
+msgstr "Hanya picu saat baris unik muncul dalam seluruh riwayat"
+
+#: changedetectionio/blueprint/ui/templates/edit.html changedetectionio/forms.py
+msgid "Remove duplicate lines of text"
+msgstr "Hapus baris teks duplikat"
+
+#: changedetectionio/forms.py
+msgid "Sort text alphabetically"
+msgstr "Urutkan teks secara alfabetis"
+
+#: changedetectionio/forms.py
+msgid "Strip ignored lines"
+msgstr "Hapus baris yang diabaikan"
+
+#: changedetectionio/forms.py
+msgid "Trim whitespace before and after text"
+msgstr "Pangkas spasi sebelum dan sesudah teks"
+
+#: changedetectionio/forms.py
+msgid "Added lines"
+msgstr "Baris yang ditambahkan"
+
+#: changedetectionio/forms.py
+msgid "Replaced/changed lines"
+msgstr "Baris yang diganti/diubah"
+
+#: changedetectionio/forms.py
+msgid "Removed lines"
+msgstr "Baris yang dihapus"
+
+#: changedetectionio/forms.py
+msgid "Keyword triggers - Trigger/wait for text"
+msgstr "Pemicu kata kunci - Picu/tunggu teks"
+
+#: changedetectionio/forms.py
+msgid "Block change-detection while text matches"
+msgstr "Blokir deteksi perubahan selama teks cocok"
+
+#: changedetectionio/forms.py
 msgid "Execute JavaScript before change detection"
 msgstr "Jalankan JavaScript sebelum deteksi perubahan"
 
