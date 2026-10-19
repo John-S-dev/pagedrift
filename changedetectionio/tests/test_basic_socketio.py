@@ -83,3 +83,26 @@ def run_socketio_watch_update_test(client, live_server, password_mode="", datast
 #            assert b'Queued 1 watch for rechecking.' in res.data
 #            wait_for_all_checks(client)
 
+#        print(f"Waiting for unviewed update event... {i+1}/{max_wait}")
+        time.sleep(1)
+
+    # Verify we received watch_update events
+    assert has_watch_update, "No watch_update events received"
+
+    # Verify we received an unviewed event
+    assert got_general_stats_update, "Got general stats update event"
+
+    # Alternatively, check directly if the watch in the datastore is marked as unviewed
+    from changedetectionio.flask_app import app
+    datastore = app.config.get('DATASTORE')
+
+    watch_uuid = next(iter(live_server.app.config['DATASTORE'].data['watching']))
+
+    # Get the watch from the datastore
+    watch = datastore.data['watching'].get(watch_uuid)
+    assert watch, f"Watch {watch_uuid} not found in datastore"
+    assert watch.has_unviewed, "The watch was not marked as unviewed after content change"
+
+    # Clean up
+    delete_all_watches(client)
+
