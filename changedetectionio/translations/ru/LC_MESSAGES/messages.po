@@ -4201,6 +4201,52 @@ msgstr "Префикс <code>json:</code>, используйте <code>json:$</
 msgid "test your JSONPath here"
 msgstr "проверьте свой JSONPath здесь"
 
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Prefix <code>jqraw:</code> outputs the results as text instead of a JSON list."
+msgstr "Префикс <code>jqraw:</code> выводит результаты в виде текста, а не списка JSON."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "jq support not installed"
+msgstr "поддержка jq не установлена"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid ""
+"Limit text to this XPath rule, simply start with a forward-slash. To specify XPath to be used explicitly or the XPath"
+" rule starts with an XPath function: Prefix with <code>xpath:</code>"
+msgstr ""
+"Ограничьте текст этим правилом XPath, просто начните с косой черты. Чтобы явно указать XPath для использования или "
+"правило XPath начинается с функции XPath: используйте префикс <code>xpath:</code>."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your XPath here"
+msgstr "проверьте свой XPath здесь"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Get all titles from an RSS feed <code>//title/text()</code>"
+msgstr "Получить все заголовки из RSS-канала <code>//title/text()</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "To use XPath1.0: Prefix with <code>xpath1:</code>"
+msgstr "Чтобы использовать XPath1.0: префикс <code>xpath1:</code>."
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "here for more CSS selector help"
+msgstr "здесь для получения дополнительной помощи по выбору CSS"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Text to wait for before triggering a change/notification, all text and regex are tested case-insensitive."
+msgstr ""
+"Текст, который следует ожидать перед запуском изменения/уведомления. Весь текст и регулярные выражения проверяются "
+"без учета регистра."
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
+msgstr "Текст триггера обрабатывается из результирующего текста, полученного из любых фильтров CSS/JSON для этого монитора."
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Each line is processed separately (think of each line as \"OR\")"
+msgstr "Каждая строка обрабатывается отдельно (представьте каждую строку как «ИЛИ»)."
+
 #: changedetectionio/templates/edit/text-options.html
 msgid "One entry per line — any line in the page text that contains a match is kept"
 msgstr "Одна запись в строке — сохраняется любая строка текста страницы, содержащая совпадение."
