@@ -4159,6 +4159,46 @@ msgid "The AI Change Intent that was evaluated."
 msgstr "Intent Perubahan AI yang dievaluasi."
 
 #: changedetectionio/templates/_common_fields.html
+msgid "Warning: Contents of"
+msgstr "Peringatan: Isi dari"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and"
+msgstr "dan"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "depend on how the difference algorithm perceives the change."
+msgstr "bergantung pada cara algoritme perbedaan memahami perubahan."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For example, an addition or removal could be perceived as a change in some cases."
+msgstr "Misalnya, penambahan atau penghapusan dalam beberapa kasus dapat dianggap sebagai perubahan."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "More Here"
+msgstr "Selengkapnya Di Sini"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add email notification:"
+msgstr "Tambahkan notifikasi email:"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add to list"
+msgstr "Tambahkan ke daftar"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Add an email address"
+msgstr "Tambahkan alamat email"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Send test notification"
+msgstr "Kirim notifikasi uji"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Notification debug logs"
+msgstr "Log debug notifikasi"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "Processing.."
 msgstr "Memproses.."
 
