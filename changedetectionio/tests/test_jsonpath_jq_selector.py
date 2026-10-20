@@ -530,6 +530,73 @@ def test_ignore_json_order(client, live_server, measure_memory_usage, datastore_
 
     delete_all_watches(client)
 
+def test_correct_header_detect(client, live_server, measure_memory_usage, datastore_path):
+    # Like in https://github.com/dgtlmoon/changedetection.io/pull/1593
+    # Specify extra html that JSON is sometimes wrapped in - when using SockpuppetBrowser / Puppeteer / Playwrightetc
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write('<html><body>{ "world": 123, "hello" : 123}')
+
+    # Add our URL to the import page
+    # Check weird casing is cleaned up and detected also
+    test_url = url_for('test_endpoint', content_type="aPPlication/JSon", uppercase_headers=True, _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+    res = client.get(url_for("watchlist.index"))
+
+    # Fixed in #1593
+    assert b'No parsable JSON found in this document' not in res.data
+
+    res = client.get(
+        url_for("ui.ui_preview.preview_page", uuid="first"),
+        follow_redirects=True
+    )
+
+
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    dates = list(watch.history.keys())
+    snapshot_contents = watch.get_history_snapshot(timestamp=dates[0])
+
+    assert b'&#34;hello&#34;: 123,' in res.data # properly html escaped in the front end
+    import json
+    data = json.loads(snapshot_contents)
+    keys = list(data.keys())
+    # Should be correctly formatted and sorted,  ("world" goes to end)
+    assert keys == ["hello", "world"]
+
+    delete_all_watches(client)
+
+
+def test_content_type_json_with_unparsable_body(client, live_server, measure_memory_usage, datastore_path):
+    # Re https://github.com/dgtlmoon/changedetection.io/issues/3827
+    # Some servers send "Content-Type: application/json" but the body is NOT actually JSON
+    # (for example GWT-RPC responses which start with "//OK[...]").
+    # Previously this raised "No parsable JSON found in this document" and errored the whole
+    # watch, so nothing could be viewed or diffed. Instead the raw content should be kept.
+    gwt_rpc_body = '//OK[3,1,["com.example.User/123","Alice Smith","alice@example.com"],0,7]'
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write(gwt_rpc_body)
+
+    test_url = url_for('test_endpoint', content_type="application/json", _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    # The watch should not be left in an error state complaining about JSON parsing
+    res = client.get(url_for("watchlist.index"))
+    assert b'No parsable JSON found in this document' not in res.data
+
+    # A snapshot should have been stored (not skipped due to an exception), and it should
+    # contain the raw, unparsable "JSON" content so it can still be viewed/diffed.
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    dates = list(watch.history.keys())
+    assert len(dates) >= 1
+    snapshot_contents = watch.get_history_snapshot(timestamp=dates[0])
+    assert 'com.example.User' in snapshot_contents
+
+    delete_all_watches(client)
+
+
 def test_check_jqraw_ext_filter(client, live_server, measure_memory_usage, datastore_path):
     if jq_support:
         check_json_ext_filter('jq:.[] | select(.status | contains("Sold"))', client, live_server, datastore_path=datastore_path)
