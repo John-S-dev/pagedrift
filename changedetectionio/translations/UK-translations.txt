@@ -2487,6 +2487,50 @@ msgid "The current snapshot text contents value, useful when combined with JSON 
 msgstr "Текстовий вміст поточного знімка, корисно при використанні JSON або CSS фільтрів"
 
 #: changedetectionio/templates/_common_fields.html
+msgid "(or"
+msgstr "(або"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "підтримує максимум"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2000 символів"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "тексту сповіщення, включаючи заголовок."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "боти не можуть надсилати повідомлення іншим ботам, тому ви повинні вказати ID чату користувача (не бота)."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "підтримує дуже обмежений HTML і може видати помилку при надсиланні зайвих тегів,"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(або використовуйте формат plaintext/markdown)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "для прямих викликів API (або опустіть"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "для не-SSL, тобто"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "більше довідки тут"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Accepts the"
+msgstr "Приймає"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "placeholders listed below"
 msgstr "заповнювачі, перелічені нижче"
 
