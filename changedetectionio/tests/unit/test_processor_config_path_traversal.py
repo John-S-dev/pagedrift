@@ -111,3 +111,35 @@ class TestSaveProcessorConfigRejectsUnsafeNames(unittest.TestCase):
 
 
 
+class TestAddWatchRejectsUnknownProcessor(unittest.TestCase):
+    """Third layer: an unknown processor never gets persisted in the first place.
+
+    add_watch() is the chokepoint for the two callers that don't enum-validate: /imports/import
+    (request.values verbatim) and the share-link path, which takes 'processor' out of JSON
+    fetched from a remote URL.
+    """
+
+    def setUp(self):
+        from changedetectionio.store import ChangeDetectionStore
+        self.datastore_path = tempfile.mkdtemp()
+        self.store = ChangeDetectionStore(datastore_path=self.datastore_path,
+                                          include_default_watches=False)
+
+    def tearDown(self):
+        self.store.stop_thread = True
+
+    def test_traversing_processor_is_not_stored(self):
+        uuid = self.store.add_watch(url='https://example.com/x',
+                                    extras={'processor': '../../../../tmp/pwned'})
+        self.assertNotEqual(self.store.data['watching'][uuid].get('processor'),
+                            '../../../../tmp/pwned',
+                            "a path-traversing processor must not be persisted")
+
+    def test_known_processor_is_kept(self):
+        uuid = self.store.add_watch(url='https://example.com/x',
+                                    extras={'processor': 'restock_diff'})
+        self.assertEqual(self.store.data['watching'][uuid].get('processor'), 'restock_diff')
+
+
+if __name__ == '__main__':
+    unittest.main()
