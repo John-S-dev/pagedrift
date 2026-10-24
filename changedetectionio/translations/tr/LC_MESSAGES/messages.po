@@ -3017,6 +3017,50 @@ msgid "Already logged in"
 msgstr "Zaten giriş yapılmış"
 
 #: changedetectionio/forms.py
+msgid "Optional timezone to run in"
+msgstr "Çalıştırılacak isteğe bağlı saat dilimi"
+
+#: changedetectionio/forms.py
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: changedetectionio/forms.py
+msgid "Tuesday"
+msgstr "Salı"
+
+#: changedetectionio/forms.py
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: changedetectionio/forms.py
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: changedetectionio/forms.py
+msgid "Friday"
+msgstr "Cuma"
+
+#: changedetectionio/forms.py
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: changedetectionio/forms.py
+msgid "Sunday"
+msgstr "Pazar"
+
+#: changedetectionio/forms.py
+msgid "Weeks"
+msgstr "Hafta"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more seconds"
+msgstr "Sıfır veya daha fazla saniye içermelidir"
+
+#: changedetectionio/forms.py
+msgid "Days"
+msgstr "Gün"
+
+#: changedetectionio/forms.py
 msgid "Hours"
 msgstr "Saat"
 
