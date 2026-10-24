@@ -4165,3 +4165,43 @@ msgid ""
 "price"
 msgstr ""
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "returns a list of years only"
+msgstr "retorna uma lista apenas de anos"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr "Exemplo - corresponder linhas que contenham uma palavra-chave"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr "Uma linha por correspondência de expressão regular/string"
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr "Login"
+
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr "Retomar agendamento automático"
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr "Pausar agendamento automático de monitoramentos"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling paused — click to resume"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling active — click to pause all"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Paused"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Running"
+msgstr ""
+
