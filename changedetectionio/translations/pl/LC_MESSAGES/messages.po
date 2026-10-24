@@ -3634,6 +3634,42 @@ msgstr "Użyj elementu <title> strony na liście obserwacji"
 msgid "Relative time format"
 msgstr "Format czasu względnego"
 
+#: changedetectionio/forms.py
+msgid "Long (1 minute ago)"
+msgstr "Long (1 minuta temu)"
+
+#: changedetectionio/forms.py
+msgid "Short (1m ago)"
+msgstr "Krótki (1 minuta temu)"
+
+#: changedetectionio/forms.py
+msgid "Navigation sidebar"
+msgstr "Pasek nawigacyjny"
+
+#: changedetectionio/forms.py
+msgid "API access token security check enabled"
+msgstr "Włączono kontrolę bezpieczeństwa tokenu dostępu do API"
+
+#: changedetectionio/forms.py
+msgid "Treat empty pages as a change?"
+msgstr "Czy traktować puste strony jako zmianę?"
+
+#: changedetectionio/forms.py
+msgid "Ignore Text"
+msgstr "Zignoruj tekst"
+
+#: changedetectionio/forms.py
+msgid "Ignore whitespace"
+msgstr "Ignoruj spacje"
+
+#: changedetectionio/forms.py
+msgid "Screenshot: Minimum Change Percentage"
+msgstr "Zrzut ekranu: Minimalna wartość procentowa zmiany"
+
+#: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
+msgid "Must be between 0 and 100"
+msgstr "Wartość musi mieścić się w przedziale od 0 do 100"
+
 #: changedetectionio/forms.py changedetectionio/templates/login.html
 msgid "Password"
 msgstr "Hasło"
