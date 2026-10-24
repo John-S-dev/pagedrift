@@ -4034,6 +4034,53 @@ msgstr "(o"
 msgid "only supports a maximum"
 msgstr "sólo admite un máximo"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2.000 caracteres"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "del texto de la notificación, incluido el título."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr ""
+"Los bots no pueden enviar mensajes a otros bots, por lo que debes especificar el ID de chat de un usuario que no sea "
+"un bot."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "solo admite HTML muy limitado y puede fallar cuando se envían etiquetas adicionales,"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(o utilice formato de texto sin formato/rebajas)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "para llamadas API directas (u omitir el"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "para no SSL, es decir"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "más ayuda aquí"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "Acepta los marcadores de posición <code>%(token)s</code> enumerados a continuación"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Customise notifications"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Title for all notifications"
+msgstr "Título para todas las notificaciones"
+
 #: changedetectionio/templates/_helpers.html
 msgid "Reset"
 msgstr "Reiniciar"
