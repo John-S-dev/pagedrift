@@ -4382,6 +4382,55 @@ msgid "Are you sure?"
 msgstr "Jesteś pewien?"
 
 #: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr "<p>Czy na pewno chcesz kontynuować?</p>"
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr "Czy chcesz usunąć %(name)s?"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr "<p>Czy na pewno chcesz usunąć <strong>%(name)s</strong>?</p><p>Tej czynności nie można cofnąć.</p>"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Unlink %(name)s?"
+msgstr "Czy chcesz usunąć powiązanie z %(name)s?"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid ""
+"<p>Are you sure you want to unlink all watches from <strong>%(name)s</strong>?</p><p>The tag will be kept but watches"
+" will be removed from it.</p>"
+msgstr ""
+"<p>Czy na pewno chcesz usunąć wszystkie obserwacje z <strong>%(name)s</strong>?</p><p>Tag zostanie zachowany, ale "
+"obserwacje zostaną z niego usunięte.</p>"
+
+#: changedetectionio/templates/base.html
+msgid "There was an error communicating with the server."
+msgstr "Wystąpił błąd podczas komunikacji z serwerem."
+
+#: changedetectionio/templates/base.html
+msgid "There was a problem processing the request, please reload the page."
+msgstr "Wystąpił problem podczas przetwarzania żądania. Proszę odświeżyć stronę."
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "There was a problem processing the request: %(error)s"
+msgstr "Wystąpił problem podczas przetwarzania żądania: %(error)s"
+
+#: changedetectionio/templates/base.html
+msgid "Existing filters under the 'Filters & Triggers' tab were cleared."
+msgstr "Istniejące filtry w zakładce „Filtry i wyzwalacze” zostały usunięte."
+
+#: changedetectionio/templates/base.html
 msgid "Fetching element data.."
 msgstr "Pobieranie danych elementu..."
 
