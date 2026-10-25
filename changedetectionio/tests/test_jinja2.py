@@ -130,6 +130,39 @@ def test_substract_time(environment):
     assert finalRender == "Wed, 09 Dec 2015 23:22:01"
 
 
+def test_offset_with_format(environment):
+    """Verify that offset works together with datetime format."""
+
+    finalRender = render(
+        "{% now 'utc' - 'days=2,minutes=33,seconds=1', '%d %b %Y %H:%M:%S' %}"
+    )
+
+    assert finalRender == "07 Dec 2015 23:00:00"
+
+def test_default_timezone_empty_string(environment):
+    """Verify that empty timezone string uses the default timezone (UTC in test environment)."""
+
+    # Empty string should use the default timezone which is 'UTC' (or from application settings)
+    finalRender = render("{% now '' %}")
+
+    # Should render with default format and UTC timezone (matches environment fixture)
+    assert finalRender == "Wed, 09 Dec 2015 23:33:01"
+
+def test_default_timezone_with_offset(environment):
+    """Verify that empty timezone works with offset operations."""
+
+    # Empty string with offset should use default timezone
+    finalRender = render("{% now '' + 'hours=2', '%d %b %Y %H:%M:%S' %}")
+
+    assert finalRender == "10 Dec 2015 01:33:01"
+
+def test_default_timezone_subtraction(environment):
+    """Verify that empty timezone works with subtraction offset."""
+
+    finalRender = render("{% now '' - 'minutes=11' %}")
+
+    assert finalRender == "Wed, 09 Dec 2015 23:22:01"
+
 def test_regex_replace_basic():
     """Test basic regex_replace functionality."""
 
