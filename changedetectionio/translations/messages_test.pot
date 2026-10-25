@@ -392,6 +392,50 @@ msgstr ""
 msgid "Proxy URLs must start with http://, https:// or socks5://"
 msgstr ""
 
+#: changedetectionio/forms.py:934
+msgid "Browser connection URL"
+msgstr ""
+
+#: changedetectionio/forms.py:939
+msgid "Browser URLs must start with wss:// or ws://"
+msgstr ""
+
+#: changedetectionio/forms.py:945
+msgid "Plaintext requests"
+msgstr ""
+
+#: changedetectionio/forms.py:947
+msgid "Chrome requests"
+msgstr ""
+
+#: changedetectionio/forms.py:953
+msgid "Default proxy"
+msgstr ""
+
+#: changedetectionio/forms.py:954
+msgid "Random jitter seconds ± check"
+msgstr ""
+
+#: changedetectionio/forms.py:958
+msgid "Number of fetch workers"
+msgstr ""
+
+#: changedetectionio/forms.py:961
+msgid "Should be between 1 and 50"
+msgstr ""
+
+#: changedetectionio/forms.py:963
+msgid "Requests timeout in seconds"
+msgstr ""
+
+#: changedetectionio/forms.py:966
+msgid "Should be between 1 and 999"
+msgstr ""
+
+#: changedetectionio/forms.py:971
+msgid "Default User-Agent overrides"
+msgstr ""
+
 #: changedetectionio/forms.py:977
 msgid "Both a name, and a Proxy URL is required."
 msgstr ""
