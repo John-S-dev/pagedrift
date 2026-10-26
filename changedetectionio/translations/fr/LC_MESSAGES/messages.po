@@ -3509,6 +3509,46 @@ msgid "RSS \"System default\" template override"
 msgstr "Ecraser le template RSS par défaut"
 
 #: changedetectionio/forms.py
+msgid "Remove password"
+msgstr "Enlever le mot de passe"
+
+#: changedetectionio/forms.py
+msgid "Render anchor tag content"
+msgstr "Afficher le contenu de la balise d'ancrage"
+
+#: changedetectionio/forms.py
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr "Autoriser l'accès anonyme à la page de l'historique des vidéos regardées lorsque le mot de passe est activé"
+
+#: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "Masquer les moniteurs en sourdine du flux RSS"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "Activer le mode lecteur RSS"
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "Nombre de modifications à afficher dans le flux RSS du moniteur"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "Doit contenir zéro ou plusieurs tentatives"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "Nombre de fois où le filtre peut être manquant avant l'envoi d'une notification"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "Clé API"
+
+#: changedetectionio/forms.py
 msgid "API Base URL"
 msgstr ""
 
