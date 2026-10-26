@@ -1134,6 +1134,74 @@ class SingleExtraBrowser(Form):
         ValidateSimpleURL()
     ], render_kw={"placeholder": "wss://brightdata... wss://oxylabs etc", "size":50})
 
+class globalSettingsApplicationUIForm(Form):
+    open_diff_in_new_tab = BooleanField(_l("Open 'History' page in a new tab"), default=True, validators=[validators.Optional()])
+    socket_io_enabled = BooleanField(_l('Realtime UI Updates Enabled'), default=True, validators=[validators.Optional()])
+    favicons_enabled = BooleanField(_l('Favicons Enabled'), default=True, validators=[validators.Optional()])
+    use_page_title_in_list = BooleanField(_l('Use page <title> in watch overview list')) #BooleanField=True
+    timeago_format = SelectField(_l('Relative time format'),
+                                 choices=[('long', _l('Long (1 minute ago)')), ('short', _l('Short (1m ago)'))],
+                                 default='long', validators=[validators.Optional()])
+    sidebar_mode = SelectField(_l('Navigation sidebar'),
+                               choices=MENU_SIDEBAR_ACTIONMODES,
+                               default=MENU_SIDEBAR_ACTIONMODES_DEFAULT, validators=[validators.Optional()])
+
+# datastore.data['settings']['application']..
+class globalSettingsApplicationForm(commonSettingsForm):
+
+    api_access_token_enabled = BooleanField(_l('API access token security check enabled'), default=True, validators=[validators.Optional()])
+    base_url = StringField(_l('Notification base URL override'),
+                           validators=[validators.Optional()],
+                           render_kw={"placeholder": os.getenv('BASE_URL', _l('Not set'))}
+                           )
+    empty_pages_are_a_change =  BooleanField(_l('Treat empty pages as a change?'), default=False)
+    fetch_backend = RadioField(_l('Fetch Method'), default="html_requests", choices=content_fetchers.available_fetchers(), validators=[ValidateContentFetcherIsReady()])
+    global_ignore_text = StringListField(_l('Ignore Text'), [ValidateListRegex()])
+    global_subtractive_selectors = StringListField(_l('Remove elements'), [ValidateCSSJSONXPATHInput(allow_json=False)])
+    ignore_whitespace = BooleanField(_l('Ignore whitespace'))
+
+    # Screenshot comparison settings
+    min_change_percentage = FloatField(
+        _l('Screenshot: Minimum Change Percentage'),
+        validators=[
+            validators.Optional(),
+            validators.NumberRange(min=0.0, max=100.0, message=_l('Must be between 0 and 100'))
+        ],
+        default=0.1,
+        render_kw={"placeholder": "0.1", "style": "width: 8em;"}
+    )
+
+    password = SaltyPasswordField(_l('Password'), render_kw={"autocomplete": "new-password"})
+    pager_size = IntegerField(_l('Pager size'),
+                              render_kw={"style": "width: 5em;"},
+                              validators=[validators.NumberRange(min=0,
+                                                                 message=_l("Should be atleast zero (disabled)"))])
+
+    rss_content_format = SelectField(_l('RSS Content format'), choices=list(RSS_FORMAT_TYPES.items()))
+    rss_template_type = SelectField(_l('RSS <description> body built from'), choices=list(RSS_TEMPLATE_TYPE_OPTIONS.items()))
+    rss_template_override = TextAreaField(_l('RSS "System default" template override'), render_kw={"rows": "5", "placeholder": RSS_TEMPLATE_HTML_DEFAULT}, validators=[validators.Optional(), ValidateJinja2Template()])
+
+    removepassword_button = SubmitField(_l('Remove password'), render_kw={"class": "pure-button pure-button-primary"})
+    render_anchor_tag_content = BooleanField(_l('Render anchor tag content'), default=False)
+    shared_diff_access = BooleanField(_l('Allow anonymous access to watch history page when password is enabled'), default=False, validators=[validators.Optional()])
+    strip_ignored_lines = BooleanField(_l('Strip ignored lines'))
+    rss_hide_muted_watches = BooleanField(_l('Hide muted watches from RSS feed'), default=True,
+                                      validators=[validators.Optional()])
+
+    rss_reader_mode = BooleanField(_l('Enable RSS reader mode '), default=False, validators=[validators.Optional()])
+    rss_diff_length = IntegerField(label=_l('Number of changes to show in watch RSS feed'),
+                                   render_kw={"style": "width: 5em;"},
+                                   validators=[validators.NumberRange(min=0, message=_l("Should contain zero or more attempts"))])
+
+    filter_failure_notification_threshold_attempts = IntegerField(_l('Number of times the filter can be missing before sending a notification'),
+                                                                  render_kw={"style": "width: 5em;"},
+                                                                  validators=[validators.NumberRange(min=0,
+                                                                                                     message=_l("Should contain zero or more attempts"))])
+
+    history_snapshot_max_length = IntegerField(_l('Number of history items per watch to keep'), render_kw={"style": "width: 5em;"}, validators=[validators.Optional(), validators.NumberRange(min=2)])
+    ui = FormField(globalSettingsApplicationUIForm)
+
+
 class globalSettingsLLMForm(Form):
     """
     LLM / AI provider settings — stored under datastore['settings']['application']['llm'].
