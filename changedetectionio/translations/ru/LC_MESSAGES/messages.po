@@ -4313,6 +4313,49 @@ msgstr ""
 msgid "Share this link:"
 msgstr "Поделитесь этой ссылкой:"
 
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Обновления в режиме реального времени в автономном режиме"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Выберите язык"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Автоматическое определение из браузера"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr ""
+"Языковая поддержка находится в стадии бета-тестирования. Помогите нам улучшить ее, открыв PR на GitHub с любыми "
+"обновлениями."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr "AI/LLM не настроен"
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr "Сводки на основе LLM пока не включены. Чтобы начать, настройте поставщика искусственного интеллекта в настройках."
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr "Зайдите в настройки AI/LLM."
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Поиск"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "URL or Title in '%(title)s'"
+msgstr "URL-адрес или заголовок в формате «%(title)s»"
+
+#: changedetectionio/templates/base.html
+msgid "URL or Title"
+msgstr "URL или заголовок"
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid "Summarise what events were added or cancelled. Two sentences maximum."
 msgstr "Подведите итог, какие события были добавлены или отменены. Два предложения максимум."
