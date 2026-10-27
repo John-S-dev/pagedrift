@@ -194,3 +194,27 @@ class TestLLMRestockPluginExtraction:
         assert result['price'] == 49.99
 
 
+class TestLLMRestockPluginTokenAccounting:
+    def test_result_includes_token_metadata(self):
+        """Plugin result must carry _tokens/_input_tokens/_output_tokens/_model."""
+        llm_json = '{"price": 49.99, "currency": "USD", "availability": "instock"}'
+        result = _call_plugin(
+            '<html><body>$49.99 In Stock</body></html>',
+            llm_json=llm_json,
+        )
+        assert result is not None
+        assert result['_tokens'] == 50
+        assert result['_input_tokens'] == 40
+        assert result['_output_tokens'] == 10
+        assert result['_model'] == 'gpt-4o-mini'
+
+    def test_token_keys_not_in_none_result(self):
+        """When LLM returns nothing useful, result is None — no token metadata leaked."""
+        llm_json = '{"price": null, "currency": null, "availability": null}'
+        result = _call_plugin(
+            '<html><body>No pricing info</body></html>',
+            llm_json=llm_json,
+        )
+        assert result is None
+
+
