@@ -247,3 +247,18 @@ wyborcza_style_html = """<!DOCTYPE html>
 """
 
 
+def test_wyborcza_real_world_example():
+    """Test real-world case from wyborcza.pl that was failing (issue #3658)"""
+    xpath = '//a[(contains(@class,"index--s-headline-link"))]'
+    result = html_tools.xpath_filter(xpath, wyborcza_style_html, append_pretty_line_formatting=False)
+
+    # These exact strings should appear in the result
+    assert 'Naukowcy potwierdzają' in result
+    assert 'oglądanie krótkich filmików' in result
+    assert 'zgnilizny mózgu' in result
+    assert 'Łódź' in result
+
+    # Make sure they're NOT corrupted to mojibake like "potwierdzajÄ"
+    assert 'potwierdzajÄ' not in result
+    assert 'ogl&#261;danie' not in result
+    assert 'm&#243;zgu' not in result
