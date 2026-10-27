@@ -405,6 +405,82 @@ Line 3 with tabs and spaces"""
         self.assertEqual(extract_changed_from(raw), "$99\n$5")
         self.assertEqual(extract_changed_to(raw),   "$149\n$12")
 
+    def test_diff_changed_from_to_pure_insert_delete(self):
+        """Pure line additions/deletions (no inline word diff) are also captured"""
+        before = "old line"
+        after  = "new line"
+
+        # word_diff=False forces line-level CHANGED markers
+        raw = diff.render_diff(before, after, word_diff=False)
+
+        self.assertEqual(extract_changed_from(raw), "old line")
+        self.assertEqual(extract_changed_to(raw),   "new line")
+
+    def test_diff_changed_from_to_similar_numbers(self):
+        """$90.00 → $9.00 must not produce a partial match like '0.00'.
+        The tokenizer splits on whitespace only, so '$90.00' and '$9.00' are
+        each a single atomic token — diff never sees their internal characters."""
+        before = "for sale $90.00"
+        after  = "for sale $9.00"
+
+        raw = diff.render_diff(before, after, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "$90.00")
+        self.assertEqual(extract_changed_to(raw),   "$9.00")
+
+    def test_diff_changed_from_to_whole_line_replaced(self):
+        """When every token on the line changed (no common tokens), render_inline_word_diff
+        takes the whole_line_replaced path using CHANGED/CHANGED_INTO markers instead of
+        REMOVED/ADDED. Extraction must still work via the alternation in the regex."""
+        before = "$99"
+        after  = "$109"
+
+        raw = diff.render_diff(before, after, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "$99")
+        self.assertEqual(extract_changed_to(raw),   "$109")
+
+    def test_diff_changed_from_to_multiple_words_same_line(self):
+        """When multiple words change on the same line all fragments are joined with newline.
+        'quick brown fox jumps' -> 'slow brown fox hops' gives 'quick\njumps' / 'slow\nhops'.
+        These tokens work best when a single value changes per line."""
+        before = "quick brown fox jumps"
+        after  = "slow brown fox hops"
+
+        raw = diff.render_diff(before, after, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "quick\njumps")
+        self.assertEqual(extract_changed_to(raw),   "slow\nhops")
+
+    def test_diff_changed_from_to_no_change(self):
+        """No changes → empty string"""
+        content = "nothing changed here"
+
+        raw = diff.render_diff(content, content, word_diff=True)
+
+        self.assertEqual(extract_changed_from(raw), "")
+        self.assertEqual(extract_changed_to(raw),   "")
+
+
+    def test_word_diff_no_prefix_whole_line_replaced(self):
+        """When include_change_type_prefix=False, word-level diffs for whole-line
+        replacements must not include placemarkers (issue #3816)."""
+        before = "73"
+        after = "100"
+
+        raw = diff.render_diff(before, after, word_diff=True, include_change_type_prefix=False)
+
+        self.assertNotIn('PLACEMARKER', raw)
+        # Should contain just the raw values separated by newline
+        self.assertIn('73', raw)
+        self.assertIn('100', raw)
+
+    def test_word_diff_no_prefix_inline_changes(self):
+        """When include_change_type_prefix=False, inline word-level diffs
+        must not include placemarkers (issue #3816)."""
+        before = "the price is 50 dollars"
+        after = "the price is 75 dollars"
+
         raw = diff.render_diff(before, after, word_diff=True, include_change_type_prefix=False)
 
         self.assertNotIn('PLACEMARKER', raw)
