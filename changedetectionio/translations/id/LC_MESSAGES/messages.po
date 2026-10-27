@@ -4666,3 +4666,43 @@ msgstr "Gunakan grup untuk mengekstrak hanya teks tersebut - contoh"
 msgid "returns a list of years only"
 msgstr "mengembalikan daftar tahun saja"
 
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Notifikasi dibisukan - klik untuk mengaktifkan kembali"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr "Peringatan aktif"
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr "Keluar"
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "EDIT"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Deteksi Perubahan dan Notifikasi Situs Web."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "Alihkan Mode AI"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "Alihkan mode AI"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Alihkan Mode Terang/Gelap"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle light/dark mode"
+msgstr "Alihkan mode terang/gelap"
+
