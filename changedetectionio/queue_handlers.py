@@ -421,6 +421,17 @@ class RecheckPriorityQueue:
             logger.critical(f"CRITICAL: Failed to emit get signals: {str(e)}")
 
 
+class NotificationQueue:
+    """
+    Ultra-reliable notification queue using pure janus.
+    
+    CRITICAL DESIGN NOTE: Both sync_q and async_q are required because:
+    - sync_q: Used by Flask routes, ticker threads, and other synchronous code
+    - async_q: Used by async workers and coroutines
+    
+    DO NOT REMOVE EITHER INTERFACE - they bridge different execution contexts.
+    See RecheckPriorityQueue docstring above for detailed explanation.
+    
     Simple wrapper around janus with bulletproof error handling.
     """
     
