@@ -3473,6 +3473,46 @@ msgstr "Requisições em texto simples"
 msgid "Chrome requests"
 msgstr "Requisições Chrome"
 
+#: changedetectionio/forms.py
+msgid "Default proxy"
+msgstr "Proxy padrão"
+
+#: changedetectionio/forms.py
+msgid "Random jitter seconds ± check"
+msgstr "Segundos de jitter aleatório ± verificação"
+
+#: changedetectionio/forms.py
+msgid "Number of fetch workers"
+msgstr "Número de workers de busca"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 50"
+msgstr "Deve estar entre 1 e 50"
+
+#: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Timeout de requisições em segundos"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "Deve estar entre 1 e 999"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Substituições de User-Agent padrão"
+
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "Ambos, nome e URL do Proxy, são obrigatórios."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "Abrir página de 'Histórico' em uma nova aba"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "Atualizações de Interface em Tempo Real Ativadas"
+
 #: changedetectionio/forms.py changedetectionio/processors/image_ssim_diff/forms.py
 msgid "Must be between 0 and 100"
 msgstr "Deve estar entre 0 e 100"
