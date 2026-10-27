@@ -3480,6 +3480,46 @@ msgid "Allow anonymous access to watch history page when password is enabled"
 msgstr "Erlauben Sie anonymen Zugriff auf die Seite mit dem Wiedergabeverlauf, wenn das Passwort aktiviert ist"
 
 #: changedetectionio/forms.py
+msgid "Hide muted watches from RSS feed"
+msgstr "Ausgeblendete Beobachtungen aus RSS-Feed ausblenden"
+
+#: changedetectionio/forms.py
+msgid "Enable RSS reader mode "
+msgstr "Aktivieren Sie den RSS-Reader-Modus"
+
+#: changedetectionio/forms.py
+msgid "Number of changes to show in watch RSS feed"
+msgstr "Anzahl der Änderungen, die im Beobachtungs-RSS-Feed angezeigt werden sollen"
+
+#: changedetectionio/forms.py
+msgid "Should contain zero or more attempts"
+msgstr "Sollte null oder mehr Versuche enthalten"
+
+#: changedetectionio/forms.py
+msgid "Number of times the filter can be missing before sending a notification"
+msgstr "Häufigkeit, mit der der Filter fehlen darf, bevor eine Benachrichtigung gesendet wird"
+
+#: changedetectionio/forms.py
+msgid "Model"
+msgstr ""
+
+#: changedetectionio/blueprint/settings/templates/settings.html changedetectionio/forms.py
+msgid "API Key"
+msgstr "API-Schlüssel"
+
+#: changedetectionio/forms.py
+msgid "API Base URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Token multiplier for local reasoning models"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Default AI Change Summary prompt"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "When monthly token budget is reached"
 msgstr ""
 
