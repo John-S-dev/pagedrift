@@ -1373,6 +1373,21 @@ paths:
         '404':
           description: Snapshot not found
 
+        **Format Options:**
+        - `text` (default): Plain text with (removed) and (added) prefixes
+        - `html`: HTML format with (removed) and (added) text
+        - `htmlcolor`: Rich HTML with colored highlights (green for additions, red for deletions)
+
+        **Word-Level Diffing:**
+        - Enable word-level granularity with `word_diff=true` for detailed inline comparisons
+        - Disable with `word_diff=false` for line-level comparisons only (default false/off, line-level mode by default)
+
+        **Raw Diff Output:**
+        - Use `no_markup=true` to get raw diff content without any formatting applied
+        - Returns content with placeholders for opening/closing tags of changes
+        - Allows you to implement your own custom colorisation or formatting
+        - Skips all HTML color application and service tweaks (added text, html color tags, etc)
+
             # Show only additions, ignore whitespace and use word-level diff
             response = requests.get(
                 f'http://localhost:5000/api/v1/watch/{uuid}/difference/previous/latest',
