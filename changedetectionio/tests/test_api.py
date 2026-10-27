@@ -779,6 +779,105 @@ def test_api_import(client, live_server, measure_memory_usage, datastore_path):
         'title': 'Imported with Config'
     })
 
+    res = client.post(
+        url_for("import") + "?" + params,
+        data='https://website3.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+    assert len(res.json) == 1
+    uuid = res.json[0]
+
+    # Verify the configuration was applied
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    assert watch['include_filters'] == ['div.content'], "include_filters should be set as array"
+    assert watch['paused'] == True, "paused should be True"
+    assert watch['processor'] == 'text_json_diff', "processor should be set"
+    assert watch['title'] == 'Imported with Config', "title should be set"
+
+    # Test 3: Import with array field (notification_urls) - using valid Apprise format
+    params = urllib.parse.urlencode({
+        'tag': 'notification-test',
+        'notification_urls': 'mailto://test@example.com,mailto://admin@example.com'
+    })
+
+    res = client.post(
+        url_for("import") + "?" + params,
+        data='https://website4.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+    uuid = res.json[0]
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    assert isinstance(watch['notification_urls'], list), "notification_urls must be stored as a list"
+    assert len(watch['notification_urls']) == 2, "notification_urls should have 2 entries"
+    assert 'mailto://test@example.com' in watch['notification_urls'], "notification_urls should contain first email"
+    assert 'mailto://admin@example.com' in watch['notification_urls'], "notification_urls should contain second email"
+
+    # Test 4: Import with object field (time_between_check)
+    import json
+    time_config = json.dumps({"hours": 2, "minutes": 30})
+    params = urllib.parse.urlencode({
+        'tag': 'schedule-test',
+        'time_between_check': time_config
+    })
+
+    res = client.post(
+        url_for("import") + "?" + params,
+        data='https://website5.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+    uuid = res.json[0]
+    watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
+    assert watch['time_between_check']['hours'] == 2, "time_between_check hours should be 2"
+    assert watch['time_between_check']['minutes'] == 30, "time_between_check minutes should be 30"
+
+    # Test 5: Import with invalid processor (should fail)
+    res = client.post(
+        url_for("import") + "?processor=invalid_processor",
+        data='https://website6.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 400, "Should reject invalid processor"
+    assert b"Invalid processor" in res.data, "Error message should mention invalid processor"
+
+    # Test 6: Import with invalid field (should fail)
+    res = client.post(
+        url_for("import") + "?unknown_field=value",
+        data='https://website7.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 400, "Should reject unknown field"
+    assert b"Unknown watch configuration parameter" in res.data, "Error message should mention unknown parameter"
+
+    # Test 7: Import with complex nested array (browser_steps) - array of objects
+    browser_steps = json.dumps([
+        {"operation": "wait", "selector": "5", "optional_value": ""},
+        {"operation": "click", "selector": "button.submit", "optional_value": ""}
+    ])
+    params = urllib.parse.urlencode({
+        'tag': 'browser-test',
+        'browser_steps': browser_steps
+    })
+
+    res = client.post(
+        url_for("import") + "?" + params,
+        data='https://website8.com',
+        headers={'x-api-key': api_key},
+        follow_redirects=True
+    )
+
     assert res.status_code == 200, "Should accept browser_steps array"
     uuid = res.json[0]
     watch = live_server.app.config['DATASTORE'].data['watching'][uuid]
