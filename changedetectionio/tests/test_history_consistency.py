@@ -151,6 +151,46 @@ def test_consistent_history(client, live_server, measure_memory_usage, datastore
 
     delete_all_watches(client)
 
+def test_check_text_history_view(client, live_server, measure_memory_usage, datastore_path):
+
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write("<html>test-one</html>")
+
+    # Add our URL to the import page
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = client.application.config.get('DATASTORE').add_watch(url=test_url)
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    # Set second version, Make a change
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write("<html>test-two</html>")
+
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    res = client.get(url_for("ui.ui_diff.diff_history_page", uuid=uuid))
+    assert b'test-one' in res.data
+    assert b'test-two' in res.data
+
+    # Set third version, Make a change
+    with open(os.path.join(datastore_path, "endpoint-content.txt"), "w") as f:
+        f.write("<html>test-three</html>")
+
+    client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+    wait_for_all_checks(client)
+
+    # It should remember the last viewed time, so the first difference is not shown
+    res = client.get(url_for("ui.ui_diff.diff_history_page", uuid="first"))
+    assert b'test-three' in res.data
+    assert b'test-two' in res.data
+    assert b'test-one' not in res.data
+
+    delete_all_watches(client)
+
+
 def test_history_trim_global_only(client, live_server, measure_memory_usage, datastore_path):
     # Add our URL to the import page
     test_url = url_for('test_endpoint', _external=True)
