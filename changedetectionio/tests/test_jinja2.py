@@ -191,3 +191,58 @@ def test_regex_replace_count_parameter():
     finalRender = render("{{ 'foo bar foo baz' | regex_replace('foo', 'qux', 1) }}")
     assert finalRender == "qux bar foo baz"
 
+def test_regex_replace_multiline():
+    """Test regex_replace on multiline text."""
+
+    template = "{{ 'line1\\nline2\\nline3' | regex_replace('^line', 'row') }}"
+    finalRender = render(template)
+    # By default re.sub doesn't use MULTILINE flag, so only first line matches with ^
+    assert finalRender == "row1\nline2\nline3"
+
+def test_regex_replace_with_notification_context():
+    """Test regex_replace with notification diff variable."""
+
+    # Simulate how it would be used in notifications with diff variable
+    from changedetectionio.notification_service import NotificationContextData
+
+    context = NotificationContextData()
+    context['diff'] = '<td>value1</td><td>value2</td>'
+
+    template = "{{ diff | regex_replace('<td>([^<]+)</td>', '\\\\1 ') }}"
+
+    from changedetectionio.jinja2_custom import create_jinja_env
+    from jinja2 import BaseLoader
+
+    jinja2_env = create_jinja_env(loader=BaseLoader)
+    jinja2_env.globals.update(context)
+    finalRender = jinja2_env.from_string(template).render()
+
+    assert "value1 value2 " in finalRender
+
+def test_regex_replace_security_large_input():
+    """Test regex_replace handles large input safely."""
+
+    # Create a large input string (over 10MB)
+    large_input = "x" * (1024 * 1024 * 10 + 1000)
+    template = "{{ large_input | regex_replace('x', 'y') }}"
+
+    from changedetectionio.jinja2_custom import create_jinja_env
+    from jinja2 import BaseLoader
+
+    jinja2_env = create_jinja_env(loader=BaseLoader)
+    jinja2_env.globals['large_input'] = large_input
+    finalRender = jinja2_env.from_string(template).render()
+
+    # Should be truncated to 10MB
+    assert len(finalRender) == 1024 * 1024 * 10
+
+def test_regex_replace_security_long_pattern():
+    """Test regex_replace rejects very long patterns."""
+
+    # Pattern longer than 500 chars should be rejected
+    long_pattern = "a" * 501
+    finalRender = render("{{ 'test' | regex_replace('" + long_pattern + "', 'replacement') }}")
+
+    # Should return original value when pattern is too long
+    assert finalRender == "test"
+
