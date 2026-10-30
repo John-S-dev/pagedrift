@@ -1713,6 +1713,71 @@ paths:
           source: |
             import requests
             
+            headers = {'x-api-key': 'YOUR_API_KEY'}
+            response = requests.get('http://localhost:5000/api/v1/notifications', headers=headers)
+            print(response.json())
+      responses:
+        '200':
+          description: List of notification URLs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationUrls'
+
+    post:
+      operationId: addNotifications
+      tags: [Notifications]
+      summary: Add notification URLs
+      description: Add one or more notification URLs to the configuration
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            curl -X POST "http://localhost:5000/api/v1/notifications" \
+              -H "x-api-key: YOUR_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "notification_urls": [
+                  "mailto:admin@example.com",
+                  "discord://webhook_id/webhook_token"
+                ]
+              }'
+        - lang: 'Python'
+          source: |
+            import requests
+            
+            headers = {
+                'x-api-key': 'YOUR_API_KEY',
+                'Content-Type': 'application/json'
+            }
+            data = {
+                'notification_urls': [
+                    'mailto:admin@example.com',
+                    'discord://webhook_id/webhook_token'
+                ]
+            }
+            response = requests.post('http://localhost:5000/api/v1/notifications', 
+                                   headers=headers, json=data)
+            print(response.json())
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationUrls'
+            example:
+              notification_urls:
+                - "mailto:admin@example.com"
+                - "discord://webhook_id/webhook_token"
+      responses:
+        '201':
+          description: Notification URLs added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationUrls'
+        '400':
+          description: Invalid input
+
     put:
       operationId: replaceNotifications
       tags: [Notifications]
