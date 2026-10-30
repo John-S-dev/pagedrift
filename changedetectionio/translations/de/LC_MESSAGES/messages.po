@@ -3190,6 +3190,46 @@ msgid "URLs"
 msgstr "URL"
 
 #: changedetectionio/forms.py
+msgid "Upload .xlsx file"
+msgstr "Laden Sie die XLSX-Datei hoch"
+
+#: changedetectionio/forms.py
+msgid "Must be .xlsx file!"
+msgstr "Muss eine XLSX-Datei sein!"
+
+#: changedetectionio/forms.py
+msgid "File mapping"
+msgstr "Dateizuordnung"
+
+#: changedetectionio/forms.py
+msgid "Operation"
+msgstr "UI-Optionen"
+
+#: changedetectionio/forms.py
+msgid "Selector"
+msgstr "Auswahlmodus:"
+
+#: changedetectionio/forms.py
+msgid "CSS or xPath selector"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "value"
+msgstr "Wert"
+
+#: changedetectionio/conditions/form.py changedetectionio/forms.py
+msgid "Value"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Web Page URL"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Open Link Override"
+msgstr ""
+
+#: changedetectionio/forms.py
 msgid "Group Tag"
 msgstr ""
 
