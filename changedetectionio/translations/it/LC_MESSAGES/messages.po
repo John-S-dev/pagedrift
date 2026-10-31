@@ -3609,6 +3609,49 @@ msgstr ""
 msgid "Previous version (second-last vs latest)"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "RegEx da estrarre"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "Estrai come CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "proprio ora"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "tra poco"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "%ss fa"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "tra %ss"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "1min fa"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "tra 1min"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "%smin fa"
+
 #: changedetectionio/languages.py
 msgid "in 1w"
 msgstr "tra 1sett"
