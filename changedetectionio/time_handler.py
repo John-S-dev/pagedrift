@@ -103,3 +103,38 @@ def am_i_inside_time(
     return False
 
 
+def is_within_schedule(time_schedule_limit, default_tz="UTC"):
+    """
+    Check if the current time is within a scheduled time window.
+
+    Parameters:
+        time_schedule_limit (dict): Schedule configuration with timezone, day settings, etc.
+        default_tz (str): Default timezone to use if not specified. Default is 'UTC'.
+
+    Returns:
+        bool: True if current time is within the schedule, False otherwise.
+    """
+    import arrow
+    if time_schedule_limit and time_schedule_limit.get('enabled'):
+        # Get the timezone the time schedule is in, so we know what day it is there
+        tz_name = time_schedule_limit.get('timezone')
+        if not tz_name:
+            tz_name = default_tz
+
+        # Get current day name in the target timezone
+        now_day_name_in_tz = arrow.now(tz_name.strip()).format('dddd')
+        selected_day_schedule = time_schedule_limit.get(now_day_name_in_tz.lower())
+        if not selected_day_schedule.get('enabled'):
+            return False
+
+        duration = selected_day_schedule.get('duration')
+        selected_day_run_duration_m = int(duration.get('hours')) * 60 + int(duration.get('minutes'))
+
+        is_valid = am_i_inside_time(day_of_week=now_day_name_in_tz,
+                                    time_str=selected_day_schedule['start_time'],
+                                    timezone_str=tz_name,
+                                    duration=selected_day_run_duration_m)
+
+        return is_valid
+
+    return False
