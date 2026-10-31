@@ -3359,6 +3359,53 @@ msgid "Muted"
 msgstr "静音"
 
 #: changedetectionio/forms.py
+msgid "Attach screenshot to notification (where possible)"
+msgstr "（如可用）在通知中附加截图"
+
+#: changedetectionio/forms.py
+msgid "Match"
+msgstr "匹配"
+
+#: changedetectionio/forms.py
+msgid "Match all of the following"
+msgstr "匹配以下全部"
+
+#: changedetectionio/forms.py
+msgid "Match any of the following"
+msgstr "匹配以下任意"
+
+#: changedetectionio/forms.py
+msgid "Use page <title> in list"
+msgstr "列表中使用页面 <title>"
+
+#: changedetectionio/forms.py
+msgid "Number of history items per watch to keep"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "当请求方法为 GET 时，请求正文必须为空"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax configuration: %(error)s"
+msgstr "模板语法配置无效：%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax: %(error)s"
+msgstr "模板语法无效：%(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
+msgstr "“%(header)s”请求头中的模板语法无效：%(error)s"
+
+#: changedetectionio/blueprint/tags/form.py changedetectionio/forms.py
+msgid "Name"
+msgstr "名称"
+
+#: changedetectionio/forms.py
 msgid "Proxy URL"
 msgstr "代理 URL"
 
