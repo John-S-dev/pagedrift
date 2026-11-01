@@ -4670,6 +4670,48 @@ msgstr "每行一個 CSS、xPath 1 與 2、JSON Path / JQ 選擇器，將使用<
 msgid "Limit text to this CSS rule, only text matching this CSS rule is included."
 msgstr "將文字限制在此 CSS 規則中，僅包含符合此 CSS 規則的文字。"
 
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Prefix with <code>json:</code>, use <code>json:$</code> to force re-formatting if required,"
+msgstr "字首加上 <code>json:</code>，如果需要，使用 <code>json:$</code> 強制重新格式化，"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your JSONPath here"
+msgstr "在此處測試您的 JSONPath"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Prefix <code>jqraw:</code> outputs the results as text instead of a JSON list."
+msgstr "字首 <code>jqraw:</code> 將結果輸出為純文字，而非 JSON 列表。"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "jq support not installed"
+msgstr "未安裝 jq 支援"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid ""
+"Limit text to this XPath rule, simply start with a forward-slash. To specify XPath to be used explicitly or the XPath"
+" rule starts with an XPath function: Prefix with <code>xpath:</code>"
+msgstr "將文字限制在此 XPath 規則中，只需以正斜線開頭即可。若要明確指定要使用的 XPath，或 XPath 規則以 XPath 函數開頭：字首加上 <code>xpath:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "test your XPath here"
+msgstr "在此處測試您的 XPath"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Get all titles from an RSS feed <code>//title/text()</code>"
+msgstr "從 RSS Feed 獲取所有標題 <code>//title/text()</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "To use XPath1.0: Prefix with <code>xpath1:</code>"
+msgstr "若要使用 XPath 1.0：字首加上 <code>xpath1:</code>"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "here for more CSS selector help"
+msgstr "此處獲取更多 CSS 選擇器說明"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Text to wait for before triggering a change/notification, all text and regex are tested case-insensitive."
+msgstr "觸發變更 / 通知前要等待的文字，所有文字與正規表示式皆不區分大小寫進行測試。"
+
 #: changedetectionio/templates/edit/text-options.html
 msgid "Trigger text is processed from the result-text that comes out of any CSS/JSON Filters for this monitor"
 msgstr "觸發文字由該監測器的任何 CSS / JSON 過濾器產生的結果文字進行處理"
