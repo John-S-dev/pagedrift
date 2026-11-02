@@ -4359,3 +4359,43 @@ msgstr "已暫停"
 msgid "Running"
 msgstr ""
 
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "取消靜音通知"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "通知已靜音 - 點擊以取消靜音"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr "警報開啟"
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr "登出"
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr "設定"
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "編輯"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "網站變更檢測與通知。"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "切換 AI 模式"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "切換 AI 模式"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "切換亮 / 暗模式"
+
