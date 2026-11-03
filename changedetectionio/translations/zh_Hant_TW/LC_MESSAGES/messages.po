@@ -4365,6 +4365,53 @@ msgid ""
 "edits to that prompt still reach this watch."
 msgstr ""
 
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Appending keeps the prompt inherited from global settings and adds your text after it, so later edits to that prompt "
+"still reach this group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "List each new item added with its name and price. Translate to English."
+msgstr "列出每個新新增項目的名稱與價格。翻譯成英文。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Summarise what events were added or cancelled. Two sentences maximum."
+msgstr "摘要新增或取消了哪些活動。最多兩句話。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Describe the price change: old price, new price, percentage difference."
+msgstr "描述價格變化：舊價格、新價格、百分比差異。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "AI"
+msgstr "AI"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid ""
+"Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI Change Intent and AI "
+"Change Summary."
+msgstr "請在 <a href=\"%(url)s\">設定 → AI / LLM</a> 中設定 AI / LLM 供應商，以啟用 AI 變更意圖與 AI 變更摘要功能。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Configure an AI / LLM provider in <a href=\"%(url)s\">Settings → AI / LLM</a> to enable AI features for this group."
+msgstr "請在 <a href=\"%(url)s\">設定 → AI / LLM</a> 中設定 AI / LLM 供應商，以啟用此群組的 AI 功能。"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Note!: //text() function does not work where the <element> contains <![CDATA[]]>"
+msgstr "注意！：若 <element> 包含 <![CDATA[]]>，則 //text() 函數將無法運作"
+
+#. CJK fonts lack native italics; allow substitution with conventional local styling. dennis-ignore: W303
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "One CSS, xPath 1 & 2, JSON Path/JQ selector per line, <i>any</i> rules that matches will be used."
+msgstr "每行一個 CSS、xPath 1 與 2、JSON Path / JQ 選擇器，將使用<i>任何</i>相符的規則。"
+
+#: changedetectionio/templates/edit/include_subtract.html
+msgid "Limit text to this CSS rule, only text matching this CSS rule is included."
+msgstr "將文字限制在此 CSS 規則中，僅包含符合此 CSS 規則的文字。"
+
 #: changedetectionio/templates/edit/text-options.html
 msgid "returns a list of years only"
 msgstr "僅傳回年份列表"
