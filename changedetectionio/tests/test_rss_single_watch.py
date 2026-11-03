@@ -261,6 +261,10 @@ def test_rss_categories_from_tags(client, live_server, measure_memory_usage, dat
             assert "Python" in categories, f"Expected 'Python' category in tag feed, got: {categories}"
             assert "Tech News" in categories, f"Expected 'Tech News' category in tag feed, got: {categories}"
 
+    # Clean up
+    delete_all_watches(client)
+
+
 # RSS <description> should follow Main Settings -> Tag/Group -> Watch in that order of priority if set.
 def test_rss_single_watch_follow_notification_body(client, live_server, measure_memory_usage, datastore_path):
     rss_token = extract_rss_token_from_UI(client)
