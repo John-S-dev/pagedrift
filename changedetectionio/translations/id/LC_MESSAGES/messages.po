@@ -4410,6 +4410,47 @@ msgid "Please select text within the diff content."
 msgstr "Silakan pilih teks di dalam konten diff."
 
 #: changedetectionio/templates/base.html
+#, python-format
+msgid "Failed to generate image: %(error)s"
+msgstr "Gagal membuat gambar: %(error)s"
+
+#: changedetectionio/templates/base.html
+msgid "Change Detection Diff"
+msgstr "Diff Deteksi Perubahan"
+
+#: changedetectionio/templates/base.html
+msgid "Check out this change detected via changedetection.io"
+msgstr "Lihat perubahan ini yang terdeteksi melalui changedetection.io"
+
+#: changedetectionio/templates/base.html
+msgid "Please fill in all fields (Field, Operator, and Value) before verifying."
+msgstr "Silakan isi semua bidang (Bidang, Operator, dan Nilai) sebelum memverifikasi."
+
+#: changedetectionio/templates/base.html
+msgid "Error verifying condition."
+msgstr "Kesalahan saat memverifikasi kondisi."
+
+#: changedetectionio/templates/base.html
+msgid "Destination email"
+msgstr "Email tujuan"
+
+#: changedetectionio/templates/base.html
+msgid "Content after filters"
+msgstr "Konten setelah filter"
+
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr "Konten mentah/sebelum filter"
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr "Navigasi utama"
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr "Bagikan tautan ini:"
+
+#: changedetectionio/templates/base.html
 msgid "Enter search term..."
 msgstr "Masukkan istilah pencarian..."
 
