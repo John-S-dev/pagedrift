@@ -669,6 +669,114 @@ async def async_update_worker(worker_id, q, notification_q, app, datastore, exec
             if datastore and uuid in datastore.data['watching']:
                 datastore.update_watch(uuid=uuid, update_obj={'last_error': f"Worker error: {str(e)}"})
         
+        finally:
+            # Always cleanup - this runs whether there was an exception or not
+            if uuid:
+                # Capture references for plugin finalize hook BEFORE cleanup
+                # (cleanup may delete these variables, but plugins need the original references)
+                finalize_handler = update_handler  # Capture now, before cleanup deletes it
+                finalize_watch = watch              # Capture now, before any modifications
+
+                # Call quit() as backup (Puppeteer/Playwright have internal cleanup, but this acts as safety net)
+                try:
+                    if update_handler and hasattr(update_handler, 'fetcher') and update_handler.fetcher:
+                        await update_handler.fetcher.quit(watch=watch)
+                except Exception as e:
+                    logger.error(f"Exception while cleaning/quit after calling browser: {e}")
+                    logger.exception(f"Worker {worker_id} full exception details:")
+
+                try:
+
+                    # Clean up all memory references BEFORE garbage collection
+                    if update_handler:
+                        if hasattr(update_handler, 'fetcher') and update_handler.fetcher:
+                            update_handler.fetcher.clear_content()
+                        if hasattr(update_handler, 'content_processor'):
+                            update_handler.content_processor = None
+                        del update_handler
+                        update_handler = None
+
+                    # Clear large content variables
+                    if 'contents' in locals():
+                        del contents
+
+                    # Force garbage collection after all references are cleared
+                    import gc
+                    gc.collect()
+
+                    logger.debug(f"Worker {worker_id} completed watch {uuid} in {time.time()-fetch_start_time:.2f}s")
+                except Exception as cleanup_error:
+                    logger.error(f"Worker {worker_id} error during cleanup: {cleanup_error}")
+                    logger.exception(f"Worker {worker_id} full exception details:")
+
+                # Call plugin finalization hook after all cleanup is done
+                # Use captured references from before cleanup
+                try:
+                    apply_update_finalize(
+                        update_handler=finalize_handler,
+                        watch=finalize_watch,
+                        datastore=datastore,
+                        processing_exception=processing_exception
+                    )
+                except Exception as finalize_error:
+                    logger.error(f"Worker {worker_id} error in finalize hook: {finalize_error}")
+                    logger.exception(f"Worker {worker_id} full exception details:")
+                finally:
+                    # Clean up captured references to allow immediate garbage collection
+                    del finalize_handler
+                    del finalize_watch
+
+                # Release UUID from processing AFTER all cleanup and hooks complete (thread-safe)
+                # This ensures wait_for_all_checks() waits for finalize hooks to complete
+                try:
+                    worker_pool.release_uuid_from_processing(uuid, worker_id=worker_id)
+                except Exception as release_error:
+                    logger.error(f"Worker {worker_id} error releasing UUID: {release_error}")
+                    logger.exception(f"Worker {worker_id} full exception details:")
+                finally:
+                    # Send completion signal - retrieve by name to ensure thread-safe access
+                    if watch:
+                        # Clear transient in-memory status — check is done
+                        watch.pop('__check_status', None)
+                        watch_check_update = signal('watch_check_update')
+                        watch_check_update.send(watch_uuid=watch['uuid'])
+
+            del (uuid)
+
+            # Brief pause before continuing to avoid tight error loops (only on error)
+            if 'e' in locals():
+                await asyncio.sleep(1.0)
+            else:
+                # Small yield for normal completion
+                await asyncio.sleep(0.01)
+
+            # Job completed - increment counter and check restart conditions
+            jobs_processed += 1
+            runtime = time.time() - start_time
+
+            # Check if we should restart (only when idle, between jobs)
+            should_restart_jobs = jobs_processed >= max_jobs
+            should_restart_time = runtime >= max_runtime_seconds
+
+            if should_restart_jobs or should_restart_time:
+                reason = f"{jobs_processed} jobs" if should_restart_jobs else f"{runtime:.0f}s runtime"
+                logger.info(f"Worker {worker_id} restarting after {reason} ({jobs_processed} jobs, {runtime:.0f}s runtime)")
+                return "restart"
+
+        # Check if we should exit
+        if app.config.exit.is_set():
+            break
+
+    # Check if we're in pytest environment - if so, be more gentle with logging
+    import sys
+    in_pytest = "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ
+
+    if not in_pytest:
+        logger.info(f"Worker {worker_id} shutting down")
+
+    return "shutdown"
+
+
 def cleanup_error_artifacts(uuid, datastore):
     """Helper function to clean up error artifacts"""
     cleanup_files = ["last-error-screenshot.png", "last-error.txt"]
