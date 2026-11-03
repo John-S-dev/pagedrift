@@ -3812,6 +3812,46 @@ msgstr "Erkennung von Bestandsauffüllung"
 msgid "In Stock only (Out Of Stock -> In Stock only)"
 msgstr "Nur auf Lager (Ausverkauft -> Nur auf Lager)"
 
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "Eventuelle Änderungen der Verfügbarkeit"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "Aus, Verfügbarkeit/Auffüllung nicht verfolgen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "Unterhalb des Preises, um eine Benachrichtigung auszulösen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "Keine Begrenzung"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "Über dem Preis, um eine Benachrichtigung auszulösen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "Schwellenwert (%) für Preisänderungen seit der vorherigen Prüfung"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "Sollte zwischen 0 und 100 liegen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "Verfolgen Sie Preisänderungen"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Restock & Price Detection"
+msgstr "Wiederauffüllung und Preiserkennung"
+
+#: changedetectionio/processors/restock_diff/processor.py
+msgid "Re-stock & Price detection for pages with a SINGLE product"
+msgstr "Wiederauffüllung und Preiserkennung für Seiten mit einem EINZELNEN Produkt"
+
 #: changedetectionio/processors/restock_diff/processor.py
 msgid "Detects if the product goes back to in-stock"
 msgstr "Erkennt, ob das Produkt wieder auf Lager ist"
