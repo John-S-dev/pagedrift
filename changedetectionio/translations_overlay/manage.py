@@ -31,6 +31,25 @@ def _po_path(root, locale):
     return os.path.join(root, locale, 'LC_MESSAGES', 'messages.po')
 
 
+def _mo_path(root, locale):
+    return os.path.join(root, locale, 'LC_MESSAGES', 'messages.mo')
+
+
+def overlay_locales():
+    """Locales that have an overlay catalog, sorted."""
+    return sorted(d for d in os.listdir(OVERLAY_DIR) if os.path.isfile(_po_path(OVERLAY_DIR, d)))
+
+
+def _load(path):
+    with open(path, 'rb') as fp:
+        return read_po(fp)
+
+
+def _message_ids(catalog):
+    """Real (non-header, non-obsolete) message ids in a catalog."""
+    return {m.id for m in catalog if m.id}
+
+
 def cmd_check(_args):
     """Validate every overlay catalog against the base catalogs. Returns an exit code."""
     if not os.path.isfile(POT_FILE):
