@@ -4355,6 +4355,55 @@ msgstr "尚未啟用 LLM 驅動的摘要功能。請在「設定」中設定 AI 
 msgid "Go to AI / LLM Settings"
 msgstr "前往 AI / LLM 設定"
 
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "搜尋"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "URL or Title in '%(title)s'"
+msgstr "URL 或標題 在 '%(title)s'"
+
+#: changedetectionio/templates/base.html
+msgid "URL or Title"
+msgstr "URL 或標題"
+
+#: changedetectionio/templates/base.html
+msgid "Enter search term..."
+msgstr "輸入搜尋關鍵字 ..."
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
+"<strong>Off</strong> &ndash; no AI for any watch in this group. <strong>Leave it to each watch</strong> &ndash; this "
+"group has no say; each watch uses its own AI settings."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is ON for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "Group %(name)s decides this: AI is OFF for every watch in that group."
+msgstr ""
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid ""
+"Describe what you care about. The AI evaluates every detected change against this and only notifies you when it "
+"matches."
+msgstr "描述您關心的內容。AI 會針對此描述評估每次檢測到的變更，且僅在符合時才通知您。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+msgid "Set a change intent for all watches in this tag/group. Each watch can override with its own."
+msgstr "為此標籤 / 群組中的所有監測任務設定變更意圖。每個監測任務都可以使用自己的意圖進行覆寫。"
+
+#: changedetectionio/templates/edit/include_llm_intent.html
+#, python-format
+msgid "From group '%(name)s': %(value)s"
+msgstr "來自群組 '%(name)s'：%(value)s"
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid "e.g. Alert me when the price drops below $300, or a new product is launched. Ignore footer and navigation changes."
 msgstr "例如：當價格跌破 $300 或推出新產品時提醒我。忽略頁尾與導覽列的變更。"
