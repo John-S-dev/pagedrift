@@ -152,3 +152,38 @@ def test_rss_group(client, live_server, measure_memory_usage, datastore_path):
     assert b'All tags deleted' in res.data
 
 
+def test_rss_group_empty_tag(client, live_server, measure_memory_usage, datastore_path):
+    """
+    Test that RSS feed for a tag with no watches returns valid but empty RSS.
+    """
+
+    # Create a tag with no watches
+    res = client.post(
+        url_for("tags.form_tag_add"),
+        data={"name": "empty-tag"},
+        follow_redirects=True
+    )
+    assert b"Tag added" in res.data
+
+    tag_uuid = get_UUID_for_tag_name(client, name="empty-tag")
+    assert tag_uuid is not None
+
+    # Get RSS token
+    rss_token = extract_rss_token_from_UI(client)
+
+    # Request RSS feed for empty tag
+    res = client.get(
+        url_for("rss.rss_tag_feed", tag_uuid=tag_uuid, token=rss_token, _external=True),
+        follow_redirects=True
+    )
+
+    # Should still return 200 with valid RSS
+    assert res.status_code == 200
+    assert b"<?xml" in res.data or b"<rss" in res.data
+    assert b"empty-tag" in res.data
+
+    # Clean up
+    res = client.post(url_for("tags.delete_all"), follow_redirects=True)
+    assert b'All tags deleted' in res.data
+
+
