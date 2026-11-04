@@ -678,3 +678,17 @@ def apply_update_finalize(update_handler, watch, datastore, processing_exception
         logger.exception(f"update_finalize hook exception details:")
 
 
+def collect_html_head_extras():
+    """Collect and combine HTML head extras from all plugins.
+
+    Called from a Flask template global so it always runs inside a request context.
+    This means url_for() works correctly in plugin implementations, including when the
+    app is deployed under a sub-path via USE_X_SETTINGS / X-Forwarded-Prefix (ProxyFix
+    sets SCRIPT_NAME so url_for() automatically prepends the prefix).
+
+    Returns:
+        str: Combined HTML string to inject inside <head>, or empty string
+    """
+    results = plugin_manager.hook.get_html_head_extras()
+    parts = [r for r in results if r]
+    return "\n".join(parts) if parts else ""
