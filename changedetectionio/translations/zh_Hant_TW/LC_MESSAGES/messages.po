@@ -3805,6 +3805,46 @@ msgid "Not enough history to compare. Need at least 2 snapshots."
 msgstr "歷史記錄不足以進行比較。至少需要 2 個快照。"
 
 #: changedetectionio/processors/restock_diff/forms.py
+msgid "Re-stock detection"
+msgstr "補貨檢測"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "In Stock only (Out Of Stock -> In Stock only)"
+msgstr "僅有庫存（缺貨 -> 僅有庫存）"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Any availability changes"
+msgstr "任何可用性變更"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Off, don't follow availability/restock"
+msgstr "關閉，不追蹤可用性 / 補貨"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Below price to trigger notification"
+msgstr "低於此價格觸發通知"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "No limit"
+msgstr "無限制"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Above price to trigger notification"
+msgstr "高於此價格觸發通知"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Threshold (%) for price changes since the previous check"
+msgstr "自上次檢查以來價格變化的閾值（%）"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Should be between 0 and 100"
+msgstr "應介於 0 到 100 之間"
+
+#: changedetectionio/processors/restock_diff/forms.py
+msgid "Follow price changes"
+msgstr "追蹤價格變化"
+
+#: changedetectionio/processors/restock_diff/forms.py
 msgid "Restock & Price Detection"
 msgstr "補貨與價格檢測"
 
