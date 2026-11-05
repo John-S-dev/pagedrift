@@ -4942,6 +4942,46 @@ msgid "Running"
 msgstr ""
 
 #: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Bildirimlerin sesini aç"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Bildirimler sessize alındı - sesini açmak için tıklayın"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "DÜZENLE"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Web Sitesi Değişiklik Tespiti ve Bildirimi."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Aydınlık/Karanlık Modu Değiştir"
+
+#: changedetectionio/templates/menu.html
 msgid "Toggle light/dark mode"
 msgstr "Aydınlık/karanlık modu değiştir"
 
