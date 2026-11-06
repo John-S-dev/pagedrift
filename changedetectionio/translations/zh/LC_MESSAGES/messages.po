@@ -4090,6 +4090,46 @@ msgstr "关于 Jinja2 内置过滤器的完整参考，请见"
 msgid "Format for all notifications"
 msgstr "所有通知的格式"
 
+#: changedetectionio/templates/_common_fields.html
+msgid "Discord does not render HTML — switch to"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Plain Text"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "format to avoid"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "条目"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "操作"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "在后面添加一行/规则"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "移除此行/规则"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "使用当前快照验证此规则"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "设置按小时/工作日计划"
+
 #: changedetectionio/templates/_helpers.html
 msgid "Schedule time limits"
 msgstr "计划时间限制"
