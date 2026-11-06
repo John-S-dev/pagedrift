@@ -256,3 +256,6 @@ def test_check_global_ignore_text_functionality(client, live_server, measure_mem
     
     _run_test_global_ignore(client, as_source=False, datastore_path=datastore_path)
 
+def test_check_global_ignore_text_functionality_as_source(client, live_server, measure_memory_usage, datastore_path):
+    
+    _run_test_global_ignore(client, as_source=True, extra_ignore='/\?v=\d/', datastore_path=datastore_path)
