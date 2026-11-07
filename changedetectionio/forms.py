@@ -1134,6 +1134,42 @@ class SingleExtraBrowser(Form):
         ValidateSimpleURL()
     ], render_kw={"placeholder": "wss://brightdata... wss://oxylabs etc", "size":50})
 
+class DefaultUAInputForm(Form):
+    html_requests = StringField(_l('Plaintext requests'), validators=[validators.Optional()], render_kw={"placeholder": "<default>"})
+    if os.getenv("PLAYWRIGHT_DRIVER_URL") or os.getenv("WEBDRIVER_URL"):
+        html_webdriver = StringField(_l('Chrome requests'), validators=[validators.Optional()], render_kw={"placeholder": "<default>"})
+
+# datastore.data['settings']['requests']..
+class globalSettingsRequestForm(Form):
+    time_between_check = RequiredFormField(TimeBetweenCheckForm, label=_l('Time Between Check'))
+    time_schedule_limit = FormField(ScheduleLimitForm)
+    proxy = RadioField(_l('Default proxy'))
+    jitter_seconds = IntegerField(_l('Random jitter seconds ± check'),
+                                  render_kw={"style": "width: 5em;"},
+                                  validators=[validators.NumberRange(min=0, message=_l("Should contain zero or more seconds"))])
+    
+    workers = IntegerField(_l('Number of fetch workers'),
+                          render_kw={"style": "width: 5em;"},
+                          validators=[validators.NumberRange(min=1, max=50,
+                                                             message=_l("Should be between 1 and 50"))])
+
+    timeout = IntegerField(_l('Requests timeout in seconds'),
+                           render_kw={"style": "width: 5em;"},
+                           validators=[validators.NumberRange(min=1, max=999,
+                                                              message=_l("Should be between 1 and 999"))])
+
+    extra_proxies = FieldList(FormField(SingleExtraProxy), min_entries=5)
+    extra_browsers = FieldList(FormField(SingleExtraBrowser), min_entries=5)
+
+    default_ua = FormField(DefaultUAInputForm, label=_l("Default User-Agent overrides"))
+
+    def validate_extra_proxies(self, extra_validators=None):
+        for e in self.data['extra_proxies']:
+            if e.get('proxy_name') or e.get('proxy_url'):
+                if not e.get('proxy_name','').strip() or not e.get('proxy_url','').strip():
+                    self.extra_proxies.errors.append(gettext('Both a name, and a Proxy URL is required.'))
+                    return False
+
 class globalSettingsApplicationUIForm(Form):
     open_diff_in_new_tab = BooleanField(_l("Open 'History' page in a new tab"), default=True, validators=[validators.Optional()])
     socket_io_enabled = BooleanField(_l('Realtime UI Updates Enabled'), default=True, validators=[validators.Optional()])
