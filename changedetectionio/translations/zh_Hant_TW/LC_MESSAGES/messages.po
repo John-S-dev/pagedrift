@@ -3971,6 +3971,48 @@ msgstr "已達到監測任務上限（{current}/{limit}）。無法再新增。"
 msgid "Error fetching metadata for {}"
 msgstr "讀取 {} 的中繼資料時發生錯誤"
 
+#: changedetectionio/store/__init__.py
+msgid "Watch protocol is not permitted or invalid URL format"
+msgstr "監測協定不被允許或 URL 格式無效"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Body for all notifications — You can use"
+msgstr "所有通知的內文 — 您可以使用"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "templating in the notification title, body and URL, and tokens from below."
+msgstr "在通知標題、內文和 URL 中使用範本，以及下方的權杖。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Show token/placeholders"
+msgstr "顯示權杖 / 預留位置"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Token"
+msgstr "權杖"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Description"
+msgstr "描述"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL of the changedetection.io instance you are running."
+msgstr "您正在執行的 changedetection.io 執行個體 URL。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The URL being watched."
+msgstr "正在被監測的 URL。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid ""
+"The Open Link Override set on the watch, otherwise the same as watch_url. Use this when the watched URL is an API "
+"endpoint or RSS feed but you want to link to the real page."
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "The UUID of the watch."
+msgstr "監測任務的 UUID。"
+
 #: changedetectionio/templates/_common_fields.html
 msgid "The page title of the watch, uses <title> if not set, falls back to URL"
 msgstr "監測任務的網頁標題，若未設定則使用 <title>，否則恢復為 URL"
