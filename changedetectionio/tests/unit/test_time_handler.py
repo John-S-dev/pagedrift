@@ -416,6 +416,37 @@ class TestAmIInsideTime(unittest.TestCase):
             )
             self.assertTrue(result, "1-minute schedule should work")
 
+    def test_schedule_at_exact_start_time(self):
+        """Test at exact start time (00:00:00.000000)."""
+        timezone_str = 'UTC'
+        test_time = arrow.get('2024-01-01 12:00:00.000000', 'YYYY-MM-DD HH:mm:ss.SSSSSS').replace(tzinfo=timezone_str)
+        day_of_week = test_time.format('dddd')
+
+        with unittest.mock.patch('arrow.now', return_value=test_time):
+            result = time_handler.am_i_inside_time(
+                day_of_week=day_of_week,
+                time_str="12:00",
+                timezone_str=timezone_str,
+                duration=30
+            )
+            self.assertTrue(result, "Should include exact start time")
+
+    def test_schedule_one_microsecond_before_start(self):
+        """Test one microsecond before schedule starts."""
+        timezone_str = 'UTC'
+        test_time = arrow.get('2024-01-01 11:59:59.999999', 'YYYY-MM-DD HH:mm:ss.SSSSSS').replace(tzinfo=timezone_str)
+        day_of_week = test_time.format('dddd')
+
+        with unittest.mock.patch('arrow.now', return_value=test_time):
+            result = time_handler.am_i_inside_time(
+                day_of_week=day_of_week,
+                time_str="12:00",
+                timezone_str=timezone_str,
+                duration=30
+            )
+            self.assertFalse(result, "Should not include time before start")
+
+
 class TestIsWithinSchedule(unittest.TestCase):
     """Tests for the is_within_schedule function."""
 
