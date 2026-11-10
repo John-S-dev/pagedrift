@@ -4286,6 +4286,46 @@ msgid "Weekends"
 msgstr "Hafta sonları"
 
 #: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Uyarı, 'günlerinizden' bir veya daha fazlası ertesi güne uzayacak bir süreye sahip."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Bunun istenmeyen sonuçları olabilir."
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Zamanlayıcıyı kullanma hakkında daha fazla yardım ve örnek"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Bir zaman çizelgesi kullanmak ister misiniz?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Önce Saat Dilimi Ayarlarınızı onaylayın/kaydedin"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Tetiklenen metin"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Bu metin görünürse VE belgede bir şey değişirse bir değişikliği tetikler."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Yoksayılan metin"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Değişiklikleri hesaplamak için yoksayıldı, ancak hala gösteriliyor."
+
+#: changedetectionio/templates/_helpers.html
 msgid "Blocked text"
 msgstr "Engellenen metin"
 
