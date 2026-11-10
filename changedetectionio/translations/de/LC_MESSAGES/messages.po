@@ -4191,6 +4191,46 @@ msgid "only supports a maximum"
 msgstr ""
 
 #: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Achtung, einer oder mehrere Ihrer „Tage“ haben eine Dauer, die sich bis in den nächsten Tag erstreckt."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Dies könnte unbeabsichtigte Folgen haben."
+
+#: changedetectionio/templates/_helpers.html
+msgid "More help and examples about using the scheduler"
+msgstr "Weitere Hilfe und Beispiele zur Verwendung des Schedulers"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Want to use a time schedule?"
+msgstr "Möchten Sie einen Zeitplan verwenden?"
+
+#: changedetectionio/templates/_helpers.html
+msgid "First confirm/save your Time Zone Settings"
+msgstr "Bestätigen/speichern Sie zunächst Ihre Einstellungen für die Zeitzone."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Triggered text"
+msgstr "Auslösender Text"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Triggers a change if this text appears, AND something changed in the document."
+msgstr "Löst eine Änderung aus, wenn dieser Text erscheint UND sich etwas im Dokument geändert hat."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Ignored text"
+msgstr "Ignorierter Text"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "Ignored for calculating changes, but still shown."
+msgstr "Wird für die Berechnung von Änderungen ignoriert, aber dennoch angezeigt."
+
+#: changedetectionio/templates/_helpers.html
 msgid "Blocked text"
 msgstr "Blockierter Text"
 
