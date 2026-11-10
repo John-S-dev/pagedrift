@@ -2146,6 +2146,49 @@ msgid "Number of history items per watch to keep"
 msgstr "Кількість збережених записів історії для кожного завдання"
 
 #: changedetectionio/forms.py
+msgid "Body must be empty when Request Method is set to GET"
+msgstr "Тіло має бути порожнім, якщо метод запиту встановлено на GET"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax configuration: %(error)s"
+msgstr "Невірний синтаксис конфігурації шаблону: %(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax: %(error)s"
+msgstr "Невірний синтаксис шаблону: %(error)s"
+
+#: changedetectionio/forms.py
+#, python-format
+msgid "Invalid template syntax in \"%(header)s\" header: %(error)s"
+msgstr "Невірний синтаксис шаблону в заголовку \"%(header)s\": %(error)s"
+
+#: changedetectionio/forms.py
+msgid "Name"
+msgstr "Ім'я"
+
+#: changedetectionio/forms.py
+msgid "Proxy URL"
+msgstr "URL проксі"
+
+#: changedetectionio/forms.py
+msgid "Proxy URLs must start with http://, https:// or socks5://"
+msgstr "URL проксі повинні починатися з http://, https:// або socks5://"
+
+#: changedetectionio/forms.py
+msgid "Browser connection URL"
+msgstr "URL підключення браузера"
+
+#: changedetectionio/forms.py
+msgid "Browser URLs must start with wss:// or ws://"
+msgstr "URL браузера повинні починатися з wss:// або ws://"
+
+#: changedetectionio/forms.py
+msgid "Plaintext requests"
+msgstr "Текстові запити"
+
+#: changedetectionio/forms.py
 msgid "Chrome requests"
 msgstr "Запити Chrome"
 
