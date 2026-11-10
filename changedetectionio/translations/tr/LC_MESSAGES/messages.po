@@ -3477,6 +3477,46 @@ msgid "Chrome requests"
 msgstr "Chrome istekleri"
 
 #: changedetectionio/forms.py
+msgid "Default proxy"
+msgstr "Varsayılan proxy"
+
+#: changedetectionio/forms.py
+msgid "Random jitter seconds ± check"
+msgstr "Rastgele sapma saniyesi ± kontrol"
+
+#: changedetectionio/forms.py
+msgid "Number of fetch workers"
+msgstr "Getirme çalışanlarının sayısı"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 50"
+msgstr "1 ile 50 arasında olmalıdır"
+
+#: changedetectionio/forms.py
+msgid "Requests timeout in seconds"
+msgstr "Saniye cinsinden istek zaman aşımı"
+
+#: changedetectionio/forms.py
+msgid "Should be between 1 and 999"
+msgstr "1 ile 999 arasında olmalıdır"
+
+#: changedetectionio/forms.py
+msgid "Default User-Agent overrides"
+msgstr "Varsayılan User-Agent geçersiz kılmaları"
+
+#: changedetectionio/forms.py
+msgid "Both a name, and a Proxy URL is required."
+msgstr "Hem bir isim hem de bir Proxy URL'si gereklidir."
+
+#: changedetectionio/forms.py
+msgid "Open 'History' page in a new tab"
+msgstr "'Geçmiş' sayfasını yeni bir sekmede aç"
+
+#: changedetectionio/forms.py
+msgid "Realtime UI Updates Enabled"
+msgstr "Gerçek Zamanlı Arayüz Güncellemeleri Etkin"
+
+#: changedetectionio/forms.py
 msgid "Favicons Enabled"
 msgstr "Favicon'lar Etkin"
 
