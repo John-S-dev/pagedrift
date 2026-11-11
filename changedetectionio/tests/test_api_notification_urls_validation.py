@@ -118,3 +118,49 @@ def test_watch_notification_urls_validation(client, live_server, measure_memory_
     assert res.json['notification_urls'] == new_valid_urls, "URLs should remain unchanged after validation failure"
 
 
+def test_tag_notification_urls_validation(client, live_server, measure_memory_usage, datastore_path):
+    """Test that Tag PUT endpoint validates notification_urls."""
+    from changedetectionio.model import Tag
+
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+    datastore = live_server.app.config['DATASTORE']
+
+    # Create a tag
+    tag_uuid = datastore.add_tag(title="Test Tag")
+    assert tag_uuid is not None
+
+    # Test 1: Update tag with valid notification URLs
+    valid_urls = ["posts://example.com/tag-notify"]
+    res = client.put(
+        url_for("tag", uuid=tag_uuid),
+        data=json.dumps({"notification_urls": valid_urls}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key}
+    )
+    assert res.status_code == 200, "Should accept valid notification URLs on tag update"
+
+    # Verify the notification URLs were saved
+    tag = datastore.data['settings']['application']['tags'][tag_uuid]
+    assert tag['notification_urls'] == valid_urls, "Valid notification URLs should be saved to tag"
+
+    # Test 2: Try to update tag with invalid notification URLs (https:// not valid)
+    invalid_urls = ["https://example.com/webhook"]
+    res = client.put(
+        url_for("tag", uuid=tag_uuid),
+        data=json.dumps({"notification_urls": invalid_urls}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key}
+    )
+    assert res.status_code == 400, "Should reject https:// notification URLs on tag update"
+    assert b"is not a valid AppRise URL" in res.data, "Should provide AppRise validation error message"
+
+    # Test 3: Update tag with non-list notification_urls (caught by OpenAPI schema validation)
+    res = client.put(
+        url_for("tag", uuid=tag_uuid),
+        data=json.dumps({"notification_urls": "not-a-list"}),
+        headers={'content-type': 'application/json', 'x-api-key': api_key}
+    )
+    assert res.status_code == 400, "Should reject non-list notification_urls"
+    assert b"Validation failed" in res.data or b"is not of type" in res.data
+
+    # Test 4: Verify original URLs are preserved after failed update
+    tag = datastore.data['settings']['application']['tags'][tag_uuid]
+    assert tag['notification_urls'] == valid_urls, "URLs should remain unchanged after validation failure"
