@@ -178,3 +178,21 @@ def cmd_add(args):
     return 0
 
 
+def main():
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    sub = parser.add_subparsers(dest='command', required=True)
+    sub.add_parser(
+        'check', help='validate overlay catalogs against the base catalogs'
+    ).set_defaults(fn=cmd_check)
+    sub.add_parser('compile', help='compile overlay .po files to .mo').set_defaults(fn=cmd_compile)
+    add = sub.add_parser('add', help='create an overlay catalog for a locale')
+    add.add_argument('locale')
+    add.set_defaults(fn=cmd_add)
+    args = parser.parse_args()
+    sys.exit(args.fn(args))
+
+
+if __name__ == '__main__':
+    main()
