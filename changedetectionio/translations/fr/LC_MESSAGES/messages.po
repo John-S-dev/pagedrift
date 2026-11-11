@@ -3717,6 +3717,52 @@ msgid "in 1h"
 msgstr "dans 1h"
 
 #: changedetectionio/languages.py
+#, python-format
+msgid "%sh ago"
+msgstr "il y a %sh"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sh"
+msgstr "dans %sh"
+
+#: changedetectionio/languages.py
+msgid "1d ago"
+msgstr "il y a 1j"
+
+#: changedetectionio/languages.py
+msgid "in 1d"
+msgstr "dans 1j"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sd ago"
+msgstr "il y a %sj"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sd"
+msgstr "dans %sj"
+
+#: changedetectionio/languages.py
+msgid "1w ago"
+msgstr "il y a 1sem"
+
+#: changedetectionio/languages.py
+msgid "in 1w"
+msgstr "dans 1sem"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sw ago"
+msgstr "il y a %ssem"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %sw"
+msgstr "dans %ssem"
+
+#: changedetectionio/languages.py
 msgid "1mo ago"
 msgstr "il y a 1mois"
 
