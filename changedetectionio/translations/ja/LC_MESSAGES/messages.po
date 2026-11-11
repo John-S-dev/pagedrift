@@ -4247,6 +4247,50 @@ msgstr "詳細なヘルプとヒントを表示"
 msgid "(or"
 msgstr "（または"
 
+# 訳注: "[service] only supports a maximum [2,000 characters] of notification text, including the title."
+# → 「[service] がサポートする通知テキストは最大 [2,000文字] です（タイトルを含む）。」
+# 助詞を補い、目的語と述語の訳を入れ替えた
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports a maximum"
+msgstr "がサポートする通知テキストは最大"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "2,000 characters"
+msgstr "2,000文字"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "of notification text, including the title."
+msgstr "です（タイトルを含む）。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "bots can't send messages to other bots, so you should specify chat ID of non-bot user."
+msgstr "ボットは他のボットにメッセージを送信できないため、ボット以外のユーザーのチャットIDを指定してください。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "only supports very limited HTML and can fail when extra tags are sent,"
+msgstr "非常に限られたHTMLのみをサポートしており、追加タグが送信されると失敗する場合があります。"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "（またはプレーンテキスト/マークダウン形式を使用）"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "直接APIコールの場合（または省略："
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "非SSLの場合、例："
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "詳細なヘルプはこちら"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "下記の <code>%(token)s</code> プレースホルダーを受け付けます"
+
 #: changedetectionio/templates/_common_fields.html
 msgid "Customise notifications"
 msgstr ""
