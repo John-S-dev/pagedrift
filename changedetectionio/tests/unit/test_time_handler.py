@@ -767,3 +767,17 @@ class TestIsWithinSchedule(unittest.TestCase):
         current_day = now.format('dddd').lower()
         start_hour = now.format('HH:00')
 
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': start_hour,
+                'duration': {'hours': 48, 'minutes': 0}  # 2 full days
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should support 48-hour (multi-day) schedules")
+
+
