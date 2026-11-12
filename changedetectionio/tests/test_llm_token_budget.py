@@ -428,3 +428,40 @@ def test_is_global_token_budget_exceeded(
     delete_all_watches(client)
 
 
+# ---------------------------------------------------------------------------
+# Cost accumulation tests
+# ---------------------------------------------------------------------------
+
+def test_accumulate_global_tokens_tracks_cost_for_known_model(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    When input/output tokens and a known model are supplied, cost_usd_this_month
+    and cost_usd_total_cumulative must be accumulated as positive floats.
+    Uses litellm's real pricing db — exact value may change but must be > 0
+    for a model that has known pricing (gpt-4o-mini).
+    """
+    from changedetectionio.llm.evaluator import accumulate_global_tokens, _get_month_key
+
+    ds = client.application.config.get('DATASTORE')
+    ds.data['settings']['application']['llm'] = {
+        'model': 'gpt-4o-mini',
+        'tokens_this_month': 0,
+        'tokens_total_cumulative': 0,
+        'tokens_month_key': _get_month_key(),
+        'cost_usd_this_month': 0.0,
+        'cost_usd_total_cumulative': 0.0,
+    }
+
+    accumulate_global_tokens(ds, tokens=1000, input_tokens=800, output_tokens=200, model='gpt-4o-mini')
+
+    llm_cfg = ds.data['settings']['application']['llm']
+    assert llm_cfg['tokens_this_month'] == 1000
+    assert llm_cfg['tokens_total_cumulative'] == 1000
+    # gpt-4o-mini has known pricing in litellm — cost must be > 0
+    assert llm_cfg.get('cost_usd_this_month', 0) > 0, \
+        "cost_usd_this_month must be positive for a model with known pricing"
+    assert llm_cfg.get('cost_usd_total_cumulative', 0) > 0
+
+    delete_all_watches(client)
+
+
