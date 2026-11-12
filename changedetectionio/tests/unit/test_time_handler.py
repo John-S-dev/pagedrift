@@ -691,3 +691,79 @@ class TestIsWithinSchedule(unittest.TestCase):
             result = time_handler.is_within_schedule(time_schedule_limit)
             self.assertTrue(result, "24-hour schedule from midnight should cover entire day")
 
+    def test_schedule_24_hours_at_end_of_day(self):
+        """Test 24-hour schedule at 23:59 using is_within_schedule."""
+        timezone_str = 'UTC'
+        test_time = arrow.get('2024-01-01 23:59:00', 'YYYY-MM-DD HH:mm:ss').replace(tzinfo=timezone_str)
+        current_day = test_time.format('dddd').lower()
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': '00:00',
+                'duration': {'hours': 24, 'minutes': 0}
+            }
+        }
+
+        with unittest.mock.patch('arrow.now', return_value=test_time):
+            result = time_handler.is_within_schedule(time_schedule_limit)
+            self.assertTrue(result, "Should be active at 23:59 in 24-hour schedule")
+
+    def test_schedule_crosses_midnight_with_is_within_schedule(self):
+        """Test schedule crossing midnight using is_within_schedule."""
+        timezone_str = 'UTC'
+        # Tuesday 00:30
+        test_time = arrow.get('2024-01-02 00:30:00', 'YYYY-MM-DD HH:mm:ss').replace(tzinfo=timezone_str)
+        # Get Monday as that's when the schedule started
+        monday = test_time.shift(days=-1).format('dddd').lower()
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            'monday': {
+                'enabled': True,
+                'start_time': '23:00',
+                'duration': {'hours': 2, 'minutes': 0}  # Until 01:00 Tuesday
+            },
+            'tuesday': {
+                'enabled': False,
+                'start_time': '09:00',
+                'duration': {'hours': 8, 'minutes': 0}
+            }
+        }
+
+        with unittest.mock.patch('arrow.now', return_value=test_time):
+            result = time_handler.is_within_schedule(time_schedule_limit)
+            # Note: This checks Tuesday's schedule, not Monday's overlap
+            # So it should be False because Tuesday is disabled
+            self.assertFalse(result, "Should check current day (Tuesday), which is disabled")
+
+    def test_schedule_with_mixed_hours_minutes(self):
+        """Test schedule with both hours and minutes (23 hours 60 minutes = 24 hours)."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        current_hour = now.format('HH:00')
+
+        time_schedule_limit = {
+            'enabled': True,
+            'timezone': timezone_str,
+            current_day: {
+                'enabled': True,
+                'start_time': current_hour,
+                'duration': {'hours': 23, 'minutes': 60}  # = 1440 minutes = 24 hours
+            }
+        }
+
+        result = time_handler.is_within_schedule(time_schedule_limit)
+        self.assertTrue(result, "Should handle 23 hours + 60 minutes = 24 hours")
+
+    def test_schedule_48_hours(self):
+        """Test schedule with 48-hour duration."""
+        timezone_str = 'UTC'
+        now = arrow.now(timezone_str)
+        current_day = now.format('dddd').lower()
+        start_hour = now.format('HH:00')
+
