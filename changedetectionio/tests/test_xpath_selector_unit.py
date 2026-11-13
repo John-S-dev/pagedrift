@@ -205,6 +205,64 @@ def test_trips(html_content, xpath, answer):
     assert answer in html_content
 
 
+# Test for UTF-8 encoding bug fix (issue #3658)
+# Polish and other UTF-8 characters should be preserved correctly
+polish_html = """<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div class="index--s-headline-link">
+    <a class="index--s-headline-link" href="#">
+        Naukowcy potwierdzają: oglądanie krótkich filmików prowadzi do "zgnilizny mózgu"
+    </a>
+</div>
+<div>
+    <a class="other-class" href="#">
+        Test with Polish chars: żółć ąę śń
+    </a>
+</div>
+<div>
+    <p class="unicode-test">Cyrillic: Привет мир</p>
+    <p class="unicode-test">Greek: Γειά σου κόσμε</p>
+    <p class="unicode-test">Arabic: مرحبا بالعالم</p>
+    <p class="unicode-test">Chinese: 你好世界</p>
+    <p class="unicode-test">Japanese: こんにちは世界</p>
+    <p class="unicode-test">Emoji: 🌍🎉✨</p>
+</div>
+</body>
+</html>
+"""
+
+
+@pytest.mark.parametrize("html_content", [polish_html])
+@pytest.mark.parametrize("xpath, expected_text", [
+    # Test Polish characters in xpath_filter
+    ('//a[(contains(@class,"index--s-headline-link"))]', 'Naukowcy potwierdzają'),
+    ('//a[(contains(@class,"index--s-headline-link"))]', 'oglądanie krótkich filmików'),
+    ('//a[(contains(@class,"index--s-headline-link"))]', 'zgnilizny mózgu'),
+    ('//a[@class="other-class"]', 'żółć ąę śń'),
+
+    # Test various Unicode scripts
+    ('//p[@class="unicode-test"]', 'Привет мир'),
+    ('//p[@class="unicode-test"]', 'Γειά σου κόσμε'),
+    ('//p[@class="unicode-test"]', 'مرحبا بالعالم'),
+    ('//p[@class="unicode-test"]', '你好世界'),
+    ('//p[@class="unicode-test"]', 'こんにちは世界'),
+    ('//p[@class="unicode-test"]', '🌍🎉✨'),
+
+    # Test with text() extraction
+    ('//a[@class="other-class"]/text()', 'żółć'),
+])
+def test_xpath_utf8_encoding(html_content, xpath, expected_text):
+    """Test that XPath filters preserve UTF-8 characters correctly (issue #3658)"""
+    result = html_tools.xpath_filter(xpath, html_content, append_pretty_line_formatting=False)
+    assert type(result) == str
+    assert expected_text in result
+    # Ensure characters are NOT HTML-entity encoded
+    # For example, 'ą' should NOT become '&#261;'
+    assert '&#' not in result or expected_text in result
+
+
 @pytest.mark.parametrize("html_content", [polish_html])
 @pytest.mark.parametrize("xpath, expected_text", [
     # Test Polish characters in xpath1_filter
