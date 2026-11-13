@@ -1404,6 +1404,24 @@ paths:
         - Allows you to implement your own custom colorisation or formatting
         - Skips all HTML color application and service tweaks (added text, html color tags, etc)
 
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            # Compare previous snapshot to latest with colored HTML
+            curl -X GET "http://localhost:5000/api/v1/watch/095be615-a8ad-4c33-8e9c-c7612fbf6c9f/difference/previous/latest?format=htmlcolor" \
+              -H "x-api-key: YOUR_API_KEY"
+
+            # Compare two specific timestamps in plain text with word-level diff
+            curl -X GET "http://localhost:5000/api/v1/watch/095be615-a8ad-4c33-8e9c-c7612fbf6c9f/difference/1640995200/1640998800?format=text&word_diff=true" \
+              -H "x-api-key: YOUR_API_KEY"
+
+            # Show only additions (hide removed/replaced content), ignore whitespace
+            curl -X GET "http://localhost:5000/api/v1/watch/095be615-a8ad-4c33-8e9c-c7612fbf6c9f/difference/previous/latest?format=htmlcolor&removed=false&replaced=false&ignoreWhitespace=true" \
+              -H "x-api-key: YOUR_API_KEY"
+        - lang: 'Python'
+          source: |
+            import requests
+
             headers = {'x-api-key': 'YOUR_API_KEY'}
             uuid = '095be615-a8ad-4c33-8e9c-c7612fbf6c9f'
 
