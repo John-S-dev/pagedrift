@@ -480,6 +480,46 @@ msgstr ""
 msgid "Must be between 0 and 100"
 msgstr ""
 
+#: changedetectionio/forms.py:1011
+msgid "Password"
+msgstr ""
+
+#: changedetectionio/forms.py:1012
+msgid "Pager size"
+msgstr ""
+
+#: changedetectionio/forms.py:1015
+msgid "Should be atleast zero (disabled)"
+msgstr ""
+
+#: changedetectionio/forms.py:1017
+msgid "RSS Content format"
+msgstr ""
+
+#: changedetectionio/forms.py:1018
+msgid "RSS <description> body built from"
+msgstr ""
+
+#: changedetectionio/forms.py:1019
+msgid "RSS \"System default\" template override"
+msgstr ""
+
+#: changedetectionio/forms.py:1021
+msgid "Remove password"
+msgstr ""
+
+#: changedetectionio/forms.py:1022
+msgid "Render anchor tag content"
+msgstr ""
+
+#: changedetectionio/forms.py:1023
+msgid "Allow anonymous access to watch history page when password is enabled"
+msgstr ""
+
+#: changedetectionio/forms.py:1025
+msgid "Hide muted watches from RSS feed"
+msgstr ""
+
 #: changedetectionio/forms.py:1028
 msgid "Enable RSS reader mode "
 msgstr ""
