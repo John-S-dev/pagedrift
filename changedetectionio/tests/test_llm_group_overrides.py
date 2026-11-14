@@ -815,6 +815,95 @@ def test_watch_edit_shows_which_group_decided_the_ai_switch(
     delete_all_watches(client)
 
 
+def test_watch_own_ai_switch_survives_being_overridden_by_a_group(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    While a group decides, the watch's checkbox is disabled — and a disabled checkbox is not
+    POSTed, which for a checkbox reads as "off". Saving the watch must therefore NOT quietly
+    rewrite its own preference: it has to come back unchanged once the group stops deciding.
+    """
+    from changedetectionio.llm.evaluator import llm_enabled_for_watch
+
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+    watch_uuid = _create_watch(client, test_url, api_token)
+
+    # Watch says AI on (the default); the group overrules it with "off"
+    tag_uuid = _add_tag_with_llm(ds, 'Deciding Group', ai=False)
+    _link_watch_to_tag(ds, watch_uuid, tag_uuid)
+    assert ds.data['watching'][watch_uuid].get('llm_backend_profile') is True
+    assert llm_enabled_for_watch(ds.data['watching'][watch_uuid], ds) == (False, 'Deciding Group')
+
+    # Save the page exactly as the browser would: the disabled checkbox sends nothing at all
+    res = client.post(
+        url_for('ui.ui_edit.edit_page', uuid=watch_uuid),
+        data={'url': test_url, 'fetch_backend': 'html_requests',
+              'time_between_check_use_default': 'y'},
+        follow_redirects=True,
+    )
+    assert b'Updated watch' in res.data
+
+    watch = ds.data['watching'][watch_uuid]
+    assert watch.get('llm_backend_profile') is True, \
+        "saving while a group decides must not overwrite the watch's own AI preference"
+    # Not even a hand-crafted POST can write it while it isn't user-editable
+    res = client.post(
+        url_for('ui.ui_edit.edit_page', uuid=watch_uuid),
+        data={'url': test_url, 'fetch_backend': 'html_requests',
+              'time_between_check_use_default': 'y', 'llm_backend_profile': ''},
+        follow_redirects=True,
+    )
+    assert b'Updated watch' in res.data
+    watch = ds.data['watching'][watch_uuid]
+    assert watch.get('llm_backend_profile') is True
+    # The group still wins for now...
+    assert llm_enabled_for_watch(watch, ds) == (False, 'Deciding Group')
+    # ..and when the group stops deciding, the watch's untouched preference applies again
+    ds.data['settings']['application']['tags'][tag_uuid]['llm_backend_profile'] = None
+    assert llm_enabled_for_watch(watch, ds) == (True, 'watch')
+
+    delete_all_watches(client)
+
+
+def test_watch_ai_switch_saves_via_edit_form(
+        client, live_server, measure_memory_usage, datastore_path):
+    """Turning AI off on a watch persists, and turning it back on works."""
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    api_token = _api_token(client)
+    test_url = url_for('test_endpoint', _external=True)
+    watch_uuid = _create_watch(client, test_url, api_token)
+
+    from changedetectionio.llm.evaluator import llm_enabled_for_watch
+
+    # Unchecked checkbox is simply absent from the POST
+    res = client.post(
+        url_for('ui.ui_edit.edit_page', uuid=watch_uuid),
+        data={'url': test_url, 'fetch_backend': 'html_requests',
+              'time_between_check_use_default': 'y'},
+        follow_redirects=True,
+    )
+    assert b'Updated watch' in res.data
+    watch = ds.data['watching'][watch_uuid]
+    assert watch.get('llm_backend_profile') is False
+    assert llm_enabled_for_watch(watch, ds) == (False, 'watch')
+
+    res = client.post(
+        url_for('ui.ui_edit.edit_page', uuid=watch_uuid),
+        data={'url': test_url, 'fetch_backend': 'html_requests',
+              'time_between_check_use_default': 'y', 'llm_backend_profile': 'y'},
+        follow_redirects=True,
+    )
+    assert b'Updated watch' in res.data
+    watch = ds.data['watching'][watch_uuid]
+    assert watch.get('llm_backend_profile') is True
+    assert llm_enabled_for_watch(watch, ds) == (True, 'watch')
+
+    delete_all_watches(client)
+
+
 def test_group_ai_switch_saves_and_decides_for_its_watches(
         client, live_server, measure_memory_usage, datastore_path):
     """
