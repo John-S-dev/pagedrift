@@ -3653,6 +3653,49 @@ msgstr ""
 msgid "Previous version (second-last vs latest)"
 msgstr ""
 
+#: changedetectionio/forms.py
+msgid "Changes since you last viewed the watch"
+msgstr ""
+
+#: changedetectionio/forms.py
+msgid "RegEx to extract"
+msgstr "用于提取的正则表达式"
+
+#: changedetectionio/forms.py
+msgid "Extract as CSV"
+msgstr "提取为 CSV"
+
+#: changedetectionio/languages.py
+msgid "just now"
+msgstr "刚刚"
+
+#: changedetectionio/languages.py
+msgid "right now"
+msgstr "一会儿"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%ss ago"
+msgstr "%s秒前"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "in %ss"
+msgstr "%s秒后"
+
+#: changedetectionio/languages.py
+msgid "1m ago"
+msgstr "1分前"
+
+#: changedetectionio/languages.py
+msgid "in 1m"
+msgstr "1分后"
+
+#: changedetectionio/languages.py
+#, python-format
+msgid "%sm ago"
+msgstr "%s分前"
+
 #: changedetectionio/languages.py
 #, python-format
 msgid "in %sm"
