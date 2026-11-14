@@ -557,6 +557,64 @@ def test_tag_delete_removes_from_watches(client, live_server):
     assert check_watch_tags(uuid3) == [], "Watch3 should still have empty tags"
 
 
+def test_watch_pause_unpause_persists(client, live_server):
+    """Test that pause/unpause operations commit and persist"""
+    datastore = client.application.config.get('DATASTORE')
+
+    # Get API key
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    uuid = datastore.add_watch(url='http://example.com')
+    watch = datastore.data['watching'][uuid]
+
+    # Pause via API
+    response = client.get(url_for("watch", uuid=uuid, paused='paused'), headers={'x-api-key': api_key})
+    assert response.status_code == 200
+
+    # Check persisted to disk
+    watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+    with open(watch_json_path, 'r') as f:
+        data = json.load(f)
+    assert data['paused'] == True, "Pause should be persisted"
+
+    # Unpause
+    response = client.get(url_for("watch", uuid=uuid, paused='unpaused'), headers={'x-api-key': api_key})
+    assert response.status_code == 200
+
+    with open(watch_json_path, 'r') as f:
+        data = json.load(f)
+    assert data['paused'] == False, "Unpause should be persisted"
+
+
+def test_watch_mute_unmute_persists(client, live_server):
+    """Test that mute/unmute operations commit and persist"""
+    datastore = client.application.config.get('DATASTORE')
+
+    # Get API key
+    api_key = live_server.app.config['DATASTORE'].data['settings']['application'].get('api_access_token')
+
+    uuid = datastore.add_watch(url='http://example.com')
+    watch = datastore.data['watching'][uuid]
+
+    # Mute via API
+    response = client.get(url_for("watch", uuid=uuid, muted='muted'), headers={'x-api-key': api_key})
+    assert response.status_code == 200
+
+    # Check persisted to disk
+    watch_json_path = os.path.join(watch.data_dir, 'watch.json')
+    with open(watch_json_path, 'r') as f:
+        data = json.load(f)
+    assert data['notification_muted'] == True, "Mute should be persisted"
+
+    # Unmute
+    response = client.get(url_for("watch", uuid=uuid, muted='unmuted'), headers={'x-api-key': api_key})
+    assert response.status_code == 200
+
+    with open(watch_json_path, 'r') as f:
+        data = json.load(f)
+    assert data['notification_muted'] == False, "Unmute should be persisted"
+
+
 def test_ui_watch_edit_persists_all_fields(client, live_server):
     """Test that UI watch edit form persists all modified fields"""
     from changedetectionio.store import ChangeDetectionStore
