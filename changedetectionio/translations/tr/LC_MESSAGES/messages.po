@@ -4732,6 +4732,46 @@ msgid ""
 "price"
 msgstr ""
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "returns a list of years only"
+msgstr "yalnızca yılların bir listesini döndürür"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr "Örnek - bir anahtar kelime içeren satırları eşleştir"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr "Düzenli ifade/dize eşleşmesi başına bir satır"
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr "Giriş Yap"
+
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr "Otomatik zamanlamayı devam ettir"
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr "İzleyicilerin otomatik sıra zamanlamasını duraklat"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling paused — click to resume"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling active — click to pause all"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Paused"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Running"
+msgstr ""
+
 #: changedetectionio/templates/menu.html
 msgid "Toggle light/dark mode"
 msgstr "Aydınlık/karanlık modu değiştir"
