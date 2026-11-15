@@ -47,6 +47,42 @@ def _runner_test_http_errors(client, live_server, http_code, expected_text, data
     delete_all_watches(client)
 
 
+def test_http_error_handler(client, live_server, measure_memory_usage, datastore_path):
+    _runner_test_http_errors(client, live_server, 403, 'Access denied', datastore_path=datastore_path)
+    _runner_test_http_errors(client, live_server, 404, 'Page not found', datastore_path=datastore_path)
+    _runner_test_http_errors(client, live_server, 500, '(Internal server error) received', datastore_path=datastore_path)
+    _runner_test_http_errors(client, live_server, 400, 'Error - Request returned a HTTP error code 400', datastore_path=datastore_path)
+    delete_all_watches(client)
+
+# Just to be sure error text is properly handled
+def test_DNS_errors(client, live_server, measure_memory_usage, datastore_path):
+
+    # Add our URL to the import page
+    res = client.post(
+        url_for("imports.import_page"),
+        data={"urls": "https://errorfuldomainthatnevereallyexists12356.com"},
+        follow_redirects=True
+    )
+    assert b"1 Imported" in res.data
+    res = client.post(url_for("ui.form_watch_checknow"), follow_redirects=True)
+
+    # Give the thread time to pick it up
+    wait_for_all_checks(client)
+
+    res = client.get(url_for("watchlist.index"))
+    found_name_resolution_error = (
+        b"No address found" in res.data or
+        b"Name or service not known" in res.data or
+        b"nodename nor servname provided" in res.data or
+        b"Temporary failure in name resolution" in res.data or
+        b"Failed to establish a new connection" in res.data or
+        b"Connection error occurred" in res.data
+    )
+    assert found_name_resolution_error
+    # Should always record that we tried
+    assert "just now".encode('utf-8') in res.data or 'seconds ago'.encode('utf-8') in res.data
+    delete_all_watches(client)
+
 # Re 1513
 def test_low_level_errors_clear_correctly(client, live_server, measure_memory_usage, datastore_path):
 

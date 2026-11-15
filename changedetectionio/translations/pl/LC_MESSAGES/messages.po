@@ -4672,6 +4672,46 @@ msgstr "Proszę zaznaczyć fragment tekstu w treści porównania."
 msgid "Failed to generate image: %(error)s"
 msgstr "Nie udało się wygenerować obrazu: %(error)s"
 
+#: changedetectionio/templates/base.html
+msgid "Change Detection Diff"
+msgstr "Wykrywanie zmian – porównanie"
+
+#: changedetectionio/templates/base.html
+msgid "Check out this change detected via changedetection.io"
+msgstr "Zobacz tę zmianę wykrytą za pośrednictwem serwisu changedetection.io"
+
+#: changedetectionio/templates/base.html
+msgid "Please fill in all fields (Field, Operator, and Value) before verifying."
+msgstr "Przed zatwierdzeniem prosimy o wypełnienie wszystkich pól (Pole, Operator i Wartość)."
+
+#: changedetectionio/templates/base.html
+msgid "Error verifying condition."
+msgstr "Wystąpił błąd podczas sprawdzania warunku."
+
+#: changedetectionio/templates/base.html
+msgid "Destination email"
+msgstr "Adres e-mail odbiorcy"
+
+#: changedetectionio/templates/base.html
+msgid "Content after filters"
+msgstr "Treść po zastosowaniu filtrów"
+
+#: changedetectionio/templates/base.html
+msgid "Content raw/before filters"
+msgstr "Treść w postaci surowej / przed zastosowaniem filtrów"
+
+#: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr "Nawigacja główna"
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr "Udostępnij ten link:"
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Aktualizacje w czasie rzeczywistym w trybie offline"
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid ""
 "<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
