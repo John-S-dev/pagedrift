@@ -477,6 +477,51 @@ def test_accept_language_header_en_variants(client, live_server, measure_memory_
     # Should get English content
     assert b"Select Language" in res.data, "Expected English text 'Select Language'"
 
+    # Check HTML lang attribute uses BCP 47 format with hyphen
+    assert b'<html lang="en-GB"' in res.data, "Expected BCP 47 language tag en-GB in HTML"
+
+    # Check that the correct flag icon is shown (UK flag for en-GB)
+    assert b'<span class="fi fi-gb fis" id="language-selector-flag">' in res.data, \
+        "Expected UK flag 'fi fi-gb' for British English"
+
+    # Test 2: American English (en-US)
+    with client.session_transaction() as sess:
+        sess.clear()
+
+    res = client.get(
+        url_for("watchlist.index"),
+        headers={'Accept-Language': 'en-US,en;q=0.9'},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Should get English content
+    assert b"Select Language" in res.data, "Expected English text 'Select Language'"
+
+    # Check HTML lang attribute uses BCP 47 format with hyphen
+    assert b'<html lang="en-US"' in res.data, "Expected BCP 47 language tag en-US in HTML"
+
+    # Check that the correct flag icon is shown (US flag for en-US)
+    assert b'<span class="fi fi-us fis" id="language-selector-flag">' in res.data, \
+        "Expected US flag 'fi fi-us' for American English"
+
+    # Test 3: Generic 'en' should fall back to one of the English variants
+    with client.session_transaction() as sess:
+        sess.clear()
+
+    res = client.get(
+        url_for("watchlist.index"),
+        headers={'Accept-Language': 'en'},
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Should get English content (either variant is fine)
+    assert b"Select Language" in res.data, "Expected English text 'Select Language'"
+
+
 def test_accept_language_header_zh_simplified(client, live_server, measure_memory_usage, datastore_path):
     """
     Test that browsers sending zh or zh-CN in Accept-Language header get Simplified Chinese.
