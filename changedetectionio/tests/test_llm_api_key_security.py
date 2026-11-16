@@ -484,6 +484,96 @@ def test_settings_form_rejects_private_api_base(
 # endpoint. GHSA-g36r-fm2p-87xm.
 # ---------------------------------------------------------------------------
 
+def test_llm_models_refuses_to_leak_stored_key_to_different_api_base(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """If the request supplies an api_base that differs from the saved one but
+    omits api_key, the endpoint must refuse — otherwise CSRF can ship the
+    stored Authorization: Bearer <key> to an attacker-controlled URL."""
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)   # stores CANARY_KEY, leaves api_base unset
+
+    # Patch litellm.get_valid_models so that if the guard ever lets us through
+    # we'd see it called — and we can assert it wasn't.
+    import litellm
+    calls = []
+    monkeypatch.setattr(litellm, 'get_valid_models',
+                        lambda **kwargs: calls.append(kwargs) or [])
+
+    res = client.get(
+        url_for('settings.llm.llm_get_models'),
+        query_string={
+            'provider': 'openai',
+            'api_base': 'https://attacker.example/v1',
+            # api_key intentionally omitted — this is the CSRF case
+        },
+    )
+    assert res.status_code == 400, \
+        "Endpoint should refuse to substitute stored key to a mismatched api_base"
+    body = res.get_json()
+    assert 'api_key' in body['error'], \
+        f"Error should call out that api_key is required: {body['error']!r}"
+    assert calls == [], "litellm must not have been invoked at all"
+
+
+def test_llm_test_refuses_to_leak_stored_key_to_different_api_base(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """Same guard on /settings/llm/test — attacker-supplied api_base + missing
+    api_key must not result in the stored key being sent to that URL."""
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)   # stores CANARY_KEY, no stored api_base
+
+    calls = []
+    # Patch the completion wrapper so we'd notice if litellm were invoked.
+    import changedetectionio.llm.client as llm_client
+    monkeypatch.setattr(llm_client, 'completion',
+                        lambda **kw: calls.append(kw) or ('', 0, 0, 0))
+
+    res = client.post(
+        url_for('settings.llm.llm_test'),
+        query_string={
+            'model': 'gpt-4o-mini',
+            'api_base': 'https://attacker.example/v1',
+            # api_key intentionally omitted
+        },
+    )
+    assert res.status_code == 400
+    body = res.get_json()
+    assert body['ok'] is False
+    assert 'api_key' in body['error']
+    assert calls == [], "completion() must not have been invoked"
+
+
+def test_llm_models_allows_stored_key_when_api_base_matches_saved(
+        client, live_server, measure_memory_usage, datastore_path, monkeypatch):
+    """Regression: the legit UI flow (test saved config without retyping the key)
+    must still work — i.e. when request api_base matches the stored api_base,
+    the stored key IS substituted."""
+    monkeypatch.delenv('ALLOW_IANA_RESTRICTED_ADDRESSES', raising=False)
+    monkeypatch.setenv('ALLOW_IANA_RESTRICTED_ADDRESSES', 'true')  # so localhost passes SSRF
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(ds)
+    ds.data['settings']['application']['llm']['api_base'] = 'http://localhost:11434'
+
+    received = []
+    import litellm
+    monkeypatch.setattr(litellm, 'get_valid_models',
+                        lambda **kwargs: (received.append(kwargs), ['llama3.2'])[1])
+
+    res = client.get(
+        url_for('settings.llm.llm_get_models'),
+        query_string={
+            'provider': 'openai_compatible',
+            'api_base': 'http://localhost:11434',  # matches saved
+            # api_key omitted — should fall back to stored CANARY_KEY
+        },
+    )
+    assert res.status_code == 200, res.get_json()
+    assert received and received[0].get('api_key') == CANARY_KEY, \
+        "When api_base matches saved, the stored api_key should be used"
+
+
 # ---------------------------------------------------------------------------
 # CSRF — /clear and /clear-summary-cache must not mutate state on GET
 # (GHSA-g36r-fm2p-87xm). The <img src=...> CSRF vector relies on GET firing the
