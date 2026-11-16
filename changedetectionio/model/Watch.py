@@ -1092,6 +1092,72 @@ class model(EntityPersistenceMixin, watch_base):
     def unpause(self):
         self['paused'] = False
 
+    def toggle_pause(self):
+        self['paused'] ^= True
+
+    def mute(self):
+        self['notification_muted'] = True
+
+    def unmute(self):
+        self['notification_muted'] = False
+
+    def toggle_mute(self):
+        self['notification_muted'] ^= True
+
+    def _get_commit_data(self):
+        """
+        Prepare watch data for commit.
+
+        Excludes processor_config_* keys (stored in separate files).
+        Excludes __-prefixed keys (transient in-memory state — must not persist to disk).
+        Normalizes browser_steps to empty list if no meaningful steps.
+        """
+        import copy
+
+        # Get base snapshot with lock
+        lock = self._datastore.lock if self._datastore and hasattr(self._datastore, 'lock') else None
+
+        if lock:
+            with lock:
+                snapshot = dict(self)
+        else:
+            snapshot = dict(self)
+
+        # Exclude processor config keys (stored separately) and __-prefixed transient keys
+        watch_dict = {
+            k: copy.deepcopy(v) for k, v in snapshot.items()
+            if not k.startswith('processor_config_') and not k.startswith('__')
+        }
+
+        # Normalize browser_steps: if no meaningful steps, save as empty list
+        if not self.has_browser_steps:
+            watch_dict['browser_steps'] = []
+
+        return watch_dict
+
+    # _save_to_disk() method provided by EntityPersistenceMixin
+    # commit() method inherited from watch_base
+
+
+    def extra_notification_token_values(self):
+        # Used for providing extra tokens
+        # return {'widget': 555}
+        return {}
+
+    def extra_notification_token_placeholder_info(self):
+        # Used for providing extra tokens
+        # return [('widget', "Get widget amounts")]
+        return []
+
+
+    def extract_regex_from_all_history(self, regex):
+        import csv
+        import re
+        import datetime
+        csv_output_filename = False
+        csv_writer = False
+        f = None
+
         # self.history will be keyed with the full path
         for k, fname in self.history.items():
             if os.path.isfile(fname):
