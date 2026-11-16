@@ -1619,6 +1619,88 @@ paths:
           source: |
             import requests
             
+            headers = {'x-api-key': 'YOUR_API_KEY'}
+            uuid = '095be615-a8ad-4c33-8e9c-c7612fbf6c9f'
+            response = requests.get(f'http://localhost:5000/api/v1/watch/{uuid}/favicon', headers=headers)
+            with open('favicon.ico', 'wb') as f:
+                f.write(response.content)
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: Web page change monitor (watch) unique ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Favicon binary data
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Favicon not found
+
+  /tags:
+    get:
+      operationId: listTags
+      tags: [Group / Tag Management]
+      summary: List all tags
+      description: Return list of available tags/groups
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            curl -X GET "http://localhost:5000/api/v1/tags" \
+              -H "x-api-key: YOUR_API_KEY"
+        - lang: 'Python'
+          source: |
+            import requests
+            
+            headers = {'x-api-key': 'YOUR_API_KEY'}
+            response = requests.get('http://localhost:5000/api/v1/tags', headers=headers)
+            print(response.json())
+      responses:
+        '200':
+          description: List of tags
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Tag'
+              example:
+                "550e8400-e29b-41d4-a716-446655440000":
+                  uuid: "550e8400-e29b-41d4-a716-446655440000"
+                  title: "Production Sites"
+                  notification_urls: ["mailto:admin@example.com"]
+                  notification_muted: false
+                "330e8400-e29b-41d4-a716-446655440001":
+                  uuid: "330e8400-e29b-41d4-a716-446655440001"
+                  title: "News Sources"
+                  notification_urls: ["discord://webhook_id/webhook_token"]
+                  notification_muted: false
+
+  /tag:
+    post:
+      operationId: createTag
+      tags: [Group / Tag Management]
+      summary: Create tag
+      description: Create a single tag/group
+      x-code-samples:
+        - lang: 'curl'
+          source: |
+            curl -X POST "http://localhost:5000/api/v1/tag" \
+              -H "x-api-key: YOUR_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "title": "Important Sites"
+              }'
+        - lang: 'Python'
+          source: |
+            import requests
+            
             headers = {
                 'x-api-key': 'YOUR_API_KEY',
                 'Content-Type': 'application/json'
