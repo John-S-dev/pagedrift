@@ -207,3 +207,47 @@
                                         <li>{{ _('Accepts the <code>%(token)s</code> placeholders listed below', token='{{token}}')|safe }}</li>
                                     </ul>
 
+                                </details>
+                            </div>
+                        </div>
+<details  class="form-wrapper" id="edit-advanced">
+    <summary>{{ _('Customise notifications') }}</summary>
+
+                        <div class="pure-control-group grey-form-border">
+                            <div class="pure-control-group">
+                                {{ render_field(form.notification_title, class="m-d notification-title", placeholder=settings_application['notification_title']) }}
+                                <span class="pure-form-message-inline">{{ _('Title for all notifications') }}</span>
+                            </div>
+                            <div class="pure-control-group">
+                                {{ render_field(form.notification_body , rows=5, class="notification-body", placeholder=settings_application['notification_body']) }}
+                                {{ show_token_placeholders(extra_notification_token_placeholder_info=extra_notification_token_placeholder_info, settings_application=settings_application) }}
+                                <div class="pure-form-message-inline">
+                                    <ul>
+                                    <li><span class="pure-form-message-inline">
+                                        {{ _('For JSON payloads, use') }} <strong>|tojson</strong> {{ _('without quotes for automatic escaping, for example -') }} <code>{ "name": {{ '{{ watch_title|tojson }}' }} }</code>
+                                    </span></li>
+                                    <li><span class="pure-form-message-inline">
+                                        {{ _('URL encoding, use') }} <strong>|urlencode</strong>, {{ _('for example -') }} <code>gets://hook-website.com/test.php?title={{ '{{ watch_title|urlencode }}' }}</code>
+                                    </span></li>
+                                    <li><span class="pure-form-message-inline">
+                                        {{ _('Regular-expression replace, use') }} <strong>|regex_replace</strong>, {{ _('for example -') }}   <code>{{ "{{ \"hello world 123\" | regex_replace('[0-9]+', 'no-more-numbers') }}" }}</code>
+                                    </span></li>
+                                    <li><span class="pure-form-message-inline">
+                                        {{ _('For a complete reference of all Jinja2 built-in filters, users can refer to the') }} <a href="https://jinja.palletsprojects.com/en/3.1.x/templates/#builtin-filters">https://jinja.palletsprojects.com/en/3.1.x/templates/#builtin-filters</a>
+                                    </span></li>
+                                    </ul>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="">
+                                {{ render_field(form.notification_format , class="notification-format") }}
+                                <span class="pure-form-message-inline">{{ _('Format for all notifications') }}</span>
+                                <div id="discord-html-format-warning" class="inline-warning" style="display: none; margin-top: 6px;">
+                                    <img class="inline-warning-icon" src="{{url_for('static_content', group='images', filename='notice.svg')}}" alt="{{ _('Note') }}" title="{{ _('Note') }}">
+                                    {{ _('Discord does not render HTML — switch to') }} <strong>{{ _('Plain Text') }}</strong> {{ _('format to avoid') }} <code>&amp;nbsp;</code> {{ _('and other HTML entities appearing literally in your notifications.') }}
+                                </div>
+                            </div>
+                        </div>
+</details>
+{% endmacro %}
+
