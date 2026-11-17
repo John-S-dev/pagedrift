@@ -133,3 +133,22 @@ $(document).ready(function () {
                 let oldName = $(this).attr("name");
                 let oldId = $(this).attr("id");
 
+                if (oldName) {
+                    let newName = oldName.replace(/\d+/, index);
+                    $(this).attr("name", newName);
+                }
+
+                if (oldId) {
+                    let newId = oldId.replace(/\d+/, index);
+                    $(this).attr("id", newId);
+                }
+            });
+        });
+        
+        // Reattach event handlers after reindexing
+        setupButtonHandlers();
+    }
+
+    // Initial setup of button handlers
+    setupButtonHandlers();
+});
