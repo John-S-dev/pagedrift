@@ -4400,6 +4400,46 @@ msgstr "Entri"
 msgid "Actions"
 msgstr "Tindakan"
 
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "Tambahkan baris/aturan setelah"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "Hapus baris/aturan ini"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "Verifikasi aturan ini terhadap snapshot saat ini"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "Atur jadwal jam/hari dalam seminggu"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Batas waktu jadwal"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "Jam kerja"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Akhir pekan"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Reset"
+msgstr "Reset"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Warning, one or more of your 'days' has a duration that would extend into the next day."
+msgstr "Peringatan, satu atau beberapa 'hari' Anda memiliki durasi yang akan berlanjut ke hari berikutnya."
+
+#: changedetectionio/templates/_helpers.html
+msgid "This could have unintended consequences."
+msgstr "Hal ini dapat menimbulkan konsekuensi yang tidak diinginkan."
+
 #: changedetectionio/templates/base.html
 msgid "Confirm Action"
 msgstr "Konfirmasi Tindakan"
