@@ -2259,6 +2259,15 @@ paths:
       description: |
         Return the fully merged OpenAPI specification for this instance.
 
+        Unlike the static `api-spec.yaml` shipped with the application, this endpoint returns the
+        spec dynamically merged with any `api.yaml` schemas provided by installed processor plugins.
+
+        **Use this URL** with Swagger UI or Redoc to get schema-accurate documentation for your
+        specific install — it includes every `processor_config_<name>` schema block contributed by
+        installed processors (e.g. `processor_config_restock_diff` from the built-in restock plugin).
+
+        This endpoint requires no authentication and returns YAML.
+
         To load it directly in Swagger UI, paste the URL into the "Explore" box:
         ```
         http://localhost:5000/api/v1/full-spec
