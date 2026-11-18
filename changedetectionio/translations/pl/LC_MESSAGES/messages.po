@@ -4712,6 +4712,51 @@ msgstr "Udostępnij ten link:"
 msgid "Real-time updates offline"
 msgstr "Aktualizacje w czasie rzeczywistym w trybie offline"
 
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Wybierz język"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Automatyczne wykrywanie z przeglądarki"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr ""
+"Obsługa języków jest w fazie beta. Prosimy o pomoc w jej ulepszaniu poprzez zgłaszanie propozycji zmian (PR) na "
+"GitHubie wraz z wszelkimi aktualizacjami."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr "Sztuczna inteligencja / duże modele językowe (LLM) nie są skonfigurowane"
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+"Funkcja tworzenia streszczeń z wykorzystaniem LLM nie jest jeszcze włączona. Aby rozpocząć korzystanie z tej funkcji,"
+" skonfiguruj dostawcę usług AI w sekcji „Ustawienia”."
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr "Przejdź do ustawień AI / LLM"
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Wyszukiwanie"
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "URL or Title in '%(title)s'"
+msgstr "Adres URL lub tytuł w „%(title)s”"
+
+#: changedetectionio/templates/base.html
+msgid "URL or Title"
+msgstr "Adres URL lub tytuł"
+
+#: changedetectionio/templates/base.html
+msgid "Enter search term..."
+msgstr "Wpisz szukane hasło..."
+
 #: changedetectionio/templates/edit/include_llm_intent.html
 msgid ""
 "<strong>On</strong> &ndash; every watch in this group uses the AI settings below, unless it fills in its own. "
