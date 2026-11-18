@@ -159,6 +159,55 @@ def extract_UUID_from_client(client):
     uuid = m.group(1)
     return uuid.strip()
 
+def delete_all_watches(client=None):
+    wait_for_all_checks(client)
+
+    uuids = list(client.application.config.get('DATASTORE').data['watching'])
+    for uuid in uuids:
+        client.application.config.get('DATASTORE').delete(uuid)
+    from changedetectionio.flask_app import update_q
+
+    # Clear the queue to prevent leakage to next test
+    # Use clear() method to ensure both priority_items and notification_queue are drained
+    if hasattr(update_q, 'clear'):
+        update_q.clear()
+    else:
+        # Fallback for old implementation
+        while not update_q.empty():
+            try:
+                update_q.get_nowait()
+            except:
+                break
+
+    time.sleep(0.2)
+
+    # Delete any old watch metadata
+    from pathlib import Path
+
+    base_path = Path(
+        client.application.config.get('DATASTORE').datastore_path
+    ).resolve()
+
+    max_depth = 2
+
+    for file in base_path.rglob("*.json"):
+        # Calculate depth relative to base path
+        depth = len(file.relative_to(base_path).parts) - 1
+
+        if depth <= max_depth and file.is_file():
+            file.unlink()
+
+
+def wait_for_all_checks(client=None):
+    """
+    Waits until the queue is empty and workers are idle.
+    Delegates to worker_pool.wait_for_all_checks for shared logic.
+    """
+    from changedetectionio.flask_app import update_q as global_update_q
+    from changedetectionio import worker_pool
+    return worker_pool.wait_for_all_checks(global_update_q, timeout=150)
+
+
 def wait_for_watch_history(client, min_history_count=2, timeout=10):
     """
     Wait for watches to have sufficient history entries.
