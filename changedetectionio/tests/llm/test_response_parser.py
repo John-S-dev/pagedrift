@@ -200,3 +200,29 @@ class TestParseEvalResponse:
         assert result['summary'] == 'skip'
 
 
+class TestParsePreviewResponse:
+    def test_valid_found_true(self):
+        raw = '{"found": true, "answer": "Price is $49.99"}'
+        result = parse_preview_response(raw)
+        assert result['found'] is True
+        assert result['answer'] == 'Price is $49.99'
+
+    def test_valid_found_false(self):
+        raw = '{"found": false, "answer": "Item not listed"}'
+        result = parse_preview_response(raw)
+        assert result['found'] is False
+        assert result['answer'] == 'Item not listed'
+
+    def test_string_false_in_preview(self):
+        raw = '{"found": "false", "answer": "Not found"}'
+        result = parse_preview_response(raw)
+        assert result['found'] is False
+        assert result['answer'] == 'Not found'
+
+    def test_preview_with_think_tags(self):
+        raw = '<think>Looking for price...</think>\n{"found": true, "answer": "$19.99"}'
+        result = parse_preview_response(raw)
+        assert result['found'] is True
+        assert result['answer'] == '$19.99'
+
+
