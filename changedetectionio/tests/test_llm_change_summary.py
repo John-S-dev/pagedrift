@@ -395,6 +395,49 @@ def test_edit_form_defaults_to_replace_preserving_old_behaviour(
     delete_all_watches(client)
 
 
+def test_edit_page_renders_the_prompt_mode_radio(
+        client, live_server, measure_memory_usage, datastore_path):
+    """Both radio options must be present on the watch edit page."""
+    _set_response(datastore_path, HTML_V1)
+    _configure_llm(client)
+    ds = client.application.config.get('DATASTORE')
+
+    test_url = url_for('test_endpoint', _external=True)
+    uuid = ds.add_watch(url=test_url)
+
+    res = client.get(url_for("ui.ui_edit.edit_page", uuid=uuid))
+    body = res.data.decode('utf-8', errors='replace')
+
+    assert 'name="llm_change_summary_mode"' in body
+    assert 'value="replace"' in body
+    assert 'value="append"' in body
+
+    delete_all_watches(client)
+
+
+def test_hardcoded_fallback_when_nothing_set(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    Falls back to DEFAULT_CHANGE_SUMMARY_PROMPT when watch, tag, and global
+    default are all empty.
+    """
+    from changedetectionio.llm.evaluator import get_effective_summary_prompt, DEFAULT_CHANGE_SUMMARY_PROMPT
+
+    ds = client.application.config.get('DATASTORE')
+    _configure_llm(client)
+
+    uuid = ds.add_watch(url='https://example.com')
+    watch = ds.data['watching'][uuid]
+    watch['llm_change_summary'] = ''
+
+    # Ensure global default is also empty
+    _set_global_default(ds, '')
+
+    assert get_effective_summary_prompt(watch, ds) == DEFAULT_CHANGE_SUMMARY_PROMPT
+
+    delete_all_watches(client)
+
+
 def test_llm_summary_ajax_sets_last_viewed(
         client, live_server, measure_memory_usage, datastore_path):
     """
