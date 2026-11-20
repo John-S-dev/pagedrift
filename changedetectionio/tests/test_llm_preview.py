@@ -130,6 +130,79 @@ def test_preview_returns_llm_answer_for_price_intent(
     delete_all_watches(client)
 
 
+def test_preview_found_false_when_content_not_relevant(
+        client, live_server, measure_memory_usage, datastore_path):
+    """found=False when the LLM determines page content doesn't match intent."""
+    uuid = _add_and_fetch(client, live_server, datastore_path, HTML_WITH_ARTICLES)
+    _configure_llm(client)
+
+    llm_json = '{"found": false, "answer": "No price information found on this page"}'
+    with patch('changedetectionio.llm.client.completion', return_value=(llm_json, 45)):
+        res = client.post(
+            url_for("ui.ui_edit.watch_get_preview_rendered", uuid=uuid),
+            data={
+                'llm_intent': 'Show me any product prices',
+                'fetch_backend': 'html_requests',
+            },
+        )
+
+    assert res.status_code == 200
+    data = json.loads(res.data.decode('utf-8'))
+    ev = data.get('llm_evaluation')
+    assert ev is not None
+    assert ev['found'] is False
+    assert ev['answer']
+
+    delete_all_watches(client)
+
+
+# ---------------------------------------------------------------------------
+# No intent / no LLM → llm_evaluation is None
+# ---------------------------------------------------------------------------
+
+def test_preview_no_llm_evaluation_without_intent(
+        client, live_server, measure_memory_usage, datastore_path):
+    """When llm_intent is absent, the LLM client must not be called."""
+    uuid = _add_and_fetch(client, live_server, datastore_path, HTML_WITH_ARTICLES)
+    _configure_llm(client)
+
+    with patch('changedetectionio.llm.client.completion') as mock_llm:
+        res = client.post(
+            url_for("ui.ui_edit.watch_get_preview_rendered", uuid=uuid),
+            data={'fetch_backend': 'html_requests'},
+        )
+        mock_llm.assert_not_called()
+
+    assert res.status_code == 200
+    data = json.loads(res.data.decode('utf-8'))
+    assert data.get('llm_evaluation') is None
+
+    delete_all_watches(client)
+
+
+def test_preview_no_llm_evaluation_when_llm_not_configured(
+        client, live_server, measure_memory_usage, datastore_path):
+    """When LLM model is not set, llm_evaluation must be None even with an intent."""
+    uuid = _add_and_fetch(client, live_server, datastore_path, HTML_WITH_ARTICLES)
+    # Intentionally do NOT configure LLM
+
+    with patch('changedetectionio.llm.client.completion') as mock_llm:
+        res = client.post(
+            url_for("ui.ui_edit.watch_get_preview_rendered", uuid=uuid),
+            data={
+                'llm_intent': 'Tell me the number of articles',
+                'fetch_backend': 'html_requests',
+            },
+        )
+        mock_llm.assert_not_called()
+
+    assert res.status_code == 200
+    data = json.loads(res.data.decode('utf-8'))
+    assert data.get('llm_evaluation') is None
+
+    delete_all_watches(client)
+
+
 # ---------------------------------------------------------------------------
 # LLM failure → llm_evaluation is None, preview still works
 # ---------------------------------------------------------------------------

@@ -783,6 +783,87 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
                 logger.error(f"add_watch: URL '{url}' is not permitted or invalid, skipping.")
             return None
 
+        new_watch.ensure_data_dir_exists()
+        self.__data['watching'][new_uuid] = new_watch
+
+        if save_immediately:
+            # Save immediately using commit
+            new_watch.commit()
+            logger.debug(f"Saved new watch {new_uuid}")
+
+        logger.debug(f"Added '{url}'")
+
+        return new_uuid
+
+    # Where add-watch-ui parks freshly-fetched (but not-yet-saved) snapshots.
+    TEMPORARY_WATCH_DIR = "temporary"
+
+    def get_temporary_watch_dir(self, temp_uuid):
+        """Resolve datastore_path/temporary/{temp_uuid}, rejecting anything that would
+        escape the temporary/ directory (the temp_uuid arrives from a client POST field)."""
+        if not temp_uuid or not re.match(r'^[0-9a-fA-F-]{36}$', str(temp_uuid)):
+            return None
+        base = os.path.realpath(os.path.join(self.datastore_path, self.TEMPORARY_WATCH_DIR))
+        target = os.path.realpath(os.path.join(base, str(temp_uuid)))
+        if os.path.dirname(target) != base:
+            logger.warning(f"Rejected temporary watch path outside {base}: {temp_uuid}")
+            return None
+        return target
+
+    def make_temporary_watch_active_watch(self, temp_uuid, url, tag='', extras=None):
+        """Promote a temporary add-watch snapshot into a real watch.
+
+        The snapshot directory (datastore_path/temporary/{temp_uuid}, already holding
+        last-screenshot.png + elements.deflate in final on-disk format) is renamed into
+        place as the new watch's data_dir - no re-fetch, no copy. If the temp_uuid is
+        missing/expired/invalid we fall back to a normal add_watch() so the UI still works.
+
+        Settings the snapshot recorded for itself in its own watch.json (currently just
+        fetch_backend - the browser that rendered the preview) win over the posted form,
+        because they describe what actually fetched. add_watch() -> commit() rewrites that
+        file in full once the directory has been promoted.
+        """
+        seed_dir = self.get_temporary_watch_dir(temp_uuid)
+        if not (seed_dir and os.path.isdir(seed_dir)):
+            seed_dir = None
+
+        extras = dict(extras or {})
+        seed_watch_json = os.path.join(seed_dir, "watch.json") if seed_dir else None
+        # isfile() first - a snapshot parked before this file existed is normal, not an error
+        if seed_watch_json and os.path.isfile(seed_watch_json):
+            seed_watch = load_watch_from_file(seed_watch_json, temp_uuid, self.rehydrate_entity)
+            if seed_watch and seed_watch.get('fetch_backend'):
+                extras['fetch_backend'] = seed_watch.get('fetch_backend')
+                logger.debug(f"Promoting temporary watch {temp_uuid} with its recorded "
+                             f"fetch_backend '{extras['fetch_backend']}'")
+
+        return self.add_watch(url=url, tag=tag, extras=extras, seed_data_dir=seed_dir)
+
+    def cleanup_temporary_watches(self, ttl_seconds=3600):
+        """Remove orphaned snapshot dirs (user clicked Go but never submitted)."""
+        base = os.path.join(self.datastore_path, self.TEMPORARY_WATCH_DIR)
+        if not os.path.isdir(base):
+            return
+        now = time.time()
+        for name in os.listdir(base):
+            d = os.path.join(base, name)
+            try:
+                if os.path.isdir(d) and (now - os.path.getmtime(d)) > ttl_seconds:
+                    shutil.rmtree(d, ignore_errors=True)
+                    logger.debug(f"Cleaned orphaned temporary watch {name}")
+            except Exception as e:
+                logger.error(f"Failed cleaning temporary watch {d}: {e}")
+
+    def _watch_resource_exists(self, watch_uuid, resource_name):
+        """
+        Check if a watch-related resource exists.
+
+        File backend implementation: checks if file exists in watch directory.
+
+        Args:
+            watch_uuid: Watch UUID
+            resource_name: Name of resource (e.g., "last-screenshot.png")
+
         Returns:
             bool: True if resource exists
         """
