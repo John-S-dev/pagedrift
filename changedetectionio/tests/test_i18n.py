@@ -635,3 +635,45 @@ def test_session_locale_overrides_accept_language(client, live_server, measure_m
 
     assert res.status_code == 200
 
+    # Step 3: Make another request with same zh-TW header
+    # Session should override the Accept-Language header
+    res = client.get(
+        url_for("watchlist.index"),
+        headers={'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.8'},  # Still sending zh-TW!
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Should now get Korean (session overrides auto-detect)
+    # Korean: 언어 선택, Traditional Chinese: 選擇語言
+    assert '언어 선택'.encode() in res.data, "Expected Korean '언어 선택' (Select Language) from session"
+    assert '選擇語言'.encode() not in res.data, "Should not get Traditional Chinese when Korean is set in session"
+
+    # Check HTML lang attribute is Korean
+    assert b'<html lang="ko"' in res.data, "Expected Korean language tag 'ko' in HTML"
+
+    # Check that Korean flag is shown (not Taiwan flag)
+    assert b'<span class="fi fi-kr fis" id="language-selector-flag">' in res.data, \
+        "Expected Korean flag 'fi fi-kr' from session preference"
+    assert b'<span class="fi fi-tw fis" id="language-selector-flag">' not in res.data, \
+        "Should not show Taiwan flag when Korean is set in session"
+
+    # Verify Korean text on settings page as well
+    res = client.get(
+        url_for("settings.settings_page"),
+        headers={'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.8'},  # Still zh-TW!
+        follow_redirects=True
+    )
+
+    assert res.status_code == 200
+
+    # Check Korean translations (not Traditional Chinese or English)
+    # Korean: 시간 (Hours), 분 (Minutes), 초 (Seconds)
+    # Traditional Chinese: 小時, 分鐘, 秒
+    assert "시간".encode() in res.data, "Expected Korean '시간' for Hours"
+    assert "분".encode() in res.data, "Expected Korean '분' for Minutes"
+    assert "小時".encode() not in res.data, "Should not have Traditional Chinese '小時' when Korean is set"
+    assert "分鐘".encode() not in res.data, "Should not have Traditional Chinese '分鐘' when Korean is set"
+
+
