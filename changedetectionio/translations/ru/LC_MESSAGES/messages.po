@@ -4370,6 +4370,47 @@ msgid "only supports very limited HTML and can fail when extra tags are sent,"
 msgstr "поддерживает только очень ограниченный HTML и может привести к сбою при отправке дополнительных тегов,"
 
 #: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(или используйте формат открытого текста/уценки)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "для прямых вызовов API (или опустите"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "для не-SSL, т.е."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "больше помощи здесь"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "Принимает заполнители <code>%(token)s</code>, перечисленные ниже."
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Customise notifications"
+msgstr ""
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Title for all notifications"
+msgstr "Название для всех уведомлений"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For JSON payloads, use"
+msgstr "Для полезных данных JSON используйте"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "without quotes for automatic escaping, for example -"
+msgstr "без кавычек для автоматического экранирования, например -"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "URL encoding, use"
+msgstr "Кодировка URL, используйте"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "for example -"
 msgstr "например -"
 
