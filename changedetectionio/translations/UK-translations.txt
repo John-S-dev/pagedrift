@@ -3001,3 +3001,26 @@ msgstr "Виявлення змін веб-сайтів та сповіщенн�
 msgid "Toggle Light/Dark Mode"
 msgstr "Переключити Світлий/Темний режим"
 
+#: changedetectionio/templates/menu.html
+msgid "Toggle light/dark mode"
+msgstr "Переключити світлий/темний режим"
+
+#: changedetectionio/templates/menu.html
+msgid "Change Language"
+msgstr "Змінити мову"
+
+#: changedetectionio/templates/menu.html
+msgid "Change language"
+msgstr "Змінити мову"
+
+#: changedetectionio/widgets/ternary_boolean.py
+msgid "Yes"
+msgstr "Так"
+
+#: changedetectionio/widgets/ternary_boolean.py
+msgid "No"
+msgstr "Ні"
+
+#: changedetectionio/widgets/ternary_boolean.py
+msgid "Main settings"
+msgstr "Головні налаштування"
