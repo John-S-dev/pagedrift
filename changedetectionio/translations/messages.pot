@@ -4835,6 +4835,50 @@ msgstr ""
 msgid "Keyword example - example: <code>Out of stock</code>"
 msgstr ""
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "Use groups to extract just that text - example"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "returns a list of years only"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr ""
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr ""
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling paused — click to resume"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling active — click to pause all"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Paused"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Running"
+msgstr ""
+
 #: changedetectionio/templates/menu.html
 msgid "Unmute notifications"
 msgstr ""
