@@ -4967,6 +4967,46 @@ msgid "Running"
 msgstr ""
 
 #: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Dejar de silenciar notificaciones"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Las notificaciones están silenciadas: haga clic para activar el silencio"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "EDITAR"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr "Detección y notificación de cambios en el sitio web."
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Alternar modo claro/oscuro"
+
+#: changedetectionio/templates/menu.html
 msgid "Toggle light/dark mode"
 msgstr "Alternar modo claro/oscuro"
 
