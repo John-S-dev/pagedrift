@@ -597,6 +597,15 @@ def test_content_type_json_with_unparsable_body(client, live_server, measure_mem
     delete_all_watches(client)
 
 
+def test_check_jsonpath_ext_filter(client, live_server, measure_memory_usage, datastore_path):
+    check_json_ext_filter('json:$[?(@.status==Sold)]', client, live_server, datastore_path=datastore_path)
+    delete_all_watches(client)
+
+def test_check_jq_ext_filter(client, live_server, measure_memory_usage, datastore_path):
+    if jq_support:
+        check_json_ext_filter('jq:.[] | select(.status | contains("Sold"))', client, live_server, datastore_path=datastore_path)
+    delete_all_watches(client)
+
 def test_check_jqraw_ext_filter(client, live_server, measure_memory_usage, datastore_path):
     if jq_support:
         check_json_ext_filter('jq:.[] | select(.status | contains("Sold"))', client, live_server, datastore_path=datastore_path)
