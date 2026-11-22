@@ -4454,6 +4454,48 @@ msgid "Unlink %(name)s?"
 msgstr ""
 
 #: changedetectionio/templates/base.html
+msgid "Main navigation"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Share this link:"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Real-time updates offline"
+msgstr "Echtzeit-Updates offline"
+
+#: changedetectionio/templates/base.html
+msgid "Select Language"
+msgstr "Wählen Sie eine Sprache aus"
+
+#: changedetectionio/templates/base.html
+msgid "Auto-detect from browser"
+msgstr "Automatisch vom Browser erkennen"
+
+#: changedetectionio/templates/base.html
+msgid "Language support is in beta, please help us improve by opening a PR on GitHub with any updates."
+msgstr ""
+"Die Sprachunterstützung befindet sich in der Beta-Phase. Bitte helfen Sie uns bei der Verbesserung, indem Sie auf "
+"GitHub einen PR mit Updates öffnen."
+
+#: changedetectionio/templates/base.html
+msgid "AI / LLM not configured"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "LLM-powered summaries are not yet enabled. Configure an AI provider in Settings to get started."
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Go to AI / LLM Settings"
+msgstr ""
+
+#: changedetectionio/templates/base.html changedetectionio/templates/sidebar-nav.html
+msgid "Search"
+msgstr "Suchen"
+
+#: changedetectionio/templates/base.html
 #, python-format
 msgid "URL or Title in '%(title)s'"
 msgstr "URL oder Titel in '%(title)s'"
