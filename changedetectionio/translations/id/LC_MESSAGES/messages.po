@@ -4916,6 +4916,46 @@ msgstr "Gunakan grup untuk mengekstrak hanya teks tersebut - contoh"
 msgid "returns a list of years only"
 msgstr "mengembalikan daftar tahun saja"
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr "Contoh - cocokkan baris yang mengandung kata kunci"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr "Satu baris per regular-expression/pencocokan string"
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr "Masuk"
+
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr "Lanjutkan penjadwalan otomatis"
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr "Jeda penjadwalan antrean otomatis monitor"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling paused — click to resume"
+msgstr "Penjadwalan dijeda — klik untuk melanjutkan"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling active — click to pause all"
+msgstr "Penjadwalan aktif — klik untuk menjeda semua"
+
+#: changedetectionio/templates/menu.html
+msgid "Paused"
+msgstr "Dijeda"
+
+#: changedetectionio/templates/menu.html
+msgid "Running"
+msgstr "Berjalan"
+
+#: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Aktifkan kembali notifikasi"
+
 #: changedetectionio/templates/menu.html
 msgid "Notifications are muted - click to unmute"
 msgstr "Notifikasi dibisukan - klik untuk mengaktifkan kembali"
