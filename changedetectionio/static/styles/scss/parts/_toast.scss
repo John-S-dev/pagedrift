@@ -214,3 +214,18 @@ html[data-darkmode=true] {
   }
 }
 
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+
+    &.toast-show {
+      opacity: 1;
+    }
+
+    &.toast-hide {
+      opacity: 0;
+    }
+  }
+}
