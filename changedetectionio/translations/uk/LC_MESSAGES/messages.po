@@ -4878,6 +4878,46 @@ msgstr "Ключове слово - приклад: <code>Немає в наяв
 msgid "Use groups to extract just that text - example"
 msgstr "Використовуйте групи для вилучення тільки цього тексту - приклад"
 
+#: changedetectionio/templates/edit/text-options.html
+msgid "returns a list of years only"
+msgstr "повертає тільки список років"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "Example - match lines containing a keyword"
+msgstr "Приклад - рядки, що містять ключове слово"
+
+#: changedetectionio/templates/edit/text-options.html
+msgid "One line per regular-expression/string match"
+msgstr "Один рядок на регулярний вираз/збіг"
+
+#: changedetectionio/templates/login.html
+msgid "Login"
+msgstr "Вхід"
+
+#: changedetectionio/templates/menu.html
+msgid "Resume automatic scheduling"
+msgstr "Відновити авто-планування"
+
+#: changedetectionio/templates/menu.html
+msgid "Pause auto-queue scheduling of watches"
+msgstr "Призупинити авто-чергу завдань"
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling paused — click to resume"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Scheduling active — click to pause all"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Paused"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Running"
+msgstr ""
+
 #: changedetectionio/templates/menu.html
 msgid "Unmute notifications"
 msgstr "Увімкнути сповіщення"
