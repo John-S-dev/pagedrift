@@ -1092,6 +1092,81 @@ class ChangeDetectionStore(DatastoreUpdatesMixin, FileSavingDataStore):
 
         return ret
 
+    def tag_uuid_for_title(self, title):
+        """UUID of the tag with this title (case/space insensitive), or None. Creates nothing."""
+        n = title.strip().lower()
+        if not n:
+            return None
+
+        for uuid, tag in self.__data['settings']['application'].get('tags', {}).items():
+            if n == tag.get('title', '').lower().strip():
+                return uuid
+
+        return None
+
+    def add_tag(self, title):
+        # If name exists, return that
+        n = title.strip().lower()
+        logger.debug(f">>> Adding new tag - '{n}'")
+        if not n:
+            return False
+
+        existing_uuid = self.tag_uuid_for_title(title)
+        if existing_uuid:
+            logger.warning(f"Tag '{title}' already exists, skipping creation.")
+            return existing_uuid
+
+        # Eventually almost everything todo with a watch will apply as a Tag
+        # So we use the same model as a Watch
+        with self.lock:
+            from ..model import Tag
+            new_tag = Tag.model(
+                datastore_path=self.datastore_path,
+                __datastore=self.__data,
+                default={
+                    'title': title.strip(),
+                    'date_created': int(time.time())
+                }
+            )
+
+            new_uuid = new_tag.get('uuid')
+
+            self.__data['settings']['application']['tags'][new_uuid] = new_tag
+
+        # Save tag to its own tag.json file instead of settings
+        new_tag.commit()
+        return new_uuid
+
+    def get_all_tags_for_watch(self, uuid):
+        """This should be in Watch model but Watch doesn't have access to datastore, not sure how to solve that yet"""
+        watch = self.data['watching'].get(uuid)
+        if not watch:
+            return {}
+
+        # Start with manually assigned tags
+        result = dictfilt(self.__data['settings']['application']['tags'], watch.get('tags', []))
+
+        # Additionally include any tag whose url_match_pattern matches this watch's URL
+        watch_url = watch.get('url', '')
+        if watch_url:
+            for tag_uuid, tag in self.__data['settings']['application']['tags'].items():
+                if tag_uuid not in result and tag.matches_url(watch_url):
+                    result[tag_uuid] = tag
+
+        return result
+
+    @property
+    def extra_browsers(self):
+        res = []
+        p = list(filter(
+            lambda s: (s.get('browser_name') and s.get('browser_connection_url')),
+            self.__data['settings']['requests'].get('extra_browsers', [])))
+        if p:
+            for i in p:
+                res.append(("extra_browser_" + i['browser_name'], i['browser_name']))
+
+        return res
+
     def tag_exists_by_name(self, tag_name):
         # Check if any tag dictionary has a 'title' attribute matching the provided tag_name
         tags = self.__data['settings']['application']['tags'].values()
