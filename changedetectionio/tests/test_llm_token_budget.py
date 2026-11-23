@@ -465,6 +465,68 @@ def test_accumulate_global_tokens_tracks_cost_for_known_model(
     delete_all_watches(client)
 
 
+def test_accumulate_global_tokens_cost_rollover(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    On month rollover, cost_usd_this_month must reset to zero (fresh month),
+    while cost_usd_total_cumulative keeps growing.
+    """
+    from changedetectionio.llm.evaluator import accumulate_global_tokens, _get_month_key
+
+    ds = client.application.config.get('DATASTORE')
+    ds.data['settings']['application']['llm'] = {
+        'model': 'gpt-4o-mini',
+        'tokens_this_month': 500,
+        'tokens_total_cumulative': 1000,
+        'tokens_month_key': '2024-01',  # stale month
+        'cost_usd_this_month': 0.05,
+        'cost_usd_total_cumulative': 0.20,
+    }
+
+    accumulate_global_tokens(ds, tokens=50, input_tokens=40, output_tokens=10, model='gpt-4o-mini')
+
+    llm_cfg = ds.data['settings']['application']['llm']
+    assert llm_cfg['tokens_month_key'] == _get_month_key(), "Month key must update"
+    assert llm_cfg['tokens_this_month'] == 50, "Monthly token counter must reset then add"
+    assert llm_cfg['tokens_total_cumulative'] == 1050, "All-time counter must not reset"
+    # Monthly cost must reset (old 0.05 discarded) then add new cost
+    assert llm_cfg['cost_usd_this_month'] >= 0.0
+    assert llm_cfg['cost_usd_this_month'] < 0.05, \
+        "Monthly cost must have reset (new cost for 50 tokens is less than old 0.05)"
+    # All-time cost must keep growing from 0.20
+    assert llm_cfg['cost_usd_total_cumulative'] >= 0.20
+
+    delete_all_watches(client)
+
+
+def test_accumulate_global_tokens_no_cost_for_unknown_model(
+        client, live_server, measure_memory_usage, datastore_path):
+    """
+    When model is unknown (e.g. custom endpoint) or no input/output split
+    is provided, cost stays at 0.0 — no error raised.
+    """
+    from changedetectionio.llm.evaluator import accumulate_global_tokens, _get_month_key
+
+    ds = client.application.config.get('DATASTORE')
+    ds.data['settings']['application']['llm'] = {
+        'tokens_this_month': 0,
+        'tokens_total_cumulative': 0,
+        'tokens_month_key': _get_month_key(),
+        'cost_usd_this_month': 0.0,
+        'cost_usd_total_cumulative': 0.0,
+    }
+
+    # No model, no input/output split → no cost
+    accumulate_global_tokens(ds, tokens=200)
+
+    llm_cfg = ds.data['settings']['application']['llm']
+    assert llm_cfg['tokens_this_month'] == 200
+    assert llm_cfg['cost_usd_this_month'] == 0.0
+    assert llm_cfg['cost_usd_total_cumulative'] == 0.0
+
+    delete_all_watches(client)
+
+
 def test_cost_fields_are_tamper_proof_via_settings_form(
         client, live_server, measure_memory_usage, datastore_path):
     """
