@@ -4427,6 +4427,49 @@ msgstr "Texto ignorado"
 msgid "Ignored for calculating changes, but still shown."
 msgstr "Se ignora para calcular los cambios, pero aún se muestra."
 
+#: changedetectionio/templates/_helpers.html
+msgid "Blocked text"
+msgstr "Texto bloqueado"
+
+#: changedetectionio/templates/_helpers.html changedetectionio/templates/base.html
+msgid "No change-detection will occur because this text exists."
+msgstr "No se producirá ninguna detección de cambios porque este texto existe."
+
+#: changedetectionio/templates/_stab.html
+msgid "Settings sections"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Confirm Action"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Are you sure?"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "<p>Are you sure you want to proceed?</p>"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+msgid "Confirm"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Delete %(name)s?"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "<p>Are you sure you want to delete <strong>%(name)s</strong>?</p><p>This action cannot be undone.</p>"
+msgstr ""
+
+#: changedetectionio/templates/base.html
+#, python-format
+msgid "Unlink %(name)s?"
+msgstr ""
+
 #: changedetectionio/templates/base.html
 #, python-format
 msgid ""
