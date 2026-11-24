@@ -4840,6 +4840,46 @@ msgid "Running"
 msgstr ""
 
 #: changedetectionio/templates/menu.html
+msgid "Unmute notifications"
+msgstr "Opět povolit oznámení"
+
+#: changedetectionio/templates/menu.html
+msgid "Notifications are muted - click to unmute"
+msgstr "Oznámení jsou ztlumena - klikněte pro opětovné povolení"
+
+#: changedetectionio/templates/menu.html
+msgid "Alerts on"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Log out"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Settings"
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "EDIT"
+msgstr "UPRAVIT"
+
+#: changedetectionio/templates/menu.html
+msgid "Website Change Detection and Notification."
+msgstr ""
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI Mode"
+msgstr "Přepnout AI Mód"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle AI mode"
+msgstr "Přepnout AI mód"
+
+#: changedetectionio/templates/menu.html
+msgid "Toggle Light/Dark Mode"
+msgstr "Přepnout režim Světlý/Tmavý"
+
+#: changedetectionio/templates/menu.html
 msgid "Toggle light/dark mode"
 msgstr "Přepínání mezi světlým/tmavým režimem"
 
