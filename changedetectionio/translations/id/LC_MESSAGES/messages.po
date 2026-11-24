@@ -4361,6 +4361,47 @@ msgid "only supports very limited HTML and can fail when extra tags are sent,"
 msgstr "hanya mendukung HTML yang sangat terbatas dan dapat gagal saat tag tambahan dikirim,"
 
 #: changedetectionio/templates/_common_fields.html
+msgid "(or use plaintext/markdown format)"
+msgstr "(atau gunakan format plaintext/markdown)"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for direct API calls (or omit the"
+msgstr "untuk panggilan API langsung (atau hilangkan"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "for non-SSL ie"
+msgstr "untuk non-SSL yaitu"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "more help here"
+msgstr "bantuan selengkapnya di sini"
+
+#: changedetectionio/templates/_common_fields.html
+#, python-format
+msgid "Accepts the <code>%(token)s</code> placeholders listed below"
+msgstr "Menerima placeholder <code>%(token)s</code> yang tercantum di bawah"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Customise notifications"
+msgstr "Sesuaikan notifikasi"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "Title for all notifications"
+msgstr "Judul untuk semua notifikasi"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "For JSON payloads, use"
+msgstr "Untuk payload JSON, gunakan"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "without quotes for automatic escaping, for example -"
+msgstr "tanpa tanda kutip untuk escaping otomatis, misalnya -"
+
+#: changedetectionio/templates/_common_fields.html
+msgid "URL encoding, use"
+msgstr "Encoding URL, gunakan"
+
+#: changedetectionio/templates/_common_fields.html
 msgid "for example -"
 msgstr "misalnya -"
 
