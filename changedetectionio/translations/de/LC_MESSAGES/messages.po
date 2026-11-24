@@ -4370,6 +4370,46 @@ msgstr ""
 msgid "format to avoid"
 msgstr ""
 
+#: changedetectionio/templates/_common_fields.html
+msgid "and other HTML entities appearing literally in your notifications."
+msgstr ""
+
+#: changedetectionio/templates/_helpers.html
+msgid "Entry"
+msgstr "Eintrag"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Actions"
+msgstr "Aktionen"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Add a row/rule after"
+msgstr "Füge eine Zeile/Regel nach"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Remove this row/rule"
+msgstr "Diese Zeile/Regel entfernen"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Verify this rule against current snapshot"
+msgstr "Überprüfen Sie diese Regel anhand des aktuellen Snapshots."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Set a hourly/week day schedule"
+msgstr "Legen Sie einen Stunden-/Wochenplan fest."
+
+#: changedetectionio/templates/_helpers.html
+msgid "Schedule time limits"
+msgstr "Zeitliche Begrenzungen des Zeitplans"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Business hours"
+msgstr "Geschäftszeiten"
+
+#: changedetectionio/templates/_helpers.html
+msgid "Weekends"
+msgstr "Wochenenden"
+
 #: changedetectionio/templates/_helpers.html
 msgid "Reset"
 msgstr "Zurücksetzen"
